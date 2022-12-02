@@ -1,1 +1,0 @@
-Hier die Entitäten mit den entsprechenden typeorm annotationen einfügen
