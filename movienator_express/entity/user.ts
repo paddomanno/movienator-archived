@@ -1,4 +1,4 @@
-import {BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {BaseEntity, Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import ProfileImage from "./profileImage";
 import Review from "./review";
 
@@ -32,4 +32,11 @@ export default class User extends BaseEntity{
 
     @OneToMany(()=>Review,(review)=>review.user)
     reviews: Review[]
+
+    @ManyToMany(()=>User, (user)=>user.followers)
+    @JoinTable()
+    following: User[]
+
+    @ManyToMany(()=>User, (user)=>user.following)
+    followers: User[]
 }

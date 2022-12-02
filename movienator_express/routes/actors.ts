@@ -1,6 +1,6 @@
 
 const expressActor = require("express")
-const actorRouter = expressRecipe.Router()
+const actorRouter = expressActor.Router()
 
 //TODO Routing implementieren
 
