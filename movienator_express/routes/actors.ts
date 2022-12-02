@@ -4,7 +4,7 @@ const actorRouter = expressActor.Router()
 
 //TODO Routing implementieren
 
-module.exports = actorRouter
+
 
 //Gets all actors from the database
 actorRouter.get("/all", async (req,res) => {
@@ -23,11 +23,13 @@ actorRouter.get("/movie/:id", async (req,res) => {
 
 //Updates the actor send in the body
 //Make sure to NOT update the primary keys or relations
+//We shouldnt use this
 actorRouter.put("/", async (req,res)=>{
 
 })
 
 //Inserts the actor send in the body
+//Should better be done in insert POST movie
 actorRouter.post("/",async (req,res)=>{
 
 })
@@ -36,3 +38,5 @@ actorRouter.post("/",async (req,res)=>{
 actorRouter.delete("/:id",async (req,res)=>{
 
 })
+
+module.exports = actorRouter
