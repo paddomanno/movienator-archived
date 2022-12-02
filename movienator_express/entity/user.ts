@@ -19,7 +19,7 @@ export default class User extends BaseEntity{
     @Column()
     password: string
 
-    @Column({default: ""})
+    @Column({default: "", length: 1024})
     comment: string
 
     @Column()

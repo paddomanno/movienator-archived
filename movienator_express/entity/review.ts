@@ -20,7 +20,7 @@ export default class Review extends BaseEntity{
     @Column()
     title: string
 
-    @Column()
+    @Column({length: 1024})
     content: string
 
     /**
