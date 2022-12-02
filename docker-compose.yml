@@ -1,0 +1,92 @@
+version: "3.9"
+
+services:
+
+  movienator-express:
+    build:
+      context: ./movienator_express
+      dockerfile: Dockerfile
+    container_name: movienator-express-server
+    environment:
+        TZ: "Europe/Berlin"
+    ports:
+      - '8080:8080'
+      - '9229:9229'
+    volumes:
+      - ./movienator_express:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - database
+      - database-test
+    networks:
+      - fwe_network
+
+  database:
+    build:
+      context: ./movienator_mysql
+      dockerfile: Dockerfile
+    container_name: movienator-database
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: fwe-database
+      MYSQL_USER: public
+      MYSQL_PASSWORD: public
+    ports:
+        - "3306:3306"
+    volumes:
+        - dbdata:/var/lib/mysql
+    networks:
+      - fwe_network
+
+  database-test:
+    build:
+      context: ./movienator_mysql_test
+      dockerfile: Dockerfile
+    container_name: movienator-database-test
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: fwe-database-test
+      MYSQL_USER: public
+      MYSQL_PASSWORD: public
+    ports:
+      - "3307:3306"
+    networks:
+      - fwe_network
+
+  phpadmin:
+    build:
+      context: ./movienator_phpadmin
+      dockerfile: Dockerfile
+    container_name: movienator-phpadmin
+    networks:
+      - fwe_network
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: database
+      PMA_PORT: 3306
+
+  react:
+    build:
+      context: ./movienator_react
+      dockerfile: Dockerfile
+    container_name: movienator-react
+    stdin_open: true
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./movienator_react:/usr/src/app/
+      - /usr/src/app/node_modules
+    environment:
+      - CHOCKIDAR_USEPOLLING=true
+    depends_on:
+      - fwe-express
+
+volumes:
+  dbdata:
+
+
+networks:
+  fwe_network:
+    name: fwe_net
+    driver: bridge

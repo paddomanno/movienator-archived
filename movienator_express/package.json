@@ -1,0 +1,35 @@
+{
+  "name": "fwe",
+  "version": "1.0.0",
+  "description": "Homework for FWE",
+  "author": "Kevin Hasse kevin.hasse@stud.h-da.de",
+  "main": "start.ts",
+  "scripts": {
+    "predebug": "rimraf dist/*",
+    "debug": "tsc-watch --onSuccess \"node --inspect=0.0.0.0:9229 dist/start.js\" --onFailure \"echo WHOOPS! Server compilation failed\"",
+    "test": "jest --runInBand"
+  },
+  "dependencies": {
+    "express": "latest",
+    "typeorm": "latest",
+    "reflect-metadata": "latest",
+    "mysql": "latest",
+    "ts-node": "latest",
+    "rimraf": "latest",
+    "tsc-watch": "latest",
+    "jest": "latest",
+    "axios": "latest",
+    "cors": "latest",
+    "body-parser": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/express": "latest",
+    "@types/jest": "latest",
+    "@types/cors": "latest",
+    "typescript": "latest",
+    "nodemon": "latest",
+    "supertest": "latest",
+    "ts-jest": "latest"
+  }
+}
