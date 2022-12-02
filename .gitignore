@@ -1,4 +1,6 @@
 /movienator_express/node_modules
-/phpadmin/
-/node_modules/
+/movienator_react/node_modules
+movienator_express/dist
 /movienator_react/dist/
+/phpadmin/
+

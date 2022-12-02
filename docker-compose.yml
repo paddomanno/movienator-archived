@@ -19,7 +19,7 @@ services:
       - database
       - database-test
     networks:
-      - fwe_network
+      - movienator_network
 
   database:
     build:
@@ -28,7 +28,7 @@ services:
     container_name: movienator-database
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: fwe-database
+      MYSQL_DATABASE: movienator-database
       MYSQL_USER: public
       MYSQL_PASSWORD: public
     ports:
@@ -36,7 +36,7 @@ services:
     volumes:
         - dbdata:/var/lib/mysql
     networks:
-      - fwe_network
+      - movienator_network
 
   database-test:
     build:
@@ -45,13 +45,13 @@ services:
     container_name: movienator-database-test
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: fwe-database-test
+      MYSQL_DATABASE: movienator-database-test
       MYSQL_USER: public
       MYSQL_PASSWORD: public
     ports:
       - "3307:3306"
     networks:
-      - fwe_network
+      - movienator_network
 
   phpadmin:
     build:
@@ -59,7 +59,7 @@ services:
       dockerfile: Dockerfile
     container_name: movienator-phpadmin
     networks:
-      - fwe_network
+      - movienator_network
     ports:
       - "8081:80"
     environment:
@@ -80,13 +80,13 @@ services:
     environment:
       - CHOCKIDAR_USEPOLLING=true
     depends_on:
-      - fwe-express
+      - movienator-express
 
 volumes:
   dbdata:
 
 
 networks:
-  fwe_network:
-    name: fwe_net
+  movienator_network:
+    name: movienator_net
     driver: bridge
