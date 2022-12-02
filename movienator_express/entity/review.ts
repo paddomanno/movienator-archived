@@ -9,7 +9,7 @@ export default class Review extends BaseEntity{
      * Otherwise typeorm won't take the forgein key as primary key
      */
     @PrimaryColumn()
-    movieMovieId: string
+    movieMovieId: number
     /**
      * Name NEEDS to be "entity+attribute"
      * Otherwise typeorm won't take the forgein key as primary key

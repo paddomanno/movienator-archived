@@ -5,22 +5,28 @@ import Review from "./review";
 @Entity()
 export default class Movie extends BaseEntity{
     @PrimaryColumn()
-    movieId: string
+    movieId: number
 
-    @Column({nullable: true})
-    genre: string
+    @Column({type: "simple-array", nullable: true})
+    genres: string[]
 
     @Column()
     title: string
 
-    @Column()
-    yearPublished: number
+    @Column({nullable: true, length: 1024})
+    overview: string
 
-    @Column()
+    @Column({nullable:true})
+    releaseDate: Date
+
+    @Column({nullable: true})
     lengthMinutes: number
 
     @Column()
     adultContent: boolean
+
+    @Column({nullable:true})
+    imagePath: string
 
     @ManyToMany(()=>Actor,(actor)=>actor.movies)
     @JoinTable()

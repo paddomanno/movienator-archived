@@ -4,13 +4,10 @@ import Movie from "./movie";
 @Entity()
 export default class Actor extends BaseEntity{
     @PrimaryColumn()
-    actorId: string
+    actorId: number
 
     @Column()
-    firstName: string
-
-    @Column()
-    lastName: string
+    name: string
 
     @ManyToMany(()=>Movie,(movie)=>movie.actors)
     movies: Movie[]

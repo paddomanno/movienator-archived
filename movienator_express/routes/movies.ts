@@ -4,8 +4,6 @@ const movieRouter = expressMovie.Router()
 
 //TODO Routing implementieren
 
-module.exports = movieRouter
-
 //Get all the movies from the database
 movieRouter.get("/all",(req,res)=>{
 
@@ -17,6 +15,7 @@ movieRouter.get("/one/:id",(req,res)=>{
 })
 
 //Gets all the movies that actor played in
+//Better use the extern Api for this
 movieRouter.get("/actor/:id",(req,res)=>{
 
 })
@@ -57,13 +56,15 @@ movieRouter.get("/watchlist/:uId",(req, res)=>{
 })
 
 //Inserts a new movie from the body
-//Probably automatically insert actors
+//First check if the movie exists already, if not, insert it
+//Actors should be set already and inserted / updated at the same time
 movieRouter.post("/",(req,res?)=>{
 
 })
 
 //Update the movie in the body
 //Make sure to NOT update the primary keys or relations
+//We shouldnt really use this
 movieRouter.put("/",(req,res?)=>{
 
 })
@@ -73,5 +74,5 @@ movieRouter.delete("/:id",(req,res?)=>{
 
 })
 
-
+module.exports = movieRouter
 
