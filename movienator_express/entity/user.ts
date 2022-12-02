@@ -1,6 +1,7 @@
 import {BaseEntity, Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import ProfileImage from "./profileImage";
 import Review from "./review";
+import Movie from "./movie";
 
 @Entity()
 export default class User extends BaseEntity{
@@ -26,7 +27,8 @@ export default class User extends BaseEntity{
     birthday: Date
 
     @ManyToOne(() => ProfileImage,(profileImage)=>profileImage.users, {
-        onDelete: "SET NULL"
+        onDelete: "SET NULL",
+        onUpdate: "CASCADE"
     })
     profileImage: ProfileImage
 
@@ -39,4 +41,8 @@ export default class User extends BaseEntity{
 
     @ManyToMany(()=>User, (user)=>user.following)
     followers: User[]
+
+    @ManyToMany(()=>Movie)
+    @JoinTable()
+    watchlist: Movie[]
 }

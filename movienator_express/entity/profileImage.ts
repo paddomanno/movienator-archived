@@ -10,7 +10,7 @@ export default class ProfileImage extends BaseEntity{
     name: string
 
     @OneToMany(()=> User, (user)=>user.profileImage,{
-        onDelete: "SET NULL"
+        onDelete: "SET NULL",
     })
     users: User[]
 }
