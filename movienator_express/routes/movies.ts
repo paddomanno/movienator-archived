@@ -1,3 +1,7 @@
+import Movie from "../entity/movie";
+import User from "../entity/user";
+import Actor from "../entity/actor";
+import {ArrayContains, Between, ILike, LessThanOrEqual, MoreThanOrEqual} from "typeorm";
 
 const expressMovie = require("express")
 const movieRouter = expressMovie.Router()
@@ -5,73 +9,278 @@ const movieRouter = expressMovie.Router()
 //TODO Routing implementieren
 
 //Get all the movies from the database
-movieRouter.get("/all",(req,res)=>{
-
+movieRouter.get("/all", async (req,res)=>{
+    try {
+        const allMovies: Movie[] = await Movie.find({
+            relations: {actors: true, reviews: true}})
+        allMovies.sort((a,b)=> a.title.localeCompare(b.title))
+        res.status(200).json({
+            data: allMovies
+        })
+    } catch (er){
+        res.status(500)
+    }
 })
 
 // Get one movie by its id
-movieRouter.get("/one/:id",(req,res)=>{
-
+movieRouter.get("/one/:id", async (req,res)=>{
+    try {
+        const oneMovie: Movie = await Movie.findOne({where:
+            {movieId: parseInt(req.params.id)},
+            relations: {actors: true, reviews: true}})
+        if(oneMovie){
+            res.status(200).json({
+                data: oneMovie
+            })
+        }
+        else {
+            res.status(404)
+        }
+    } catch (er){
+        console.log(er)
+        res.status(500)
+    }
 })
 
 //Gets all the movies that actor played in
 //Better use the extern Api for this
-movieRouter.get("/actor/:id",(req,res)=>{
-
+movieRouter.get("/actor/:id", async (req,res)=>{
+    try {
+        const actor: Actor = await Actor.findOne({
+            where: {actorId: parseInt(req.params.id)},
+            relations:{movies: true}})
+        let actorMovies: Movie[] = actor.movies
+        actorMovies.sort((a,b)=>a.title.localeCompare(b.title))
+        res.status(200).json({
+            data: actorMovies
+        })
+    } catch (er){
+        console.log(er)
+        res.status(500)
+    }
 })
 
 //Gets all the movies that user has reviewed
-movieRouter.get("/user/:id",(req,res)=>{
-
-})
-
-//Gets all movies with a min time
-movieRouter.get("/time/min/:min",(req,res)=>{
-
-})
-
-//Gets all movies with a max time
-movieRouter.get("/time/max/:max",(req,res)=>{
-
-})
-
-//Gets all movies released in this time span
-movieRouter.get("/date/:min/:max",(req,res)=>{
-
-})
-
-//Gets all movies where the name matches the searched word
-movieRouter.get("/name/:word",(req, res)=>{
-
-})
-
-//Gets all movies with a min average rating of x
-movieRouter.get("/rating/:min",(req, res)=>{
-
+movieRouter.get("/user/:id", async (req,res)=>{
+    try{
+        const user: User = await User.findOne({
+            where:{userId: parseInt(req.params.id)},
+            relations: ['reviews','reviews.movie']})
+        let userMovies: Movie[] = []
+        user.reviews.forEach((review)=>{
+            userMovies.push(review.movie)
+        })
+        userMovies.sort((a,b)=>a.title.localeCompare(b.title))
+        res.status(200).json({
+            data: userMovies
+        })
+    } catch (er) {
+        console.log(er)
+        res.status(500)
+    }
 })
 
 //Gets all the movies that are on the watchlist of that user
-movieRouter.get("/watchlist/:uId",(req, res)=>{
+movieRouter.get("/watchlist/:uId", async (req, res)=>{
+    try{
+        const user: User = await User.findOne({
+            where:{userId: parseInt(req.params.id)},
+            relations:{watchlist: true}})
+        let userWatchlist: Movie[] = user.watchlist
+        userWatchlist.sort((a, b)=>a.title.localeCompare(b.title))
+        res.status(200).json({
+            data: userWatchlist
+        })
+    } catch (er) {
+        console.log(er)
+        res.status(500)
+    }
+})
 
+//Gets all movies with a min time
+movieRouter.get("/time/min/:min", async (req,res)=>{
+    try{
+        const movies: Movie[] = await Movie.find({
+            where:{lengthMinutes: MoreThanOrEqual(parseInt(req.params.min))},
+            relations:{reviews: true, actors: true}})
+        movies.sort((a,b)=>a.title.localeCompare(b.title))
+        res.status(200).json({
+            data: movies
+        })
+    } catch (er){
+        console.log(er)
+        res.status(500)
+    }
+})
+
+//Gets all movies with a max time
+movieRouter.get("/time/max/:max", async (req,res)=>{
+    try{
+        const movies: Movie[] = await Movie.find({
+            where:{lengthMinutes: LessThanOrEqual(parseInt(req.params.min))},
+            relations:{reviews: true, actors: true}})
+        movies.sort((a,b)=>a.title.localeCompare(b.title))
+        res.status(200).json({
+            data: movies
+        })
+    } catch (er){
+        console.log(er)
+        res.status(500)
+    }
+})
+
+//Gets all movies released in this time span
+movieRouter.get("/date/:min/:max", async (req,res)=>{
+    try{
+        const movies: Movie[] = await Movie.find({
+            where:{releaseDate: Between<Date>(req.params.min as Date,req.params.max as Date)},
+            relations:{reviews: true, actors: true}
+        })
+        movies.sort((a,b)=>a.title.localeCompare(b.title))
+        res.status(200).json({
+            data: movies
+        })
+    } catch (er){
+        console.log(er)
+        res.status(500)
+    }
+})
+
+//Gets all movies where the name matches the searched word
+movieRouter.get("/name/:word", async (req, res)=>{
+    try{
+        const movies: Movie[] = await Movie.find({
+            where:{title: ILike(`%${req.params.word}%`)},
+            relations:{reviews: true, actors: true}
+        })
+        movies.sort((a,b)=>a.title.localeCompare(b.title))
+        res.status(200).json({
+            data: movies
+        })
+    } catch (er) {
+        console.log(er)
+        res.status(500)
+    }
+})
+
+//Gets all movies with a min average rating of x
+movieRouter.get("/rating/:min", async (req, res)=>{
+    try{
+        const movies : Movie[] = await Movie.find({
+            relations:{reviews: true, actors: true}
+        })
+        let minMovies: Movie[] = movies.filter((movie)=>{
+            let numReviews: number = 0;
+            let sumReviews: number = 0;
+            movie.reviews.forEach((review)=>{
+                sumReviews += review.rating
+                numReviews++
+            })
+            return (numReviews/sumReviews) > parseInt(req.params.min)
+        })
+        minMovies.sort((a,b)=>a.title.localeCompare(b.title))
+        res.status(200).json({
+            data: minMovies
+        })
+    } catch (er) {
+        console.log(er)
+        res.status(500)
+    }
+})
+
+//Gets all movies to that genre
+movieRouter.get("/genre/:genre", async (req, res)=>{
+    try {
+        const movies: Movie[] = await Movie.find({
+            where:{genres: ArrayContains([req.params.genre])},
+            relations:{reviews: true, actors: true}
+        })
+        movies.sort((a,b)=>a.title.localeCompare(b.title))
+        res.status(200).json({
+            data: movies
+        })
+
+    } catch (er){
+        console.log(er)
+        res.status(500)
+    }
 })
 
 //Inserts a new movie from the body
 //First check if the movie exists already, if not, insert it
 //Actors should be set already and inserted / updated at the same time
-movieRouter.post("/",(req,res?)=>{
+movieRouter.post("/", async (req,res?)=>{
+    try {
+        let newMovie = req.body as Movie
+        newMovie.actors.forEach((actor) => {
+            actor.save()
+        })
+        await newMovie.save()
+        newMovie = await Movie.findOne({
+            where: {movieId: newMovie.movieId},
+            relations: {actors: true, reviews: true}
+        })
+        res.status(201).json({
+            data: newMovie
+        })
+    } catch (er) {
+        console.log(er)
+        res.status(500)
+    }
 
 })
 
 //Update the movie in the body
 //Make sure to NOT update the primary keys or relations
 //We shouldnt really use this
-movieRouter.put("/",(req,res?)=>{
-
+movieRouter.put("/", async (req,res?)=>{
+    try{
+        let movieBody = req.body as Movie
+        let movie: Movie = await Movie.findOne({
+            where:{movieId: movieBody.movieId}
+        })
+        if(movie){
+            Object.keys(movie).forEach(key =>{
+                if(key != 'movieId' && key != 'reviews' && key!='actors'){
+                    movie[key] = movieBody[key]
+                }
+            })
+            await movie.save()
+            movie = await Movie.findOne({
+                where: {movieId: movie.movieId},
+                relations: {actors: true, reviews: true}
+            })
+            res.status(200).json({
+                data: movie
+            })
+        }
+        else {
+            res.status(404)
+        }
+    } catch (er){
+        console.log(er)
+        res.status(500)
+    }
 })
 
 //Delete the movie with that id
-movieRouter.delete("/:id",(req,res?)=>{
+movieRouter.delete("/:id", async (req,res?)=>{
+    try {
+        const movie: Movie = await Movie.findOne({
+            where:{movieId: parseInt(req.params.id)}
+        })
+        if(movie){
+            await movie.remove()
+            res.status(204)
+        }
+        else{
+            res.status(404)
+        }
 
+    } catch (er){
+        console.log(er)
+        res.status(500)
+    }
 })
 
 module.exports = movieRouter
