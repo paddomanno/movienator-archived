@@ -85,7 +85,37 @@ userRouter.get("/one/username/:username", async (req, res) => {
 
 //Get all the users where the username is fitting the search word (might be more than 1)
 //TODO: Find a good fuzzy search library
-userRouter.get("/username/:word", async (req, res) => {});
+userRouter.get("/username/:word", async (req, res) => {
+  console.log("Searched for users whose name contains " + req.params.word);
+  try {
+    const allUsers = await User.find({
+      relations: ["reviews", "following", "followers", "watchlist"], //TODO: Maybe we need need to load that stuff?
+    });
+    if (allUsers) {
+      let matchingUsers: User[] = [];
+      let query: string = req.params.word;
+      allUsers.forEach((currentUser) => {
+        //If the query is a substring of the current users username
+        if (currentUser.userName.toLowerCase().includes(query.toLowerCase())) {
+          matchingUsers.push(currentUser);
+        }
+      });
+
+      res.status(200).json({
+        reply: "Found " + matchingUsers.length + " users",
+        users: matchingUsers, //TODO: Do these response field names have any convention with naming?
+      });
+    } else {
+      res.status(404).json({
+        reply: "No users found",
+      });
+    }
+  } catch (e) {
+    res.status(500).json({
+      reply: "Request not successful",
+    });
+  }
+});
 
 //Gets all the users that a following a single user
 userRouter.get("/followers/:id", async (req, res) => {
