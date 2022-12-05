@@ -16,18 +16,14 @@ userRouter.get("/all", async (req, res) => {
       allUsers.sort((a, b) => a.lastName.localeCompare(b.lastName));
 
       res.status(200).json({
-        reply: "Found " + allUsers.length + " users",
-        user: allUsers,
+        data: allUsers,
       });
     } else {
-      res.status(404).json({
-        reply: "No users found",
-      });
+      res.status(404).json(
+      );
     }
   } catch (e) {
-    res.status(500).json({
-      reply: "Request not successful",
-    });
+    res.status(500).json();
   }
 });
 
@@ -41,18 +37,13 @@ userRouter.get("/one/id/:id", async (req, res) => {
     });
     if (resultUser) {
       res.status(200).json({
-        reply: "User found with ID " + parseInt(req.params.id),
-        user: resultUser,
+        data: resultUser,
       });
     } else {
-      res.status(404).json({
-        reply: "No user with ID " + parseInt(req.params.id),
-      });
+      res.status(404).json();
     }
   } catch (e) {
-    res.status(500).json({
-      reply: "Request not successful",
-    });
+    res.status(500).json();
   }
 });
 
@@ -68,18 +59,13 @@ userRouter.get("/one/username/:username", async (req, res) => {
     });
     if (resultUser) {
       res.status(200).json({
-        reply: "User found with username " + req.params.username,
-        user: resultUser,
+        data: resultUser,
       });
     } else {
-      res.status(404).json({
-        reply: "No user with username " + req.params.username,
-      });
+      res.status(404).json();
     }
   } catch (e) {
-    res.status(500).json({
-      reply: "Request not successful",
-    });
+    res.status(500).json();
   }
 });
 
@@ -102,18 +88,13 @@ userRouter.get("/username/:word", async (req, res) => {
       });
 
       res.status(200).json({
-        reply: "Found " + matchingUsers.length + " users",
-        users: matchingUsers, //TODO: Do these response field names have any convention with naming?
+        data: matchingUsers, //TODO: Do these response field names have any convention with naming?
       });
     } else {
-      res.status(404).json({
-        reply: "No users found",
-      });
+      res.status(404).json();
     }
   } catch (e) {
-    res.status(500).json({
-      reply: "Request not successful",
-    });
+    res.status(500).json();
   }
 });
 
@@ -129,20 +110,13 @@ userRouter.get("/followers/:id", async (req, res) => {
     });
     if (requestedUser) {
       res.status(200).json({
-        reply:
-          "Found these followers of user found with ID " +
-          parseInt(req.params.id),
-        followers: requestedUser.followers,
+        data: requestedUser.followers,
       });
     } else {
-      res.status(404).json({
-        reply: "No user with ID " + parseInt(req.params.id),
-      });
+      res.status(404).json();
     }
   } catch (e) {
-    res.status(500).json({
-      reply: "Request not successful",
-    });
+    res.status(500).json();
   }
 });
 
@@ -160,21 +134,13 @@ userRouter.get("/following/:id", async (req, res) => {
     });
     if (requestedUser) {
       res.status(200).json({
-        reply:
-          "Users the user with with ID " +
-          parseInt(req.params.id) +
-          " is following",
-        following: requestedUser.following,
+        data: requestedUser.following,
       });
     } else {
-      res.status(404).json({
-        reply: "No user with ID " + parseInt(req.params.id),
-      });
+      res.status(404).json();
     }
   } catch (e) {
-    res.status(500).json({
-      reply: "Request not successful",
-    });
+    res.status(500).json();
   }
 });
 
@@ -197,10 +163,7 @@ userRouter.get("/following/:id/rated/:mId", async (req, res) => {
       where: { movieId: parseInt(req.params.mId) },
     });
 
-    if (resultUser) {
-      //If user exists
-      if (resultMovie) {
-        //If movie exists
+    if (resultUser && resultMovie) {
         let matchingUsers: User[] = [];
         //Iterate over all users the requested user is following
         resultUser.following.forEach((currentUser) => {
@@ -211,23 +174,13 @@ userRouter.get("/following/:id/rated/:mId", async (req, res) => {
           });
         });
         res.status(200).json({
-          reply: "Found the following users",
-          users: matchingUsers,
+          data: matchingUsers,
         });
       } else {
-        res.status(404).json({
-          reply: "No movie with ID " + parseInt(req.params.mId),
-        });
+        res.status(404).json();
       }
-    } else {
-      res.status(404).json({
-        reply: "No user with ID " + parseInt(req.params.id),
-      });
-    }
   } catch (e) {
-    res.status(500).json({
-      reply: "Request not successful",
-    });
+    res.status(500).json();
   }
 });
 
@@ -250,10 +203,7 @@ userRouter.get("/following/:id/watchlist/:mId", async (req, res) => {
       where: { movieId: parseInt(req.params.mId) },
     });
 
-    if (resultUser) {
-      //If user exists
-      if (resultMovie) {
-        //If movie exists
+    if (resultUser && resultMovie) {
         let matchingUsers: User[] = [];
         //Iterate over all users the requested user is following
         resultUser.following.forEach((currentUser) => {
@@ -264,23 +214,13 @@ userRouter.get("/following/:id/watchlist/:mId", async (req, res) => {
           });
         });
         res.status(200).json({
-          reply: "Found the following users",
-          users: matchingUsers,
+          data: matchingUsers,
         });
       } else {
-        res.status(404).json({
-          reply: "No movie with ID " + parseInt(req.params.mId),
-        });
+        res.status(404).json();
       }
-    } else {
-      res.status(404).json({
-        reply: "No user with ID " + parseInt(req.params.id),
-      });
-    }
   } catch (e) {
-    res.status(500).json({
-      reply: "Request not successful",
-    });
+    res.status(500).json();
   }
 });
 
@@ -289,20 +229,15 @@ userRouter.post("/", async (req, res) => {
   try {
     if (req.body.id == null) {
       const newUser: User = await User.save(req.body);
-      res.status(200).json({
-        reply: "User was saved",
-        user: newUser,
+      res.status(201).json({
+        data: newUser,
       });
     } else {
-      res.status(500).json({
-        reply: "Request not successful",
-      });
+      res.status(500).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json({
-      reply: "Request not successful",
-    });
+    res.status(500).json();
   }
 });
 
@@ -322,24 +257,15 @@ userRouter.post("/follow/:aId/:bId", async (req, res) => {
     if (userA && userB) {
       userA.following.push(userB);
       await userA.save(); //TODO: question: Is it the right way to save the user like that ?
-      res.status(200).json({
-        reply:
-          "User with ID " +
-          req.body.bId +
-          " was added to following of user with ID " +
-          req.params.aId,
-        user: userA,
+      res.status(201).json({
+        data: userA,
       });
     } else {
-      res.status(404).json({
-        reply: "At least one user does not exist",
-      });
+      res.status(404).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json({
-      reply: "Request not successful",
-    });
+    res.status(500).json();
   }
 });
 
@@ -356,24 +282,15 @@ userRouter.post("/watchlist/:uId/:mId", async (req, res) => {
     if (requestedUser && requestedMovie) {
       requestedUser.watchlist.push(requestedMovie);
       await requestedUser.save(); //TODO: question: Is it the right way to save the user like that ?
-      res.status(200).json({
-        reply:
-          "Movie with ID " +
-          req.body.mId +
-          " was added to the watchlist of user with ID " +
-          req.params.uId,
-        user: requestedUser,
+      res.status(201).json({
+        data: requestedUser,
       });
     } else {
-      res.status(404).json({
-        reply: "The requested user and/or the requested movie do not exist",
-      });
+      res.status(404).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json({
-      reply: "Request not successful",
-    });
+    res.status(500).json();
   }
 });
 
@@ -399,19 +316,14 @@ userRouter.put("/", async (req, res) => {
       });
       await requestedUser.save();
 
-      res.status(200).json({
-        reply: "Updated user with ID " + parseInt(req.body.userId), //TODO: Is req.body.userId the right call to get the id of the user that should be updated?
-        recipe: requestedUser,
+      res.status(201).json({
+          data: requestedUser,
       });
     } else {
-      res.status(404).json({
-        reply: "No user with ID " + parseInt(req.body.userId), //TODO: Is req.body.userId the right call to get the id of the user that should be updated?
-      });
+      res.status(404).json();
     }
   } catch (er) {
-    res.status(500).json({
-      reply: "Request not successful",
-    });
+    res.status(500).json();
   }
 });
 
@@ -424,19 +336,14 @@ userRouter.delete("/:id", async (req, res) => {
     });
     if (requestedUser) {
       await requestedUser.remove(); //TODO: Add fitting cascade option
-      res.status(200).json({
-        reply: "Deleted user with ID " + parseInt(req.params.id),
-        user: requestedUser,
+      res.status(204).json({
+        data: requestedUser,
       });
     } else {
-      res.status(404).json({
-        reply: "No user with ID " + parseInt(req.params.id),
-      });
+      res.status(404).json();
     }
   } catch (er) {
-    res.status(500).json({
-      reply: "Request not successful",
-    });
+    res.status(500).json();
   }
 });
 
@@ -461,24 +368,15 @@ userRouter.delete("/follow/:aId/:bId", async (req, res) => {
         }
       }
       await userA.save(); //TODO: question: Is it the right way to save the user like that ?
-      res.status(200).json({
-        reply:
-          "User with ID " +
-          req.body.bId +
-          " was added to following of user with ID " +
-          req.params.aId,
-        user: userA,
+      res.status(204).json({
+        data: userA,
       });
     } else {
-      res.status(404).json({
-        reply: "At least one user does not exist",
-      });
+      res.status(404).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json({
-      reply: "Request not successful",
-    });
+    res.status(500).json();
   }
 });
 
@@ -502,24 +400,13 @@ userRouter.delete("/follow/:uId/:mId", async (req, res) => {
         }
       }
       await requestedUser.save(); //TODO: question: Is it the right way to save the user like that ?
-      res.status(200).json({
-        reply:
-          "Movie with ID " +
-          req.body.mId +
-          " was deleted from the watchlist of user with ID " +
-          req.params.uId,
-        user: requestedUser,
-      });
+      res.status(204).json();
     } else {
-      res.status(404).json({
-        reply: "The requested user and/or the requested movie do not exist",
-      });
+      res.status(404).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json({
-      reply: "Request not successful",
-    });
+    res.status(500).json();
   }
 });
 

@@ -50,12 +50,15 @@ movieRouter.get("/actor/:id", async (req,res)=>{
         const actor: Actor = await Actor.findOne({
             where: {actorId: parseInt(req.params.id)},
             relations:{movies: true}})
-        //TODO check if user is not (not exists) -> 404
-        let actorMovies: Movie[] = actor.movies
-        actorMovies.sort((a,b)=>a.title.localeCompare(b.title))
-        res.status(200).json({
-            data: actorMovies
-        })
+        if (actor!=null) {
+            let actorMovies: Movie[] = actor.movies
+            actorMovies.sort((a, b) => a.title.localeCompare(b.title))
+            res.status(200).json({
+                data: actorMovies
+            })
+        } else {
+            res.status(404).json()
+        }
     } catch (er){
         console.log(er)
         res.status(500).json()
@@ -68,15 +71,19 @@ movieRouter.get("/user/:id", async (req,res)=>{
         const user: User = await User.findOne({
             where:{userId: parseInt(req.params.id)},
             relations: ['reviews','reviews.review_movie']})
-        //TODO check if user is not (not exists) -> 404
-        let userMovies: Movie[] = []
-        user.reviews.forEach((review)=>{
-            userMovies.push(review.review_movie)
-        })
-        userMovies.sort((a,b)=>a.title.localeCompare(b.title))
-        res.status(200).json({
-            data: userMovies
-        })
+
+        if (user!=null) {
+            let userMovies: Movie[] = []
+            user.reviews.forEach((review) => {
+                userMovies.push(review.review_movie)
+            })
+            userMovies.sort((a, b) => a.title.localeCompare(b.title))
+            res.status(200).json({
+                data: userMovies
+            })
+        } else {
+            res.status(404).json()
+        }
     } catch (er) {
         console.log(er)
         res.status(500).json()
@@ -89,12 +96,15 @@ movieRouter.get("/watchlist/:uId", async (req, res)=>{
         const user: User = await User.findOne({
             where:{userId: parseInt(req.params.id)},
             relations:{watchlist: true}})
-        //TODO check if user is not (not exists) -> 404
-        let userWatchlist: Movie[] = user.watchlist
-        userWatchlist.sort((a, b)=>a.title.localeCompare(b.title))
-        res.status(200).json({
-            data: userWatchlist
-        })
+        if (user!=null) {
+            let userWatchlist: Movie[] = user.watchlist
+            userWatchlist.sort((a, b) => a.title.localeCompare(b.title))
+            res.status(200).json({
+                data: userWatchlist
+            })
+        } else {
+            res.status(404).json()
+        }
     } catch (er) {
         console.log(er)
         res.status(500).json()
