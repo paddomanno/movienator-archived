@@ -5,11 +5,17 @@ import {JoinColumn} from "typeorm/browser";
 
 @Entity()
 export default class Review extends BaseEntity{
+    /**
+     * Needs to be named exactly like this for typeORM to work
+     */
     @PrimaryColumn()
-    review_movieId: number
+    reviewMovieMovieId: number
 
+    /**
+     * Needs to be named exactly like this for typeORM to work
+     */
     @PrimaryColumn()
-    review_userId: number
+    reviewUserUserId: number
 
     @Column()
     title: string
