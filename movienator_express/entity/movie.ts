@@ -1,6 +1,7 @@
 import {BaseEntity, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryColumn} from "typeorm";
 import Actor from "./actor";
 import Review from "./review";
+import {JoinColumn} from "typeorm/browser";
 
 @Entity()
 export default class Movie extends BaseEntity{
@@ -32,6 +33,6 @@ export default class Movie extends BaseEntity{
     @JoinTable()
     actors: Actor[]
 
-    @OneToMany(()=>Review,(review)=>review.user)
+    @OneToMany(()=>Review,(review)=>review.review_movie)
     reviews: Review[]
 }

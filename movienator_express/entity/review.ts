@@ -1,21 +1,15 @@
-import {BaseEntity, Column, Entity, ManyToOne, PrimaryColumn} from "typeorm";
+import {BaseEntity, Column, Entity, JoinTable, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn} from "typeorm";
 import Movie from "./movie";
 import User from "./user";
+import {JoinColumn} from "typeorm/browser";
 
 @Entity()
 export default class Review extends BaseEntity{
-    /**
-     * Name NEEDS to be "entity+attribute"
-     * Otherwise typeorm won't take the forgein key as primary key
-     */
     @PrimaryColumn()
-    movieMovieId: number
-    /**
-     * Name NEEDS to be "entity+attribute"
-     * Otherwise typeorm won't take the forgein key as primary key
-     */
+    review_movieId: number
+
     @PrimaryColumn()
-    userUserId: number
+    review_userId: number
 
     @Column()
     title: string
@@ -35,10 +29,10 @@ export default class Review extends BaseEntity{
     @ManyToOne(()=>Movie, (movie)=>movie.reviews,{
         onDelete: "CASCADE"
     })
-    movie: Movie
+    review_movie: Movie
 
     @ManyToOne(()=>User,(user)=>user.reviews,{
         onDelete: "CASCADE"
     })
-    user: User
+    review_user: User
 }

@@ -206,7 +206,7 @@ userRouter.get("/following/:id/rated/:mId", async (req, res) => {
         resultUser.following.forEach((currentUser) => {
           //Iterate over all reviews of the current user
           currentUser.reviews.forEach((currentReview) => {
-            if (currentReview.movieMovieId === resultMovie.movieId)
+            if (currentReview.review_movie.movieId === resultMovie.movieId)
               matchingUsers.push(currentUser);
           });
         });
