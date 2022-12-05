@@ -50,6 +50,7 @@ movieRouter.get("/actor/:id", async (req,res)=>{
         const actor: Actor = await Actor.findOne({
             where: {actorId: parseInt(req.params.id)},
             relations:{movies: true}})
+        //TODO check if user is not (not exists) -> 404
         let actorMovies: Movie[] = actor.movies
         actorMovies.sort((a,b)=>a.title.localeCompare(b.title))
         res.status(200).json({
@@ -67,6 +68,7 @@ movieRouter.get("/user/:id", async (req,res)=>{
         const user: User = await User.findOne({
             where:{userId: parseInt(req.params.id)},
             relations: ['reviews','reviews.review_movie']})
+        //TODO check if user is not (not exists) -> 404
         let userMovies: Movie[] = []
         user.reviews.forEach((review)=>{
             userMovies.push(review.review_movie)
@@ -87,6 +89,7 @@ movieRouter.get("/watchlist/:uId", async (req, res)=>{
         const user: User = await User.findOne({
             where:{userId: parseInt(req.params.id)},
             relations:{watchlist: true}})
+        //TODO check if user is not (not exists) -> 404
         let userWatchlist: Movie[] = user.watchlist
         userWatchlist.sort((a, b)=>a.title.localeCompare(b.title))
         res.status(200).json({
@@ -192,6 +195,7 @@ movieRouter.get("/rating/:min", async (req, res)=>{
 //Gets all movies to that genre
 movieRouter.get("/genre/:genre", async (req, res)=>{
     try {
+        //TODO: ArrayContains not working in mysql. Find alternative or filter here
         const movies: Movie[] = await Movie.find({
             where:{genres: ArrayContains([req.params.genre])},
             relations:{reviews: true, actors: true}
