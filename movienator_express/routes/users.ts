@@ -10,11 +10,10 @@ userRouter.get("/all", async (req, res) => {
   console.log("Requested all users");
   try {
     const allUsers = await User.find({
-      relations: ["reviews", "following", "followers", "watchlist"],
+      relations: {reviews: true, following: true, followers: true, watchlist: true}
     });
     if (allUsers) {
       allUsers.sort((a, b) => a.lastName.localeCompare(b.lastName));
-
       res.status(200).json({
         data: allUsers,
       });
@@ -33,7 +32,7 @@ userRouter.get("/one/id/:id", async (req, res) => {
   try {
     const resultUser = await User.findOne({
       where: { userId: parseInt(req.params.id) },
-      relations: ["reviews", "following", "followers", "watchlist"],
+      relations: {reviews: true, following: true, followers: true, watchlist: true}
     });
     if (resultUser) {
       res.status(200).json({
@@ -55,7 +54,7 @@ userRouter.get("/one/username/:username", async (req, res) => {
   try {
     const resultUser = await User.findOne({
       where: { userName: req.params.username },
-      relations: ["reviews", "following", "followers", "watchlist"],
+      relations: {reviews: true, following: true, followers: true, watchlist: true}
     });
     if (resultUser) {
       res.status(200).json({
@@ -70,12 +69,11 @@ userRouter.get("/one/username/:username", async (req, res) => {
 });
 
 //Get all the users where the username is fitting the search word (might be more than 1)
-//TODO: Find a good fuzzy search library
 userRouter.get("/username/:word", async (req, res) => {
   console.log("Searched for users whose name contains " + req.params.word);
   try {
     const allUsers = await User.find({
-      relations: ["reviews", "following", "followers", "watchlist"], //TODO: Maybe we need need to load that stuff?
+      relations: {reviews: true, following: true, followers: true, watchlist: true}
     });
     if (allUsers) {
       let matchingUsers: User[] = [];
@@ -88,7 +86,7 @@ userRouter.get("/username/:word", async (req, res) => {
       });
 
       res.status(200).json({
-        data: matchingUsers, //TODO: Do these response field names have any convention with naming?
+        data: matchingUsers
       });
     } else {
       res.status(404).json();
@@ -106,7 +104,7 @@ userRouter.get("/followers/:id", async (req, res) => {
   try {
     const requestedUser = await User.findOne({
       where: { userId: parseInt(req.params.id) },
-      relations: ["followers"],
+      relations: ["followers","followers.reviews","followers.following","followers.followers","followers.watchlist"],
     });
     if (requestedUser) {
       res.status(200).json({
@@ -130,7 +128,7 @@ userRouter.get("/following/:id", async (req, res) => {
   try {
     const requestedUser = await User.findOne({
       where: { userId: parseInt(req.params.id) },
-      relations: ["following"],
+      relations: ["following","following.reviews","following.following","following.followers","following.watchlist"],
     });
     if (requestedUser) {
       res.status(200).json({
@@ -157,8 +155,9 @@ userRouter.get("/following/:id/rated/:mId", async (req, res) => {
   try {
     const resultUser = await User.findOne({
       where: { userId: parseInt(req.params.id) },
-      relations: ["reviews", "following"], //TODO: The reviews of the users contained in "following" is probably empty
+      relations: ["following", "following.reviews", "following.reviews.review_movie", "following.following", "following.followers", "following.watchlist"], //TODO: The reviews of the users contained in "following" is probably empty
     });
+    //Man kann über den punkt auch beziehungen von beziehungen mitladen.
     const resultMovie = await Movie.findOne({
       where: { movieId: parseInt(req.params.mId) },
     });
@@ -197,8 +196,9 @@ userRouter.get("/following/:id/watchlist/:mId", async (req, res) => {
   try {
     const resultUser = await User.findOne({
       where: { userId: parseInt(req.params.id) },
-      relations: ["watchlist", "following"], //TODO: The watchlist of the users contained in "following" is probably empty
+      relations: ["following", "following.watchlist", "following.following" ,"following.followers", "following.reviews"], //TODO: The watchlist of the users contained in "following" is probably empty
     });
+    //siehe oben
     const resultMovie = await Movie.findOne({
       where: { movieId: parseInt(req.params.mId) },
     });
@@ -208,8 +208,8 @@ userRouter.get("/following/:id/watchlist/:mId", async (req, res) => {
         //Iterate over all users the requested user is following
         resultUser.following.forEach((currentUser) => {
           //Iterate over all reviews of the current user
-          currentUser.watchlist.forEach((currentWatchlist) => {
-            if (currentWatchlist.movieId === resultMovie.movieId)
+          currentUser.watchlist.forEach((oneMovie) => {
+            if (oneMovie.movieId === resultMovie.movieId)
               matchingUsers.push(currentUser);
           });
         });
@@ -251,15 +251,15 @@ userRouter.post("/follow/:aId/:bId", async (req, res) => {
     });
     const userB = await User.findOne({
       where: { userId: parseInt(req.params.bId) },
-      //relations: ["watchlist", "following"]
       //TODO: TypeORM question: Do I need to load everything from user B in order to add him correctly to "following" of user A ?
+      //Wenn das mit dem save wie unten passt, dann wahrscheinlich nicht. Aber muss man testen
     });
     if (userA && userB) {
       userA.following.push(userB);
       await userA.save(); //TODO: question: Is it the right way to save the user like that ?
-      res.status(201).json({
-        data: userA,
-      });
+      //ich glaube ja. Weil following die @JoinTable ist, sollte das auf beiden seiten gespeichert werden. Aber muss man testen
+      //Sonst halt einfach auch im followers von B speichern
+      res.status(201).json();
     } else {
       res.status(404).json();
     }
@@ -282,9 +282,9 @@ userRouter.post("/watchlist/:uId/:mId", async (req, res) => {
     if (requestedUser && requestedMovie) {
       requestedUser.watchlist.push(requestedMovie);
       await requestedUser.save(); //TODO: question: Is it the right way to save the user like that ?
-      res.status(201).json({
-        data: requestedUser,
-      });
+      //Ja, die watchlist wird eh nur im user gespeichert.
+
+      res.status(201).json();
     } else {
       res.status(404).json();
     }
@@ -297,14 +297,14 @@ userRouter.post("/watchlist/:uId/:mId", async (req, res) => {
 //Updates the User send in the body. Do NOT update the primary key or Relations
 userRouter.put("/", async (req, res) => {
   try {
+    let updatedUser = req.body as User
     const requestedUser = await User.findOne({
-      where: { userId: parseInt(req.body.userId) },
+      where: { userId: updatedUser.userId},
     }); //TODO: Is req.body.userId the right call to get the id of the user that should be updated?
+    //Ja, aber habe den body oben direkt in ein Objekt geladen, für type safety und übersichtlicheren Code
     if (requestedUser) {
-      Object.keys(req.body).forEach((key) => {
+      Object.keys(updatedUser).forEach((key) => {
         if (
-          requestedUser.hasOwnProperty(key) &&
-          req.body[key] != "" &&
           key != "userId" &&
           key != "reviews" &&
           key != "following" &&
@@ -336,9 +336,8 @@ userRouter.delete("/:id", async (req, res) => {
     });
     if (requestedUser) {
       await requestedUser.remove(); //TODO: Add fitting cascade option
-      res.status(204).json({
-        data: requestedUser,
-      });
+      //Das einzige was wir mitlöschen wollen sind ja die reviews und da ist im ORM schon onDelete: CASCADE gesetzt
+      res.status(204).json();
     } else {
       res.status(404).json();
     }
@@ -356,11 +355,12 @@ userRouter.delete("/follow/:aId/:bId", async (req, res) => {
       relations: ["following"],
     });
     const userB = await User.findOne({
-      where: { userId: parseInt(req.params.bId) },
-      //relations: ["watchlist", "following"]
+      where: { userId: parseInt(req.params.bId) }
       //TODO: TypeORM question: Do I need to load everything from user B in order to add him correctly to "following" of user A ?
+      //Siehe oben. Ich glaube nicht. Man braucht ja von userB eig nur die Id
     });
     if (userA && userB) {
+      //TODO: Es gibt glaub ich schönere Wege das zu machen. Schau dir mal die filter() funktion von arrays in TS an
       for (let i = 0; i < userA.following.length; i++) {
         if (userA.following[i].userId === userB.userId) {
           userA.following.splice(i, 1);
@@ -368,6 +368,7 @@ userRouter.delete("/follow/:aId/:bId", async (req, res) => {
         }
       }
       await userA.save(); //TODO: question: Is it the right way to save the user like that ?
+      //Siehe oben. Denke ja, müssen testen. Ansonsten auf beiden Seiten ändern
       res.status(204).json({
         data: userA,
       });
@@ -381,7 +382,7 @@ userRouter.delete("/follow/:aId/:bId", async (req, res) => {
 });
 
 //Deletes the movie with that Id from that users watchlist
-userRouter.delete("/follow/:uId/:mId", async (req, res) => {
+userRouter.delete("/watchlist/:uId/:mId", async (req, res) => {
   try {
     const requestedUser = await User.findOne({
       where: { userId: parseInt(req.params.uId) },
@@ -389,9 +390,10 @@ userRouter.delete("/follow/:uId/:mId", async (req, res) => {
     });
     const requestedMovie = await Movie.findOne({
       where: { movieId: parseInt(req.params.mId) },
-      //relations: ["watchlist", "following"]
       //TODO: TypeORM question: Do I need to load everything from user B in order to add him correctly to "following" of user A ?
+      //Siehe oben. Ich glaube nicht. Man braucht ja von movie eig nur die Id
     });
+    //TODO: Es gibt glaub ich schönere Wege das zu machen. Schau dir mal die filter() funktion von arrays in TS an
     if (requestedUser && requestedMovie) {
       for (let i = 0; i < requestedUser.watchlist.length; i++) {
         if (requestedUser.watchlist[i].movieId === requestedMovie.movieId) {
@@ -400,6 +402,7 @@ userRouter.delete("/follow/:uId/:mId", async (req, res) => {
         }
       }
       await requestedUser.save(); //TODO: question: Is it the right way to save the user like that ?
+      //jio
       res.status(204).json();
     } else {
       res.status(404).json();
