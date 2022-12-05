@@ -18,7 +18,7 @@ movieRouter.get("/all", async (req,res)=>{
             data: allMovies
         })
     } catch (er){
-        res.status(500)
+        res.status(500).json()
     }
 })
 
@@ -34,11 +34,11 @@ movieRouter.get("/one/:id", async (req,res)=>{
             })
         }
         else {
-            res.status(404)
+            res.status(404).json()
         }
     } catch (er){
         console.log(er)
-        res.status(500)
+        res.status(500).json()
     }
 })
 
@@ -56,7 +56,7 @@ movieRouter.get("/actor/:id", async (req,res)=>{
         })
     } catch (er){
         console.log(er)
-        res.status(500)
+        res.status(500).json()
     }
 })
 
@@ -76,7 +76,7 @@ movieRouter.get("/user/:id", async (req,res)=>{
         })
     } catch (er) {
         console.log(er)
-        res.status(500)
+        res.status(500).json()
     }
 })
 
@@ -93,7 +93,7 @@ movieRouter.get("/watchlist/:uId", async (req, res)=>{
         })
     } catch (er) {
         console.log(er)
-        res.status(500)
+        res.status(500).json()
     }
 })
 
@@ -109,7 +109,7 @@ movieRouter.get("/time/min/:min", async (req,res)=>{
         })
     } catch (er){
         console.log(er)
-        res.status(500)
+        res.status(500).json()
     }
 })
 
@@ -125,7 +125,7 @@ movieRouter.get("/time/max/:max", async (req,res)=>{
         })
     } catch (er){
         console.log(er)
-        res.status(500)
+        res.status(500).json()
     }
 })
 
@@ -142,7 +142,7 @@ movieRouter.get("/date/:min/:max", async (req,res)=>{
         })
     } catch (er){
         console.log(er)
-        res.status(500)
+        res.status(500).json()
     }
 })
 
@@ -159,7 +159,7 @@ movieRouter.get("/name/:word", async (req, res)=>{
         })
     } catch (er) {
         console.log(er)
-        res.status(500)
+        res.status(500).json()
     }
 })
 
@@ -184,7 +184,7 @@ movieRouter.get("/rating/:min", async (req, res)=>{
         })
     } catch (er) {
         console.log(er)
-        res.status(500)
+        res.status(500).json()
     }
 })
 
@@ -202,7 +202,7 @@ movieRouter.get("/genre/:genre", async (req, res)=>{
 
     } catch (er){
         console.log(er)
-        res.status(500)
+        res.status(500).json()
     }
 })
 
@@ -225,7 +225,7 @@ movieRouter.post("/", async (req,res?)=>{
         })
     } catch (er) {
         console.log(er)
-        res.status(500)
+        res.status(500).json()
     }
 
 })
@@ -255,11 +255,11 @@ movieRouter.put("/", async (req,res?)=>{
             })
         }
         else {
-            res.status(404)
+            res.status(404).json()
         }
     } catch (er){
         console.log(er)
-        res.status(500)
+        res.status(500).json()
     }
 })
 
@@ -274,12 +274,12 @@ movieRouter.delete("/:id", async (req,res?)=>{
             res.status(204)
         }
         else{
-            res.status(404)
+            res.status(404).json()
         }
 
     } catch (er){
         console.log(er)
-        res.status(500)
+        res.status(500).json()
     }
 })
 
