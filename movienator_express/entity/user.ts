@@ -32,7 +32,7 @@ export default class User extends BaseEntity{
     })
     profileImage: ProfileImage
 
-    @OneToMany(()=>Review,(review)=>review.user)
+    @OneToMany(()=>Review,(review)=>review.review_user)
     reviews: Review[]
 
     @ManyToMany(()=>User, (user)=>user.followers)

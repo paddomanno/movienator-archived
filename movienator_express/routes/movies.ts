@@ -18,6 +18,7 @@ movieRouter.get("/all", async (req,res)=>{
             data: allMovies
         })
     } catch (er){
+        console.log(er)
         res.status(500).json()
     }
 })
@@ -65,10 +66,10 @@ movieRouter.get("/user/:id", async (req,res)=>{
     try{
         const user: User = await User.findOne({
             where:{userId: parseInt(req.params.id)},
-            relations: ['reviews','reviews.movie']})
+            relations: ['reviews','reviews.review_movie']})
         let userMovies: Movie[] = []
         user.reviews.forEach((review)=>{
-            userMovies.push(review.movie)
+            userMovies.push(review.review_movie)
         })
         userMovies.sort((a,b)=>a.title.localeCompare(b.title))
         res.status(200).json({
