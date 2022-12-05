@@ -221,6 +221,32 @@ movieRouter.get("/genre/:genre", async (req, res)=>{
     }
 })
 
+//Gets all movies than the two user both have on their watchlist and haven't reviewed yet
+movieRouter.get("/mutual/:aId/:bId",async (req,res)=>{
+    try{
+        let userA = await User.findOne({
+            where:{userId: parseInt(req.params.aId)},
+            relations:{watchlist: true}
+        })
+        let userB = await User.findOne({
+            where:{userId: parseInt(req.params.bId)},
+            relations:{watchlist: true}
+        })
+        if(userA && userB){
+            let resMovies = userA.watchlist.filter(movieA => userB.watchlist.some(movieB => movieB.movieId == movieA.movieId))
+            res.status(200).json({
+                data: resMovies
+            })
+        }
+        else {
+            res.status(404).json()
+        }
+    } catch (er){
+        console.log(er)
+        res.status(500).json()
+    }
+})
+
 //Inserts a new movie from the body
 //First check if the movie exists already, if not, insert it
 //Actors should be set already and inserted / updated at the same time
