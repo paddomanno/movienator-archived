@@ -5,8 +5,7 @@
   "author": "Kevin Hasse kevin.hasse@stud.h-da.de",
   "main": "start.ts",
   "scripts": {
-    "predebug": "rimraf dist/*",
-    "debug": "tsc-watch --onSuccess \"node --inspect=0.0.0.0:9229 dist/start.js\" --onFailure \"echo WHOOPS! Server compilation failed\"",
+    "dev": "tsc-watch --onSuccess \"node dist/start\"",
     "test": "jest --runInBand"
   },
   "dependencies": {

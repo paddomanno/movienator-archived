@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es2017",
+    "target": "es2020",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "sourceMap": true,
@@ -9,7 +9,20 @@
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
     "outDir": "./dist",
-    "types": ["node","typeorm"]
+    "types": ["node","typeorm"],
+
+  },
+  "watchOptions": {
+    "watchDirectory": "dynamicprioritypolling",
+    "watchFile": "dynamicprioritypolling",
+
+    // Poll files for updates more frequently
+    // when they're updated a lot.
+    "fallbackPolling": "dynamicPriority",
+    // Don't coalesce watch notification
+    "synchronousWatchDirectory": true,
+
+    "excludeDirectories": ["**/node_modules"]
   },
   "exclude": [
     "node_modules"
