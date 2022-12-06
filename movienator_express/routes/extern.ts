@@ -76,10 +76,16 @@ externRouter.get("/search/movie/:word",async (req, res)=>{
     }
 })
 
-//Returns a list of movies where the searched actor has played in
-//The actors array should be filled
+//Returns a list of actors fitting that search word
+//The movies array should be filled
 //See search/people -> known for
 externRouter.get("/search/actor/:name",(req, res)=>{
+
+})
+
+//Returns a list of Movies that this actor has played in
+//The actors array should be filled
+externRouter.get("/movies/actor/:id",(req,res)=>{
 
 })
 
