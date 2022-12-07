@@ -4,6 +4,7 @@ import Actor from "./entity/actor";
 import ProfileImage from "./entity/profileImage";
 import Review from "./entity/review";
 import User from "./entity/user";
+import Genre from "./entity/genre";
 
 
 /**
@@ -17,7 +18,7 @@ export const AppDataSource = new DataSource({
     password: "root",
     database: "movienator-database",
     //Hier die importierten Entitätsklassen angeben
-    entities: [Actor,Movie,ProfileImage,Review,User],
+    entities: [Actor,Movie,ProfileImage,Review,User,Genre],
     synchronize: true,
     logging: false,
 })
