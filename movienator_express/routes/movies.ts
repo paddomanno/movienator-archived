@@ -286,12 +286,7 @@ movieRouter.get('/mutual/:aId/:bId', async (req, res) => {
 movieRouter.post('/', async (req, res?) => {
   try {
     let newMovie = req.body as Movie;
-    newMovie.actors.forEach((actor) => {
-      actor.save();
-    });
-    newMovie.genres.forEach((genre)=>{
-      genre.save();
-    })
+    //Hab die orm to gemacht, dass beim movie saven, alle genres und actors mit gespeichert werden
     await newMovie.save();
     newMovie = await Movie.findOne({
       where: { movieId: newMovie.movieId },

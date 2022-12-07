@@ -30,14 +30,14 @@ export default class Movie extends BaseEntity{
     @Column({nullable:true})
     videoPath: string
 
-    @ManyToMany(()=>Actor,(actor)=>actor.movies)
+    @ManyToMany(()=>Actor,(actor)=>actor.movies,{cascade: ["insert"]})
     @JoinTable()
     actors: Actor[]
 
     @OneToMany(()=>Review,(review)=>review.review_movie)
     reviews: Review[]
 
-    @ManyToMany(()=>Genre,(genre)=>genre.movies)
+    @ManyToMany(()=>Genre,(genre)=>genre.movies,{cascade: ["insert"]})
     @JoinTable()
     genres: Genre[]
 }
