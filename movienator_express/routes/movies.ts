@@ -226,9 +226,8 @@ movieRouter.get('/rating/:min', async (req, res) => {
 //Gets all movies to that genre
 movieRouter.get('/genre/:genre', async (req, res) => {
   try {
-    //TODO: ArrayContains not working in mysql. Find alternative or filter here
     const movies: Movie[] = await Movie.find({
-      where: { genres: ArrayContains([req.params.genre]) },
+      where: { genres: ILike(`%${req.params.genre}%`) },
       relations: { reviews: true, actors: true },
     });
     movies.sort((a, b) => a.title.localeCompare(b.title));
