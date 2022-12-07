@@ -13,6 +13,7 @@ const profileImageRouter = require("./routes/profileImage")
 const reviewRouter = require("./routes/reviews")
 const userRouter = require("./routes/users")
 const externRouter = require("./routes/extern")
+const genreRouter = require("./routes/genres")
 
 //Use Body Parser to read http bodies
 app.use(bodyParser.json())
@@ -27,6 +28,7 @@ app.use("/profileImage",profileImageRouter)
 app.use("/review",reviewRouter)
 app.use("/user",userRouter)
 app.use("/extern",externRouter)
+app.use("/genre",genreRouter)
 
 export default app
 

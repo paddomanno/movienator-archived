@@ -12,12 +12,10 @@ genresRouter.get("/all", async (req,res)=>{
         });
         if (allGenres) {
             allGenres.sort((a, b) => a.genreName.localeCompare(b.genreName));
-            res.status(200).json({
-                data: allGenres,
-            });
-        } else {
-            res.status(404).json();
         }
+        res.status(200).json({
+            data: allGenres,
+        });
     } catch (er) {
         console.log(er);
         res.status(500).json();
