@@ -2,14 +2,12 @@ import {BaseEntity, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryCol
 import Actor from "./actor";
 import Review from "./review";
 import {JoinColumn} from "typeorm/browser";
+import Genre from "./genre";
 
 @Entity()
 export default class Movie extends BaseEntity{
     @PrimaryColumn()
     movieId: number
-
-    @Column({type: "simple-array", nullable: true})
-    genres: string[]
 
     @Column()
     title: string
@@ -29,10 +27,17 @@ export default class Movie extends BaseEntity{
     @Column({nullable:true})
     imagePath: string
 
+    @Column({nullable:true})
+    videoPath: string
+
     @ManyToMany(()=>Actor,(actor)=>actor.movies)
     @JoinTable()
     actors: Actor[]
 
     @OneToMany(()=>Review,(review)=>review.review_movie)
     reviews: Review[]
+
+    @ManyToMany(()=>Genre,(genre)=>genre.movies)
+    @JoinTable()
+    genres: Genre[]
 }

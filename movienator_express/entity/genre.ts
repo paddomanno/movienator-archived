@@ -1,4 +1,5 @@
-import {BaseEntity, Column, Entity, PrimaryColumn} from "typeorm";
+import {BaseEntity, Column, Entity, ManyToMany, PrimaryColumn} from "typeorm";
+import Movie from "./movie";
 
 @Entity()
 export default class Genre extends BaseEntity{
@@ -7,4 +8,7 @@ export default class Genre extends BaseEntity{
 
     @Column()
     genreName: string
+
+    @ManyToMany(()=>Movie,(movie)=>movie.genres)
+    movies: Movie[]
 }

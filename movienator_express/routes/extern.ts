@@ -1,6 +1,7 @@
 import Movie from "../entity/movie";
 import Actor from "../entity/actor";
 import Review from "../entity/review";
+import Genre from "../entity/genre";
 
 const expressExtern = require("express")
 const externRouter = expressExtern.Router()
@@ -16,7 +17,7 @@ const BASE_URL = "https://api.themoviedb.org/3"
  */
 
 /**
- * Return an array of movies with the given Ids. Actors are filled
+ * Return an array of movies with the given Ids. Actors are not filled. Genres are filled
  * @param ids
  * @param maxAmount The maximum amount of movies that will be returned
  */
@@ -27,21 +28,25 @@ async function getMoviesToIds(ids: number[], maxAmount: number): Promise<Movie[]
         console.log(query)
         let response = await axios.get(query, { headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' }, params: { trophies: true } })
         if(response.status == 200){
-            let genres: string[] = []
+            let genres: Genre[] = []
             response.data.genres.forEach(genre => {
-                genres.push(genre.name)
+                let oneGenre: Genre = new Genre();
+                oneGenre.genreId = genre.id
+                oneGenre.genreName = genre.name
+                genres.push(oneGenre)
             })
             let oneMovie: Movie = new Movie()
             oneMovie.movieId= response.data.id
-            oneMovie.genres= genres
             oneMovie.title= response.data.original_title
             oneMovie.overview= response.data.overview
             oneMovie.releaseDate= response.data.release_Date
             oneMovie.lengthMinutes= response.data.runtime
             oneMovie.adultContent= response.data.adult
             oneMovie.imagePath= response.data.poster_path
+            oneMovie.videoPath = "null"
             oneMovie.actors= []
             oneMovie.reviews= []
+            oneMovie.genres= genres
             if(resMovies.length <= maxAmount) {
                 resMovies.push(oneMovie)
             }
@@ -68,6 +73,7 @@ async function getMoviesToQuery(query: string, maxAmount: number):Promise<Movie[
 
 //Returns a list of movies that fit this search word
 //The actors array is NOT filled
+//The genre array IS filled
 //see search/movies
 externRouter.get("/search/movie/:word",async (req, res)=>{
     try{
@@ -145,6 +151,7 @@ externRouter.get("/search/actor/:name",async (req, res)=>{
 
 //Returns a list of Movies that this actor has played in
 //The actors array is NOT filled
+//The genre array IS filled
 externRouter.get("/movies/actor/:id",async (req,res)=>{
     try{
         let resMovies: Movie[] = []
@@ -172,6 +179,7 @@ externRouter.get("/movies/actor/:id",async (req,res)=>{
 
 //Returns a list of movies that this user might like
 //The actors array is NOT filled
+//The genre array IS filled
 externRouter.get("/user/:uId/recommendations",async (req,res)=>{
     const MAX_DIF_REVIEWS: number = 5
     const MAX_REC_PER_REVIEW: number = 2;
@@ -210,6 +218,8 @@ externRouter.get("/user/:uId/recommendations",async (req,res)=>{
 })
 
 //Returns a list of recommendations for a movie
+//The actors array is NOT filled
+//The genre array IS filled
 externRouter.get("/movie/:mId/recommendations/",async (req,res)=>{
     try {
         let resMovies: Movie[] = []
@@ -236,6 +246,7 @@ externRouter.get("/movie/:mId/recommendations/",async (req,res)=>{
 
 //Returns a list of the currently popular movies
 //The actors array is NOT filled
+//The genre array IS filled
 //See movie/popular
 externRouter.get("/popular",async (req,res)=>{
     try {
