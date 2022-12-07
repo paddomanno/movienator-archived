@@ -2,7 +2,6 @@ import Movie from '../entity/movie';
 import User from '../entity/user';
 import Actor from '../entity/actor';
 import {
-  ArrayContains,
   Between,
   ILike,
   LessThanOrEqual,
@@ -104,7 +103,7 @@ movieRouter.get('/user/:id', async (req, res) => {
 movieRouter.get('/watchlist/:uId', async (req, res) => {
   try {
     const user: User = await User.findOne({
-      where: { userId: parseInt(req.params.id) }, // TODO: req.params.uId ??
+      where: { userId: parseInt(req.params.uId) },
       relations: ['watchlist','watchlist.actors','watchlist.reviews','watchlist.genres'],
     });
     if (user != null) {
@@ -285,9 +284,9 @@ movieRouter.get('/mutual/:aId/:bId', async (req, res) => {
 //Genres should be set already and inserted / updated at the same time
 movieRouter.post('/', async (req, res?) => {
   try {
-    let newMovie = req.body as Movie;
+    let newMovie: Movie = req.body as Movie;
     //Hab die orm to gemacht, dass beim movie saven, alle genres und actors mit gespeichert werden
-    await newMovie.save();
+    await Movie.save(newMovie)
     newMovie = await Movie.findOne({
       where: { movieId: newMovie.movieId },
       relations: { actors: true, reviews: true , genres: true},

@@ -29,6 +29,12 @@ reviewRouter.get('/all', async (req, res) => {
   }
 });
 
+//Gets the one specific review of that user to that movie
+//TODO implement
+reviewRouter.get('/one/:mId/:uId',async (req,res)=>{
+
+})
+
 //Gets all reviews to that movie, ordered by the last Updated value
 reviewRouter.get('/movie/:id', async (req, res) => {
   try {
@@ -117,7 +123,7 @@ reviewRouter.get('/user/following/:id', async (req, res) => {
 // TODO: Error handling (for example '0' as :time)
 reviewRouter.get('/user/following/:id/:time', async (req, res) => {
   try {
-    const timestamp = Date.parse(req.params.time);
+    const timestamp : number = Date.parse(req.params.time);
     if (isNaN(timestamp)) {
       throw new Error('timestamp is NaN');
     }
@@ -199,10 +205,9 @@ reviewRouter.get('/time/:time', async (req, res) => {
 });
 
 //Saves a new review
-//Check if it is automatically added to movie and user or if that needs to be done manually
 reviewRouter.post('/', async (req, res) => {
   try {
-    let newReview = req.body as Review; // TODO: not working lol
+    let newReview: Review = req.body as Review; // TODO: not working lol
     /* is supposed to work with just user id and movie id
     example req body:
 {
@@ -213,8 +218,8 @@ reviewRouter.post('/', async (req, res) => {
     "rating": 5
 }
     */
-    console.log(typeof newReview); // is type object, not Review
-    await newReview.save();
+    //TODO: Is working like this.
+    await Review.save(newReview);
     newReview = await Review.findOne({
       where: {
         reviewMovieMovieId: newReview.reviewMovieMovieId,
