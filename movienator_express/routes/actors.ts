@@ -72,7 +72,7 @@ actorRouter.get('/movie/:id', async (req, res) => {
 // TODO: 'We shouldnt use this' ??
 actorRouter.put('/', async (req, res) => {
   try {
-    let updatedActor = req.body as Actor;
+    let updatedActor: Actor = req.body as Actor;
     const requestedActor: Actor = await Actor.findOne({
       where: { actorId: updatedActor.actorId },
     });
