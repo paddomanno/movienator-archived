@@ -89,7 +89,7 @@ externRouter.get("/search/movie/:word",async (req, res)=>{
 })
 
 //Returns the first X actors that are playing in a movie
-externRouter.get("/movie/:id/actors", async (req,res)=>{
+externRouter.get("/actor/movie/:id", async (req,res)=>{
     const MAX_ACTORS: number = 8
     try {
         let resActors: Actor[] = []
@@ -251,6 +251,51 @@ externRouter.get("/movie/:mId/recommendations/",async (req,res)=>{
 externRouter.get("/popular",async (req,res)=>{
     try {
         let query: string = BASE_URL + "/movie/popular?" + `api_key=${API_KEY}`
+        let resMovies = await getMoviesToQuery(query,20)
+        res.status(200).json({
+            data: resMovies
+        })
+    }
+    catch (er){
+        console.log(er)
+        res.status(500).json()
+    }
+})
+
+//Returns a list of all genres there are
+//Movies are not filled
+externRouter.get("/genres", async (req,res)=>{
+    try {
+        let resGenres: Genre[] = []
+        let query: string = BASE_URL+`/genre/movie/list?`+`api_key=${API_KEY}`
+        let genreRes = await axios.get(query, {
+            headers: {Accept: 'application/json', 'Accept-Encoding': 'identity'},
+            params: {trophies: true}
+        })
+        if(genreRes.status == 200){
+            genreRes.data.genres.forEach(genre=>{
+                let newGen : Genre = new Genre()
+                newGen.genreId = genre.id
+                newGen.genreName = genre.name
+                resGenres.push(newGen)
+            })
+            res.status(200).json({
+                data: resGenres
+            })
+        }
+        else {
+            res.status(500).json()
+        }
+
+    }catch (er){
+        console.log(er)
+        res.status(500).json()
+    }
+})
+
+externRouter.get("/movie/genre/:id", async (req,res)=>{
+    try {
+        let query: string = BASE_URL + "/discover/movie?" +`with_genres=${req.params.id}`+ `&api_key=${API_KEY}`
         let resMovies = await getMoviesToQuery(query,20)
         res.status(200).json({
             data: resMovies
