@@ -12,7 +12,6 @@ import Genre from "../entity/genre";
 const expressMovie = require('express');
 const movieRouter = expressMovie.Router();
 
-//TODO Routing implementieren
 
 //Get all the movies from the database
 movieRouter.get('/all', async (req, res) => {
@@ -123,6 +122,7 @@ movieRouter.get('/watchlist/:uId', async (req, res) => {
 
 //Gets all movies with a min time
 movieRouter.get('/time/min/:min', async (req, res) => {
+  //TODO Catch negative values
   try {
     const movies: Movie[] = await Movie.find({
       where: {
@@ -302,7 +302,7 @@ movieRouter.post('/', async (req, res?) => {
 
 //Update the movie in the body
 //Make sure to NOT update the primary keys or relations
-//We shouldnt really use this
+//We shouldn't really use this
 movieRouter.put('/', async (req, res?) => {
   try {
     let movieBody = req.body as Movie;
@@ -320,7 +320,7 @@ movieRouter.put('/', async (req, res?) => {
         where: { movieId: movie.movieId },
         relations: { actors: true, reviews: true },
       });
-      res.status(200).json({
+      res.status(201).json({
         data: movie,
       });
     } else {
