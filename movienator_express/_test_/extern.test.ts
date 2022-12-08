@@ -7,7 +7,7 @@ beforeAll(async () => {
 
     await createTestData()
 
-    console.log("Starting Extern Tests")
+    //console.log("Starting Extern Tests")
 })
 
 async function createTestData(){
@@ -16,7 +16,7 @@ async function createTestData(){
 
 afterAll(async () => {
     await TestDatabaseManager.getInstance().resetTestDatabase()
-    console.log("Finishing Extern Test")
+    //console.log("Finishing Extern Test")
 })
 
 describe("Externtest",() => {

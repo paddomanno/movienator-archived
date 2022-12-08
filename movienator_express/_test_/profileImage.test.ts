@@ -7,7 +7,7 @@ beforeAll(async () => {
 
     await createTestData()
 
-    console.log("Starting ProfileImage Tests")
+    //console.log("Starting ProfileImage Tests")
 })
 
 async function createTestData(){
@@ -16,7 +16,7 @@ async function createTestData(){
 
 afterAll(async () => {
     await TestDatabaseManager.getInstance().resetTestDatabase()
-    console.log("Finishing ProfileImage Test")
+    //console.log("Finishing ProfileImage Test")
 })
 
 describe("Imagetest",() => {

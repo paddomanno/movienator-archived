@@ -12,7 +12,7 @@ beforeAll(async () => {
 
   await createTestData()
 
-  console.log("Starting User Tests")
+  //console.log("Starting User Tests")
 })
 
 async function createTestData() {
@@ -88,7 +88,7 @@ async function createTestData() {
 
 afterAll(async () => {
   await TestDatabaseManager.getInstance().resetTestDatabase()
-  console.log("Finishing User Tests")
+  //console.log("Finishing User Tests")
 })
 
 describe("GET Tests", () => {
@@ -96,11 +96,7 @@ describe("GET Tests", () => {
     const response = await request(app)
       .get("/user/all")
       .send()
-      .expect("Content-Type", "application/json charset=utf-8")
-    console.log(response.body)
-    console.log(
-      "Tschais Following" + response.body.data[1].following[0].firstName
-    )
+      .expect("Content-Type", "application/json; charset=utf-8")
     expect(response.statusCode).toBe(200)
     //Attention: They are sorted by lastName (Coleman, Katla, Rühl)
     expect(response.body.data[2].firstName).toBe("Maggus")
@@ -112,7 +108,7 @@ describe("GET Tests", () => {
     const response = await request(app)
       .get("/user/one/id/1")
       .send()
-      .expect("Content-Type", "application/json charset=utf-8")
+      .expect("Content-Type", "application/json; charset=utf-8")
     expect(response.statusCode).toBe(200)
     expect(response.body.data.userId).toBe(1)
     expect(response.body.data.firstName).toBe("Maggus")
@@ -123,7 +119,7 @@ describe("GET Tests", () => {
     const response = await request(app)
       .get("/user/one/id/99")
       .send()
-      .expect("Content-Type", "application/json charset=utf-8")
+      .expect("Content-Type", "application/json; charset=utf-8")
     expect(response.statusCode).toBe(404)
   })
 
@@ -131,7 +127,7 @@ describe("GET Tests", () => {
     const response = await request(app)
       .get("/user/one/username/Roswita")
       .send()
-      .expect("Content-Type", "application/json charset=utf-8")
+      .expect("Content-Type", "application/json; charset=utf-8")
     expect(response.statusCode).toBe(200)
     expect(response.body.data.userName).toBe("Roswita")
     expect(response.body.data.firstName).toBe("Maggus")
@@ -142,7 +138,7 @@ describe("GET Tests", () => {
     const response = await request(app)
       .get("/user/one/username/maaaan")
       .send()
-      .expect("Content-Type", "application/json charset=utf-8")
+      .expect("Content-Type", "application/json; charset=utf-8")
     expect(response.statusCode).toBe(404)
   })
 
@@ -150,7 +146,7 @@ describe("GET Tests", () => {
     const response = await request(app)
       .get("/user/username/ros")
       .send()
-      .expect("Content-Type", "application/json charset=utf-8")
+      .expect("Content-Type", "application/json; charset=utf-8")
     expect(response.statusCode).toBe(200)
     expect(response.body.data.length).toBe(1)
     expect(response.body.data[0].firstName).toBe("Maggus")
@@ -160,7 +156,7 @@ describe("GET Tests", () => {
     const response = await request(app)
       .get("/user/username/Maan")
       .send()
-      .expect("Content-Type", "application/json charset=utf-8")
+      .expect("Content-Type", "application/json; charset=utf-8")
     expect(response.statusCode).toBe(200)
     expect(response.body.data.length).toBe(0)
   })
@@ -169,7 +165,7 @@ describe("GET Tests", () => {
     const response = await request(app)
       .get("/user/followers/1")
       .send()
-      .expect("Content-Type", "application/json charset=utf-8")
+      .expect("Content-Type", "application/json; charset=utf-8")
     expect(response.statusCode).toBe(200)
     expect(response.body.data.length).toBe(1)
     expect(response.body.data[0].firstName).toBe("Tschai")
@@ -179,7 +175,7 @@ describe("GET Tests", () => {
     const response = await request(app)
       .get("/user/followers/99")
       .send()
-      .expect("Content-Type", "application/json charset=utf-8")
+      .expect("Content-Type", "application/json; charset=utf-8")
     expect(response.statusCode).toBe(404)
   })
 
@@ -187,7 +183,7 @@ describe("GET Tests", () => {
     const response = await request(app)
       .get("/user/following/3")
       .send()
-      .expect("Content-Type", "application/json charset=utf-8")
+      .expect("Content-Type", "application/json; charset=utf-8")
     expect(response.statusCode).toBe(200)
     expect(response.body.data.length).toBe(2)
     expect(response.body.data[1].firstName).toBe("Maggus")
@@ -198,7 +194,7 @@ describe("GET Tests", () => {
     const response = await request(app)
       .get("/user/following/99")
       .send()
-      .expect("Content-Type", "application/json charset=utf-8")
+      .expect("Content-Type", "application/json; charset=utf-8")
     expect(response.statusCode).toBe(404)
   })
 
@@ -206,7 +202,7 @@ describe("GET Tests", () => {
     const response = await request(app)
       .get("/user/following/3/rated/1") //All users tschai is following that reviewed the testmovie
       .send()
-      .expect("Content-Type", "application/json charset=utf-8")
+      .expect("Content-Type", "application/json; charset=utf-8")
     expect(response.statusCode).toBe(200)
     expect(response.body.data.length).toBe(1)
     expect(response.body.data[0].firstName).toBe("Maggus")
@@ -216,7 +212,7 @@ describe("GET Tests", () => {
     const response = await request(app)
       .get("/user/following/99/rated/1")
       .send()
-      .expect("Content-Type", "application/json charset=utf-8")
+      .expect("Content-Type", "application/json; charset=utf-8")
     expect(response.statusCode).toBe(404)
   })
 
@@ -224,7 +220,7 @@ describe("GET Tests", () => {
     const response = await request(app)
       .get("/user/following/3/rated/99")
       .send()
-      .expect("Content-Type", "application/json charset=utf-8")
+      .expect("Content-Type", "application/json; charset=utf-8")
     expect(response.statusCode).toBe(404)
   })
 
@@ -232,7 +228,7 @@ describe("GET Tests", () => {
     const response = await request(app)
       .get("/user/following/3/watchlist/1") //All users tschai is following that have the testmovie on their watchlist
       .send()
-      .expect("Content-Type", "application/json charset=utf-8")
+      .expect("Content-Type", "application/json; charset=utf-8")
     expect(response.statusCode).toBe(200)
     expect(response.body.data.length).toBe(1)
     expect(response.body.data[0].firstName).toBe("Ronnie")
@@ -242,7 +238,7 @@ describe("GET Tests", () => {
     const response = await request(app)
       .get("/user/following/99/watchlist/1")
       .send()
-      .expect("Content-Type", "application/json charset=utf-8")
+      .expect("Content-Type", "application/json; charset=utf-8")
     expect(response.statusCode).toBe(404)
   })
 
@@ -250,7 +246,7 @@ describe("GET Tests", () => {
     const response = await request(app)
       .get("/user/following/3/watchlist/99")
       .send()
-      .expect("Content-Type", "application/json charset=utf-8")
+      .expect("Content-Type", "application/json; charset=utf-8")
     expect(response.statusCode).toBe(404)
   })
 })
@@ -269,7 +265,7 @@ describe("POST Tests", () => {
     const response = await request(app)
       .post("/user/")
       .send(newUser4)
-      .expect("Content-Type", "application/json charset=utf-8")
+      .expect("Content-Type", "application/json; charset=utf-8")
     expect(response.statusCode).toBe(201)
 
     const resultUser = await User.findOne({
@@ -294,7 +290,7 @@ describe("POST Tests", () => {
     const response = await request(app)
       .post("/user/")
       .send(newUser4)
-      .expect("Content-Type", "application/json charset=utf-8")
+      .expect("Content-Type", "application/json; charset=utf-8")
     expect(response.statusCode).toBe(500)
   })
 
@@ -302,7 +298,7 @@ describe("POST Tests", () => {
     const response = await request(app)
       .post("/user/follow/4/1") //Chris is now following Maggus
       .send()
-      .expect("Content-Type", "application/json charset=utf-8")
+      .expect("Content-Type", "application/json; charset=utf-8")
     expect(response.statusCode).toBe(201)
 
     const resultUser = await User.findOne({
@@ -317,7 +313,7 @@ describe("POST Tests", () => {
     const response = await request(app)
       .post("/user/follow/99/1")
       .send()
-      .expect("Content-Type", "application/json charset=utf-8")
+      .expect("Content-Type", "application/json; charset=utf-8")
     expect(response.statusCode).toBe(404)
   })
 
@@ -325,7 +321,7 @@ describe("POST Tests", () => {
     const response = await request(app)
       .post("/user/watchlist/1/1") ///watchlist/:uId/:mId -> Maggus gets Testmovie on his watchlist
       .send()
-      .expect("Content-Type", "application/json charset=utf-8")
+      .expect("Content-Type", "application/json; charset=utf-8")
     expect(response.statusCode).toBe(201)
 
     const resultUser = await User.findOne({
@@ -340,7 +336,7 @@ describe("POST Tests", () => {
     const response = await request(app)
       .post("/user/watchlist/2/99")
       .send()
-      .expect("Content-Type", "application/json charset=utf-8")
+      .expect("Content-Type", "application/json; charset=utf-8")
     expect(response.statusCode).toBe(404)
   })
 })
@@ -355,7 +351,7 @@ describe("PUT Tests", () => {
     const response = await request(app)
       .put("/user/")
       .send(updatedUser1)
-      .expect("Content-Type", "application/json charset=utf-8")
+      .expect("Content-Type", "application/json; charset=utf-8")
     expect(response.statusCode).toBe(201)
 
     const resultUser = await User.findOne({
@@ -373,7 +369,7 @@ describe("PUT Tests", () => {
     const response = await request(app)
       .put("/user/")
       .send(updatedUser1)
-      .expect("Content-Type", "application/json charset=utf-8")
+      .expect("Content-Type", "application/json; charset=utf-8")
     expect(response.statusCode).toBe(404)
   })
 
@@ -387,7 +383,7 @@ describe("PUT Tests", () => {
     const response = await request(app)
       .put("/user/")
       .send(updatedUser1)
-      .expect("Content-Type", "application/json charset=utf-8")
+      .expect("Content-Type", "application/json; charset=utf-8")
     expect(response.statusCode).toBe(201)
 
     const resultUser = await User.findOne({
