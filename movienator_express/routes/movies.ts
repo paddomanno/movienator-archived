@@ -124,9 +124,13 @@ movieRouter.get('/watchlist/:uId', async (req, res) => {
 movieRouter.get('/time/min/:min', async (req, res) => {
   //TODO Catch negative values
   try {
+    let min: number = parseInt(req.params.min)
+    if(min <= 0 || isNaN(min)){
+      throw `${parseInt(req.params.min)} is not a valid number`
+    }
     const movies: Movie[] = await Movie.find({
       where: {
-        lengthMinutes: MoreThanOrEqual(parseInt(req.params.min)),
+        lengthMinutes: MoreThanOrEqual(min),
       },
       relations: { reviews: true, actors: true ,genres: true},
     });
@@ -143,9 +147,13 @@ movieRouter.get('/time/min/:min', async (req, res) => {
 //Gets all movies with a max time
 movieRouter.get('/time/max/:max', async (req, res) => {
   try {
+    let max: number = parseInt(req.params.max)
+    if(max <= 0 || isNaN(max)){
+      throw `${parseInt(req.params.max)} is not a valid number`
+    }
     const movies: Movie[] = await Movie.find({
       where: {
-        lengthMinutes: LessThanOrEqual(parseInt(req.params.min)),
+        lengthMinutes: LessThanOrEqual(max),
       },
       relations: { reviews: true, actors: true , genres: true},
     });
