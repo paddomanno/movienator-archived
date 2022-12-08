@@ -401,27 +401,51 @@ describe("PUT Tests", () => {
 });
 
 describe("DELETE Tests", () => {
-  /*it("Deletes user with stated Id TEST", async () => {
-      const response = await request(app)
-        .delete("/user/1")
-        .send()
-        .expect("Content-Type", "application/json; charset=utf-8"); //No idea why, but it expeted content type header field and fails because of that
-      expect(response.statusCode).toBe(204);
-    });*/
-
-  it("User a is now no more following user b TEST", async () => {
-    const response = await request(app)
-      .delete("/user/99")
-      .send()
-      .expect("Content-Type", "application/json; charset=utf-8");
-    expect(response.statusCode).toBe(404);
+  it("Deletes user with stated Id TEST", async () => {
+    const response = await request(app).delete("/user/1").send();
+    expect(response.statusCode).toBe(204);
   });
 
   it("Tries deleting NON-EXISTING user", async () => {
+    const response = await request(app).delete("/user/99").send();
+    expect(response.statusCode).toBe(404);
+  });
+
+  it("User a is now no more following user b TEST", async () => {
     const response = await request(app)
-      .delete("/follow/3/1") ///follow/:aId/:bId
-      .send()
-      .expect("Content-Type", "application/json; charset=utf-8");
+      .delete("/user/follow/3/2") // /follow/:aId/:bId
+      .send();
     expect(response.statusCode).toBe(204);
+    const userA = await User.findOne({
+      where: { userId: 3 },
+      relations: ["following"],
+    });
+    expect(userA.following.length).toBe(0);
+  });
+
+  it("User a is now no more following user b (at least one NON-EXISTING user) TEST", async () => {
+    const response = await request(app)
+      .delete("/user/follow/3/99") // /follow/:aId/:bId
+      .send();
+    expect(response.statusCode).toBe(404);
+  });
+
+  it("Delete movie from a users watchlist TEST", async () => {
+    const response = await request(app)
+      .delete("/user/watchlist/2/1") // :uId/:mId"
+      .send();
+    expect(response.statusCode).toBe(204);
+    const userA = await User.findOne({
+      where: { userId: 2 },
+      relations: ["watchlist"],
+    });
+    expect(userA.watchlist.length).toBe(0);
+  });
+
+  it("Delete movie from a users watchlist (either movie or user or both are NON-EXISTING) TEST", async () => {
+    const response = await request(app)
+      .delete("/user/watchlist/99/1") // :uId/:mId"
+      .send();
+    expect(response.statusCode).toBe(404);
   });
 });

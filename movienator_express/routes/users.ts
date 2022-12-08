@@ -293,8 +293,8 @@ userRouter.post("/follow/:aId/:bId", async (req, res) => {
       where: { userId: parseInt(req.params.bId) },
     });
     if (userA && userB) {
-      if(userA.following == null){
-        userA.following = []
+      if (userA.following == null) {
+        userA.following = [];
       }
       userA.following.push(userB);
       await userA.save();
@@ -319,8 +319,8 @@ userRouter.post("/watchlist/:uId/:mId", async (req, res) => {
       where: { movieId: parseInt(req.params.mId) },
     });
     if (requestedUser && requestedMovie) {
-      if(requestedUser.watchlist == null){
-        requestedUser.watchlist = []
+      if (requestedUser.watchlist == null) {
+        requestedUser.watchlist = [];
       }
       requestedUser.watchlist.push(requestedMovie);
       await requestedUser.save(); //TODO: question: Is it the right way to save the user like that ?
