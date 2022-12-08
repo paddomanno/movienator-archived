@@ -291,14 +291,13 @@ userRouter.post("/follow/:aId/:bId", async (req, res) => {
     });
     const userB = await User.findOne({
       where: { userId: parseInt(req.params.bId) },
-      //TODO: TypeORM question: Do I need to load everything from user B in order to add him correctly to "following" of user A ?
-      //Wenn das mit dem save wie unten passt, dann wahrscheinlich nicht. Aber muss man testen
     });
     if (userA && userB) {
+      if(userA.following == null){
+        userA.following = []
+      }
       userA.following.push(userB);
-      await userA.save(); //TODO: question: Is it the right way to save the user like that ?
-      //ich glaube ja. Weil following die @JoinTable ist, sollte das auf beiden seiten gespeichert werden. Aber muss man testen
-      //Sonst halt einfach auch im followers von B speichern
+      await userA.save();
       res.status(201).json();
     } else {
       res.status(404).json();
@@ -320,6 +319,9 @@ userRouter.post("/watchlist/:uId/:mId", async (req, res) => {
       where: { movieId: parseInt(req.params.mID) },
     });
     if (requestedUser && requestedMovie) {
+      if(requestedUser.watchlist == null){
+        requestedUser.watchlist = []
+      }
       requestedUser.watchlist.push(requestedMovie);
       await requestedUser.save(); //TODO: question: Is it the right way to save the user like that ?
       //Ja, die watchlist wird eh nur im user gespeichert.
@@ -340,8 +342,7 @@ userRouter.put("/", async (req, res) => {
     let updatedUser = req.body as User;
     const requestedUser = await User.findOne({
       where: { userId: updatedUser.userId },
-    }); //TODO: Is req.body.userId the right call to get the id of the user that should be updated?
-    //Ja, aber habe den body oben direkt in ein Objekt geladen, für type safety und übersichtlicheren Code
+    });
     if (requestedUser) {
       Object.keys(updatedUser).forEach((key) => {
         if (
