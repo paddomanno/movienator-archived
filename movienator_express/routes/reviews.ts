@@ -32,7 +32,24 @@ reviewRouter.get('/all', async (req, res) => {
 //Gets the one specific review of that user to that movie
 //TODO implement
 reviewRouter.get('/one/:mId/:uId',async (req,res)=>{
-
+  try {
+    const requestedReview = await Review.findOne({
+      where: {
+        reviewMovieMovieId: parseInt(req.params.mId),
+        reviewUserUserId: parseInt(req.params.uId),
+      },
+    });
+    if (requestedReview) {
+      res.status(204).json({
+        data: requestedReview,
+      });
+    } else {
+      res.status(404).json();
+    }
+  } catch (er) {
+    console.log(er);
+    res.status(500).json();
+  }
 })
 
 //Gets all reviews to that movie, ordered by the last Updated value
