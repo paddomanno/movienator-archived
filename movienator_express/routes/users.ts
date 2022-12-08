@@ -267,7 +267,7 @@ userRouter.get("/following/:id/watchlist/:mId", async (req, res) => {
 //Insert a new User, userId should be NULL when inserting
 userRouter.post("/", async (req, res) => {
   try {
-    if (req.body.id == null) {
+    if (req.body.userId == null) {
       const newUser: User = await User.save(req.body);
       res.status(201).json({
         data: newUser,
@@ -317,7 +317,7 @@ userRouter.post("/watchlist/:uId/:mId", async (req, res) => {
       relations: ["watchlist"],
     });
     const requestedMovie = await Movie.findOne({
-      where: { movieId: parseInt(req.params.mID) },
+      where: { movieId: parseInt(req.params.mId) },
     });
     if (requestedUser && requestedMovie) {
       requestedUser.watchlist.push(requestedMovie);
