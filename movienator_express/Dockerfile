@@ -21,4 +21,4 @@ COPY . .
 EXPOSE 8080
 EXPOSE 9229
 
-CMD [ "npm", "run", "test" ]
+CMD [ "npm", "run", "debug" ]
