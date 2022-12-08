@@ -12,7 +12,7 @@ beforeAll(async () => {
 
     await createTestData()
 
-    console.log("Starting Review Tests")
+    //console.log("Starting Review Tests")
 })
 
 async function createTestData(){
@@ -33,7 +33,7 @@ async function createTestData(){
 
 afterAll(async () => {
     await TestDatabaseManager.getInstance().resetTestDatabase()
-    console.log("Finishing Review Test")
+    //console.log("Finishing Review Test")
 })
 
 describe("ReviewTests",() => {

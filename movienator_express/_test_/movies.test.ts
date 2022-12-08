@@ -17,7 +17,7 @@ beforeAll(async () => {
 
     await createTestData()
 
-    console.log("Starting Movie Tests")
+    //console.log("Starting Movie Tests")
 })
 
 async function createTestData(){
@@ -79,7 +79,7 @@ async function createTestData(){
 
 afterAll(async () => {
     await TestDatabaseManager.getInstance().resetTestDatabase()
-    console.log("Finishing Movie Test")
+    //console.log("Finishing Movie Test")
 })
 
 describe("MovieTests",() => {
@@ -235,32 +235,208 @@ describe("MovieTests",() => {
     })
 
     it("getMoviesDateRange", async ()=>{
-        //200 Code
-        //filter correct
-        //order correct
-        //Reviews, Actors, Genres filled
+        let movie1: Movie = await Movie.findOne({where:{movieId: 1}})
+        let movie2: Movie = await Movie.findOne({where:{movieId: 2}})
+        let movie3: Movie = await Movie.findOne({where:{movieId: 3}})
+        movie1.releaseDate = new Date('2022-01-01')
+        movie2.releaseDate = new Date('2022-03-03')
+        movie3.releaseDate = new Date('2022-05-05')
+        await movie1.save()
+        await movie2.save()
+        await movie3.save()
+
+        let dateMin = new Date('2022-02-02')
+        let dateMax = new Date('2022-06-06')
+        let response = await request(app)
+            .get(`/movie/date/${dateMin}/${dateMax}`)
+        expect(response.statusCode).toBe(200)
+        let movies: Movie[] = response.body.data as Movie[]
+        expect(movies.length).toBe(2)
+        expect(movies.at(0).movieId).toBe(2)
+        expect(movies.at(0).actors.length).toBeGreaterThanOrEqual(1)
+        expect(movies.at(1).movieId).toBe(3)
     })
 
-    it("getMoviesDateRangeBadData", async ()=>{
-        //500 Code
+    it("getMoviesDateRangeBadDate1", async ()=>{
+        let dateMin = new Date('2022-02-02')
+        let response = await request(app)
+            .get(`/movie/date/${dateMin}/blabla`)
+        expect(response.statusCode).toBe(500)
+    })
+
+    it("getMoviesDateRangeBadDate2", async ()=>{
+        let dateMax = new Date('2022-02-02')
+        let response = await request(app)
+            .get(`/movie/date/blabla/${dateMax}`)
+        expect(response.statusCode).toBe(500)
+    })
+
+    it("getMoviesDateRangeWrongOrder", async ()=>{
+        let dateMin = new Date('2022-02-02')
+        let dateMax = new Date('2022-06-06')
+        let response = await request(app)
+            .get(`/movie/date/${dateMax}/${dateMin}`)
+        expect(response.statusCode).toBe(500)
     })
 
     it("getMoviesBySearchWord", async ()=>{
-        //200 Code
-        //filter correct
-        //order correct
-        //Reviews, Actors, Genres filled
+        let response = await request(app)
+            .get('/movie/name/b')
+        expect(response.statusCode).toBe(200)
+        let movies: Movie[] = response.body.data as Movie[]
+        expect(movies.length).toBe(2)
+        expect(movies.at(0).movieId).toBe(2)
+        expect(movies.at(0).actors.length).toBeGreaterThanOrEqual(1)
+        expect(movies.at(1).movieId).toBe(3)
+    })
+
+    it("getMoviesBySearchWordNoResults", async ()=>{
+        let response = await request(app)
+            .get('/movie/name/xxx')
+        expect(response.statusCode).toBe(200)
+        let movies: Movie[] = response.body.data as Movie[]
+        expect(movies.length).toBe(0)
     })
 
     it("getMoviesByMinRating", async ()=>{
-        //200 Code
-        //filter correct
-        //order correct
-        //Reviews, Actors, Genres filled
+        let user2 = User.create({
+            firstName: "Maggus",
+            lastName: "Rühl",
+            userName: "Roswita",
+            password: "pw",
+            comment: "Schwer und falsch",
+            birthday: new Date(),
+            following: [],
+            followers: [],
+        });
+        await user2.save()
+        let user3 = User.create({
+            firstName: "Maggus",
+            lastName: "Rühl",
+            userName: "Roswita",
+            password: "pw",
+            comment: "Schwer und falsch",
+            birthday: new Date(),
+            following: [],
+            followers: [],
+        });
+        await user3.save()
+        //3 Users now in database 1,2,3
+        //3 Movies now in database 1,2,3
+
+        {
+            let review1: Review = Review.create({
+                reviewMovieMovieId: 1,
+                reviewUserUserId: 1,
+                title: "Good",
+                content: "Was good",
+                rating: 1,
+                lastUpdated: new Date()
+            })
+            await review1.save()
+            let review2: Review = Review.create({
+                reviewMovieMovieId: 1,
+                reviewUserUserId: 2,
+                title: "Good",
+                content: "Was good",
+                rating: 2,
+                lastUpdated: new Date()
+            })
+            await review2.save()
+            let review3: Review = Review.create({
+                reviewMovieMovieId: 1,
+                reviewUserUserId: 3,
+                title: "Good",
+                content: "Was good",
+                rating: 3,
+                lastUpdated: new Date()
+            })
+            await review3.save()
+        }
+        // Movie 1 avg rating now 2
+        {
+            let review1: Review = Review.create({
+                reviewMovieMovieId: 2,
+                reviewUserUserId: 1,
+                title: "Good",
+                content: "Was good",
+                rating: 3,
+                lastUpdated: new Date()
+            })
+            await review1.save()
+            let review2: Review = Review.create({
+                reviewMovieMovieId: 2,
+                reviewUserUserId: 2,
+                title: "Good",
+                content: "Was good",
+                rating: 3,
+                lastUpdated: new Date()
+            })
+            await review2.save()
+            let review3: Review = Review.create({
+                reviewMovieMovieId: 2,
+                reviewUserUserId: 3,
+                title: "Good",
+                content: "Was good",
+                rating: 4,
+                lastUpdated: new Date()
+            })
+            await review3.save()
+        }
+        // Movie 2 avg rating 3,3
+        {
+            let review1: Review = Review.create({
+                reviewMovieMovieId: 3,
+                reviewUserUserId: 1,
+                title: "Good",
+                content: "Was good",
+                rating: 5,
+                lastUpdated: new Date()
+            })
+            await review1.save()
+            let review2: Review = Review.create({
+                reviewMovieMovieId: 2,
+                reviewUserUserId: 2,
+                title: "Good",
+                content: "Was good",
+                rating: 5,
+                lastUpdated: new Date()
+            })
+            await review2.save()
+            let review3: Review = Review.create({
+                reviewMovieMovieId: 2,
+                reviewUserUserId: 3,
+                title: "Good",
+                content: "Was good",
+                rating: 5,
+                lastUpdated: new Date()
+            })
+            await review3.save()
+        }
+        //Movie 3 rating 5
+
+        //1 -> 2; 2 -> 3,3; 3 -> 5
+        let response = await request(app)
+            .get('/movie/rating/3')
+        expect(response.statusCode).toBe(200)
+        let movies: Movie[] = response.body.data as Movie[]
+        expect(movies.length).toBe(2)
+        expect(movies.at(0).movieId).toBe(2)
+        expect(movies.at(1).movieId).toBe(3)
+        expect(movies.at(0).actors.length).toBeGreaterThanOrEqual(1)
+        expect(movies.at(0).reviews.length).toBe(3)
     })
 
-    it("getMoviesByMinRatingBadData", async ()=>{
-        //500
+    it("getMoviesByMinRatingNoNumber", async ()=>{
+        let response = await request(app)
+            .get('/movie/rating/blabla')
+        expect(response.statusCode).toBe(500)
+    })
+
+    it("getMoviesByMinRatingNegativeNumber", async ()=>{
+        let response = await request(app)
+            .get('/movie/rating/-1')
+        expect(response.statusCode).toBe(500)
     })
 
     it("getMoviesByGenreId", async ()=>{

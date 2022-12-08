@@ -10,7 +10,7 @@ beforeAll(async () => {
 
     await createTestData()
 
-    console.log("Starting Genre Tests")
+    //console.log("Starting Genre Tests")
 })
 
 async function createTestData(){
@@ -26,7 +26,7 @@ async function createTestData(){
 
 afterAll(async () => {
     await TestDatabaseManager.getInstance().resetTestDatabase()
-    console.log("Finishing Genre Tests")
+    //console.log("Finishing Genre Tests")
 })
 
 describe("Testing Genre getAll",() => {

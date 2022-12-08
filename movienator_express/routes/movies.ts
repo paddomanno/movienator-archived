@@ -170,11 +170,16 @@ movieRouter.get('/time/max/:max', async (req, res) => {
 //Gets all movies released in this time span
 movieRouter.get('/date/:min/:max', async (req, res) => {
   try {
+    let dateMin: Date = new Date(req.params.min)
+    let dateMax: Date = new Date(req.params.max)
+    if(isNaN(dateMin.getTime()) || isNaN(dateMax.getTime()) || dateMax.getTime() < dateMin.getTime()){
+      throw "Not a valid data range"
+    }
     const movies: Movie[] = await Movie.find({
       where: {
         releaseDate: Between<Date>(
-          req.params.min as Date,
-          req.params.max as Date
+          dateMin,
+          dateMax
         ),
       },
       relations: { reviews: true, actors: true , genres: true},
@@ -209,6 +214,9 @@ movieRouter.get('/name/:word', async (req, res) => {
 //Gets all movies with a min average rating of x
 movieRouter.get('/rating/:min', async (req, res) => {
   try {
+    if(isNaN(+req.params.min) || parseInt(req.params.min) < 0){
+      throw "Not a valid number"
+    }
     const movies: Movie[] = await Movie.find({
       relations: { reviews: true, actors: true , genres: true},
     });
@@ -219,7 +227,7 @@ movieRouter.get('/rating/:min', async (req, res) => {
         sumReviews += review.rating;
         numReviews++;
       });
-      return numReviews / sumReviews > parseInt(req.params.min);
+      return sumReviews / numReviews > parseInt(req.params.min);
     });
     minMovies.sort((a, b) => a.title.localeCompare(b.title));
     res.status(200).json({
