@@ -18,7 +18,7 @@ beforeAll(async () => {
     await createTestData()
 
     //console.log("Starting Movie Tests")
-})
+},(10_000))
 
 async function createTestData(){
     let actor1: Actor = Actor.create({
@@ -395,7 +395,7 @@ describe("MovieTests",() => {
             })
             await review1.save()
             let review2: Review = Review.create({
-                reviewMovieMovieId: 2,
+                reviewMovieMovieId: 3,
                 reviewUserUserId: 2,
                 title: "Good",
                 content: "Was good",
@@ -404,7 +404,7 @@ describe("MovieTests",() => {
             })
             await review2.save()
             let review3: Review = Review.create({
-                reviewMovieMovieId: 2,
+                reviewMovieMovieId: 3,
                 reviewUserUserId: 3,
                 title: "Good",
                 content: "Was good",
@@ -439,25 +439,73 @@ describe("MovieTests",() => {
         expect(response.statusCode).toBe(500)
     })
 
+
+    //Existing Genre is: 1 - Fantasy
     it("getMoviesByGenreId", async ()=>{
-        //200 Code
-        //filter correct
-        //order correct
-        //Reviews, Actors, Genres filled
+        let response = await request(app)
+            .get('/movie/genre/1')
+        expect(response.statusCode).toBe(200)
+        let movies: Movie[] = response.body.data as Movie[]
+        expect(movies.length).toBe(1)
+        expect(movies.at(0).actors.length).toBeGreaterThanOrEqual(1)
+        expect(movies.at(0).genres.length).toBe(1)
+        expect(movies.at(0).reviews.length).toBeGreaterThanOrEqual(1)
     })
 
     it("getMoviesByGenreName", async ()=>{
-        //200 Code
-        //filter correct
-        //order correct
-        //Reviews, Actors, Genres filled
+        let response = await request(app)
+            .get('/movie/genre/Fantasy')
+        expect(response.statusCode).toBe(200)
+        let movies: Movie[] = response.body.data as Movie[]
+        expect(movies.length).toBe(1)
+        expect(movies.at(0).actors.length).toBeGreaterThanOrEqual(1)
+        expect(movies.at(0).genres.length).toBe(1)
+        expect(movies.at(0).reviews.length).toBeGreaterThanOrEqual(1)
+    })
+
+    it("getMovieByGenreWithNonExistId", async ()=>{
+        let response = await request(app)
+            .get('/movie/genre/10')
+        expect(response.statusCode).toBe(404)
+    })
+
+    it("getMovieByGenreWithNonExistName", async ()=>{
+        let response = await request(app)
+            .get('/movie/genre/blabla')
+        expect(response.statusCode).toBe(404)
     })
 
     it("getMoviesMutualWatchlist", async ()=>{
-        //200 Code
-        //filter correct
-        //order correct
-        //Reviews, Actors, Genres filled
+        let user1: User = await User.findOne({where:{userId: 1}})
+        let user2: User = await User.findOne({where:{userId: 2}})
+        let movie1: Movie = await Movie.findOne({where:{movieId: 1}})
+        let movie2: Movie = await Movie.findOne({where:{movieId: 2}})
+        user1.watchlist = [movie1,movie2]
+        user2.watchlist = [movie1]
+        await user1.save()
+        await user2.save()
+
+        let response = await request(app)
+            .get('/movie/mutual/watchlist/1/2')
+        expect(response.statusCode).toBe(200)
+        let movies: Movie[] = response.body.data as Movie[]
+        expect(movies.length).toBe(1)
+        expect(movies.at(0).movieId).toBe(1)
+        expect(movies.at(0).actors.length).toBeGreaterThanOrEqual(1)
+        expect(movies.at(0).genres.length).toBe(1)
+        expect(movies.at(0).reviews.length).toBeGreaterThanOrEqual(1)
+    })
+
+    it("getMoviesMutualReview", async ()=>{let user1: User = await User.findOne({where:{userId: 1}})
+        let response = await request(app)
+            .get('/movie/mutual/review/1/2')
+        expect(response.statusCode).toBe(200)
+        let movies: Movie[] = response.body.data as Movie[]
+        expect(movies.length).toBe(3)
+        expect(movies.at(0).movieId).toBe(1)
+        expect(movies.at(0).actors.length).toBeGreaterThanOrEqual(1)
+        expect(movies.at(0).genres.length).toBe(1)
+        expect(movies.at(0).reviews.length).toBeGreaterThanOrEqual(1)
     })
 
     it("postNewMovie", async ()=>{
@@ -465,18 +513,137 @@ describe("MovieTests",() => {
         actor2.name = "Maggus"
         actor2.actorId = 2
 
-        //201 Code
-        //Actors and Genres automatically set
+        let genre2: Genre = new Genre()
+        genre2.genreId = 2
+        genre2.genreName = "Krimi"
+
+        let movie4: Movie = Movie.create({
+            movieId: 4,
+            title : "Aaaa",
+            adultContent : false,
+            actors : [actor2],
+            genres : [genre2],
+            reviews: []
+        })
+
+        let response = await request(app)
+            .post('/movie/')
+            .send(movie4)
+        expect(response.statusCode).toBe(201)
+
+        let newMovie = await Movie.findOne({
+            where:{movieId: 4},
+            relations:{genres: true,actors: true, reviews: true}
+        })
+        expect(newMovie.movieId).toBe(4)
+        expect(newMovie.actors.length).toBe(1)
+        expect(newMovie.genres.length).toBe(1)
+    })
+
+    it("postWithWrongData", async ()=>{
+        let movie5: Movie = Movie.create({
+            movieId: 5,
+            title : "Aaaa",
+            //Adult content missing
+            actors : [],
+            genres : [],
+            reviews: []
+        })
+
+        let response = await request(app)
+            .post('/movie/')
+            .send(movie5)
+        expect(response.statusCode).toBe(500)
+    })
+
+
+    it("postExistingRelationsNotOverwritten", async ()=>{
+        let movie1: Movie = Movie.create({
+            movieId: 1,
+            title : "Aaaa",
+            adultContent : false,
+            actors : [],
+            genres : [],
+            reviews: []
+        })
+
+        let response = await request(app)
+            .post('/movie/')
+            .send(movie1)
+        expect(response.statusCode).toBe(201)
+
+        let movie: Movie = await Movie.findOne({
+            where:{movieId: 1},
+            relations:{genres: true, actors: true, reviews: true}
+            })
+        expect(movie.reviews.length).toBeGreaterThanOrEqual(1)
+        expect(movie.actors.length).toBeGreaterThanOrEqual(1)
+        expect(movie.genres.length).toBeGreaterThanOrEqual(1)
     })
 
     it("updateMovie", async ()=>{
-        //201 Code
-        //Actors and Genres not updated
+        let movie1: Movie = Movie.create({
+            movieId: 1,
+            title : "Aaaa",
+            adultContent : true,
+            actors : [],
+            genres : [],
+            reviews: []
+        })
+
+        let response = await request(app)
+            .put('/movie/')
+            .send(movie1)
+        expect(response.statusCode).toBe(201)
+
+        let movie: Movie = await Movie.findOne({
+            where:{movieId: 1},
+            relations:{genres: true, actors: true, reviews: true}
+        })
+        expect(movie.adultContent).toBe(true)
+        expect(movie.reviews.length).toBeGreaterThanOrEqual(1)
+        expect(movie.actors.length).toBeGreaterThanOrEqual(1)
+        expect(movie.genres.length).toBeGreaterThanOrEqual(1)
+    })
+
+    it("updateMovieWrongId", async ()=>{
+        let movie1: Movie = Movie.create({
+            movieId: 10,
+            title : "Aaaa",
+            adultContent : true,
+            actors : [],
+            genres : [],
+            reviews: []
+        })
+
+        let response = await request(app)
+            .put('/movie/')
+            .send(movie1)
+        expect(response.statusCode).toBe(404)
     })
 
     it("deleteMovie", async ()=>{
-        //201 Code
-        //Actors and Genres not updated
+        let movieBefore: Movie = await Movie.findOne({where:{movieId: 4}})
+        expect(movieBefore.movieId).toBe(4)
+
+        let response = await request(app)
+            .delete('/movie/4')
+        expect(response.statusCode).toBe(204)
+
+        let movieAfter: Movie = await Movie.findOne({where:{movieId: 4}})
+        expect(movieAfter).toBeNull()
+    })
+
+    it("deleteMovieNonExsistent", async ()=>{
+        let response = await request(app)
+            .delete('/movie/40')
+        expect(response.statusCode).toBe(404)
+    })
+
+    it("deleteMovieNan", async ()=>{
+        let response = await request(app)
+            .delete('/movie/blabla')
+        expect(response.statusCode).toBe(500)
     })
 
 })

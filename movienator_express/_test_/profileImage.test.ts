@@ -8,7 +8,7 @@ beforeAll(async () => {
     await createTestData()
 
     //console.log("Starting ProfileImage Tests")
-})
+},(10_000))
 
 async function createTestData(){
 
