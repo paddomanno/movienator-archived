@@ -15,7 +15,7 @@ reviewRouter.get('/all', async (req, res) => {
     });
     if (allReviews) {
       allReviews.sort(
-        (a, b) => Number(a.lastUpdated) - Number(b.lastUpdated)
+        (a, b) => Number(b.lastUpdated) - Number(a.lastUpdated)
       );
       res.status(200).json({
         data: allReviews,
@@ -31,16 +31,17 @@ reviewRouter.get('/all', async (req, res) => {
 
 //Gets the one specific review of that user to that movie
 //TODO implement
-reviewRouter.get('/one/:mId/:uId',async (req,res)=>{
+reviewRouter.get('/one/:mId/:uId', async (req, res) => {
   try {
     const requestedReview = await Review.findOne({
       where: {
         reviewMovieMovieId: parseInt(req.params.mId),
         reviewUserUserId: parseInt(req.params.uId),
       },
+      relations: { review_movie: true, review_user: true },
     });
     if (requestedReview) {
-      res.status(204).json({
+      res.status(200).json({
         data: requestedReview,
       });
     } else {
@@ -50,19 +51,23 @@ reviewRouter.get('/one/:mId/:uId',async (req,res)=>{
     console.log(er);
     res.status(500).json();
   }
-})
+});
 
 //Gets all reviews to that movie, ordered by the last Updated value
 reviewRouter.get('/movie/:id', async (req, res) => {
   try {
     const requestedMovie = await Movie.findOne({
       where: { movieId: parseInt(req.params.id) },
-      relations: { reviews: true },
+      relations: [
+        'reviews',
+        'reviews.review_movie',
+        'reviews.review_user',
+      ],
     });
 
     if (requestedMovie) {
       const reviews = requestedMovie.reviews.sort(
-        (a, b) => Number(a.lastUpdated) - Number(b.lastUpdated)
+        (a, b) => Number(b.lastUpdated) - Number(a.lastUpdated)
       );
       res.status(200).json({
         data: reviews,
@@ -81,12 +86,16 @@ reviewRouter.get('/user/own/:id', async (req, res) => {
   try {
     const requestedUser = await User.findOne({
       where: { userId: parseInt(req.params.id) },
-      relations: { reviews: true },
+      relations: [
+        'reviews',
+        'reviews.review_movie',
+        'reviews.review_user',
+      ],
     });
 
     if (requestedUser) {
       const reviews = requestedUser.reviews.sort(
-        (a, b) => Number(a.lastUpdated) - Number(b.lastUpdated)
+        (a, b) => Number(b.lastUpdated) - Number(a.lastUpdated)
       );
       res.status(200).json({
         data: reviews,
@@ -121,7 +130,7 @@ reviewRouter.get('/user/following/:id', async (req, res) => {
         []
       );
       reviews.sort(
-        (a, b) => Number(a.lastUpdated) - Number(b.lastUpdated)
+        (a, b) => Number(b.lastUpdated) - Number(a.lastUpdated)
       );
       res.status(200).json({
         data: reviews,
@@ -140,7 +149,7 @@ reviewRouter.get('/user/following/:id', async (req, res) => {
 // TODO: Error handling (for example '0' as :time)
 reviewRouter.get('/user/following/:id/:time', async (req, res) => {
   try {
-    const timestamp : number = Date.parse(req.params.time);
+    const timestamp: number = Date.parse(req.params.time);
     if (isNaN(timestamp)) {
       throw new Error('timestamp is NaN');
     }
@@ -171,7 +180,7 @@ reviewRouter.get('/user/following/:id/:time', async (req, res) => {
         return rev.lastUpdated.valueOf() < timestamp;
       });
       filteredReviews.sort(
-        (a, b) => Number(a.lastUpdated) - Number(b.lastUpdated)
+        (a, b) => Number(b.lastUpdated) - Number(a.lastUpdated)
       );
       res.status(200).json({
         data: filteredReviews,
@@ -207,7 +216,7 @@ reviewRouter.get('/time/:time', async (req, res) => {
         return rev.lastUpdated.valueOf() < timestamp;
       });
       filteredReviews.sort(
-        (a, b) => Number(a.lastUpdated) - Number(b.lastUpdated)
+        (a, b) => Number(b.lastUpdated) - Number(a.lastUpdated)
       );
       res.status(200).json({
         data: filteredReviews,
