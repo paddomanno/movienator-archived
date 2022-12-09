@@ -25,7 +25,7 @@ async function getMoviesToIds(ids: number[], maxAmount: number): Promise<Movie[]
     let resMovies: Movie[] = []
     for(const id of ids){
         let query: string = BASE_URL+`/movie/${id}?`+`api_key=${API_KEY}`
-        console.log(query)
+        //console.log(query)
         let response = await axios.get(query, { headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' }, params: { trophies: true } })
         if(response.status == 200){
             let genres: Genre[] = []
@@ -47,7 +47,7 @@ async function getMoviesToIds(ids: number[], maxAmount: number): Promise<Movie[]
             oneMovie.actors= []
             oneMovie.reviews= []
             oneMovie.genres= genres
-            if(resMovies.length <= maxAmount) {
+            if(resMovies.length < maxAmount) {
                 resMovies.push(oneMovie)
             }
         }
@@ -68,7 +68,7 @@ async function getMoviesToQuery(query: string, maxAmount: number):Promise<Movie[
             movieIds.push(result.id)
         })
     }
-    return await getMoviesToIds(movieIds,20)
+    return await getMoviesToIds(movieIds,maxAmount)
 }
 
 //Returns a list of movies that fit this search word
@@ -103,7 +103,8 @@ externRouter.get("/actor/movie/:id", async (req,res)=>{
                 let oneActor: Actor = new Actor()
                 oneActor.actorId = castMember.id
                 oneActor.name = castMember.original_name
-                if (resActors.length <= MAX_ACTORS) {
+                oneActor.movies = []
+                if (resActors.length < MAX_ACTORS) {
                     resActors.push(oneActor)
                 }
             })
