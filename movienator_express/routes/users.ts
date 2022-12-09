@@ -1,11 +1,11 @@
-import Movie from "../entity/movie";
-import User from "../entity/user";
-const expressUser = require("express");
+import Movie from '../entity/movie';
+import User from '../entity/user';
+const expressUser = require('express');
 const userRouter = expressUser.Router();
 
 //Gets all users from the database
-userRouter.get("/all", async (req, res) => {
-  console.log("Requested all users");
+userRouter.get('/all', async (req, res) => {
+  // console.log("Requested all users")
   try {
     const allUsers = await User.find({
       relations: {
@@ -29,8 +29,8 @@ userRouter.get("/all", async (req, res) => {
 });
 
 //Get the user with that id
-userRouter.get("/one/id/:id", async (req, res) => {
-  console.log("User with id" + parseInt(req.params.id) + "requested");
+userRouter.get('/one/id/:id', async (req, res) => {
+  // console.log("User with id" + parseInt(req.params.id) + "requested")
   try {
     const resultUser = await User.findOne({
       where: { userId: parseInt(req.params.id) },
@@ -54,10 +54,10 @@ userRouter.get("/one/id/:id", async (req, res) => {
 });
 
 //Get the user with that username (should only be one)
-userRouter.get("/one/username/:username", async (req, res) => {
-  console.log(
-    "User with username" + parseInt(req.params.username) + "requested"
-  );
+userRouter.get('/one/username/:username', async (req, res) => {
+  // console.log(
+  //   "User with username" + parseInt(req.params.username) + "requested"
+  // )
   try {
     const resultUser = await User.findOne({
       where: { userName: req.params.username },
@@ -81,8 +81,8 @@ userRouter.get("/one/username/:username", async (req, res) => {
 });
 
 //Get all the users where the username is fitting the search word (might be more than 1)
-userRouter.get("/username/:word", async (req, res) => {
-  console.log("Searched for users whose name contains " + req.params.word);
+userRouter.get('/username/:word', async (req, res) => {
+  // console.log("Searched for users whose name contains " + req.params.word)
   try {
     const allUsers = await User.find({
       relations: {
@@ -97,7 +97,11 @@ userRouter.get("/username/:word", async (req, res) => {
       let query: string = req.params.word;
       allUsers.forEach((currentUser) => {
         //If the query is a substring of the current users username
-        if (currentUser.userName.toLowerCase().includes(query.toLowerCase())) {
+        if (
+          currentUser.userName
+            .toLowerCase()
+            .includes(query.toLowerCase())
+        ) {
           matchingUsers.push(currentUser);
         }
       });
@@ -114,19 +118,19 @@ userRouter.get("/username/:word", async (req, res) => {
 });
 
 //Gets all the users that are following a single user
-userRouter.get("/followers/:id", async (req, res) => {
-  console.log(
-    "All followers of user with id" + parseInt(req.params.id) + "requested"
-  );
+userRouter.get('/followers/:id', async (req, res) => {
+  // console.log(
+  //   "All followers of user with id" + parseInt(req.params.id) + "requested"
+  // )
   try {
     const requestedUser = await User.findOne({
       where: { userId: parseInt(req.params.id) },
       relations: [
-        "followers",
-        "followers.reviews",
-        "followers.following",
-        "followers.followers",
-        "followers.watchlist",
+        'followers',
+        'followers.reviews',
+        'followers.following',
+        'followers.followers',
+        'followers.watchlist',
       ],
     });
     if (requestedUser) {
@@ -142,21 +146,21 @@ userRouter.get("/followers/:id", async (req, res) => {
 });
 
 //Gets all the users that a single user is following
-userRouter.get("/following/:id", async (req, res) => {
-  console.log(
-    "All users that the user with id" +
-      parseInt(req.params.id) +
-      " follows requested"
-  );
+userRouter.get('/following/:id', async (req, res) => {
+  // console.log(
+  //   "All users that the user with id" +
+  //     parseInt(req.params.id) +
+  //     " follows requested"
+  // )
   try {
     const requestedUser = await User.findOne({
       where: { userId: parseInt(req.params.id) },
       relations: [
-        "following",
-        "following.reviews",
-        "following.following",
-        "following.followers",
-        "following.watchlist",
+        'following',
+        'following.reviews',
+        'following.following',
+        'following.followers',
+        'following.watchlist',
       ],
     });
     if (requestedUser) {
@@ -172,25 +176,25 @@ userRouter.get("/following/:id", async (req, res) => {
 });
 
 //Gets all the users that the one user is following and have reviewed the movie
-userRouter.get("/following/:id/rated/:mId", async (req, res) => {
-  console.log(
-    "All users that the user with ID " +
-      parseInt(req.params.id) +
-      " is following and that have reviewed the movie with ID " +
-      req.params.mId +
-      " requested"
-  );
+userRouter.get('/following/:id/rated/:mId', async (req, res) => {
+  // console.log(
+  //   "All users that the user with ID " +
+  //     parseInt(req.params.id) +
+  //     " is following and that have reviewed the movie with ID " +
+  //     req.params.mId +
+  //     " requested"
+  // )
 
   try {
     const resultUser = await User.findOne({
       where: { userId: parseInt(req.params.id) },
       relations: [
-        "following",
-        "following.reviews",
-        "following.reviews.review_movie",
-        "following.following",
-        "following.followers",
-        "following.watchlist",
+        'following',
+        'following.reviews',
+        'following.reviews.review_movie',
+        'following.following',
+        'following.followers',
+        'following.watchlist',
       ],
     });
     const resultMovie = await Movie.findOne({
@@ -203,7 +207,9 @@ userRouter.get("/following/:id/rated/:mId", async (req, res) => {
       resultUser.following.forEach((currentUser) => {
         //Iterate over all reviews of the current user
         currentUser.reviews.forEach((currentReview) => {
-          if (currentReview.review_movie.movieId === resultMovie.movieId)
+          if (
+            currentReview.review_movie.movieId === resultMovie.movieId
+          )
             matchingUsers.push(currentUser);
         });
       });
@@ -219,24 +225,24 @@ userRouter.get("/following/:id/rated/:mId", async (req, res) => {
 });
 
 //Gets all the users that the one user is following and have the movie on their watchlist
-userRouter.get("/following/:id/watchlist/:mId", async (req, res) => {
-  console.log(
-    "All users that the user with ID " +
-      parseInt(req.params.id) +
-      " is following and that have the movie with ID " +
-      req.params.mId +
-      " on their watchlist requested"
-  );
+userRouter.get('/following/:id/watchlist/:mId', async (req, res) => {
+  // console.log(
+  //   "All users that the user with ID " +
+  //     parseInt(req.params.id) +
+  //     " is following and that have the movie with ID " +
+  //     req.params.mId +
+  //     " on their watchlist requested"
+  // )
 
   try {
     const resultUser = await User.findOne({
       where: { userId: parseInt(req.params.id) },
       relations: [
-        "following",
-        "following.watchlist",
-        "following.following",
-        "following.followers",
-        "following.reviews",
+        'following',
+        'following.watchlist',
+        'following.following',
+        'following.followers',
+        'following.reviews',
       ],
     });
     const resultMovie = await Movie.findOne({
@@ -265,7 +271,7 @@ userRouter.get("/following/:id/watchlist/:mId", async (req, res) => {
 });
 
 //Insert a new User, userId should be NULL when inserting
-userRouter.post("/", async (req, res) => {
+userRouter.post('/', async (req, res) => {
   try {
     if (req.body.userId == null) {
       const newUser: User = await User.save(req.body);
@@ -283,11 +289,11 @@ userRouter.post("/", async (req, res) => {
 
 //User a is now following user b
 //Only "following" should need to be updated. "followers" on b should be updated automatically through ORM
-userRouter.post("/follow/:aId/:bId", async (req, res) => {
+userRouter.post('/follow/:aId/:bId', async (req, res) => {
   try {
     const userA = await User.findOne({
       where: { userId: parseInt(req.params.aId) },
-      relations: ["following"],
+      relations: ['following'],
     });
     const userB = await User.findOne({
       where: { userId: parseInt(req.params.bId) },
@@ -309,11 +315,11 @@ userRouter.post("/follow/:aId/:bId", async (req, res) => {
 });
 
 //Adds the movie with that Id to the watchlist of that user
-userRouter.post("/watchlist/:uId/:mId", async (req, res) => {
+userRouter.post('/watchlist/:uId/:mId', async (req, res) => {
   try {
     const requestedUser = await User.findOne({
       where: { userId: parseInt(req.params.uId) },
-      relations: ["watchlist"],
+      relations: ['watchlist'],
     });
     const requestedMovie = await Movie.findOne({
       where: { movieId: parseInt(req.params.mId) },
@@ -323,7 +329,8 @@ userRouter.post("/watchlist/:uId/:mId", async (req, res) => {
         requestedUser.watchlist = [];
       }
       requestedUser.watchlist.push(requestedMovie);
-      await requestedUser.save();
+      await requestedUser.save(); //TODO: question: Is it the right way to save the user like that ?
+      //Ja, die watchlist wird eh nur im user gespeichert.
 
       res.status(201).json();
     } else {
@@ -336,7 +343,7 @@ userRouter.post("/watchlist/:uId/:mId", async (req, res) => {
 });
 
 //Updates the User send in the body. Do NOT update the primary key or Relations
-userRouter.put("/", async (req, res) => {
+userRouter.put('/', async (req, res) => {
   try {
     let updatedUser = req.body as User;
     const requestedUser = await User.findOne({
@@ -346,11 +353,11 @@ userRouter.put("/", async (req, res) => {
     if (requestedUser) {
       Object.keys(updatedUser).forEach((key) => {
         if (
-          key != "userId" &&
-          key != "reviews" &&
-          key != "following" &&
-          key != "followers" &&
-          key != "watchlist"
+          key != 'userId' &&
+          key != 'reviews' &&
+          key != 'following' &&
+          key != 'followers' &&
+          key != 'watchlist'
         ) {
           requestedUser[key] = req.body[key];
         }
@@ -370,13 +377,14 @@ userRouter.put("/", async (req, res) => {
 
 //Delete the user with that id.
 //Make sure the reviews are delete too and he is removed from all following lists (play around with cascade annotation)
-userRouter.delete("/:id", async (req, res) => {
+userRouter.delete('/:id', async (req, res) => {
   try {
     const requestedUser = await User.findOne({
       where: { userId: parseInt(req.params.id) },
     });
     if (requestedUser) {
-      await requestedUser.remove();
+      await requestedUser.remove(); //TODO: Add fitting cascade option
+      //Das einzige was wir mitlöschen wollen sind ja die reviews und da ist im ORM schon onDelete: CASCADE gesetzt
       res.status(204).json();
     } else {
       res.status(404).json();
@@ -388,14 +396,16 @@ userRouter.delete("/:id", async (req, res) => {
 
 //User a is now no more following user b
 //Only "following" should need to be updated. "followers" on b should be updated automatically through ORM
-userRouter.delete("/follow/:aId/:bId", async (req, res) => {
+userRouter.delete('/follow/:aId/:bId', async (req, res) => {
   try {
     const userA = await User.findOne({
       where: { userId: parseInt(req.params.aId) },
-      relations: ["following"],
+      relations: ['following'],
     });
     const userB = await User.findOne({
       where: { userId: parseInt(req.params.bId) },
+      //TODO: TypeORM question: Do I need to load everything from user B in order to add him correctly to "following" of user A ?
+      //Siehe oben. Ich glaube nicht. Man braucht ja von userB eig nur die Id
     });
     if (userA && userB) {
       //TODO: Es gibt glaub ich schönere Wege das zu machen. Schau dir mal die filter() funktion von arrays in TS an
@@ -405,7 +415,8 @@ userRouter.delete("/follow/:aId/:bId", async (req, res) => {
           break;
         }
       }
-      await userA.save();
+      await userA.save(); //TODO: question: Is it the right way to save the user like that ?
+      //Siehe oben. Denke ja, müssen testen. Ansonsten auf beiden Seiten ändern
       res.status(204).json({
         data: userA,
       });
@@ -419,24 +430,30 @@ userRouter.delete("/follow/:aId/:bId", async (req, res) => {
 });
 
 //Deletes the movie with that Id from that users watchlist
-userRouter.delete("/watchlist/:uId/:mId", async (req, res) => {
+userRouter.delete('/watchlist/:uId/:mId', async (req, res) => {
   try {
     const requestedUser = await User.findOne({
       where: { userId: parseInt(req.params.uId) },
-      relations: ["watchlist"],
+      relations: ['watchlist'],
     });
     const requestedMovie = await Movie.findOne({
       where: { movieId: parseInt(req.params.mId) },
+      //TODO: TypeORM question: Do I need to load everything from user B in order to add him correctly to "following" of user A ?
+      //Siehe oben. Ich glaube nicht. Man braucht ja von movie eig nur die Id
     });
     //TODO: Es gibt glaub ich schönere Wege das zu machen. Schau dir mal die filter() funktion von arrays in TS an
     if (requestedUser && requestedMovie) {
       for (let i = 0; i < requestedUser.watchlist.length; i++) {
-        if (requestedUser.watchlist[i].movieId === requestedMovie.movieId) {
+        if (
+          requestedUser.watchlist[i].movieId ===
+          requestedMovie.movieId
+        ) {
           requestedUser.watchlist.splice(i, 1);
           break;
         }
       }
-      await requestedUser.save();
+      await requestedUser.save(); //TODO: question: Is it the right way to save the user like that ?
+      //jio
       res.status(204).json();
     } else {
       res.status(404).json();
