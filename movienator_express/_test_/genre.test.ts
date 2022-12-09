@@ -11,7 +11,7 @@ beforeAll(async () => {
     await createTestData()
 
     //console.log("Starting Genre Tests")
-})
+},(10_000))
 
 async function createTestData(){
     let gen1: Genre = new Genre();

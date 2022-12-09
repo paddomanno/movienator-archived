@@ -8,6 +8,7 @@ import {
   MoreThanOrEqual,
 } from 'typeorm'
 import Genre from "../entity/genre"
+import Review from "../entity/review";
 
 const expressMovie = require('express')
 const movieRouter = expressMovie.Router()
@@ -243,11 +244,19 @@ movieRouter.get('/rating/:min', async (req, res) => {
 //Genre can either be the genres name or its id
 movieRouter.get('/genre/:genre', async (req, res) => {
   try {
-    const genre: Genre = await Genre.findOne({
-      where: [{ genreName: req.params.genre },
-        {genreId: parseInt(req.params.genre)}],
-      relations: ['movies','movies.genres','movies.actors','movies.reviews'],
-    })
+    let genre: Genre;
+    if(isNaN(+req.params.genre)) {
+      genre = await Genre.findOne({
+        where: {genreName: req.params.genre},
+        relations: ['movies', 'movies.genres', 'movies.actors', 'movies.reviews'],
+      })
+    }
+    else {
+      genre = await Genre.findOne({
+        where: {genreId: parseInt(req.params.genre)},
+        relations: ['movies', 'movies.genres', 'movies.actors', 'movies.reviews'],
+      })
+    }
     if(genre) {
       let movies: Movie[] = genre.movies
       movies.sort((a, b) => a.title.localeCompare(b.title))
@@ -264,9 +273,8 @@ movieRouter.get('/genre/:genre', async (req, res) => {
   }
 })
 
-//Gets all movies than the two user both have on their watchlist and haven't reviewed yet
-//TODO: "havent reviewed yet" not implemented. Maybe automatically remove movie from watchlist once it is reviewed?
-movieRouter.get('/mutual/:aId/:bId', async (req, res) => {
+//Gets all movies than the two user both have on their watchlist
+movieRouter.get('/mutual/watchlist/:aId/:bId', async (req, res) => {
   try {
     let userA = await User.findOne({
       where: { userId: parseInt(req.params.aId) },
@@ -294,6 +302,42 @@ movieRouter.get('/mutual/:aId/:bId', async (req, res) => {
   }
 })
 
+//Gets all movies that the two users have both reviewed
+movieRouter.get('/mutual/review/:aId/:bId', async (req, res) => {
+  try {
+    let userA = await User.findOne({
+      where: { userId: parseInt(req.params.aId) }
+    })
+    let userB = await User.findOne({
+      where: { userId: parseInt(req.params.bId) }
+    })
+    if (userA && userB) {
+      let userAReviews = await Review.find({
+        where: {reviewUserUserId: userA.userId},
+        relations: ["review_movie","review_movie.genres","review_movie.actors","review_movie.reviews"]
+      })
+      let userBReviews = await Review.find({
+        where: {reviewUserUserId: userB.userId},
+        relations: ["review_movie","review_movie.genres","review_movie.actors","review_movie.reviews"]
+      })
+      let resReviews = userAReviews.filter((reviewA) =>
+          userBReviews.some(
+              (reviewB) => reviewB.reviewMovieMovieId == reviewA.reviewMovieMovieId
+          )
+      )
+      let resMovies = resReviews.map(review => review.review_movie)
+      res.status(200).json({
+        data: resMovies,
+      })
+    } else {
+      res.status(404).json()
+    }
+  } catch (er) {
+    console.log(er)
+    res.status(500).json()
+  }
+})
+
 //Inserts a new movie from the body
 //First check if the movie exists already, if not, insert it
 //Actors should be set already and inserted / updated at the same time
@@ -301,8 +345,12 @@ movieRouter.get('/mutual/:aId/:bId', async (req, res) => {
 movieRouter.post('/', async (req, res?) => {
   try {
     let newMovie: Movie = req.body as Movie
-    //Hab die orm to gemacht, dass beim movie saven, alle genres und actors mit gespeichert werden
-    await Movie.save(newMovie)
+    let existingMovie: Movie = await Movie.findOne({
+      where:{movieId: newMovie.movieId}
+    })
+    if(existingMovie==null) {
+      await Movie.save(newMovie)
+    }
     newMovie = await Movie.findOne({
       where: { movieId: newMovie.movieId },
       relations: { actors: true, reviews: true , genres: true},
@@ -311,7 +359,7 @@ movieRouter.post('/', async (req, res?) => {
       data: newMovie,
     })
   } catch (er) {
-    console.log(er)
+    //console.log(er)
     res.status(500).json()
   }
 })
@@ -356,7 +404,7 @@ movieRouter.delete('/:id', async (req, res?) => {
     })
     if (movie) {
       await movie.remove()
-      res.status(204)
+      res.status(204).json()
     } else {
       res.status(404).json()
     }
