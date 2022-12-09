@@ -38,9 +38,10 @@ reviewRouter.get('/one/:mId/:uId',async (req,res)=>{
         reviewMovieMovieId: parseInt(req.params.mId),
         reviewUserUserId: parseInt(req.params.uId),
       },
+      relations: { review_movie: true, review_user: true },
     });
     if (requestedReview) {
-      res.status(204).json({
+      res.status(200).json({
         data: requestedReview,
       });
     } else {
