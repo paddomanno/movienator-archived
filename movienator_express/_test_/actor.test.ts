@@ -13,7 +13,7 @@ beforeAll(async () => {
     await createTestData()
 
     //console.log("Starting Actor Tests")
-})
+},(10_000))
 
 async function createTestData(){
     let actor1: Actor = new Actor()

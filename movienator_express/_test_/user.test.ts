@@ -19,7 +19,7 @@ beforeAll(async () => {
   await createTestData();
 
   //console.log("Starting User Tests")
-});
+}, 10_000);
 
 async function createTestData() {
   let newMovie1 = Movie.create({

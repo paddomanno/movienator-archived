@@ -25,7 +25,7 @@ beforeAll(async () => {
   }
 
   //console.log("Starting Review Tests")
-});
+}, 10_000);
 
 async function createTestData() {
   let movie: Movie = new Movie();
