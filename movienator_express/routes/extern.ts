@@ -310,11 +310,19 @@ externRouter.get("/genres", async (req,res)=>{
 
 externRouter.get("/movie/genre/:id", async (req,res)=>{
     try {
+        if(isNaN(+req.params.id)){
+            throw "Not a valid number"
+        }
         let query: string = BASE_URL + "/discover/movie?" +`with_genres=${req.params.id}`+ `&api_key=${API_KEY}`
         let resMovies = await getMoviesToQuery(query,20)
-        res.status(200).json({
-            data: resMovies
-        })
+        if(resMovies.length == 0){
+            res.status(404).json()
+        }
+        else {
+            res.status(200).json({
+                data: resMovies
+            })
+        }
     }
     catch (er){
         console.log(er)
