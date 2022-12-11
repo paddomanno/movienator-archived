@@ -2,6 +2,7 @@ import Movie from "../entity/movie";
 import Actor from "../entity/actor";
 import Review from "../entity/review";
 import Genre from "../entity/genre";
+import User from "../entity/user";
 
 const expressExtern = require("express")
 const externRouter = expressExtern.Router()
@@ -185,33 +186,42 @@ externRouter.get("/user/:uId/recommendations",async (req,res)=>{
     const MAX_DIF_REVIEWS: number = 5
     const MAX_REC_PER_REVIEW: number = 2;
     try {
-        let reviews: Review[] = await Review.find({where:{reviewUserUserId: parseInt(req.params.uId)}})
-        reviews.sort((a,b)=>b.rating - a.rating)
-        let movieIds:number[] = []
-
-        //Get recommendations for the top-rated movies of that user
-        let i:number = 0;
-        while (i < reviews.length && i < MAX_DIF_REVIEWS){
-            let query: string = BASE_URL+`/movie/${reviews[i].reviewMovieMovieId}/recommendations?`+`api_key=${API_KEY}`
-            let thisMovieRec = await axios.get(query, {
-                headers: {Accept: 'application/json', 'Accept-Encoding': 'identity'},
-                params: {trophies: true}
-            })
-
-            if(thisMovieRec.status == 200) {
-                //Collect Movie ids from the first 2 recommendations
-                let x: number = 0;
-                while (x < thisMovieRec.data.results.length && x < MAX_REC_PER_REVIEW) {
-                    movieIds.push(thisMovieRec.data.results[x].id)
-                    x++
-                }
-            }
-            i++
+        if(isNaN(+req.params.uId)){
+            throw "Not a valid number"
         }
-        let resMovies: Movie[] = await getMoviesToIds(movieIds,MAX_DIF_REVIEWS * MAX_REC_PER_REVIEW)
-        res.status(200).json({
-            data: resMovies
-        })
+        let user: User = await User.findOne({where:{userId: parseInt(req.params.uId)}})
+        if(user!=null) {
+            let reviews: Review[] = await Review.find({where: {reviewUserUserId: parseInt(req.params.uId)}})
+            reviews.sort((a, b) => b.rating - a.rating)
+            let movieIds: number[] = []
+
+            //Get recommendations for the top-rated movies of that user
+            let i: number = 0;
+            while (i < reviews.length && i < MAX_DIF_REVIEWS) {
+                let query: string = BASE_URL + `/movie/${reviews[i].reviewMovieMovieId}/recommendations?` + `api_key=${API_KEY}`
+                let thisMovieRec = await axios.get(query, {
+                    headers: {Accept: 'application/json', 'Accept-Encoding': 'identity'},
+                    params: {trophies: true}
+                })
+
+                if (thisMovieRec.status == 200) {
+                    //Collect Movie ids from the first 2 recommendations
+                    let x: number = 0;
+                    while (x < thisMovieRec.data.results.length && x < MAX_REC_PER_REVIEW) {
+                        movieIds.push(thisMovieRec.data.results[x].id)
+                        x++
+                    }
+                }
+                i++
+            }
+            let resMovies: Movie[] = await getMoviesToIds(movieIds, MAX_DIF_REVIEWS * MAX_REC_PER_REVIEW)
+            res.status(200).json({
+                data: resMovies
+            })
+        }
+        else {
+            res.status(404).json()
+        }
     }catch (er){
         console.log(er)
         res.status(500).json()
@@ -223,6 +233,9 @@ externRouter.get("/user/:uId/recommendations",async (req,res)=>{
 //The genre array IS filled
 externRouter.get("/movie/:mId/recommendations/",async (req,res)=>{
     try {
+        if(isNaN(+req.params.mId)){
+            throw "Not a valid Number"
+        }
         let resMovies: Movie[] = []
         let query: string = BASE_URL+`/movie/${req.params.mId}/recommendations?`+`api_key=${API_KEY}`
         let thisMovieRec = await axios.get(query, {
@@ -235,6 +248,7 @@ externRouter.get("/movie/:mId/recommendations/",async (req,res)=>{
                 movieIds.push(result.id)
             })
             resMovies = await getMoviesToIds(movieIds,20)
+
         }
         res.status(200).json({
             data: resMovies
