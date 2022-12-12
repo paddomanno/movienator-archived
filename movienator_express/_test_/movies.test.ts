@@ -131,6 +131,12 @@ describe("MovieTests",() => {
                 .get('/movie/one/10')
             expect(response.statusCode).toBe(404)
         })
+
+        it("Should return 500 if the passed value is not a number", async ()=>{
+            let response = await request(app)
+                .get('/movie/one/blabla')
+            expect(response.statusCode).toBe(500)
+        })
     })
 
     describe("Testing getMovieToActor Route",()=>{
@@ -159,6 +165,13 @@ describe("MovieTests",() => {
                 .get('/movie/actor/10')
             expect(response.statusCode).toBe(404)
         })
+
+        it("Should return 500 if the passed value is not a number", async ()=>{
+            let response = await request(app)
+                .get('/movie/actor/blabla')
+            expect(response.statusCode).toBe(500)
+        })
+
     })
 
     describe("Testing getReviewedByUser Route",()=>{
@@ -185,6 +198,12 @@ describe("MovieTests",() => {
             let response = await request(app)
                 .get('/movie/user/10')
             expect(response.statusCode).toBe(404)
+        })
+
+        it("Should return 500 if the passed value is not a number", async ()=>{
+            let response = await request(app)
+                .get('/movie/user/blabla')
+            expect(response.statusCode).toBe(500)
         })
     })
 
@@ -218,6 +237,12 @@ describe("MovieTests",() => {
             let response = await request(app)
                 .get('/movie/watchlist/10')
             expect(response.statusCode).toBe(404)
+        })
+
+        it("Should return 500 if the passed value is not a number", async ()=>{
+            let response = await request(app)
+                .get('/movie/watchlist/blabla')
+            expect(response.statusCode).toBe(500)
         })
     })
 
@@ -263,6 +288,12 @@ describe("MovieTests",() => {
                 .get('/movie/time/min/0')
             expect(response.statusCode).toBe(500)
         })
+
+        it("Should return 500 if the passed value is not a number", async ()=>{
+            let response = await request(app)
+                .get('/movie/time/min/blabla')
+            expect(response.statusCode).toBe(500)
+        })
     })
 
     describe("Testing moviesByMaxTime Route",()=>{
@@ -296,6 +327,12 @@ describe("MovieTests",() => {
         it("Should return 500 if the param is zero", async ()=>{
             let response = await request(app)
                 .get('/movie/time/max/0')
+            expect(response.statusCode).toBe(500)
+        })
+
+        it("Should return 500 if the passed value is not a number", async ()=>{
+            let response = await request(app)
+                .get('/movie/time/min/blabla')
             expect(response.statusCode).toBe(500)
         })
     })
@@ -613,6 +650,18 @@ describe("MovieTests",() => {
                 .get('/movie/mutual/watchlist/1/200')
             expect(response.statusCode).toBe(404)
         })
+
+        it("Should return 500 if the first value is not a number", async ()=>{
+            let response = await request(app)
+                .get('/movie/mutual/watchlist/blabla/2')
+            expect(response.statusCode).toBe(500)
+        })
+
+        it("Should return 500 if the second value is not a number", async ()=>{
+            let response = await request(app)
+                .get('/movie/mutual/watchlist/1/blabla')
+            expect(response.statusCode).toBe(500)
+        })
     })
 
     describe("Testing getMutualReview",()=>{
@@ -645,6 +694,18 @@ describe("MovieTests",() => {
             let response = await request(app)
                 .get('/movie/mutual/review/1/200')
             expect(response.statusCode).toBe(404)
+        })
+
+        it("Should return 500 if the first value is not a number", async ()=>{
+            let response = await request(app)
+                .get('/movie/mutual/review/blabla/2')
+            expect(response.statusCode).toBe(500)
+        })
+
+        it("Should return 500 if the second value is not a number", async ()=>{
+            let response = await request(app)
+                .get('/movie/mutual/review/1/blabla')
+            expect(response.statusCode).toBe(500)
         })
     })
 
