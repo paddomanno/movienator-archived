@@ -33,6 +33,9 @@ movieRouter.get('/all', async (req, res) => {
 // Get one movie by its id
 movieRouter.get('/one/:id', async (req, res) => {
   try {
+    if(isNaN(+req.params.id)){
+      throw `${req.params.id} is not a valid number`
+    }
     const oneMovie: Movie = await Movie.findOne({
       where: { movieId: parseInt(req.params.id) },
       relations: { actors: true, reviews: true ,genres: true},
@@ -54,6 +57,9 @@ movieRouter.get('/one/:id', async (req, res) => {
 //Better use the extern Api for this
 movieRouter.get('/actor/:id', async (req, res) => {
   try {
+    if(isNaN(+req.params.id)){
+      throw `${req.params.id} is not a valid number`
+    }
     const actor: Actor = await Actor.findOne({
       where: { actorId: parseInt(req.params.id) },
       relations: ['movies','movies.reviews','movies.actors','movies.genres'],
@@ -76,6 +82,9 @@ movieRouter.get('/actor/:id', async (req, res) => {
 //Gets all the movies that user has reviewed
 movieRouter.get('/user/:id', async (req, res) => {
   try {
+    if(isNaN(+req.params.id)){
+      throw `${req.params.id} is not a valid number`
+    }
     const user: User = await User.findOne({
       where: { userId: parseInt(req.params.id) },
       relations: ['reviews', 'reviews.review_movie','reviews.review_movie.reviews','reviews.review_movie.actors','reviews.review_movie.genres'],
@@ -102,6 +111,9 @@ movieRouter.get('/user/:id', async (req, res) => {
 //Gets all the movies that are on the watchlist of that user
 movieRouter.get('/watchlist/:uId', async (req, res) => {
   try {
+    if(isNaN(+req.params.uId)){
+      throw `${req.params.uId} is not a valid number`
+    }
     const user: User = await User.findOne({
       where: { userId: parseInt(req.params.uId) },
       relations: ['watchlist','watchlist.actors','watchlist.reviews','watchlist.genres'],
@@ -123,11 +135,10 @@ movieRouter.get('/watchlist/:uId', async (req, res) => {
 
 //Gets all movies with a min time
 movieRouter.get('/time/min/:min', async (req, res) => {
-  //TODO Catch negative values
   try {
     let min: number = parseInt(req.params.min)
     if(min <= 0 || isNaN(min)){
-      throw `${parseInt(req.params.min)} is not a valid number`
+      throw `${req.params.min} is not a valid number`
     }
     const movies: Movie[] = await Movie.find({
       where: {
@@ -150,7 +161,7 @@ movieRouter.get('/time/max/:max', async (req, res) => {
   try {
     let max: number = parseInt(req.params.max)
     if(max <= 0 || isNaN(max)){
-      throw `${parseInt(req.params.max)} is not a valid number`
+      throw `${req.params.max} is not a valid number`
     }
     const movies: Movie[] = await Movie.find({
       where: {
@@ -216,7 +227,7 @@ movieRouter.get('/name/:word', async (req, res) => {
 movieRouter.get('/rating/:min', async (req, res) => {
   try {
     if(isNaN(+req.params.min) || parseInt(req.params.min) < 0){
-      throw "Not a valid number"
+      throw "Not a valid rating"
     }
     const movies: Movie[] = await Movie.find({
       relations: { reviews: true, actors: true , genres: true},
@@ -276,6 +287,9 @@ movieRouter.get('/genre/:genre', async (req, res) => {
 //Gets all movies than the two user both have on their watchlist
 movieRouter.get('/mutual/watchlist/:aId/:bId', async (req, res) => {
   try {
+    if(isNaN(+req.params.aId) || isNaN(+req.params.bId)){
+      throw `${req.params.aId} or ${req.params.bId} Not a valid number`
+    }
     let userA = await User.findOne({
       where: { userId: parseInt(req.params.aId) },
       relations:  ['watchlist','watchlist.actors','watchlist.reviews','watchlist.genres'],
@@ -305,6 +319,9 @@ movieRouter.get('/mutual/watchlist/:aId/:bId', async (req, res) => {
 //Gets all movies that the two users have both reviewed
 movieRouter.get('/mutual/review/:aId/:bId', async (req, res) => {
   try {
+    if(isNaN(+req.params.aId) || isNaN(+req.params.bId)){
+      throw `${req.params.aId} or ${req.params.bId} Not a valid number`
+    }
     let userA = await User.findOne({
       where: { userId: parseInt(req.params.aId) }
     })
