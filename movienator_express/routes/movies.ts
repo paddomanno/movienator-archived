@@ -127,7 +127,7 @@ movieRouter.get('/time/min/:min', async (req, res) => {
   try {
     let min: number = parseInt(req.params.min)
     if(min <= 0 || isNaN(min)){
-      throw `${parseInt(req.params.min)} is not a valid number`
+      throw `${req.params.min} is not a valid number`
     }
     const movies: Movie[] = await Movie.find({
       where: {
@@ -150,7 +150,7 @@ movieRouter.get('/time/max/:max', async (req, res) => {
   try {
     let max: number = parseInt(req.params.max)
     if(max <= 0 || isNaN(max)){
-      throw `${parseInt(req.params.max)} is not a valid number`
+      throw `${req.params.max} is not a valid number`
     }
     const movies: Movie[] = await Movie.find({
       where: {
@@ -216,7 +216,7 @@ movieRouter.get('/name/:word', async (req, res) => {
 movieRouter.get('/rating/:min', async (req, res) => {
   try {
     if(isNaN(+req.params.min) || parseInt(req.params.min) < 0){
-      throw "Not a valid number"
+      throw "Not a valid rating"
     }
     const movies: Movie[] = await Movie.find({
       relations: { reviews: true, actors: true , genres: true},
