@@ -18,7 +18,7 @@ profileImageRouter.get("/all", async (req,res) => {
                 data: allProfileImages,
             });
         } else{
-            res.status(400).json();
+            res.status(404).json();
         }
     } catch(er){
         console.log(er);
@@ -38,7 +38,7 @@ profileImageRouter.get("/ref/:ref", async (req,res) => {
                 data: oneProfileImage,
             })
         } else{
-            res.status(400).json();
+            res.status(404).json();
         }
     } catch(er){
         console.log(er);
@@ -51,7 +51,7 @@ profileImageRouter.get("/user/:id", async (req,res) => {
     try{
         const requestedUser: User = await User.findOne({
             where: { userId: parseInt(req.params.id) },
-            relations: ["profileImage", "profileImage.ressourceLink", "profileImage.name", "profileImage.users"]
+            relations: ["profileImage", "profileImage.ressourceLink", "profileImage.name", "profileImage.users"],
         })
 
         if(requestedUser){

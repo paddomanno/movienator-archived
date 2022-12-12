@@ -1,3 +1,4 @@
+import { request } from 'http';
 import Movie from '../entity/movie';
 import Review from '../entity/review';
 import User from '../entity/user';
@@ -92,14 +93,13 @@ reviewRouter.get('/user/own/:id', async (req, res) => {
         'reviews.review_user',
       ],
     });
-
     if (requestedUser) {
-      const reviews = requestedUser.reviews.sort(
-        (a, b) => Number(b.lastUpdated) - Number(a.lastUpdated)
-      );
-      res.status(200).json({
-        data: reviews,
-      });
+        const reviews = requestedUser.reviews.sort(
+          (a, b) => Number(b.lastUpdated) - Number(a.lastUpdated)
+        );
+        res.status(200).json({
+          data: reviews,
+        });
     } else {
       res.status(404).json();
     }
@@ -129,12 +129,12 @@ reviewRouter.get('/user/following/:id', async (req, res) => {
         ],
         []
       );
-      reviews.sort(
-        (a, b) => Number(b.lastUpdated) - Number(a.lastUpdated)
-      );
-      res.status(200).json({
-        data: reviews,
-      });
+        reviews.sort(
+          (a, b) => Number(b.lastUpdated) - Number(a.lastUpdated)
+        );
+        res.status(200).json({
+          data: reviews,
+        });
     } else {
       res.status(404).json();
     }
@@ -145,7 +145,6 @@ reviewRouter.get('/user/following/:id', async (req, res) => {
 });
 
 //Gets all reviews done by users that user is following and having been updated since the timestamp, ordered by last updated
-// TODO: Send 404 when no reviews since the timestamp?
 // TODO: Error handling (for example '0' as :time)
 reviewRouter.get('/user/following/:id/:time', async (req, res) => {
   try {
@@ -172,11 +171,11 @@ reviewRouter.get('/user/following/:id/:time', async (req, res) => {
         []
       );
       const filteredReviews = reviews.filter((rev: Review) => {
-        // console.log(
-        //   `Comparing ${rev.lastUpdated.valueOf()} < ${timestamp}: ${
-        //     rev.lastUpdated.valueOf() < timestamp
-        //   }`
-        // );
+        console.log(
+          `Comparing ${rev.lastUpdated.valueOf()} < ${timestamp}: ${
+            rev.lastUpdated.valueOf() < timestamp
+          }`
+        );
         return rev.lastUpdated.valueOf() < timestamp;
       });
       filteredReviews.sort(
@@ -195,7 +194,6 @@ reviewRouter.get('/user/following/:id/:time', async (req, res) => {
 });
 
 //Gets all reviews that have been updated since the timestamp, ordered by last updated
-// TODO: Send 404 when no reviews since the timestamp?
 // TODO: Error handling (for example '0' as :time)
 reviewRouter.get('/time/:time', async (req, res) => {
   try {
@@ -208,11 +206,11 @@ reviewRouter.get('/time/:time', async (req, res) => {
     });
     if (allReviews) {
       const filteredReviews = allReviews.filter((rev: Review) => {
-        // console.log(
-        //   `Comparing ${rev.lastUpdated.valueOf()} < ${timestamp}: ${
-        //     rev.lastUpdated.valueOf() < timestamp
-        //   }`
-        // );
+        console.log(
+          `Comparing ${rev.lastUpdated.valueOf()} < ${timestamp}: ${
+            rev.lastUpdated.valueOf() < timestamp
+          }`
+        );
         return rev.lastUpdated.valueOf() < timestamp;
       });
       filteredReviews.sort(
@@ -234,28 +232,42 @@ reviewRouter.get('/time/:time', async (req, res) => {
 reviewRouter.post('/', async (req, res) => {
   try {
     let newReview: Review = req.body as Review; // TODO: not working lol
+
+    // check if User and Movie exist
+    const userForReview: User = await User.findOne({
+      where: { userId: newReview.reviewUserUserId }
+    })
+
+    const movieForReview: Movie = await Movie.findOne({
+      where: { movieId: newReview.reviewMovieMovieId }
+    })
+
+    if( userForReview && movieForReview ){
     /* is supposed to work with just user id and movie id
     example req body:
-{
-    "reviewMovieMovieId": 0,
-    "reviewUserUserId": 1,
-    "title": "NEW REVIEW 1",
-    "content": "It was ok",
-    "rating": 5
-}
+    {
+        "reviewMovieMovieId": 0,
+        "reviewUserUserId": 1,
+        "title": "NEW REVIEW 1",
+        "content": "It was ok",
+        "rating": 5
+    }
     */
     //TODO: Is working like this.
-    await Review.save(newReview);
-    newReview = await Review.findOne({
-      where: {
-        reviewMovieMovieId: newReview.reviewMovieMovieId,
-        reviewUserUserId: newReview.reviewUserUserId,
-      },
-      relations: { review_movie: true, review_user: true },
-    });
-    res.status(201).json({
-      data: newReview,
-    });
+      await Review.save(newReview);
+      newReview = await Review.findOne({
+        where: {
+          reviewMovieMovieId: newReview.reviewMovieMovieId,
+          reviewUserUserId: newReview.reviewUserUserId,
+        },
+        relations: { review_movie: true, review_user: true },
+      });
+      res.status(201).json({
+        data: newReview,
+      });
+    } else{
+        res.status(404).json()
+    }
   } catch (er) {
     console.log(er);
     res.status(500).json();
@@ -267,6 +279,7 @@ reviewRouter.post('/', async (req, res) => {
 reviewRouter.put('/', async (req, res) => {
   try {
     let updatedReview = req.body as Review;
+
     const requestedReview: Review = await Review.findOne({
       where: {
         reviewMovieMovieId: updatedReview.reviewMovieMovieId,
@@ -274,6 +287,7 @@ reviewRouter.put('/', async (req, res) => {
       },
     });
     if (requestedReview) {
+      // requestedReview.lastUpdated = new Date()
       Object.keys(updatedReview).forEach((key) => {
         if (
           key != 'reviewMovieMovieId' &&
@@ -289,6 +303,7 @@ reviewRouter.put('/', async (req, res) => {
       res.status(201).json({
         data: requestedReview,
       });
+
     } else {
       res.status(404).json();
     }

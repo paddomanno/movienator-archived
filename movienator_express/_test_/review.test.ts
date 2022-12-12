@@ -40,13 +40,21 @@ async function createTestData() {
   movie2.adultContent = false;
   await movie2.save();
 
+  let movieWithoutReviews: Movie = new Movie();
+  movieWithoutReviews.movieId = 3;
+  movieWithoutReviews.title = 'Movie3';
+  movieWithoutReviews.adultContent = false;
+  await movieWithoutReviews.save();
+
   let user: User = new User();
   user.firstName = 'Kevin';
   user.lastName = 'Hasse';
   user.userName = 'keha';
   user.password = 'root';
   user.birthday = new Date();
-  await user.save();
+  user.following = [];
+  user.followers = [];
+  // await user.save();
 
   let user2: User = new User();
   user2.firstName = 'Isidora';
@@ -54,7 +62,61 @@ async function createTestData() {
   user2.userName = 'isij';
   user2.password = 'root';
   user2.birthday = new Date();
-  await user2.save();
+  user2.following = [];
+  user2.followers = [];
+  // await user2.save();
+
+  let userFollowsUserNoReview: User = new User();
+  userFollowsUserNoReview.firstName = 'Nick';
+  userFollowsUserNoReview.lastName = 'Wilhelm';
+  userFollowsUserNoReview.userName = 'niwi';
+  userFollowsUserNoReview.password = 'root';
+  userFollowsUserNoReview.birthday = new Date();
+  userFollowsUserNoReview.following = [];
+  userFollowsUserNoReview.followers = [];
+  // await userFollowsUserNoReview.save();
+  
+  let userWithoutReviews: User = new User();
+  userWithoutReviews.firstName = 'Patrick';
+  userWithoutReviews.lastName = 'Fender';
+  userWithoutReviews.userName = 'pafe';
+  userWithoutReviews.password = 'root';
+  userWithoutReviews.birthday = new Date();
+  userWithoutReviews.following = [];
+  userWithoutReviews.followers = [];
+  // await userWithoutReviews.save();
+  
+  user2.following.push(user); // Isidora follows Kevin
+  userFollowsUserNoReview.following.push(userWithoutReviews); // Nick follows Patrick
+
+  await user.save()
+  await user2.save()
+  await userFollowsUserNoReview.save();
+  await userWithoutReviews.save();
+
+  // review of isij for movie2
+  let review3: Review = new Review();
+  review3.reviewMovieMovieId = 2;
+  review3.reviewUserUserId = 2;
+  review3.title = 'Liked it!';
+  review3.content = 'Pretty good';
+  review3.rating = 8;
+  review3.lastUpdated = new Date('2022-03-21');
+  review3.review_movie = movie2;
+  review3.review_user = user2;
+  await review3.save();
+  
+  // review of isij for movie
+  let review2: Review = new Review();
+  review2.reviewMovieMovieId = 1;
+  review2.reviewUserUserId = 2;
+  review2.title = 'Nah';
+  review2.content = 'Could be better';
+  review2.rating = 1;
+  review2.lastUpdated = new Date('2022-03-22');
+  review2.review_movie = movie;
+  review2.review_user = user2;
+  await review2.save();
 
   // review of keha
   let review: Review = new Review();
@@ -68,29 +130,17 @@ async function createTestData() {
   review.review_user = user;
   await review.save();
 
-  // review of isij for movie
-  let review2: Review = new Review();
-  review2.reviewMovieMovieId = 1;
-  review2.reviewUserUserId = 2;
-  review2.title = 'Nah';
-  review2.content = 'Could be better';
-  review2.rating = 1;
-  review2.lastUpdated = new Date('2022-03-22');
-  review2.review_movie = movie;
-  review2.review_user = user2;
-  await review2.save();
-
-  // review of isij for movie2
-  let review3: Review = new Review();
-  review3.reviewMovieMovieId = 2;
-  review3.reviewUserUserId = 2;
-  review3.title = 'Liked it!';
-  review3.content = 'Pretty good';
-  review3.rating = 8;
-  review3.lastUpdated = new Date('2022-03-21');
-  review3.review_movie = movie2;
-  review3.review_user = user2;
-  await review3.save();
+  // review of keha
+  let review4: Review = new Review();
+  review4.reviewMovieMovieId = 2;
+  review4.reviewUserUserId = 1;
+  review4.title = 'Yeeah';
+  review4.content = 'cool';
+  review4.rating = 7;
+  review4.lastUpdated = new Date('2022-03-22');
+  review4.review_movie = movie2;
+  review4.review_user = user;
+  await review4.save();
 }
 
 afterAll(async () => {
@@ -105,7 +155,7 @@ describe('ReviewTests', () => {
         let response = await request(app).get('/review/all');
         expect(response.statusCode).toBe(200);
         const allReviews: Review[] = response.body.data;
-        expect(allReviews.length).toBe(3);
+        expect(allReviews.length).toBe(4);
         expect(allReviews.at(0).title).toBe('My first review');
         expect(allReviews.at(0).review_movie.title).toBe('Movie');
         expect(allReviews.at(0).review_user.firstName).toBe('Kevin');
@@ -139,13 +189,15 @@ describe('ReviewTests', () => {
     });
     describe('bad cases', () => {
       describe('given user id doesnt exist', () => {
-        it('should return 404', () => {
-          // TODO: implement
+        it('should return 404', async () => {
+          let response = await request(app).get('/review/one/1/11');
+          expect(response.statusCode).toBe(404);
         });
       });
       describe('given movie id doesnt exist', () => {
-        it('should return 404', () => {
-          // TODO: implement
+        it('should return 404', async () => {
+          let response = await request(app).get('/review/one/3/2');
+          expect(response.statusCode).toBe(404);
         });
       });
     });
@@ -154,25 +206,36 @@ describe('ReviewTests', () => {
   describe('getUserFollowingReviews route', () => {
     describe('good case', () => {
       it('should return all reviews done by users that user is following, ordered by last updated, and status 200', async () => {
-        // TODO: implement
-        //Correct Order
-        //User and Movie are filled
+        let response = await request(app).get('/review/user/following/2')
+        expect(response.statusCode).toBe(200);
+        const kevinsReviews: Review[] = response.body.data;
+        expect(kevinsReviews.length).toBe(2);
+        expect(kevinsReviews.at(0).title).toBe('My first review')
+        expect(kevinsReviews.at(0).review_movie.movieId).toBe(1)
+        expect(kevinsReviews.at(0).review_user.userId).toBe(1)
+      });
+    });
+    describe('given user doesnt follow anyone', () => {
+      it('should return 200 and empty array', async () => {
+        let response = await request(app).get('/review/user/following/1')
+        expect(response.statusCode).toBe(200);
+        const reviews: Review[] = response.body.data;
+        expect(reviews.length).toBe(0);
+      });
+    });
+    describe('given no reviews made by followed users', () => {
+      it('should return 200 and empty array', async () => {
+        let response = await request(app).get('/review/user/following/3')
+        expect(response.statusCode).toBe(200);
+        const reviews: Review[] = response.body.data;
+        expect(reviews.length).toBe(0);
       });
     });
     describe('bad cases', () => {
       describe('given user id doesnt exist', () => {
-        it('should return 404', () => {
-          // TODO: implement
-        });
-      });
-      describe('given user doesnt follow anyone', () => {
-        it('should return 404', () => {
-          // TODO: implement
-        });
-      });
-      describe('given no reviews made by followed users', () => {
-        it('should return 404', () => {
-          // TODO: implement
+        it('should return 404', async () => {
+          let response = await request(app).get('/review/user/following/11')
+          expect(response.statusCode).toBe(404);
         });
       });
     });
@@ -195,19 +258,24 @@ describe('ReviewTests', () => {
         );
       });
     });
+    describe('given user doesnt have any reviews', () => {  
+      it('should return 200 and empty array', async () => {
+        let response = await request(app).get('/review/user/own/3');
+        expect(response.statusCode).toBe(200);
+        const reviews: Review[] = response.body.data;
+        expect(reviews.length).toBe(0);
+      });
+    });
     describe('bad cases', () => {
       describe('given user id doesnt exist', () => {
-        it('should return 404', () => {
-          // TODO: implement
-        });
-      });
-      describe('given user doesnt have any reviews', () => {
-        it('should return 404', () => {
-          // TODO: implement
+        it('should return 404', async () => {
+          let response = await request(app).get('/review/user/own/11');
+          expect(response.statusCode).toBe(404);
         });
       });
     });
   });
+
   describe('getReviewsToMovie route', () => {
     describe('good case', () => {
       it('should return reviews for that movie and status 200', async () => {
@@ -225,15 +293,19 @@ describe('ReviewTests', () => {
         );
       });
     });
+    describe('given no reviews for that movie exist', () => {
+      it('should return 200 and empty array', async () => {
+        let response = await request(app).get('/review/movie/3');
+        expect(response.statusCode).toBe(200);
+        const reviews: Review[] = response.body.data;
+        expect(reviews.length).toBe(0);
+      });
+    });
     describe('bad cases', () => {
       describe('given movie id doesnt exist', () => {
-        it('should return 404', () => {
-          // TODO: implement
-        });
-      });
-      describe('given no reviews for that movie exist', () => {
-        it('should return 404', () => {
-          // TODO: implement
+        it('should return 404', async () => {
+          let response = await request(app).get('/review/movie/11');
+          expect(response.statusCode).toBe(404);
         });
       });
     });
@@ -242,45 +314,102 @@ describe('ReviewTests', () => {
   describe('getUserFollowingReviewsSinceDate route', () => {
     describe('good case', () => {
       it('should return all reviews done by users that user is following and having been updated since the timestamp, ordered by last updated, and status 200', async () => {
-        // TODO: abklaeren TODOs in route bevor tests gemacht werden
-        //Filter Correct
-        //Correct Order
-        //User and Movie are filled
+        // let response = await request(app).get('/review/user/following/2/2022-03-21');
+        // expect(response.statusCode).toBe(200);
+        // const reviewsOfFollowersSinceTime: Review[] = response.body.data;
+        // expect(reviewsOfFollowersSinceTime.length).toBe(2);
+        // expect(reviewsOfFollowersSinceTime.at(0).title).toBe('My first review');
+        // expect(reviewsOfFollowersSinceTime.at(0).review_movie.title).toBe('Movie');
+        // expect(reviewsOfFollowersSinceTime.at(0).review_user.firstName).toBe('Kevin');
       });
     });
     describe('bad cases', () => {
-      // TODO: bad case tests ausdenken je nachdem wie die route funktionieren soll
-      describe('given movie id doesnt exist', () => {
-        it('should return 404', () => {
-          // TODO: implement
+      // TODO: bad case tests ausdenken je nachdem wie die route funktionieren soll -> wie mit 0 und falsch formatiert
+      describe('given user id doesnt exist', () => {
+        it('should return 404', async () => {
+          let response = await request(app).get('/review/user/following/11/2022-03-21');
+          expect(response.statusCode).toBe(404);
         });
       });
-      describe('given no reviews for that movie exist', () => {
-        it('should return 404', () => {
-          // TODO: implement
+      describe('given timestamp is not a number', () => {
+        it('should return 500', async () => {
+          let response = await request(app).get('/review/user/following/2/timestamp');
+          expect(response.statusCode).toBe(500);
         });
       });
     });
   });
+
   describe('getAllSinceTime route', () => {
     describe('good case', () => {
       it('should return all reviews since that time and status 200', async () => {
-        // TODO: implement
-        //Filter Correct
-        //Correct Order
-        //User and Movie are filled
+        // let response = await request(app).get('/review/time/2022-03-21');
+        // expect(response.statusCode).toBe(200);
+        // const reviewsSinceTime: Review[] = response.body.data;
+        // expect(reviewsSinceTime.length).toBe(3);
+        // expect(reviewsSinceTime.at(0).title).toBe('My first review');
+        // expect(reviewsSinceTime.at(0).review_movie.title).toBe('Movie');
+        // expect(reviewsSinceTime.at(0).review_user.firstName).toBe('Kevin');
+      });
+    });
+    describe('given no reviews since that time exist', () => {
+      it('should return 200 and empty array', async () => {
+        // let response = await request(app).get('/review/time/2023-05-23');
+        // expect(response.statusCode).toBe(200);
+        // const reviewsSinceTime: Review[] = response.body.data;
+        // expect(reviewsSinceTime.length).toBe(0);
       });
     });
     describe('bad cases', () => {
-      describe('given no reviews since that time exist', () => {
-        it('should return 404', () => {
-          // TODO: implement
+      describe('given timestamp is not a number', () => {
+        it('should return 500', async () => {
+          let response = await request(app).get('/review/time/asffj');
+          expect(response.statusCode).toBe(500);
         });
       });
-      describe('given timestamp is wrong format', () => {
-        it('should return 400', () => {
-          // TODO: 400 richtig?
-          // TODO: implement
+    });
+  });
+
+  describe('updateReview route', () => {
+    describe('good case', () => {
+      it('should return the updated review and status 201', async () => {
+        let review: Review = await Review.findOne({
+          where: { reviewMovieMovieId: 2, reviewUserUserId: 2 },
+        });
+        review.title = "New title"
+        review.rating = 8;
+        review.lastUpdated = new Date()
+        let response = await request(app).put('/review').send(review);
+        expect(response.statusCode).toBe(201);
+
+        let allReviewsOrdered = await request(app).get('/review/all');
+        const allReviews: Review[] = allReviewsOrdered.body.data;
+        expect(allReviews.at(0).title).toBe('New title');
+        expect(allReviews.at(0).rating).toBe(8);
+        expect(allReviews.at(0).content).toBe('Pretty good');
+        expect(allReviews.at(0).review_movie.movieId).toBe(2);
+        expect(allReviews.at(0).review_user.userId).toBe(2);
+      });
+    });
+    describe('bad cases', () => {
+      describe('given user id doesnt exist', () => {
+        it('should return 404', async () => {
+          let review: Review = await Review.findOne({
+            where: { reviewMovieMovieId: 1, reviewUserUserId: 1 },
+          });
+          review.reviewUserUserId = 11;
+          let response = await request(app).put('/review/').send(review);
+          expect(response.statusCode).toBe(404);
+        });
+      });
+      describe('given movie id doesnt exist', () => {
+        it('should return 404', async () => {
+          // let review: Review = await Review.findOne({
+          //   where: { reviewMovieMovieId: 11, reviewUserUserId: 1 },
+          // });
+          // review.reviewMovieMovieId = 11;
+          // let response = await request(app).put('/review/').send(review);
+          // expect(response.statusCode).toBe(404);
         });
       });
     });
@@ -302,19 +431,39 @@ describe('ReviewTests', () => {
           .send(review);
         expect(response.statusCode).toBe(201);
         expect(response.body.data.title).toBe('Liked');
-        //201 res code
-        //Check values after
       });
     });
     describe('bad cases', () => {
       describe('given user id doesnt exist', () => {
-        it('should return 400', () => {
-          // TODO: implement
-        });
+        it('should return 400', async () => {
+          let review: Review = new Review();
+          review.reviewUserUserId = 11;
+          review.reviewMovieMovieId = 1;
+          review.title = 'Liked';
+          review.content = 'Was good';
+          review.rating = 5;
+          review.lastUpdated = new Date();
+
+          let response = await request(app)
+            .post('/review/')
+            .send(review);
+          expect(response.statusCode).toBe(404);
+          });
       });
       describe('given movie id doesnt exist', () => {
-        it('should return 400', () => {
-          // TODO: implement
+        it('should return 400', async () => {
+          let review: Review = new Review();
+          review.reviewUserUserId = 1;
+          review.reviewMovieMovieId = 11;
+          review.title = 'Liked';
+          review.content = 'Was good';
+          review.rating = 5;
+          review.lastUpdated = new Date();
+
+          let response = await request(app)
+            .post('/review/')
+            .send(review);
+          expect(response.statusCode).toBe(404);
         });
       });
       describe('given ...', () => {
@@ -325,40 +474,7 @@ describe('ReviewTests', () => {
     });
   });
 
-  describe('updateReview route', () => {
-    describe('good case', () => {
-      it('should return the updated review and status 201', async () => {
-        let review: Review = await Review.findOne({
-          where: { reviewMovieMovieId: 1, reviewUserUserId: 1 },
-        });
-        review.rating = 8;
-        let response = await request(app).put('/review').send(review);
-        expect(response.statusCode).toBe(201);
 
-        // TODO: implement
-        //Correct Order
-
-        //Check values after
-      });
-    });
-    describe('bad cases', () => {
-      describe('given user id doesnt exist', () => {
-        it('should return 400', () => {
-          // TODO: implement
-        });
-      });
-      describe('given movie id doesnt exist', () => {
-        it('should return 400', () => {
-          // TODO: implement
-        });
-      });
-      describe('given ...', () => {
-        it('should return 404', () => {
-          // TODO: welche felder sind alles required? für jedes eigenen test
-        });
-      });
-    });
-  });
   describe('deleteReview route', () => {
     describe('good case', () => {
       it('should return nothing and status 204', async () => {
@@ -368,26 +484,28 @@ describe('ReviewTests', () => {
           '/review/movie/1'
         );
         expect(reviewsOfMovie.statusCode).toBe(200);
-        const allReviewsOfMovie: Review[] = response.body.data;
-        // expect(allReviewsOfMovie.length).toBe(1);
+        const allReviewsOfMovie: Review[] = reviewsOfMovie.body.data;
+        expect(allReviewsOfMovie.length).toBe(1);
         //User not exisiting after
       });
     });
     describe('bad cases', () => {
       describe('given user id doesnt exist', () => {
-        it('should return 400', () => {
-          // TODO: implement
+        it('should return 404', async () => {
+          let response = await request(app).delete('/review/11/1');
+          expect(response.statusCode).toBe(404);
         });
       });
       describe('given movie id doesnt exist', () => {
-        it('should return 400', () => {
-          // TODO: implement
+        it('should return 404', async () => {
+          let response = await request(app).delete('/review/2/11');
+          expect(response.statusCode).toBe(404);
         });
       });
       describe('given no review exists from that user for that movie', () => {
-        it('should return 404', () => {
-          // TODO: 404 richtig?
-          // TODO: implement
+        it('should return 404', async () => {
+          let response = await request(app).delete('/review/3/2');
+          expect(response.statusCode).toBe(404);
         });
       });
     });
