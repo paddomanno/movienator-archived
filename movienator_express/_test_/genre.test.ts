@@ -31,26 +31,26 @@ afterAll(async () => {
 
 describe("Testing Genre getAll",() => {
 
-    //Ganz basic test
-    it("GenreAllTest", async ()=>{
-        let response = await request(app)
-            .get('/genre/all')
-        expect(response.statusCode).toBe(200)
-        const resGens = response.body.data as Genre[]
-        expect(resGens.length).toBe(2)
-        expect(resGens.at(0).genreName).toBe("Aaa")
-        expect(resGens.at(1).genreName).toBe("Bbb")
-    })
+   describe("Testing getAll Route",()=>{
+        it("Should return a list of Genres", async ()=>{
+            let response = await request(app)
+                .get('/genre/all')
+            expect(response.statusCode).toBe(200)
+            const resGens = response.body.data as Genre[]
+            expect(resGens.length).toBe(2)
+            expect(resGens.at(0).genreName).toBe("Aaa")
+            expect(resGens.at(1).genreName).toBe("Bbb")
+        })
 
-    it("GenreRemoveTest", async ()=>{
-       let gen: Genre[] = await Genre.find()
-       for(const oneGen of gen){
-           await oneGen.remove()
-       }
-        let response = await request(app)
-            .get('/genre/all')
-        expect(response.statusCode).toBe(200)
-        expect(response.body.data.length).toBe(0)
-    })
-
+        it("Should not return a genre after it has been removed", async ()=>{
+           let gen: Genre[] = await Genre.find()
+           for(const oneGen of gen){
+               await oneGen.remove()
+           }
+            let response = await request(app)
+                .get('/genre/all')
+            expect(response.statusCode).toBe(200)
+            expect(response.body.data.length).toBe(0)
+        })
+   })
 })
