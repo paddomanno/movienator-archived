@@ -197,8 +197,8 @@ reviewRouter.get('/user/following/:id/:time', async (req, res) => {
 // TODO: Error handling (for example '0' as :time)
 reviewRouter.get('/time/:time', async (req, res) => {
   try {
-    const timestamp = Date.parse(req.params.time); // TODO: return error when timestamp is wrong format
-    if (isNaN(timestamp)) {
+    const timestamp = new Date(req.params.time)
+    if (isNaN(timestamp.getTime())) {
       throw new Error('timestamp is NaN');
     }
     const allReviews: Review[] = await Review.find({
@@ -207,14 +207,14 @@ reviewRouter.get('/time/:time', async (req, res) => {
     if (allReviews) {
       const filteredReviews = allReviews.filter((rev: Review) => {
         console.log(
-          `Comparing ${rev.lastUpdated.valueOf()} < ${timestamp}: ${
-            rev.lastUpdated.valueOf() < timestamp
+          `Comparing ${rev.lastUpdated.getTime()} < ${timestamp.getTime()}: ${
+            rev.lastUpdated.getTime() > timestamp.getTime()
           }`
         );
-        return rev.lastUpdated.valueOf() < timestamp;
+        return rev.lastUpdated.getTime() > timestamp.getTime();
       });
       filteredReviews.sort(
-        (a, b) => Number(b.lastUpdated) - Number(a.lastUpdated)
+        (a, b) => b.lastUpdated.getTime() - a.lastUpdated.getTime()
       );
       res.status(200).json({
         data: filteredReviews,

@@ -93,6 +93,7 @@ describe("Imagetest",() => {
       describe('getImageOfUser route', () => {
         describe('good case', () => {
           it('should return image of user', async () => {
+              // Kevin - Ich glaube in der Route war ein Fehler, könnt jetzt nochmal probieren
             // let response = await request(app).get('/profileImage/user/1');
             // expect(response.statusCode).toBe(200);
             // const image: ProfileImage = response.body.data;
@@ -163,6 +164,7 @@ describe("Imagetest",() => {
             describe('image does not exist', () => {
                 it('should return 404', async () => {
                     // let image: ProfileImage = await ProfileImage.findOne({where:{ressourceLink: 'none.png'}});
+                    // Kevin - Klar, dass es nicht 404 ist, der link vom ProfileImage wird ja nicht geändert bevor es gesendet wird
                     // let response = await request(app)
                     //     .put('/profileImage/')
                     //      .send(image)
