@@ -306,17 +306,24 @@ describe('ReviewTests', () => {
   describe('getUserFollowingReviewsSinceDate route', () => {
     describe('good case', () => {
       it('should return all reviews done by users that user is following and having been updated since the timestamp, ordered by last updated, and status 200', async () => {
-        // let response = await request(app).get('/review/user/following/2/2022-03-21');
-        // expect(response.statusCode).toBe(200);
-        // const reviewsOfFollowersSinceTime: Review[] = response.body.data;
-        // expect(reviewsOfFollowersSinceTime.length).toBe(2);
-        // expect(reviewsOfFollowersSinceTime.at(0).title).toBe('My first review');
-        // expect(reviewsOfFollowersSinceTime.at(0).review_movie.title).toBe('Movie');
-        // expect(reviewsOfFollowersSinceTime.at(0).review_user.firstName).toBe('Kevin');
+        const date = new Date('2022-03-21');
+        let response = await request(app).get(
+          `/review/user/following/2/${date}`
+        );
+        expect(response.statusCode).toBe(200);
+        const reviewsOfFollowersSinceTime: Review[] = response.body.data;
+        expect(reviewsOfFollowersSinceTime.length).toBe(2);
+        expect(reviewsOfFollowersSinceTime.at(0).title).toBe('My first review');
+        expect(reviewsOfFollowersSinceTime.at(0).review_movie.title).toBe(
+          'Movie'
+        );
+        expect(reviewsOfFollowersSinceTime.at(0).review_user.firstName).toBe(
+          'Kevin'
+        );
       });
     });
     describe('bad cases', () => {
-      // TODO: bad case tests ausdenken je nachdem wie die route funktionieren soll -> wie mit 0 und falsch formatiert
+      // bad case tests ausdenken je nachdem wie die route funktionieren soll -> wie mit 0 und falsch formatiert
       // Kevin - Würde sagen timestamp 0 oder in der Zukunft ist beides ok, macht zwar nicht viel Sinn, aber es gibt ja richtige Ergebnise für beide Fälle (alle bzw keine)
       // Id oder timestamp falsch formatiert sollte 500 sein.
       describe('given user id doesnt exist', () => {
@@ -341,7 +348,7 @@ describe('ReviewTests', () => {
   describe('getAllSinceTime route', () => {
     describe('good case', () => {
       it('should return all reviews since that time and status 200', async () => {
-        let date = new Date('2022-03-21');
+        let date = new Date('2022-03-22');
         let response = await request(app).get(`/review/time/${date}`);
         expect(response.statusCode).toBe(200);
         const reviewsSinceTime: Review[] = response.body.data;
@@ -353,10 +360,11 @@ describe('ReviewTests', () => {
     });
     describe('given no reviews since that time exist', () => {
       it('should return 200 and empty array', async () => {
-        // let response = await request(app).get('/review/time/2023-05-23');
-        // expect(response.statusCode).toBe(200);
-        // const reviewsSinceTime: Review[] = response.body.data;
-        // expect(reviewsSinceTime.length).toBe(0);
+        let date = new Date('2022-03-24');
+        let response = await request(app).get(`/review/time/${date}`);
+        expect(response.statusCode).toBe(200);
+        const reviewsSinceTime: Review[] = response.body.data;
+        expect(reviewsSinceTime.length).toBe(0);
       });
     });
     describe('bad cases', () => {

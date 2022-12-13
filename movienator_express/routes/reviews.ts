@@ -155,13 +155,13 @@ reviewRouter.get('/user/following/:id/:time', async (req, res) => {
       const filteredReviews = reviews.filter((rev: Review) => {
         console.log(
           `Comparing ${rev.lastUpdated.valueOf()} < ${timestamp}: ${
-            rev.lastUpdated.valueOf() < timestamp
+            rev.lastUpdated.valueOf() >= timestamp
           }`
         );
-        return rev.lastUpdated.valueOf() < timestamp;
+        return rev.lastUpdated.valueOf() >= timestamp;
       });
       filteredReviews.sort(
-        (a, b) => Number(b.lastUpdated) - Number(a.lastUpdated)
+        (a, b) => b.lastUpdated.getTime() - a.lastUpdated.getTime()
       );
       res.status(200).json({
         data: filteredReviews,
@@ -190,10 +190,10 @@ reviewRouter.get('/time/:time', async (req, res) => {
       const filteredReviews = allReviews.filter((rev: Review) => {
         console.log(
           `Comparing ${rev.lastUpdated.getTime()} < ${timestamp.getTime()}: ${
-            rev.lastUpdated.getTime() > timestamp.getTime()
+            rev.lastUpdated.getTime() >= timestamp.getTime()
           }`
         );
-        return rev.lastUpdated.getTime() > timestamp.getTime();
+        return rev.lastUpdated.getTime() >= timestamp.getTime();
       });
       filteredReviews.sort(
         (a, b) => b.lastUpdated.getTime() - a.lastUpdated.getTime()
