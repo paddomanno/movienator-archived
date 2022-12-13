@@ -1,16 +1,35 @@
-import { afterAll, beforeAll, describe, expect, it } from '@jest/globals';
+import {
+  afterAll,
+  beforeAll,
+  describe,
+  expect,
+  beforeEach,
+  it,
+} from '@jest/globals';
 import { TestDatabaseManager } from './test_utils/TestDatabaseManager';
 import app from '../app';
 import Genre from '../entity/genre';
 import request from 'supertest';
 
 beforeAll(async () => {
-  await TestDatabaseManager.getInstance().connectTestDatabase();
+  try {
+    await TestDatabaseManager.getInstance().connectTestDatabase();
+  } catch (error) {
+    console.log(error);
+  }
+}, 10_000);
+
+afterAll(async () => {
   await TestDatabaseManager.getInstance().resetTestDatabase();
+});
 
-  await createTestData();
-
-  //console.log("Starting Genre Tests")
+beforeEach(async () => {
+  try {
+    await TestDatabaseManager.getInstance().resetTestDatabase();
+    await createTestData();
+  } catch (error) {
+    console.log(error);
+  }
 }, 10_000);
 
 async function createTestData() {
@@ -23,11 +42,6 @@ async function createTestData() {
   gen2.genreName = 'Bbb';
   await gen2.save();
 }
-
-afterAll(async () => {
-  await TestDatabaseManager.getInstance().resetTestDatabase();
-  //console.log("Finishing Genre Tests")
-});
 
 describe('Testing Genre getAll', () => {
   describe('Testing getAll Route', () => {

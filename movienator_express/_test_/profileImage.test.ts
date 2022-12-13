@@ -1,4 +1,11 @@
-import { afterAll, beforeAll, describe, expect, it } from '@jest/globals';
+import {
+  afterAll,
+  beforeAll,
+  describe,
+  expect,
+  beforeEach,
+  it,
+} from '@jest/globals';
 import { TestDatabaseManager } from './test_utils/TestDatabaseManager';
 import app from '../app';
 import request from 'supertest';
@@ -6,12 +13,24 @@ import ProfileImage from '../entity/profileImage';
 import User from '../entity/user';
 
 beforeAll(async () => {
-  await TestDatabaseManager.getInstance().connectTestDatabase();
+  try {
+    await TestDatabaseManager.getInstance().connectTestDatabase();
+  } catch (error) {
+    console.log(error);
+  }
+}, 10_000);
+
+afterAll(async () => {
   await TestDatabaseManager.getInstance().resetTestDatabase();
+});
 
-  await createTestData();
-
-  //console.log("Starting ProfileImage Tests")
+beforeEach(async () => {
+  try {
+    await TestDatabaseManager.getInstance().resetTestDatabase();
+    await createTestData();
+  } catch (error) {
+    console.log(error);
+  }
 }, 10_000);
 
 async function createTestData() {
@@ -50,11 +69,6 @@ async function createTestData() {
   userNoImage.birthday = new Date();
   await userNoImage.save();
 }
-
-afterAll(async () => {
-  await TestDatabaseManager.getInstance().resetTestDatabase();
-  //console.log("Finishing ProfileImage Test")
-});
 
 describe('Imagetest', () => {
   describe('getAllProfileImages route', () => {

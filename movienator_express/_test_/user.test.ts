@@ -1,4 +1,11 @@
-import { afterAll, beforeAll, describe, expect, it } from '@jest/globals';
+import {
+  afterAll,
+  beforeAll,
+  describe,
+  expect,
+  beforeEach,
+  it,
+} from '@jest/globals';
 import { TestDatabaseManager } from './test_utils/TestDatabaseManager';
 import User from '../entity/user';
 import Movie from '../entity/movie';
@@ -7,12 +14,24 @@ import request from 'supertest';
 import app from '../app';
 
 beforeAll(async () => {
-  await TestDatabaseManager.getInstance().connectTestDatabase();
+  try {
+    await TestDatabaseManager.getInstance().connectTestDatabase();
+  } catch (error) {
+    console.log(error);
+  }
+}, 10_000);
+
+afterAll(async () => {
   await TestDatabaseManager.getInstance().resetTestDatabase();
+});
 
-  await createTestData();
-
-  //console.log("Starting User Tests")
+beforeEach(async () => {
+  try {
+    await TestDatabaseManager.getInstance().resetTestDatabase();
+    await createTestData();
+  } catch (error) {
+    console.log(error);
+  }
 }, 10_000);
 
 async function createTestData() {
@@ -85,11 +104,6 @@ async function createTestData() {
 
   await Review.save(newReview1);
 }
-
-afterAll(async () => {
-  await TestDatabaseManager.getInstance().resetTestDatabase();
-  //console.log("Finishing User Tests")
-});
 
 describe('GET Tests', () => {
   it('Get all users from database TEST', async () => {
