@@ -15,11 +15,7 @@ import app from '../app';
 import request from 'supertest';
 
 beforeAll(async () => {
-  try {
-    await TestDatabaseManager.getInstance().connectTestDatabase();
-  } catch (error) {
-    console.log(error);
-  }
+  await TestDatabaseManager.getInstance().connectTestDatabase();
 }, 10_000);
 
 afterAll(async () => {
@@ -27,12 +23,8 @@ afterAll(async () => {
 });
 
 beforeEach(async () => {
-  try {
-    await TestDatabaseManager.getInstance().resetTestDatabase();
-    await createTestData();
-  } catch (error) {
-    console.log(error);
-  }
+  await TestDatabaseManager.getInstance().resetTestDatabase();
+  await createTestData();
 }, 10_000);
 
 async function createTestData() {
@@ -411,13 +403,12 @@ describe('ReviewTests', () => {
       });
       describe('given movie id doesnt exist', () => {
         it('should return 404', async () => {
-          // let review: Review = await Review.findOne({
-          //   where: { reviewMovieMovieId: 11, reviewUserUserId: 1 },
-          // });
-          // review.reviewMovieMovieId = 11;
-          // Kevin - Macht ja keinen Sinn, den mit 11 zu holen und dann 11 dort zu speichern. Klar, dass dann 200 kommt
-          // let response = await request(app).put('/review/').send(review);
-          // expect(response.statusCode).toBe(404);
+          let review: Review = await Review.findOne({
+            where: { reviewMovieMovieId: 1, reviewUserUserId: 1 },
+          });
+          review.reviewMovieMovieId = 11;
+          let response = await request(app).put('/review/').send(review);
+          expect(response.statusCode).toBe(404);
         });
       });
     });
@@ -468,11 +459,20 @@ describe('ReviewTests', () => {
           expect(response.statusCode).toBe(404);
         });
       });
-      describe('given ...', () => {
-        it('should return 404', () => {
-          // TODO: welche felder sind alles required? für jedes eigenen test
+      describe('given not all required information (no title)', () => {
+        it('should return 404', async () => {
+          // welche felder sind alles required? für jedes eigenen test
           // Kevin - In der Entität klasse kann man sehen was required ist. Alles war nicht die nullable annotation hat. (bei review ist aber glaub ich alles benötigt)
           // Glaube aber nicht, dass wir wirklich für jedes fehlende Feld einen eigenen Test brauchen. Aber wenn ihr Zeit habt, schadets auch nicht
+          let review: Review = new Review();
+          review.reviewUserUserId = 1;
+          review.reviewMovieMovieId = 1;
+          review.content = 'Was pretty bad';
+          review.rating = 1;
+          review.lastUpdated = new Date();
+
+          let response = await request(app).post('/review/').send(review);
+          expect(response.statusCode).toBe(404);
         });
       });
     });

@@ -44,11 +44,15 @@ export default class User extends BaseEntity {
   @OneToMany(() => Review, (review) => review.review_user)
   reviews: Review[];
 
-  @ManyToMany(() => User, (user) => user.followers)
+  @ManyToMany(() => User, (user) => user.followers, {
+    onDelete: 'CASCADE',
+  })
   @JoinTable()
   following: User[];
 
-  @ManyToMany(() => User, (user) => user.following)
+  @ManyToMany(() => User, (user) => user.following, {
+    onDelete: 'CASCADE',
+  })
   followers: User[];
 
   @ManyToMany(() => Movie)

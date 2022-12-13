@@ -12,11 +12,7 @@ import Genre from '../entity/genre';
 import request from 'supertest';
 
 beforeAll(async () => {
-  try {
-    await TestDatabaseManager.getInstance().connectTestDatabase();
-  } catch (error) {
-    console.log(error);
-  }
+  await TestDatabaseManager.getInstance().connectTestDatabase();
 }, 10_000);
 
 afterAll(async () => {
@@ -24,12 +20,8 @@ afterAll(async () => {
 });
 
 beforeEach(async () => {
-  try {
-    await TestDatabaseManager.getInstance().resetTestDatabase();
-    await createTestData();
-  } catch (error) {
-    console.log(error);
-  }
+  await TestDatabaseManager.getInstance().resetTestDatabase();
+  await createTestData();
 }, 10_000);
 
 async function createTestData() {

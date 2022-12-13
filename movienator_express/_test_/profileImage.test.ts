@@ -13,11 +13,7 @@ import ProfileImage from '../entity/profileImage';
 import User from '../entity/user';
 
 beforeAll(async () => {
-  try {
-    await TestDatabaseManager.getInstance().connectTestDatabase();
-  } catch (error) {
-    console.log(error);
-  }
+  await TestDatabaseManager.getInstance().connectTestDatabase();
 }, 10_000);
 
 afterAll(async () => {
@@ -25,12 +21,8 @@ afterAll(async () => {
 });
 
 beforeEach(async () => {
-  try {
-    await TestDatabaseManager.getInstance().resetTestDatabase();
-    await createTestData();
-  } catch (error) {
-    console.log(error);
-  }
+  await TestDatabaseManager.getInstance().resetTestDatabase();
+  await createTestData();
 }, 10_000);
 
 async function createTestData() {
@@ -107,26 +99,26 @@ describe('Imagetest', () => {
     describe('good case', () => {
       it('should return image of user', async () => {
         // Kevin - Ich glaube in der Route war ein Fehler, könnt jetzt nochmal probieren
-        // let response = await request(app).get('/profileImage/user/1');
-        // expect(response.statusCode).toBe(200);
-        // const image: ProfileImage = response.body.data;
-        // expect(image.name).toBe('Cat');
-        // expect(image.users.at(0).firstName).toBe('Ula');
+        let response = await request(app).get('/profileImage/user/1');
+        expect(response.statusCode).toBe(200);
+        const image: ProfileImage = response.body.data;
+        expect(image.name).toBe('Cat');
+        expect(image.users.at(0).firstName).toBe('Ula');
       });
       describe('given user does not have an image', () => {
         it('should return 200 and undefined image', async () => {
-          // let response = await request(app).get('/profileImage/user/2');
-          // expect(response.statusCode).toBe(200);
-          // const image: ProfileImage = response.body.data;
-          // expect(image).toBe(undefined);
+          let response = await request(app).get('/profileImage/user/2');
+          expect(response.statusCode).toBe(200);
+          const image: ProfileImage = response.body.data;
+          expect(image).toBe(undefined);
         });
       });
     });
     describe('bad case', () => {
       describe('given user does not exist', () => {
         it('should return 404', async () => {
-          //   let response = await request(app).get('/profileImage/user/11');
-          //   expect(response.statusCode).toBe(404);
+          let response = await request(app).get('/profileImage/user/11');
+          expect(response.statusCode).toBe(404);
         });
       });
     });
@@ -172,12 +164,13 @@ describe('Imagetest', () => {
     describe('bad case', () => {
       describe('image does not exist', () => {
         it('should return 404', async () => {
-          // let image: ProfileImage = await ProfileImage.findOne({where:{ressourceLink: 'none.png'}});
+          let image: ProfileImage = await ProfileImage.findOne({
+            where: { ressourceLink: 'none.png' },
+          });
           // Kevin - Klar, dass es nicht 404 ist, der link vom ProfileImage wird ja nicht geändert bevor es gesendet wird
-          // let response = await request(app)
-          //     .put('/profileImage/')
-          //      .send(image)
-          // expect(response.statusCode).toBe(404)
+          image.ressourceLink = 'none.png';
+          let response = await request(app).put('/profileImage/').send(image);
+          expect(response.statusCode).toBe(404);
         });
       });
     });
