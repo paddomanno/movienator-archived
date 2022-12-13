@@ -2,7 +2,7 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  testPathIgnorePatterns: [".js"],
+  // testPathIgnorePatterns: [".js"],
   transform: {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },

@@ -4,6 +4,7 @@ import Review from '../../entity/review';
 import ProfileImage from '../../entity/profileImage';
 import Movie from '../../entity/movie';
 import Actor from '../../entity/actor';
+import User from '../../entity/user';
 
 export class TestDatabaseManager {
   private static databaseInstance: TestDatabaseManager;
@@ -38,7 +39,8 @@ export class TestDatabaseManager {
       .execute();
     await this.testDatabase.createQueryBuilder().delete().from(Movie).execute();
     await this.testDatabase.createQueryBuilder().delete().from(Actor).execute();
+    await this.testDatabase.createQueryBuilder().delete().from(User).execute();
 
-    await this.testDatabase.query('ALTER TABLE user AUTO_INCREMENT = 0');
+    await this.testDatabase.query('ALTER TABLE user AUTO_INCREMENT = 1');
   }
 }
