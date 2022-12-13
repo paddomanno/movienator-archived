@@ -17,14 +17,22 @@ import request from 'supertest';
 beforeAll(async () => {
   try {
     await TestDatabaseManager.getInstance().connectTestDatabase();
-    await TestDatabaseManager.getInstance().resetTestDatabase();
+  } catch (error) {
+    console.log(error);
+  }
+}, 10_000);
 
+afterAll(async () => {
+  await TestDatabaseManager.getInstance().resetTestDatabase();
+});
+
+beforeEach(async () => {
+  try {
+    await TestDatabaseManager.getInstance().resetTestDatabase();
     await createTestData();
   } catch (error) {
     console.log(error);
   }
-
-  //console.log("Starting Review Tests")
 }, 10_000);
 
 async function createTestData() {
@@ -143,11 +151,6 @@ async function createTestData() {
   await review4.save();
 }
 
-afterAll(async () => {
-  await TestDatabaseManager.getInstance().resetTestDatabase();
-  //console.log("Finishing Review Test")
-});
-
 describe('ReviewTests', () => {
   describe('getAllReviews route', () => {
     describe('good case (reviews exist)', () => {
@@ -163,17 +166,13 @@ describe('ReviewTests', () => {
     });
     describe('bad cases', () => {
       describe('given no reviews exist', () => {
-        // TODO: wie testen mit leerer datenbank? wenn wir hier die db leeren
-        // Kevin - Würde die Datenbank nach dem letzten Test leeren und dann die Tests in einem eigenen block machen, die eine leere DB brauchen
-        // funktionieren die tests danach nicht mehr, wenn beforeEach/afterEach statt
-        // beforeAll/afterAll benutzt wird geht nur der erste Test
-        // it('should return 404', async () => {
-        //   await TestDatabaseManager.getInstance().resetTestDatabase();
-        //   let response = await request(app).get('/review/all');
-        //   expect(response.statusCode).toBe(404);
-        //   const allReviews: Review[] = response.body.data;
-        //   expect(allReviews.length).toBe(0);
-        // });
+        it('should return 200', async () => {
+          await TestDatabaseManager.getInstance().resetTestDatabase();
+          let response = await request(app).get('/review/all');
+          expect(response.statusCode).toBe(200);
+          const allReviews: Review[] = response.body.data;
+          expect(allReviews.length).toBe(0);
+        });
       });
     });
   });

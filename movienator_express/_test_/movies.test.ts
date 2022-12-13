@@ -1,4 +1,11 @@
-import { afterAll, beforeAll, describe, expect, it } from '@jest/globals';
+import {
+  afterAll,
+  beforeAll,
+  describe,
+  expect,
+  beforeEach,
+  it,
+} from '@jest/globals';
 import { TestDatabaseManager } from './test_utils/TestDatabaseManager';
 import Movie from '../entity/movie';
 import Actor from '../entity/actor';
@@ -12,12 +19,24 @@ import { response } from 'express';
 import exp from 'constants';
 
 beforeAll(async () => {
-  await TestDatabaseManager.getInstance().connectTestDatabase();
+  try {
+    await TestDatabaseManager.getInstance().connectTestDatabase();
+  } catch (error) {
+    console.log(error);
+  }
+}, 10_000);
+
+afterAll(async () => {
   await TestDatabaseManager.getInstance().resetTestDatabase();
+});
 
-  await createTestData();
-
-  //console.log("Starting Movie Tests")
+beforeEach(async () => {
+  try {
+    await TestDatabaseManager.getInstance().resetTestDatabase();
+    await createTestData();
+  } catch (error) {
+    console.log(error);
+  }
 }, 10_000);
 
 async function createTestData() {
@@ -76,11 +95,6 @@ async function createTestData() {
   movie3.adultContent = true;
   await movie3.save();
 }
-
-afterAll(async () => {
-  await TestDatabaseManager.getInstance().resetTestDatabase();
-  //console.log("Finishing Movie Test")
-});
 
 describe('MovieTests', () => {
   describe('Testing getAll Route', () => {

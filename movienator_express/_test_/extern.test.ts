@@ -1,4 +1,11 @@
-import { afterAll, beforeAll, describe, expect, it } from '@jest/globals';
+import {
+  afterAll,
+  beforeAll,
+  describe,
+  expect,
+  beforeEach,
+  it,
+} from '@jest/globals';
 import { TestDatabaseManager } from './test_utils/TestDatabaseManager';
 import User from '../entity/user';
 import request from 'supertest';
@@ -10,12 +17,24 @@ import Review from '../entity/review';
 import { MigrationRevertCommand } from 'typeorm/commands/MigrationRevertCommand';
 
 beforeAll(async () => {
-  await TestDatabaseManager.getInstance().connectTestDatabase();
+  try {
+    await TestDatabaseManager.getInstance().connectTestDatabase();
+  } catch (error) {
+    console.log(error);
+  }
+}, 10_000);
+
+afterAll(async () => {
   await TestDatabaseManager.getInstance().resetTestDatabase();
+});
 
-  await createTestData();
-
-  //console.log("Starting Extern Tests")
+beforeEach(async () => {
+  try {
+    await TestDatabaseManager.getInstance().resetTestDatabase();
+    await createTestData();
+  } catch (error) {
+    console.log(error);
+  }
 }, 10_000);
 
 async function createTestData() {
@@ -35,11 +54,6 @@ async function createTestData() {
   });
   await user1.save();
 }
-
-afterAll(async () => {
-  await TestDatabaseManager.getInstance().resetTestDatabase();
-  //console.log("Finishing Extern Test")
-});
 
 describe('Externtest', () => {
   describe('Testing movieSearch Route', () => {

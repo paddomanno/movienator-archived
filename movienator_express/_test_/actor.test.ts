@@ -1,4 +1,11 @@
-import { describe, expect, afterAll, beforeAll, it } from '@jest/globals';
+import {
+  describe,
+  expect,
+  afterAll,
+  beforeAll,
+  it,
+  beforeEach,
+} from '@jest/globals';
 import { TestDatabaseManager } from './test_utils/TestDatabaseManager';
 import Actor from '../entity/actor';
 import app from '../app';
@@ -6,10 +13,24 @@ import request from 'supertest';
 import Movie from '../entity/movie';
 
 beforeAll(async () => {
-  await TestDatabaseManager.getInstance().connectTestDatabase();
-  await TestDatabaseManager.getInstance().resetTestDatabase();
+  try {
+    await TestDatabaseManager.getInstance().connectTestDatabase();
+  } catch (error) {
+    console.log(error);
+  }
+}, 10_000);
 
-  await createTestData();
+afterAll(async () => {
+  await TestDatabaseManager.getInstance().resetTestDatabase();
+});
+
+beforeEach(async () => {
+  try {
+    await TestDatabaseManager.getInstance().resetTestDatabase();
+    await createTestData();
+  } catch (error) {
+    console.log(error);
+  }
 }, 10_000);
 
 async function createTestData() {
@@ -33,26 +54,29 @@ async function createTestData() {
   await movie1.save();
 }
 
-afterAll(async () => {
-  await TestDatabaseManager.getInstance().resetTestDatabase();
-});
+describe('ActorTests', () => {
+  describe('getAll route', () => {
+    describe('good case', () => {
+      it('Should return all actors in the database', async () => {
+        let response = await request(app).get('/actor/all');
+        expect(response.statusCode).toBe(200);
+        const allActors: Actor[] = response.body.data;
+        expect(allActors.length).toBe(2);
+        expect(allActors[0].name).toBe('Andreas');
+      });
 
-describe('ActorTest', () => {
-  describe('Testing getAll Route', () => {
-    it('Should return all actors in the database', async () => {
-      let response = await request(app).get('/actor/all');
-      expect(response.statusCode).toBe(200);
-      const allActors: Actor[] = response.body.data;
-      expect(allActors.length).toBe(2);
-      expect(allActors[0].name).toBe('Andreas');
+      it('Should return the actors with filled movies array', async () => {
+        let response = await request(app).get('/actor/all');
+        expect(response.statusCode).toBe(200);
+        const allActors: Actor[] = response.body.data;
+        expect(allActors.length).toBe(2);
+        expect(allActors[1].movies.length).toBe(1);
+      });
     });
-
-    it('Should return the actors with filled movies array', async () => {
-      let response = await request(app).get('/actor/all');
-      expect(response.statusCode).toBe(200);
-      const allActors: Actor[] = response.body.data;
-      expect(allActors.length).toBe(2);
-      expect(allActors[1].movies.length).toBe(1);
+    describe('bad cases', () => {
+      describe('given no actors exist', () => {
+        // second;
+      });
     });
   });
 
