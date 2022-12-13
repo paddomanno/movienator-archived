@@ -13,11 +13,7 @@ import ProfileImage from '../entity/profileImage';
 import User from '../entity/user';
 
 beforeAll(async () => {
-  try {
-    await TestDatabaseManager.getInstance().connectTestDatabase();
-  } catch (error) {
-    console.log(error);
-  }
+  await TestDatabaseManager.getInstance().connectTestDatabase();
 }, 10_000);
 
 afterAll(async () => {
@@ -25,12 +21,8 @@ afterAll(async () => {
 });
 
 beforeEach(async () => {
-  try {
-    await TestDatabaseManager.getInstance().resetTestDatabase();
-    await createTestData();
-  } catch (error) {
-    console.log(error);
-  }
+  await TestDatabaseManager.getInstance().resetTestDatabase();
+  await createTestData();
 }, 10_000);
 
 async function createTestData() {
@@ -125,8 +117,8 @@ describe('Imagetest', () => {
     describe('bad case', () => {
       describe('given user does not exist', () => {
         it('should return 404', async () => {
-            let response = await request(app).get('/profileImage/user/11');
-            expect(response.statusCode).toBe(404);
+          let response = await request(app).get('/profileImage/user/11');
+          expect(response.statusCode).toBe(404);
         });
       });
     });
@@ -172,13 +164,13 @@ describe('Imagetest', () => {
     describe('bad case', () => {
       describe('image does not exist', () => {
         it('should return 404', async () => {
-          let image: ProfileImage = await ProfileImage.findOne({where:{ressourceLink: 'none.png'}});
+          let image: ProfileImage = await ProfileImage.findOne({
+            where: { ressourceLink: 'none.png' },
+          });
           // Kevin - Klar, dass es nicht 404 ist, der link vom ProfileImage wird ja nicht geändert bevor es gesendet wird
-          image.ressourceLink = 'none.png'
-          let response = await request(app)
-              .put('/profileImage/')
-               .send(image)
-          expect(response.statusCode).toBe(404)
+          image.ressourceLink = 'none.png';
+          let response = await request(app).put('/profileImage/').send(image);
+          expect(response.statusCode).toBe(404);
         });
       });
     });
