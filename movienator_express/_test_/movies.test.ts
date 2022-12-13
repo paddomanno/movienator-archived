@@ -61,6 +61,8 @@ async function createTestData() {
     actors: [actor1],
     genres: [genre1],
     reviews: [],
+    lengthMinutes: 100,
+    releaseDate: new Date('2022-01-01'),
   });
   await movie1.save();
 
@@ -79,13 +81,44 @@ async function createTestData() {
   movie2.title = 'Bbbb';
   movie2.adultContent = false;
   movie2.actors = [actor1];
+  movie2.lengthMinutes = 200;
+  movie2.releaseDate = new Date('2022-03-03');
   await movie2.save();
 
   let movie3: Movie = new Movie();
   movie3.movieId = 3;
   movie3.title = 'Ccccb';
   movie3.adultContent = true;
+  movie3.lengthMinutes = 300;
+  movie3.releaseDate = new Date('2022-05-05');
   await movie3.save();
+
+  user1.watchlist = [movie1, movie2];
+  await user1.save();
+
+  let user2 = User.create({
+    firstName: 'Maggus',
+    lastName: 'Rühl',
+    userName: 'Roswita',
+    password: 'pw',
+    comment: 'Schwer und falsch',
+    birthday: new Date(),
+    following: [],
+    followers: [],
+    watchlist: [movie1],
+  });
+  await user2.save();
+  let user3 = User.create({
+    firstName: 'Maggus',
+    lastName: 'Rühl',
+    userName: 'Roswita',
+    password: 'pw',
+    comment: 'Schwer und falsch',
+    birthday: new Date(),
+    following: [],
+    followers: [],
+  });
+  await user3.save();
 }
 
 describe('MovieTests', () => {
@@ -199,12 +232,6 @@ describe('MovieTests', () => {
 
   describe('Testing getWatchlistByUser Route', () => {
     it('Should return all reviewed movies of that user ordered by title', async () => {
-      let user1: User = await User.findOne({ where: { userId: 1 } });
-      let movie1: Movie = await Movie.findOne({ where: { movieId: 1 } });
-      let movie2: Movie = await Movie.findOne({ where: { movieId: 2 } });
-      user1.watchlist = [movie1, movie2];
-      await user1.save();
-
       let response = await request(app).get('/movie/watchlist/1');
       expect(response.statusCode).toBe(200);
       let movies: Movie[] = response.body.data as Movie[];
@@ -234,16 +261,6 @@ describe('MovieTests', () => {
 
   describe('Testing moviesByMinTime Route', () => {
     it('Should return an array with movies ordered by title', async () => {
-      let movie1: Movie = await Movie.findOne({ where: { movieId: 1 } });
-      let movie2: Movie = await Movie.findOne({ where: { movieId: 2 } });
-      let movie3: Movie = await Movie.findOne({ where: { movieId: 3 } });
-      movie1.lengthMinutes = 100;
-      movie2.lengthMinutes = 200;
-      movie3.lengthMinutes = 300;
-      await movie1.save();
-      await movie2.save();
-      await movie3.save();
-
       let response = await request(app).get('/movie/time/min/200');
       expect(response.statusCode).toBe(200);
       let movies: Movie[] = response.body.data as Movie[];
@@ -315,16 +332,6 @@ describe('MovieTests', () => {
 
   describe('Testing moviesByDateRange Route', () => {
     it('Should return an array of movies ordered by title', async () => {
-      let movie1: Movie = await Movie.findOne({ where: { movieId: 1 } });
-      let movie2: Movie = await Movie.findOne({ where: { movieId: 2 } });
-      let movie3: Movie = await Movie.findOne({ where: { movieId: 3 } });
-      movie1.releaseDate = new Date('2022-01-01');
-      movie2.releaseDate = new Date('2022-03-03');
-      movie3.releaseDate = new Date('2022-05-05');
-      await movie1.save();
-      await movie2.save();
-      await movie3.save();
-
       let dateMin = new Date('2022-02-02');
       let dateMax = new Date('2022-06-06');
       let response = await request(app).get(
@@ -397,28 +404,6 @@ describe('MovieTests', () => {
 
   describe('Testing moviesByRating Route', () => {
     it('Should return an array of movies ordered by title', async () => {
-      let user2 = User.create({
-        firstName: 'Maggus',
-        lastName: 'Rühl',
-        userName: 'Roswita',
-        password: 'pw',
-        comment: 'Schwer und falsch',
-        birthday: new Date(),
-        following: [],
-        followers: [],
-      });
-      await user2.save();
-      let user3 = User.create({
-        firstName: 'Maggus',
-        lastName: 'Rühl',
-        userName: 'Roswita',
-        password: 'pw',
-        comment: 'Schwer und falsch',
-        birthday: new Date(),
-        following: [],
-        followers: [],
-      });
-      await user3.save();
       //3 Users now in database 1,2,3
       //3 Movies now in database 1,2,3
 
@@ -520,12 +505,6 @@ describe('MovieTests', () => {
       expect(movies.length).toBe(2);
       expect(movies.at(0).movieId).toBe(2);
       expect(movies.at(1).movieId).toBe(3);
-    });
-
-    it('Should fill all the relations', async () => {
-      let response = await request(app).get('/movie/rating/3');
-      expect(response.statusCode).toBe(200);
-      let movies: Movie[] = response.body.data as Movie[];
       expect(movies.at(0).actors.length).toBeGreaterThanOrEqual(1);
       expect(movies.at(0).reviews.length).toBe(3);
     });
@@ -576,15 +555,6 @@ describe('MovieTests', () => {
 
   describe('Testing getMutualWatchlist', () => {
     it('Should return an array of Movies', async () => {
-      let user1: User = await User.findOne({ where: { userId: 1 } });
-      let user2: User = await User.findOne({ where: { userId: 2 } });
-      let movie1: Movie = await Movie.findOne({ where: { movieId: 1 } });
-      let movie2: Movie = await Movie.findOne({ where: { movieId: 2 } });
-      user1.watchlist = [movie1, movie2];
-      user2.watchlist = [movie1];
-      await user1.save();
-      await user2.save();
-
       let response = await request(app).get('/movie/mutual/watchlist/1/2');
       expect(response.statusCode).toBe(200);
       let movies: Movie[] = response.body.data as Movie[];
@@ -624,14 +594,34 @@ describe('MovieTests', () => {
 
   describe('Testing getMutualReview', () => {
     it('Should return an array of movies ordered by title', async () => {
+      let review2: Review = Review.create({
+        reviewMovieMovieId: 1,
+        reviewUserUserId: 2,
+        title: 'Good',
+        content: 'Was good',
+        rating: 1,
+        lastUpdated: new Date(),
+      });
+      await review2.save();
+
       let response = await request(app).get('/movie/mutual/review/1/2');
       expect(response.statusCode).toBe(200);
       let movies: Movie[] = response.body.data as Movie[];
-      expect(movies.length).toBe(3);
+      expect(movies.length).toBe(1);
       expect(movies.at(0).movieId).toBe(1);
     });
 
     it('Should fill all the relations', async () => {
+      let review2: Review = Review.create({
+        reviewMovieMovieId: 1,
+        reviewUserUserId: 2,
+        title: 'Good',
+        content: 'Was good',
+        rating: 1,
+        lastUpdated: new Date(),
+      });
+      await review2.save();
+
       let response = await request(app).get('/movie/mutual/review/1/2');
       expect(response.statusCode).toBe(200);
       let movies: Movie[] = response.body.data as Movie[];
@@ -770,13 +760,13 @@ describe('MovieTests', () => {
 
   describe('Testing deleteMovie Route', () => {
     it('Should delete the movie with that id', async () => {
-      let movieBefore: Movie = await Movie.findOne({ where: { movieId: 4 } });
-      expect(movieBefore.movieId).toBe(4);
+      let movieBefore: Movie = await Movie.findOne({ where: { movieId: 1 } });
+      expect(movieBefore.movieId).toBe(1);
 
-      let response = await request(app).delete('/movie/4');
+      let response = await request(app).delete('/movie/1');
       expect(response.statusCode).toBe(204);
 
-      let movieAfter: Movie = await Movie.findOne({ where: { movieId: 4 } });
+      let movieAfter: Movie = await Movie.findOne({ where: { movieId: 1 } });
       expect(movieAfter).toBeNull();
     });
 
