@@ -49,7 +49,7 @@ actorRouter.get('/movie/:id', async (req, res) => {
   try {
     const movie: Movie = await Movie.findOne({
       where: { movieId: parseInt(req.params.id) },
-      relations: ['actors','actors.movies'],
+      relations: ['actors', 'actors.movies'],
     });
 
     if (movie) {

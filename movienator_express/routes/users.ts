@@ -97,11 +97,7 @@ userRouter.get('/username/:word', async (req, res) => {
       let query: string = req.params.word;
       allUsers.forEach((currentUser) => {
         //If the query is a substring of the current users username
-        if (
-          currentUser.userName
-            .toLowerCase()
-            .includes(query.toLowerCase())
-        ) {
+        if (currentUser.userName.toLowerCase().includes(query.toLowerCase())) {
           matchingUsers.push(currentUser);
         }
       });
@@ -207,9 +203,7 @@ userRouter.get('/following/:id/rated/:mId', async (req, res) => {
       resultUser.following.forEach((currentUser) => {
         //Iterate over all reviews of the current user
         currentUser.reviews.forEach((currentReview) => {
-          if (
-            currentReview.review_movie.movieId === resultMovie.movieId
-          )
+          if (currentReview.review_movie.movieId === resultMovie.movieId)
             matchingUsers.push(currentUser);
         });
       });
@@ -444,10 +438,7 @@ userRouter.delete('/watchlist/:uId/:mId', async (req, res) => {
     //TODO: Es gibt glaub ich schönere Wege das zu machen. Schau dir mal die filter() funktion von arrays in TS an
     if (requestedUser && requestedMovie) {
       for (let i = 0; i < requestedUser.watchlist.length; i++) {
-        if (
-          requestedUser.watchlist[i].movieId ===
-          requestedMovie.movieId
-        ) {
+        if (requestedUser.watchlist[i].movieId === requestedMovie.movieId) {
           requestedUser.watchlist.splice(i, 1);
           break;
         }

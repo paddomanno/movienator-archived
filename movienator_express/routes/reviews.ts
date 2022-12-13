@@ -15,9 +15,7 @@ reviewRouter.get('/all', async (req, res) => {
       relations: { review_movie: true, review_user: true },
     });
     if (allReviews) {
-      allReviews.sort(
-        (a, b) => Number(b.lastUpdated) - Number(a.lastUpdated)
-      );
+      allReviews.sort((a, b) => Number(b.lastUpdated) - Number(a.lastUpdated));
       res.status(200).json({
         data: allReviews,
       });
@@ -59,11 +57,7 @@ reviewRouter.get('/movie/:id', async (req, res) => {
   try {
     const requestedMovie = await Movie.findOne({
       where: { movieId: parseInt(req.params.id) },
-      relations: [
-        'reviews',
-        'reviews.review_movie',
-        'reviews.review_user',
-      ],
+      relations: ['reviews', 'reviews.review_movie', 'reviews.review_user'],
     });
 
     if (requestedMovie) {
@@ -87,19 +81,15 @@ reviewRouter.get('/user/own/:id', async (req, res) => {
   try {
     const requestedUser = await User.findOne({
       where: { userId: parseInt(req.params.id) },
-      relations: [
-        'reviews',
-        'reviews.review_movie',
-        'reviews.review_user',
-      ],
+      relations: ['reviews', 'reviews.review_movie', 'reviews.review_user'],
     });
     if (requestedUser) {
-        const reviews = requestedUser.reviews.sort(
-          (a, b) => Number(b.lastUpdated) - Number(a.lastUpdated)
-        );
-        res.status(200).json({
-          data: reviews,
-        });
+      const reviews = requestedUser.reviews.sort(
+        (a, b) => Number(b.lastUpdated) - Number(a.lastUpdated)
+      );
+      res.status(200).json({
+        data: reviews,
+      });
     } else {
       res.status(404).json();
     }
@@ -123,18 +113,13 @@ reviewRouter.get('/user/following/:id', async (req, res) => {
     });
     if (requestedUser) {
       const reviews = requestedUser.following.reduce(
-        (reviews, followedUser) => [
-          ...reviews,
-          ...followedUser.reviews,
-        ],
+        (reviews, followedUser) => [...reviews, ...followedUser.reviews],
         []
       );
-        reviews.sort(
-          (a, b) => Number(b.lastUpdated) - Number(a.lastUpdated)
-        );
-        res.status(200).json({
-          data: reviews,
-        });
+      reviews.sort((a, b) => Number(b.lastUpdated) - Number(a.lastUpdated));
+      res.status(200).json({
+        data: reviews,
+      });
     } else {
       res.status(404).json();
     }
@@ -164,10 +149,7 @@ reviewRouter.get('/user/following/:id/:time', async (req, res) => {
     });
     if (requestedUser) {
       const reviews = requestedUser.following.reduce(
-        (reviews, followedUser) => [
-          ...reviews,
-          ...followedUser.reviews,
-        ],
+        (reviews, followedUser) => [...reviews, ...followedUser.reviews],
         []
       );
       const filteredReviews = reviews.filter((rev: Review) => {
@@ -197,7 +179,7 @@ reviewRouter.get('/user/following/:id/:time', async (req, res) => {
 // TODO: Error handling (for example '0' as :time)
 reviewRouter.get('/time/:time', async (req, res) => {
   try {
-    const timestamp = new Date(req.params.time)
+    const timestamp = new Date(req.params.time);
     if (isNaN(timestamp.getTime())) {
       throw new Error('timestamp is NaN');
     }
@@ -235,15 +217,15 @@ reviewRouter.post('/', async (req, res) => {
 
     // check if User and Movie exist
     const userForReview: User = await User.findOne({
-      where: { userId: newReview.reviewUserUserId }
-    })
+      where: { userId: newReview.reviewUserUserId },
+    });
 
     const movieForReview: Movie = await Movie.findOne({
-      where: { movieId: newReview.reviewMovieMovieId }
-    })
+      where: { movieId: newReview.reviewMovieMovieId },
+    });
 
-    if( userForReview && movieForReview ){
-    /* is supposed to work with just user id and movie id
+    if (userForReview && movieForReview) {
+      /* is supposed to work with just user id and movie id
     example req body:
     {
         "reviewMovieMovieId": 0,
@@ -253,7 +235,7 @@ reviewRouter.post('/', async (req, res) => {
         "rating": 5
     }
     */
-    //TODO: Is working like this.
+      //TODO: Is working like this.
       await Review.save(newReview);
       newReview = await Review.findOne({
         where: {
@@ -265,8 +247,8 @@ reviewRouter.post('/', async (req, res) => {
       res.status(201).json({
         data: newReview,
       });
-    } else{
-        res.status(404).json()
+    } else {
+      res.status(404).json();
     }
   } catch (er) {
     console.log(er);
@@ -303,7 +285,6 @@ reviewRouter.put('/', async (req, res) => {
       res.status(201).json({
         data: requestedReview,
       });
-
     } else {
       res.status(404).json();
     }
