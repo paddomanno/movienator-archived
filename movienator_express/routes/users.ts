@@ -220,16 +220,8 @@ userRouter.get('/following/:id/rated/:mId', async (req, res) => {
 
 //Gets all the users that the one user is following and have the movie on their watchlist
 userRouter.get('/following/:id/watchlist/:mId', async (req, res) => {
-  // console.log(
-  //   "All users that the user with ID " +
-  //     parseInt(req.params.id) +
-  //     " is following and that have the movie with ID " +
-  //     req.params.mId +
-  //     " on their watchlist requested"
-  // )
-
   try {
-    const resultUser = await User.findOne({
+    const resultUser: User = await User.findOne({
       where: { userId: parseInt(req.params.id) },
       relations: [
         'following',
@@ -239,11 +231,13 @@ userRouter.get('/following/:id/watchlist/:mId', async (req, res) => {
         'following.reviews',
       ],
     });
-    const resultMovie = await Movie.findOne({
+    const resultMovie: Movie = await Movie.findOne({
       where: { movieId: parseInt(req.params.mId) },
     });
 
     if (resultUser && resultMovie) {
+      console.log('USER');
+      console.log(resultUser);
       let matchingUsers: User[] = [];
       //Iterate over all users the requested user is following
       resultUser.following.forEach((currentUser) => {

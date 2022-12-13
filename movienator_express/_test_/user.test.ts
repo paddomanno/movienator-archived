@@ -27,7 +27,7 @@ beforeEach(async () => {
 }, 10_000);
 
 async function createTestData() {
-  let newMovie1 = Movie.create({
+  let newMovie1: Movie = Movie.create({
     movieId: 1,
     title: 'Testmovie',
     adultContent: false,
@@ -38,7 +38,7 @@ async function createTestData() {
 
   await Movie.save(newMovie1);
 
-  let newUser1 = User.create({
+  let newUser1: User = User.create({
     firstName: 'Maggus',
     lastName: 'Rühl',
     userName: 'Roswita',
@@ -47,9 +47,10 @@ async function createTestData() {
     birthday: new Date('2000-01-16'),
     following: [],
     followers: [],
+    watchlist: [],
   });
 
-  let newUser2 = User.create({
+  let newUser2: User = User.create({
     firstName: 'Tschai',
     lastName: 'Katla',
     userName: 'tschai111',
@@ -58,9 +59,10 @@ async function createTestData() {
     birthday: new Date('2003-02-22'),
     following: [],
     followers: [],
+    watchlist: [],
   });
 
-  let newUser3 = User.create({
+  let newUser3: User = User.create({
     firstName: 'Ronnie',
     lastName: 'Colman',
     userName: 'MrOlympia',
@@ -72,17 +74,64 @@ async function createTestData() {
     watchlist: [],
   });
 
-  //Tschai is following Maggus and Ronnie?
-  newUser2.following.push(newUser1);
+  await newUser1.save();
+  await newUser2.save();
+  await newUser3.save();
+
+  newUser1.following.push(newUser2);
+  newUser1.followers.push(newUser2);
   newUser2.following.push(newUser3);
-
-  //Maggs has Id 1 Ronnie has Id 2 and Tschai has ID 3
-  await User.save(newUser1);
-
+  newUser2.following.push(newUser1);
+  newUser2.followers.push(newUser3);
+  newUser2.followers.push(newUser1);
+  newUser3.following.push(newUser2);
+  newUser3.followers.push(newUser2);
   newUser3.watchlist.push(newMovie1);
 
-  await User.save(newUser3);
-  await User.save(newUser2);
+  await newUser1.save();
+  await newUser2.save();
+  await newUser3.save();
+
+  /* GEHT AUCH SO
+  newUser2.following = [newUser3, newUser1];
+  await newUser2.save();
+
+  newUser3 = await User.findOne({
+    where: { userId: 3 },
+    relations: { following: true, followers: true, watchlist: true },
+  });
+  newUser3.following.push(newUser2);
+  newUser3.watchlist.push(newMovie1);
+  await newUser3.save();
+
+  newUser1 = await User.findOne({
+    where: { userId: 1 },
+    relations: { following: true, followers: true, watchlist: true },
+  });
+  newUser1.following.push(newUser2);
+  await newUser1.save();
+   */
+
+  //Gewünschter zustand:
+  // 1 is following 2 and followed by 2
+  // 2 is following 3,1 and followed by 3,1
+  // 3 is following 2 and followed by 2
+
+  let controlUser = await User.findOne({
+    where: { userId: 1 },
+    relations: { following: true, followers: true, watchlist: true },
+  });
+  console.log(controlUser);
+  controlUser = await User.findOne({
+    where: { userId: 2 },
+    relations: { following: true, followers: true, watchlist: true },
+  });
+  console.log(controlUser);
+  controlUser = await User.findOne({
+    where: { userId: 3 },
+    relations: { following: true, followers: true, watchlist: true },
+  });
+  console.log(controlUser);
 
   //Maggus reviews the Testmovie
   let newReview1 = Review.create({
@@ -93,8 +142,17 @@ async function createTestData() {
     rating: 5,
     lastUpdated: new Date('2019-10-11'),
   });
-
   await Review.save(newReview1);
+
+  let newReview2 = Review.create({
+    reviewMovieMovieId: 1,
+    reviewUserUserId: 2,
+    title: 'Bruddaler Film',
+    content: 'Des wars mit dem Review',
+    rating: 5,
+    lastUpdated: new Date('2019-10-11'),
+  });
+  await newReview2.save();
 }
 
 describe('GET Tests', () => {
@@ -191,9 +249,8 @@ describe('GET Tests', () => {
       .send()
       .expect('Content-Type', 'application/json; charset=utf-8');
     expect(response.statusCode).toBe(200);
-    expect(response.body.data.length).toBe(2);
-    expect(response.body.data[1].firstName).toBe('Maggus');
-    expect(response.body.data[0].firstName).toBe('Ronnie');
+    expect(response.body.data.length).toBe(1);
+    expect(response.body.data[0].firstName).toBe('Tschai');
   });
 
   it('Get all users that a NON-EXISTING user is following TEST', async () => {
@@ -206,12 +263,12 @@ describe('GET Tests', () => {
 
   it('Get all users that a single user is following and that rated a stated movie TEST', async () => {
     const response = await request(app)
-      .get('/user/following/3/rated/1') //All users tschai is following that reviewed the testmovie
+      .get('/user/following/3/rated/1') //All users Ronnie is following that reviewed the testmovie
       .send()
       .expect('Content-Type', 'application/json; charset=utf-8');
     expect(response.statusCode).toBe(200);
     expect(response.body.data.length).toBe(1);
-    expect(response.body.data[0].firstName).toBe('Maggus');
+    expect(response.body.data[0].firstName).toBe('Tschai');
   });
 
   it('Get all users that a NON-EXISTING user is following and that rated a stated movie TEST', async () => {
@@ -232,7 +289,7 @@ describe('GET Tests', () => {
 
   it('Get all users that a single user is following and have a stated movie on their watchlist TEST', async () => {
     const response = await request(app)
-      .get('/user/following/3/watchlist/1') //All users tschai is following that have the testmovie on their watchlist
+      .get('/user/following/2/watchlist/1') //All users tschai is following that have the testmovie on their watchlist
       .send()
       .expect('Content-Type', 'application/json; charset=utf-8');
     expect(response.statusCode).toBe(200);
@@ -302,16 +359,16 @@ describe('POST Tests', () => {
 
   it('Adds: user a is now following user b TEST', async () => {
     const response = await request(app)
-      .post('/user/follow/4/1') //Chris is now following Maggus
+      .post('/user/follow/3/1') //x is now following Maggus
       .send()
       .expect('Content-Type', 'application/json; charset=utf-8');
     expect(response.statusCode).toBe(201);
 
     const resultUser = await User.findOne({
-      where: { userId: 4 },
+      where: { userId: 3 },
       relations: ['following'],
     });
-    expect(resultUser.following.length).toBe(1);
+    expect(resultUser.following.length).toBe(2);
     expect(resultUser.following[0].firstName).toBe('Maggus');
   });
 
@@ -381,7 +438,7 @@ describe('PUT Tests', () => {
 
   it('Tries updating existing user (But overwrites a relation) TEST', async () => {
     let updatedUser1 = User.create({
-      userId: 1,
+      userId: 3,
       firstName: 'MarkusUpdated',
       watchlist: [], //Redefines a relation
     });
@@ -393,10 +450,9 @@ describe('PUT Tests', () => {
     expect(response.statusCode).toBe(201);
 
     const resultUser = await User.findOne({
-      where: { userId: 1 },
+      where: { userId: 3 },
       relations: { watchlist: true },
     });
-    // console.log("MARKUS NEUE WATCHLIST: " + resultUser.watchlist)
     expect(resultUser.firstName).toBe('MarkusUpdated');
     expect(resultUser.watchlist.length).toBe(1);
   });
@@ -414,6 +470,12 @@ describe('DELETE Tests', () => {
   });
 
   it('User a is now no more following user b TEST', async () => {
+    const userBefore = await User.findOne({
+      where: { userId: 3 },
+      relations: ['following'],
+    });
+    expect(userBefore.following.length).toBe(1);
+    expect(userBefore.following.at(0).userId).toBe(2);
     const response = await request(app)
       .delete('/user/follow/3/2') // /follow/:aId/:bId
       .send();
