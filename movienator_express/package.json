@@ -6,7 +6,7 @@
   "main": "start.ts",
   "scripts": {
     "dev": "tsc-watch --onSuccess \"node dist/start\"",
-    "test": "jest --forceExit --runInBand --watchAll --silent"
+    "test": "jest --forceExit --runInBand --watchAll"
   },
   "dependencies": {
     "express": "latest",
