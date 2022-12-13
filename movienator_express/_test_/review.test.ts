@@ -75,7 +75,7 @@ async function createTestData() {
   userFollowsUserNoReview.following = [];
   userFollowsUserNoReview.followers = [];
   // await userFollowsUserNoReview.save();
-  
+
   let userWithoutReviews: User = new User();
   userWithoutReviews.firstName = 'Patrick';
   userWithoutReviews.lastName = 'Fender';
@@ -85,12 +85,12 @@ async function createTestData() {
   userWithoutReviews.following = [];
   userWithoutReviews.followers = [];
   // await userWithoutReviews.save();
-  
+
   user2.following.push(user); // Isidora follows Kevin
   userFollowsUserNoReview.following.push(userWithoutReviews); // Nick follows Patrick
 
-  await user.save()
-  await user2.save()
+  await user.save();
+  await user2.save();
   await userFollowsUserNoReview.save();
   await userWithoutReviews.save();
 
@@ -105,7 +105,7 @@ async function createTestData() {
   review3.review_movie = movie2;
   review3.review_user = user2;
   await review3.save();
-  
+
   // review of isij for movie
   let review2: Review = new Review();
   review2.reviewMovieMovieId = 1;
@@ -207,18 +207,18 @@ describe('ReviewTests', () => {
   describe('getUserFollowingReviews route', () => {
     describe('good case', () => {
       it('should return all reviews done by users that user is following, ordered by last updated, and status 200', async () => {
-        let response = await request(app).get('/review/user/following/2')
+        let response = await request(app).get('/review/user/following/2');
         expect(response.statusCode).toBe(200);
         const kevinsReviews: Review[] = response.body.data;
         expect(kevinsReviews.length).toBe(2);
-        expect(kevinsReviews.at(0).title).toBe('My first review')
-        expect(kevinsReviews.at(0).review_movie.movieId).toBe(1)
-        expect(kevinsReviews.at(0).review_user.userId).toBe(1)
+        expect(kevinsReviews.at(0).title).toBe('My first review');
+        expect(kevinsReviews.at(0).review_movie.movieId).toBe(1);
+        expect(kevinsReviews.at(0).review_user.userId).toBe(1);
       });
     });
     describe('given user doesnt follow anyone', () => {
       it('should return 200 and empty array', async () => {
-        let response = await request(app).get('/review/user/following/1')
+        let response = await request(app).get('/review/user/following/1');
         expect(response.statusCode).toBe(200);
         const reviews: Review[] = response.body.data;
         expect(reviews.length).toBe(0);
@@ -226,7 +226,7 @@ describe('ReviewTests', () => {
     });
     describe('given no reviews made by followed users', () => {
       it('should return 200 and empty array', async () => {
-        let response = await request(app).get('/review/user/following/3')
+        let response = await request(app).get('/review/user/following/3');
         expect(response.statusCode).toBe(200);
         const reviews: Review[] = response.body.data;
         expect(reviews.length).toBe(0);
@@ -235,7 +235,7 @@ describe('ReviewTests', () => {
     describe('bad cases', () => {
       describe('given user id doesnt exist', () => {
         it('should return 404', async () => {
-          let response = await request(app).get('/review/user/following/11')
+          let response = await request(app).get('/review/user/following/11');
           expect(response.statusCode).toBe(404);
         });
       });
@@ -251,15 +251,11 @@ describe('ReviewTests', () => {
         // console.log(allReviewsOfUser);
         expect(allReviewsOfUser.length).toBe(2);
         expect(allReviewsOfUser.at(0).title).toBe('Nah');
-        expect(allReviewsOfUser.at(0).review_movie.title).toBe(
-          'Movie'
-        );
-        expect(allReviewsOfUser.at(0).review_user.firstName).toBe(
-          'Isidora'
-        );
+        expect(allReviewsOfUser.at(0).review_movie.title).toBe('Movie');
+        expect(allReviewsOfUser.at(0).review_user.firstName).toBe('Isidora');
       });
     });
-    describe('given user doesnt have any reviews', () => {  
+    describe('given user doesnt have any reviews', () => {
       it('should return 200 and empty array', async () => {
         let response = await request(app).get('/review/user/own/3');
         expect(response.statusCode).toBe(200);
@@ -286,12 +282,8 @@ describe('ReviewTests', () => {
         // console.log(allReviewsOfMovie);
         expect(allReviewsOfMovie.length).toBe(2);
         expect(allReviewsOfMovie.at(0).title).toBe('My first review');
-        expect(allReviewsOfMovie.at(0).review_movie.title).toBe(
-          'Movie'
-        );
-        expect(allReviewsOfMovie.at(0).review_user.firstName).toBe(
-          'Kevin'
-        );
+        expect(allReviewsOfMovie.at(0).review_movie.title).toBe('Movie');
+        expect(allReviewsOfMovie.at(0).review_user.firstName).toBe('Kevin');
       });
     });
     describe('given no reviews for that movie exist', () => {
@@ -330,13 +322,17 @@ describe('ReviewTests', () => {
       // Id oder timestamp falsch formatiert sollte 500 sein.
       describe('given user id doesnt exist', () => {
         it('should return 404', async () => {
-          let response = await request(app).get('/review/user/following/11/2022-03-21');
+          let response = await request(app).get(
+            '/review/user/following/11/2022-03-21'
+          );
           expect(response.statusCode).toBe(404);
         });
       });
       describe('given timestamp is not a number', () => {
         it('should return 500', async () => {
-          let response = await request(app).get('/review/user/following/2/timestamp');
+          let response = await request(app).get(
+            '/review/user/following/2/timestamp'
+          );
           expect(response.statusCode).toBe(500);
         });
       });
@@ -346,7 +342,7 @@ describe('ReviewTests', () => {
   describe('getAllSinceTime route', () => {
     describe('good case', () => {
       it('should return all reviews since that time and status 200', async () => {
-        let date = new Date('2022-03-21')
+        let date = new Date('2022-03-21');
         let response = await request(app).get(`/review/time/${date}`);
         expect(response.statusCode).toBe(200);
         const reviewsSinceTime: Review[] = response.body.data;
@@ -380,9 +376,9 @@ describe('ReviewTests', () => {
         let review: Review = await Review.findOne({
           where: { reviewMovieMovieId: 2, reviewUserUserId: 2 },
         });
-        review.title = "New title"
+        review.title = 'New title';
         review.rating = 8;
-        review.lastUpdated = new Date()
+        review.lastUpdated = new Date();
         let response = await request(app).put('/review').send(review);
         expect(response.statusCode).toBe(201);
 
@@ -431,9 +427,7 @@ describe('ReviewTests', () => {
         review.rating = 5;
         review.lastUpdated = new Date();
 
-        let response = await request(app)
-          .post('/review/')
-          .send(review);
+        let response = await request(app).post('/review/').send(review);
         expect(response.statusCode).toBe(201);
         expect(response.body.data.title).toBe('Liked');
       });
@@ -449,11 +443,9 @@ describe('ReviewTests', () => {
           review.rating = 5;
           review.lastUpdated = new Date();
 
-          let response = await request(app)
-            .post('/review/')
-            .send(review);
+          let response = await request(app).post('/review/').send(review);
           expect(response.statusCode).toBe(404);
-          });
+        });
       });
       describe('given movie id doesnt exist', () => {
         it('should return 400', async () => {
@@ -465,9 +457,7 @@ describe('ReviewTests', () => {
           review.rating = 5;
           review.lastUpdated = new Date();
 
-          let response = await request(app)
-            .post('/review/')
-            .send(review);
+          let response = await request(app).post('/review/').send(review);
           expect(response.statusCode).toBe(404);
         });
       });
@@ -481,15 +471,12 @@ describe('ReviewTests', () => {
     });
   });
 
-
   describe('deleteReview route', () => {
     describe('good case', () => {
       it('should return nothing and status 204', async () => {
         let response = await request(app).delete('/review/2/1');
         expect(response.statusCode).toBe(204);
-        let reviewsOfMovie = await request(app).get(
-          '/review/movie/1'
-        );
+        let reviewsOfMovie = await request(app).get('/review/movie/1');
         expect(reviewsOfMovie.statusCode).toBe(200);
         const allReviewsOfMovie: Review[] = reviewsOfMovie.body.data;
         expect(allReviewsOfMovie.length).toBe(1);

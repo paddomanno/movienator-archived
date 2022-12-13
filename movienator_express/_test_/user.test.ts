@@ -1,10 +1,4 @@
-import {
-  afterAll,
-  beforeAll,
-  describe,
-  expect,
-  it,
-} from '@jest/globals';
+import { afterAll, beforeAll, describe, expect, it } from '@jest/globals';
 import { TestDatabaseManager } from './test_utils/TestDatabaseManager';
 import User from '../entity/user';
 import Movie from '../entity/movie';
