@@ -51,7 +51,7 @@ profileImageRouter.get("/user/:id", async (req,res) => {
     try{
         const requestedUser: User = await User.findOne({
             where: { userId: parseInt(req.params.id) },
-            relations: ["profileImage", "profileImage.ressourceLink", "profileImage.name", "profileImage.users"],
+            relations: ["profileImage","profileImage.users"],
         })
 
         if(requestedUser){
@@ -94,6 +94,7 @@ profileImageRouter.put("/", async (req,res) => {
         });
         if (requestedProfileImage) {
             // TODO: primary key can be updated here (if we ever want to change the link), right?
+            // Kevin - können mal probieren. Bin mir nicht sicher ob typeOrm das mag
           Object.keys(updatedProfileImage).forEach((key) => {
             if (
               key != 'users'

@@ -164,6 +164,7 @@ describe('ReviewTests', () => {
     describe('bad cases', () => {
       describe('given no reviews exist', () => {
         // TODO: wie testen mit leerer datenbank? wenn wir hier die db leeren
+        // Kevin - Würde die Datenbank nach dem letzten Test leeren und dann die Tests in einem eigenen block machen, die eine leere DB brauchen
         // funktionieren die tests danach nicht mehr, wenn beforeEach/afterEach statt
         // beforeAll/afterAll benutzt wird geht nur der erste Test
         // it('should return 404', async () => {
@@ -325,6 +326,8 @@ describe('ReviewTests', () => {
     });
     describe('bad cases', () => {
       // TODO: bad case tests ausdenken je nachdem wie die route funktionieren soll -> wie mit 0 und falsch formatiert
+      // Kevin - Würde sagen timestamp 0 oder in der Zukunft ist beides ok, macht zwar nicht viel Sinn, aber es gibt ja richtige Ergebnise für beide Fälle (alle bzw keine)
+      // Id oder timestamp falsch formatiert sollte 500 sein.
       describe('given user id doesnt exist', () => {
         it('should return 404', async () => {
           let response = await request(app).get('/review/user/following/11/2022-03-21');
@@ -343,13 +346,14 @@ describe('ReviewTests', () => {
   describe('getAllSinceTime route', () => {
     describe('good case', () => {
       it('should return all reviews since that time and status 200', async () => {
-        // let response = await request(app).get('/review/time/2022-03-21');
-        // expect(response.statusCode).toBe(200);
-        // const reviewsSinceTime: Review[] = response.body.data;
-        // expect(reviewsSinceTime.length).toBe(3);
-        // expect(reviewsSinceTime.at(0).title).toBe('My first review');
-        // expect(reviewsSinceTime.at(0).review_movie.title).toBe('Movie');
-        // expect(reviewsSinceTime.at(0).review_user.firstName).toBe('Kevin');
+        let date = new Date('2022-03-21')
+        let response = await request(app).get(`/review/time/${date}`);
+        expect(response.statusCode).toBe(200);
+        const reviewsSinceTime: Review[] = response.body.data;
+        expect(reviewsSinceTime.length).toBe(3);
+        expect(reviewsSinceTime.at(0).title).toBe('My first review');
+        expect(reviewsSinceTime.at(0).review_movie.title).toBe('Movie');
+        expect(reviewsSinceTime.at(0).review_user.firstName).toBe('Kevin');
       });
     });
     describe('given no reviews since that time exist', () => {
@@ -408,6 +412,7 @@ describe('ReviewTests', () => {
           //   where: { reviewMovieMovieId: 11, reviewUserUserId: 1 },
           // });
           // review.reviewMovieMovieId = 11;
+          // Kevin - Macht ja keinen Sinn, den mit 11 zu holen und dann 11 dort zu speichern. Klar, dass dann 200 kommt
           // let response = await request(app).put('/review/').send(review);
           // expect(response.statusCode).toBe(404);
         });
@@ -469,6 +474,8 @@ describe('ReviewTests', () => {
       describe('given ...', () => {
         it('should return 404', () => {
           // TODO: welche felder sind alles required? für jedes eigenen test
+          // Kevin - In der Entität klasse kann man sehen was required ist. Alles war nicht die nullable annotation hat. (bei review ist aber glaub ich alles benötigt)
+          // Glaube aber nicht, dass wir wirklich für jedes fehlende Feld einen eigenen Test brauchen. Aber wenn ihr Zeit habt, schadets auch nicht
         });
       });
     });
