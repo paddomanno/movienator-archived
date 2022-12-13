@@ -15,6 +15,6 @@ export const TestDataSource = new DataSource({
   database: 'movienator-database-test',
   entities: [Actor, Movie, ProfileImage, Review, User, Genre],
   synchronize: true,
-  logging: ['error'],
+  logging: ['warn'],
   dropSchema: true,
 });
