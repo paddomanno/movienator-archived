@@ -460,19 +460,20 @@ describe('ReviewTests', () => {
         });
       });
       describe('given not all required information (no title)', () => {
-        it('should return 404', async () => {
+        it('should return 500', async () => {
           // welche felder sind alles required? für jedes eigenen test
           // Kevin - In der Entität klasse kann man sehen was required ist. Alles war nicht die nullable annotation hat. (bei review ist aber glaub ich alles benötigt)
           // Glaube aber nicht, dass wir wirklich für jedes fehlende Feld einen eigenen Test brauchen. Aber wenn ihr Zeit habt, schadets auch nicht
-          let review: Review = new Review();
-          review.reviewUserUserId = 1;
-          review.reviewMovieMovieId = 1;
-          review.content = 'Was pretty bad';
-          review.rating = 1;
-          review.lastUpdated = new Date();
+          let noValidReview: Review = Review.create({
+            reviewUserUserId: 3,
+            reviewMovieMovieId: 1,
+            content:'Was good',
+            rating: 5,
+            lastUpdated: new Date(),
+          });
 
-          let response = await request(app).post('/review/').send(review);
-          expect(response.statusCode).toBe(404);
+          let response = await request(app).post('/review/').send(noValidReview);
+          expect(response.statusCode).toBe(500);
         });
       });
     });

@@ -110,7 +110,7 @@ describe('Imagetest', () => {
           let response = await request(app).get('/profileImage/user/2');
           expect(response.statusCode).toBe(200);
           const image: ProfileImage = response.body.data;
-          expect(image).toBe(undefined);
+          expect(image).toBe(null);
         });
       });
     });
@@ -164,12 +164,13 @@ describe('Imagetest', () => {
     describe('bad case', () => {
       describe('image does not exist', () => {
         it('should return 404', async () => {
-          let image: ProfileImage = await ProfileImage.findOne({
-            where: { ressourceLink: 'none.png' },
+          let noImage: ProfileImage = ProfileImage.create({
+            ressourceLink: 'none.png',
+            name: 'no',
+            users:[],
           });
-          // Kevin - Klar, dass es nicht 404 ist, der link vom ProfileImage wird ja nicht geändert bevor es gesendet wird
-          image.ressourceLink = 'none.png';
-          let response = await request(app).put('/profileImage/').send(image);
+          noImage.ressourceLink = 'none1.png';
+          let response = await request(app).put('/profileImage/').send(noImage);
           expect(response.statusCode).toBe(404);
         });
       });
