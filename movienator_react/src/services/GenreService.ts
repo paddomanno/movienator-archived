@@ -1,5 +1,4 @@
 import { Genre } from '../types/Genre';
-import { Movie } from '../types/Movie';
 import axios from 'axios';
 
 const baseUrl: string = 'http://localhost:8080/genres';
