@@ -196,7 +196,7 @@ export async function saveMovie(newMovie: Movie): Promise<Boolean> {
       return true;
     }
   } catch (e) {
-    console.log('Error fetching Movies: ' + e);
+    console.log('Error inserting Movies: ' + e);
   }
   return false;
 }
@@ -213,7 +213,7 @@ export async function updateMovie(newMovie: Movie): Promise<Boolean> {
       return true;
     }
   } catch (e) {
-    console.log('Error fetching Movies: ' + e);
+    console.log('Error updating Movies: ' + e);
   }
   return false;
 }
@@ -225,7 +225,7 @@ export async function deleteMovie(movieId: number): Promise<Boolean> {
       return true;
     }
   } catch (e) {
-    console.log('Error fetching Movies: ' + e);
+    console.log('Error deleting Movies: ' + e);
   }
   return false;
 }

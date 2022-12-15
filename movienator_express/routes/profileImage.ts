@@ -4,8 +4,6 @@ import User from '../entity/user';
 const expressProfileImage = require('express');
 const profileImageRouter = expressProfileImage.Router();
 
-//TODO Routing implementieren
-
 //All images
 profileImageRouter.get('/all', async (req, res) => {
   try {
