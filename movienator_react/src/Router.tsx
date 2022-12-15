@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
-import ErrorPage from './components/ErrorPage';
-import RootPage from './components/RootPage';
+import ErrorPage from './pages/ErrorPage';
+import RootPage from './pages/RootPage';
 
 /*
 Setting up the router to manage the frontend routes and determine what Components are to be shown at what routes
