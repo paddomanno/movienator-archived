@@ -1,1 +1,0 @@
-Hier typen definieren, die die Entitäten der DB wiederspiegeln
