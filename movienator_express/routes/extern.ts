@@ -268,7 +268,7 @@ externRouter.get('/user/:uId/recommendations', async (req, res) => {
 //Returns a list of recommendations for a movie
 //The actors array is NOT filled
 //The genre array IS filled
-externRouter.get('/movie/:mId/recommendations/', async (req, res) => {
+externRouter.get('/movie/:mId/recommendations', async (req, res) => {
   try {
     if (isNaN(+req.params.mId)) {
       throw 'Not a valid Number';
