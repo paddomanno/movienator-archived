@@ -130,7 +130,6 @@ reviewRouter.get('/user/following/:id', async (req, res) => {
 });
 
 //Gets all reviews done by users that user is following and having been updated since the timestamp, ordered by last updated
-// TODO: Error handling (for example '0' as :time)
 reviewRouter.get('/user/following/:id/:time', async (req, res) => {
   try {
     const timestamp: number = Date.parse(req.params.time);
@@ -176,7 +175,6 @@ reviewRouter.get('/user/following/:id/:time', async (req, res) => {
 });
 
 //Gets all reviews that have been updated since the timestamp, ordered by last updated
-// TODO: Error handling (for example '0' as :time)
 reviewRouter.get('/time/:time', async (req, res) => {
   try {
     const timestamp = new Date(req.params.time);
@@ -213,7 +211,7 @@ reviewRouter.get('/time/:time', async (req, res) => {
 //Saves a new review
 reviewRouter.post('/', async (req, res) => {
   try {
-    let newReview: Review = req.body as Review; // TODO: not working lol
+    let newReview: Review = req.body as Review;
 
     // check if User and Movie exist
     const userForReview: User = await User.findOne({
@@ -225,17 +223,6 @@ reviewRouter.post('/', async (req, res) => {
     });
 
     if (userForReview && movieForReview) {
-      /* is supposed to work with just user id and movie id
-    example req body:
-    {
-        "reviewMovieMovieId": 0,
-        "reviewUserUserId": 1,
-        "title": "NEW REVIEW 1",
-        "content": "It was ok",
-        "rating": 5
-    }
-    */
-      //TODO: Is working like this.
       await Review.save(newReview);
       newReview = await Review.findOne({
         where: {
