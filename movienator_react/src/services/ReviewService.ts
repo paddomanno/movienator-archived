@@ -11,7 +11,7 @@ export async function getAllReviews(): Promise<Review[]> {
       resArray = response.data.data as Review[];
     }
   } catch (e) {
-    console.log('Error fetching Images: ' + e);
+    console.log('Error fetching Reviews: ' + e);
   }
   return resArray;
 }
@@ -23,7 +23,7 @@ export async function getAllReviewsSinceTime(date: Date): Promise<Review[]> {
       resArray = response.data.data as Review[];
     }
   } catch (e) {
-    console.log('Error fetching Images: ' + e);
+    console.log('Error fetching Reviews: ' + e);
   }
   return resArray;
 }
@@ -38,7 +38,7 @@ export async function getOneReview(
       resReview = response.data.data as Review;
     }
   } catch (e) {
-    console.log('Error fetching Images: ' + e);
+    console.log('Error fetching Reviews: ' + e);
   }
   return resReview;
 }
@@ -51,7 +51,7 @@ export async function getReviewsToMovie(movieId: number): Promise<Review[]> {
       resArray = response.data.data as Review[];
     }
   } catch (e) {
-    console.log('Error fetching Images: ' + e);
+    console.log('Error fetching Reviews: ' + e);
   }
   return resArray;
 }
@@ -64,7 +64,7 @@ export async function getReviewsToUser(userId: number): Promise<Review[]> {
       resArray = response.data.data as Review[];
     }
   } catch (e) {
-    console.log('Error fetching Images: ' + e);
+    console.log('Error fetching Reviews: ' + e);
   }
   return resArray;
 }
@@ -77,7 +77,7 @@ export async function getReviewsOfFollowing(userId: number): Promise<Review[]> {
       resArray = response.data.data as Review[];
     }
   } catch (e) {
-    console.log('Error fetching Images: ' + e);
+    console.log('Error fetching Reviews: ' + e);
   }
   return resArray;
 }
@@ -94,7 +94,7 @@ export async function getReviewsOfFollowingSinceTime(
       resArray = response.data.data as Review[];
     }
   } catch (e) {
-    console.log('Error fetching Images: ' + e);
+    console.log('Error fetching Reviews: ' + e);
   }
   return resArray;
 }
@@ -105,7 +105,7 @@ export async function postNewReview(newReview: Review): Promise<Boolean> {
       return true;
     }
   } catch (e) {
-    console.log('Error fetching Images: ' + e);
+    console.log('Error fetching Reviews: ' + e);
   }
   return false;
 }
@@ -116,7 +116,7 @@ export async function updateReview(updatedReview: Review): Promise<Boolean> {
       return true;
     }
   } catch (e) {
-    console.log('Error fetching Images: ' + e);
+    console.log('Error fetching Reviews: ' + e);
   }
   return false;
 }
@@ -130,7 +130,7 @@ export async function deleteReview(
       return true;
     }
   } catch (e) {
-    console.log('Error fetching Images: ' + e);
+    console.log('Error fetching Reviews: ' + e);
   }
   return false;
 }
