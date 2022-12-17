@@ -129,6 +129,39 @@ reviewRouter.get('/user/following/:id', async (req, res) => {
   }
 });
 
+//Gets all reviews done by users that user is following to a specific movie, ordered by last updated
+reviewRouter.get('/user/following/:uId/review/:mId', async (req, res) => {
+  try {
+    const requestedUser = await User.findOne({
+      where: { userId: parseInt(req.params.uId) },
+      relations: [
+        'following',
+        'following.reviews',
+        'following.reviews.review_user',
+        'following.reviews.review_movie',
+      ],
+    });
+    if (requestedUser) {
+      let reviews: Review[] = requestedUser.following.reduce(
+        (reviews, followedUser) => [...reviews, ...followedUser.reviews],
+        []
+      );
+      reviews = reviews.filter((review) => {
+        return review.review_movie.movieId == parseInt(req.params.mId);
+      });
+      reviews.sort((a, b) => Number(b.lastUpdated) - Number(a.lastUpdated));
+      res.status(200).json({
+        data: reviews,
+      });
+    } else {
+      res.status(404).json();
+    }
+  } catch (er) {
+    console.log(er);
+    res.status(500).json();
+  }
+});
+
 //Gets all reviews done by users that user is following and having been updated since the timestamp, ordered by last updated
 reviewRouter.get('/user/following/:id/:time', async (req, res) => {
   try {

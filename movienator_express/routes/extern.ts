@@ -172,6 +172,21 @@ externRouter.get('/search/actor/:name', async (req, res) => {
   }
 });
 
+externRouter.get('/movie/one/:id', async (req, res) => {
+  try {
+    let resMovies: Movie[] = await getMoviesToIds(
+      [parseInt(req.params.id)],
+      20
+    );
+    res.status(200).json({
+      data: resMovies[0],
+    });
+  } catch (er) {
+    console.log(er);
+    res.status(500).json();
+  }
+});
+
 //Returns a list of Movies that this actor has played in
 //The actors array is NOT filled
 //The genre array IS filled
