@@ -16,6 +16,18 @@ export async function searchMoviesByName(searchWord: string): Promise<Movie[]> {
   }
   return resArray;
 }
+export async function getMovieById(movieId: number): Promise<Movie | null> {
+  let resMovie: Movie | null = null;
+  try {
+    let response = await axios.get(baseUrl + `/movie/one/${movieId}`);
+    if (response.status === 200) {
+      resMovie = response.data.data as Movie;
+    }
+  } catch (e) {
+    console.log('Error fetching movies: ' + e);
+  }
+  return resMovie;
+}
 
 export async function searchActorsByName(searchWord: string): Promise<Actor[]> {
   let resActors: Actor[] = [];

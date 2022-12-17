@@ -81,6 +81,24 @@ export async function getReviewsOfFollowing(userId: number): Promise<Review[]> {
   }
   return resArray;
 }
+
+export async function getReviewsOfFollowingToMovie(
+  userId: number,
+  movieId: number
+): Promise<Review[]> {
+  let resArray: Review[] = [];
+  try {
+    let response = await axios.get(
+      baseUrl + `/user/following/${userId}/review/${movieId}`
+    );
+    if (response.status === 200) {
+      resArray = response.data.data as Review[];
+    }
+  } catch (e) {
+    console.log('Error fetching Reviews: ' + e);
+  }
+  return resArray;
+}
 export async function getReviewsOfFollowingSinceTime(
   userId: number,
   date: Date
