@@ -1,2 +1,5 @@
 ### Request non existing Movie
 http://localhost:8080/movie/one/-1
+
+###Database config
+https://api.themoviedb.org/3/configuration?api_key=fb73e59a39ce4d841ab2597bdf8b7003

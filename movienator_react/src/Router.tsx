@@ -47,7 +47,7 @@ let router = createBrowserRouter([
         element: <GenreMoviesPage />,
       },
       {
-        path: '/movie/movieId',
+        path: '/movie/:movieId',
         element: <OneMoviePage />,
       },
       {

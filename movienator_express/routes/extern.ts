@@ -3,6 +3,7 @@ import Actor from '../entity/actor';
 import Review from '../entity/review';
 import Genre from '../entity/genre';
 import User from '../entity/user';
+import { Console } from 'inspector';
 
 const expressExtern = require('express');
 const externRouter = expressExtern.Router();
@@ -46,7 +47,7 @@ async function getMoviesToIds(
       oneMovie.movieId = response.data.id;
       oneMovie.title = response.data.original_title;
       oneMovie.overview = response.data.overview;
-      oneMovie.releaseDate = response.data.release_Date;
+      oneMovie.releaseDate = new Date(response.data.release_date);
       oneMovie.lengthMinutes = response.data.runtime;
       oneMovie.adultContent = response.data.adult;
       oneMovie.imagePath = response.data.poster_path;
