@@ -136,3 +136,16 @@ export async function getMoviesToGenre(genreId: number): Promise<Movie[]> {
   }
   return resArray;
 }
+
+export async function getSingleGenre(genreId: number): Promise<Genre | null> {
+  let resGenre: Genre | null = null;
+  try {
+    let response = await axios.get(baseUrl + `/genre/${genreId}`);
+    if (response.status === 200) {
+      resGenre = response.data.data as Genre;
+    }
+  } catch (e) {
+    console.log('Error fetching Genres: ' + e);
+  }
+  return resGenre;
+}

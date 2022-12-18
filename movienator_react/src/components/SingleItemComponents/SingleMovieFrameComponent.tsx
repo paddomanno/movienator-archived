@@ -6,7 +6,6 @@ export default function SingleMovieFrameComponent(props: any) {
   const movie: Movie = props.data as Movie;
   const navigate = useNavigate();
   function manageClick() {
-    console.log('Navigating');
     navigate('/movie/' + movie.movieId);
   }
   return (
