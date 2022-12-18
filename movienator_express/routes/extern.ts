@@ -384,4 +384,40 @@ externRouter.get('/movie/genre/:id', async (req, res) => {
   }
 });
 
+externRouter.get('/genre/:id', async (req, res) => {
+  try {
+    if (isNaN(+req.params.id)) {
+      throw 'Not a valid number';
+    }
+    let genreId: number = parseInt(req.params.id);
+    let resGenre: Genre = null;
+    let query: string = BASE_URL + `/genre/movie/list?` + `api_key=${API_KEY}`;
+    let genreRes = await axios.get(query, {
+      headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
+      params: { trophies: true },
+    });
+    if (genreRes.status == 200) {
+      genreRes.data.genres.forEach((genre) => {
+        if (genre.id === genreId) {
+          resGenre = new Genre();
+          resGenre.genreId = genre.id;
+          resGenre.genreName = genre.name;
+        }
+      });
+      if (resGenre != null) {
+        res.status(200).json({
+          data: resGenre,
+        });
+      } else {
+        res.status(500).json();
+      }
+    } else {
+      res.status(500).json();
+    }
+  } catch (er) {
+    console.log(er);
+    res.status(500).json();
+  }
+});
+
 module.exports = externRouter;

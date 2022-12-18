@@ -1,4 +1,41 @@
 //Route: movienator3000.com/genreMovies/:genreId
+import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Movie } from '../types/Movie';
+import { getMoviesToGenre, getSingleGenre } from '../services/ExternService';
+import { Typography } from '@mui/material';
+import WholeMovieListComponent from '../components/WholeMovieListComponent';
+import { Genre } from '../types/Genre';
+
 export default function GenreMoviesPage() {
-  return <div>Hier ist die Genre Movies Page</div>;
+  const { genreId } = useParams();
+  const [movies, setMovies] = useState<Movie[] | null>(null);
+  const [genre, setGenre] = useState<Genre | null>(null);
+
+  useEffect(() => {
+    if (typeof genreId == 'string') {
+      getMoviesToGenre(parseInt(genreId)).then((movies) => {
+        setMovies(movies);
+      });
+      getSingleGenre(parseInt(genreId)).then((genre) => {
+        setGenre(genre);
+      });
+    }
+  }, []);
+
+  return (
+    <div>
+      {movies != null && genre != null ? (
+        <>
+          <Typography>Movies of Genre {genre.genreName}</Typography>
+          <WholeMovieListComponent data={movies} />
+        </>
+      ) : (
+        <>
+          <Typography>Movies of Genre ...</Typography>
+          <Typography>Loading...</Typography>
+        </>
+      )}
+    </div>
+  );
 }
