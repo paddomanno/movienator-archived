@@ -16,6 +16,7 @@ import {
   getReviewsToMovie,
 } from '../services/ReviewService';
 import { useCookies } from 'react-cookie';
+import { Stack } from '@mui/material';
 
 export default function OneMoviePage() {
   const navigate = useNavigate();
@@ -66,13 +67,13 @@ export default function OneMoviePage() {
       followingWatchlist != null &&
       followingReviews != null &&
       otherReviews != null ? (
-        <>
+        <Stack direction={'column'} spacing={1} alignItems={'center'}>
           <MovieDetailsComponent data={movie} />
           <MovieOwnReviewComponent data={movie} />
           <MovieOnFollowerWatchlistComponent data={followingWatchlist} />
           <MovieFollowerReviewed data={followingReviews} />
           <MovieOthersReviews data={otherReviews} />
-        </>
+        </Stack>
       ) : (
         <></>
       )}

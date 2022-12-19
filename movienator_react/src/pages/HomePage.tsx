@@ -25,23 +25,23 @@ export default function HomePage() {
   const [recommendations, setRecommendations] = useState<Movie[] | null>(null);
   const [reviews, setReviews] = useState<Review[] | null>(null);
   const [genres, setGenres] = useState<Genre[] | null>(null);
-  const [cookies, setCookies] = useCookies(['userName']);
+  const [cookies, setCookies] = useCookies(['userName', 'userId']);
 
   useEffect(() => {
     //Rauswerfen wenn nicht eingeloggt
     if (!cookies.userName) {
       navigate('/login');
     }
-    getWatchlistMovies(1).then((movies) => {
+    getWatchlistMovies(cookies.userId as number).then((movies) => {
       setWatchlist(movies);
     });
     getPopularMovies().then((movies) => {
       setPopular(movies);
     });
-    getUserRecommendations(1).then((movies) => {
+    getUserRecommendations(cookies.userId as number).then((movies) => {
       setRecommendations(movies);
     });
-    getReviewsOfFollowing(1).then((reviews) => {
+    getReviewsOfFollowing(cookies.userId as number).then((reviews) => {
       setReviews(reviews);
     });
     getAllGenres().then((genres) => {
