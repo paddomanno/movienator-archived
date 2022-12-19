@@ -1,7 +1,7 @@
 import { Review } from '../types/Review';
 import axios from 'axios';
 
-const baseUrl: string = 'http://localhost:8080/reviews';
+const baseUrl: string = 'http://localhost:8080/review';
 export async function getAllReviews(): Promise<Review[]> {
   let resArray: Review[] = [];
   try {
@@ -143,11 +143,11 @@ export async function deleteReview(
 ): Promise<Boolean> {
   try {
     let response = await axios.delete(baseUrl + `/${userId}/${movieId}`);
-    if (response.status === 201) {
+    if (response.status === 204) {
       return true;
     }
   } catch (e) {
-    console.log('Error fetching Reviews: ' + e);
+    console.log('Error deleting Reviews: ' + e);
   }
   return false;
 }
