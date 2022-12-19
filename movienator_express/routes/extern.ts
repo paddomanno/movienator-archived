@@ -242,7 +242,7 @@ externRouter.get('/user/:uId/recommendations', async (req, res) => {
       while (i < reviews.length && i < MAX_DIF_REVIEWS) {
         let query: string =
           BASE_URL +
-          `/movie/${reviews[i].reviewMovieMovieId}/recommendations?` +
+          `/movie/${reviews[i].reviewMovieMovieId}/similar?` +
           `api_key=${API_KEY}`;
         let thisMovieRec = await axios.get(query, {
           headers: {
@@ -291,9 +291,7 @@ externRouter.get('/movie/:mId/recommendations', async (req, res) => {
     }
     let resMovies: Movie[] = [];
     let query: string =
-      BASE_URL +
-      `/movie/${req.params.mId}/recommendations?` +
-      `api_key=${API_KEY}`;
+      BASE_URL + `/movie/${req.params.mId}/similar?` + `api_key=${API_KEY}`;
     let thisMovieRec = await axios.get(query, {
       headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
       params: { trophies: true },
