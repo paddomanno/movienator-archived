@@ -26,7 +26,7 @@ export default function OneMoviePage() {
   );
   const [followingReviews, setFollowingReviews] = useState<Review[] | null>([]);
   const [otherReviews, setOtherReviews] = useState<Review[] | null>([]);
-  const [cookies, setCookies] = useCookies(['userName']);
+  const [cookies, setCookies] = useCookies(['userName', 'userId']);
 
   useEffect(() => {
     if (!cookies.userName) {
@@ -41,10 +41,17 @@ export default function OneMoviePage() {
           });
         }
       });
-      getFollowingWithMovieWatchlist(1, parseInt(movieId)).then((users) => {
+
+      getFollowingWithMovieWatchlist(
+        cookies.userId as number,
+        parseInt(movieId)
+      ).then((users) => {
         setFollowingWatchlist(users);
       });
-      getReviewsOfFollowingToMovie(1, parseInt(movieId)).then((reviews) => {
+      getReviewsOfFollowingToMovie(
+        cookies.userId as number,
+        parseInt(movieId)
+      ).then((reviews) => {
         setFollowingReviews(reviews);
       });
       getReviewsToMovie(parseInt(movieId)).then((reviews) => {

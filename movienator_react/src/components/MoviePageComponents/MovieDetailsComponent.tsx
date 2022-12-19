@@ -5,10 +5,7 @@ export default function MovieDetailsComponent(props: any) {
   const movie: Movie = props.data as Movie;
   return (
     <>
-      <div>Showing Movie Infos & Actors</div>
-      {movie.actors.map((actor) => (
-        <Typography>{actor.name}</Typography>
-      ))}
+      <Typography variant={'h2'}>{movie.title}</Typography>
     </>
   );
 }
