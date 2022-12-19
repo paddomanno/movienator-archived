@@ -13,6 +13,7 @@ import { getFollowingWithMovieWatchlist } from '../services/UserService';
 import { Review } from '../types/Review';
 import {
   getReviewsOfFollowingToMovie,
+  getReviewsOfNotFollowingToMovie,
   getReviewsToMovie,
 } from '../services/ReviewService';
 import { useCookies } from 'react-cookie';
@@ -55,7 +56,10 @@ export default function OneMoviePage() {
       ).then((reviews) => {
         setFollowingReviews(reviews);
       });
-      getReviewsToMovie(parseInt(movieId)).then((reviews) => {
+      getReviewsOfNotFollowingToMovie(
+        cookies.userId as number,
+        parseInt(movieId)
+      ).then((reviews) => {
         setOtherReviews(reviews);
       });
     }
