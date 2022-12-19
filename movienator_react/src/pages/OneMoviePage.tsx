@@ -81,7 +81,6 @@ export default function OneMoviePage() {
       ) : (
         <></>
       )}
-      <div>Hier ist die One Movie Page von {movieId} </div>
     </>
   );
 }
