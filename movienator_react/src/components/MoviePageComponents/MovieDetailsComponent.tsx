@@ -17,6 +17,7 @@ import {
 } from '../../services/UserService';
 import { useCookies } from 'react-cookie';
 import { getWatchlistMovies, saveMovie } from '../../services/MovieService';
+import { grey } from '@mui/material/colors';
 
 export default function MovieDetailsComponent(props: any) {
   const movie: Movie = props.data as Movie;
@@ -69,10 +70,10 @@ export default function MovieDetailsComponent(props: any) {
       <img
         alt={movie.imagePath != null ? movie.title : 'No image available'}
         height={'auto'}
-        width={185}
-        src={`https://image.tmdb.org/t/p/w185${movie.imagePath}`}
+        width={300}
+        src={`https://image.tmdb.org/t/p/w342${movie.imagePath}`}
       />
-      <Card sx={{ backgroundColor: 'lightgrey' }}>
+      <Card sx={{ backgroundColor: grey.A100 }}>
         <CardContent>
           <Stack direction={'row'} spacing={1}>
             <Paper>
@@ -91,13 +92,10 @@ export default function MovieDetailsComponent(props: any) {
           </Stack>
         </CardContent>
       </Card>
-      <Button variant={'contained'} onClick={handleWatchlistClick}>
-        {isWatchlist ? 'Remove From Watchlist' : 'Add to Watchlist'}
-      </Button>
     </Stack>
   );
   let genreComp = (
-    <Card sx={{ backgroundColor: 'lightgrey' }}>
+    <Card sx={{ backgroundColor: grey.A100 }}>
       <CardContent>
         <Stack direction={'row'} spacing={1}>
           {movie.genres.map((genre) => (
@@ -114,7 +112,7 @@ export default function MovieDetailsComponent(props: any) {
     </Card>
   );
   let actorComp = (
-    <Card sx={{ backgroundColor: 'lightgrey' }}>
+    <Card sx={{ backgroundColor: grey.A100 }}>
       <CardContent>
         <Grid2 container spacing={1}>
           {movie.actors.map((actor) => (
@@ -129,10 +127,23 @@ export default function MovieDetailsComponent(props: any) {
     </Card>
   );
   let rightColumn = (
-    <Stack direction={'column'} width={'50%'} alignItems={'center'} spacing={2}>
+    <Stack
+      direction={'column'}
+      width={'50%'}
+      alignItems={'center'}
+      spacing={2}
+      justifyContent={'space-between'}
+    >
       {genreComp}
-      <Typography>{movie.overview}</Typography>
+      <Card sx={{ backgroundColor: grey.A100 }}>
+        <CardContent>
+          <Typography>{movie.overview}</Typography>
+        </CardContent>
+      </Card>
       {actorComp}
+      <Button variant={'contained'} onClick={handleWatchlistClick}>
+        {isWatchlist ? 'Remove From Watchlist' : 'Add to Watchlist'}
+      </Button>
     </Stack>
   );
 
@@ -140,10 +151,14 @@ export default function MovieDetailsComponent(props: any) {
     <>
       <Typography variant={'h4'}>{movie.title}</Typography>
       <Divider></Divider>
-      <Stack direction={'row'} spacing={1}>
-        {leftColumn}
-        {rightColumn}
-      </Stack>
+      <Card sx={{ backgroundColor: grey.A200 }}>
+        <CardContent>
+          <Stack direction={'row'} spacing={1}>
+            {leftColumn}
+            {rightColumn}
+          </Stack>
+        </CardContent>
+      </Card>
     </>
   );
 }
