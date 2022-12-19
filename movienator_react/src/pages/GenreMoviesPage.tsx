@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import { Movie } from '../types/Movie';
 import { getMoviesToGenre, getSingleGenre } from '../services/ExternService';
 import { Typography } from '@mui/material';
-import WholeMovieListComponent from '../components/WholeMovieListComponent';
 import { Genre } from '../types/Genre';
 import { useCookies } from 'react-cookie';
+import MoviesList from '../components/ListComponents/MoviesList';
 
 export default function GenreMoviesPage() {
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ export default function GenreMoviesPage() {
       {movies != null && genre != null ? (
         <>
           <Typography>Movies of Genre {genre.genreName}</Typography>
-          <WholeMovieListComponent data={movies} />
+          <MoviesList title="" movies={movies} />
         </>
       ) : (
         <>

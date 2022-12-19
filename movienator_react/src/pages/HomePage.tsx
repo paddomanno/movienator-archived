@@ -1,7 +1,7 @@
 //Route: movienator3000.com/home
-import MovieListComponent from '../components/ListComponents/MovieListComponent';
-import ReviewListComponent from '../components/ListComponents/ReviewListComponent';
-import GenreListComponent from '../components/ListComponents/GenreListComponent';
+import MoviesList from '../components/ListComponents/MoviesList';
+import ReviewsList from '../components/ListComponents/ReviewsList';
+import AllGenresList from '../components/ListComponents/AllGenresList';
 import { useEffect, useState } from 'react';
 import { Movie } from '../types/Movie';
 import { Review } from '../types/Review';
@@ -14,9 +14,9 @@ import {
   getUserRecommendations,
 } from '../services/ExternService';
 import { getReviewsOfFollowing } from '../services/ReviewService';
-import MovieSearchBarComponent from '../components/MovieSearchBarComponent';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
+import MovieSearchbar from '../components/GeneralComponents/MovieSearchbar';
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -50,9 +50,9 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div>
+    <main>
       <div>Hier ist die Home Page</div>
-      <MovieSearchBarComponent />
+      <MovieSearchbar />
       {watchlist == null ||
       popular == null ||
       recommendations == null ||
@@ -64,17 +64,17 @@ export default function HomePage() {
       ) : (
         <>
           <Stack direction={'column'} spacing={1}>
-            <MovieListComponent data={watchlist} type={'watchlist'} />
-            <MovieListComponent data={popular} type={'popular'} />
-            <MovieListComponent
-              data={recommendations}
-              type={'recommendations'}
+            <MoviesList movies={watchlist} title="Your Watchlist" />
+            <MoviesList movies={popular} title="Popular Movies" />
+            <MoviesList
+              movies={recommendations}
+              title="Recommendations For You"
             />
-            <ReviewListComponent data={reviews} />
-            <GenreListComponent data={genres} />
+            <ReviewsList data={reviews} />
+            <AllGenresList data={genres} />
           </Stack>
         </>
       )}
-    </div>
+    </main>
   );
 }

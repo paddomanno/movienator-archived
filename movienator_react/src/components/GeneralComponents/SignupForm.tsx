@@ -13,7 +13,7 @@ type InputValues = {
   birthday: string;
 };
 
-export default function SigninComponent() {
+export default function SignupForm() {
   const navigate = useNavigate();
   const defaultValues: InputValues = {
     firstName: '',
