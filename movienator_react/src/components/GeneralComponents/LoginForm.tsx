@@ -1,6 +1,6 @@
 import { Button, Stack, TextField } from '@mui/material';
 import React, { useState } from 'react';
-import { getOneUser } from '../services/UserService';
+import { getOneUser } from '../../services/UserService';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
@@ -8,7 +8,7 @@ type InputValues = {
   userName: string;
   password: string;
 };
-export default function LoginComponent() {
+export default function LoginForm() {
   const navigate = useNavigate();
   let defaultValues: InputValues = {
     userName: '',

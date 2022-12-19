@@ -2,7 +2,7 @@ import { Genre } from '../../types/Genre';
 import { Paper, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-export default function SingleGenreFrameComponent(props: any) {
+export default function GenreCard(props: any) {
   let genre: Genre = props.data as Genre;
   const navigate = useNavigate();
   function manageClick() {

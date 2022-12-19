@@ -2,11 +2,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Movie } from '../types/Movie';
-import MovieDetailsComponent from '../components/MoviePageComponents/MovieDetailsComponent';
-import MovieOwnReviewComponent from '../components/MoviePageComponents/MovieOwnReviewComponent';
-import MovieOnFollowerWatchlistComponent from '../components/MoviePageComponents/MovieOnFollowerWatchlistComponent';
-import MovieFollowerReviewed from '../components/MoviePageComponents/MovieFollowerReviewed';
-import MovieOthersReviews from '../components/MoviePageComponents/MovieOthersReviews';
+import MovieDetails from '../components/MoviePageComponents/MovieDetails';
 import { getActorsToMovie, getMovieById } from '../services/ExternService';
 import { User } from '../types/User';
 import { getFollowingWithMovieWatchlist } from '../services/UserService';
@@ -16,6 +12,10 @@ import {
   getReviewsToMovie,
 } from '../services/ReviewService';
 import { useCookies } from 'react-cookie';
+import ReviewEditForm from '../components/MoviePageComponents/ReviewEditForm';
+import UsersList from '../components/ListComponents/UsersList';
+import MovieFollowingReviewsList from '../components/MoviePageComponents/MovieFollowingReviewsList';
+import MovieOthersReviewsList from '../components/MoviePageComponents/MovieOthersReviewsList';
 
 export default function OneMoviePage() {
   const navigate = useNavigate();
@@ -60,11 +60,11 @@ export default function OneMoviePage() {
       followingReviews != null &&
       otherReviews != null ? (
         <>
-          <MovieDetailsComponent data={movie} />
-          <MovieOwnReviewComponent data={movie} />
-          <MovieOnFollowerWatchlistComponent data={followingWatchlist} />
-          <MovieFollowerReviewed data={followingReviews} />
-          <MovieOthersReviews data={otherReviews} />
+          <MovieDetails data={movie} />
+          <ReviewEditForm data={movie} />
+          <UsersList users={followingWatchlist} />
+          <MovieFollowingReviewsList reviews={followingReviews} />
+          <MovieOthersReviewsList reviews={otherReviews} />
         </>
       ) : (
         <></>

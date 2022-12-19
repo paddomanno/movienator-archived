@@ -1,8 +1,8 @@
 import { Card, CardContent, Stack, Typography } from '@mui/material';
 import { Genre } from '../../types/Genre';
-import SingleGenreFrameComponent from '../SingleItemComponents/SingleGenreFrameComponent';
+import GenreCard from '../SingleItemComponents/GenreCard';
 
-export default function GenreListComponent(props: any) {
+export default function AllGenresList(props: any) {
   const genre: Genre[] = props.data as Genre[];
 
   return (
@@ -11,7 +11,7 @@ export default function GenreListComponent(props: any) {
         <Typography>Browse our Genres</Typography>
         <Stack direction={'row'} spacing={1} flexWrap={'wrap'}>
           {genre.map((genre) => (
-            <SingleGenreFrameComponent data={genre} />
+            <GenreCard data={genre} />
           ))}
         </Stack>
       </CardContent>
