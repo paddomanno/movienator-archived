@@ -2,11 +2,17 @@
 import MovieListComponent from '../components/ListComponents/MovieListComponent';
 import ReviewListComponent from '../components/ListComponents/ReviewListComponent';
 import GenreListComponent from '../components/ListComponents/GenreListComponent';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Movie } from '../types/Movie';
 import { Review } from '../types/Review';
 import { Genre } from '../types/Genre';
-import { Stack, Typography } from '@mui/material';
+import {
+  Card,
+  CardContent,
+  IconButton,
+  Stack,
+  Typography,
+} from '@mui/material';
 import { getWatchlistMovies } from '../services/MovieService';
 import {
   getAllGenres,
@@ -17,6 +23,8 @@ import { getReviewsOfFollowing } from '../services/ReviewService';
 import MovieSearchBarComponent from '../components/MovieSearchBarComponent';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
+import { grey } from '@mui/material/colors';
+import HomeIcon from '@mui/icons-material/Home';
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -51,8 +59,6 @@ export default function HomePage() {
 
   return (
     <div>
-      <div>Hier ist die Home Page</div>
-      <MovieSearchBarComponent />
       {watchlist == null ||
       popular == null ||
       recommendations == null ||
@@ -64,6 +70,11 @@ export default function HomePage() {
       ) : (
         <>
           <Stack direction={'column'} spacing={1}>
+            <Card sx={{ backgroundColor: grey.A200 }}>
+              <CardContent>
+                <MovieSearchBarComponent />
+              </CardContent>
+            </Card>
             <MovieListComponent data={watchlist} type={'watchlist'} />
             <MovieListComponent data={popular} type={'popular'} />
             <MovieListComponent
