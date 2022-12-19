@@ -1,6 +1,6 @@
 //Route: movienator3000.com/
 import { Outlet, useNavigate } from 'react-router-dom';
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { useCookies } from 'react-cookie';
 
 export default function RootPage() {
@@ -23,7 +23,7 @@ export default function RootPage() {
           Log Out
         </Button>
       ) : (
-        <></>
+        <Typography>Please log in to use this website</Typography>
       )}
       <div id="detail">
         <Outlet />
