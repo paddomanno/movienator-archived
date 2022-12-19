@@ -5,12 +5,13 @@ import { useCookies } from 'react-cookie';
 
 export default function RootPage() {
   const navigate = useNavigate();
-  const [cookies, setCookie, removeCookie] = useCookies(['userName']);
+  const [cookies, setCookie, removeCookie] = useCookies(['userName', 'userId']);
 
   function handleLogout(e: any) {
     e.preventDefault();
     if (cookies.userName) {
       removeCookie('userName');
+      removeCookie('userId');
       navigate('/login');
     }
   }
