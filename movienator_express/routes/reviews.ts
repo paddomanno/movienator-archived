@@ -177,7 +177,10 @@ reviewRouter.get('/user/notFollowing/:uId/review/:mId', async (req, res) => {
       let resReviews: Review[] = [];
       resReviews = allReviewsToMovie.filter((review) => {
         return !requestedUser.following.some((user) => {
-          return user.userId === review.reviewUserUserId;
+          return (
+            user.userId === review.reviewUserUserId ||
+            requestedUser.userId === review.reviewUserUserId
+          );
         });
       });
       resReviews.sort((a, b) => Number(b.lastUpdated) - Number(a.lastUpdated));
