@@ -23,7 +23,7 @@ export default function RootPage() {
           Log Out
         </Button>
       ) : (
-        <></>
+        <>Please log in to use this website</>
       )}
       <div id="detail">
         <Outlet />
