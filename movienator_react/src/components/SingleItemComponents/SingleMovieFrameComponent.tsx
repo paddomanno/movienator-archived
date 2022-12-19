@@ -28,7 +28,7 @@ export default function SingleMovieFrameComponent(props: any) {
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
           }}
-          variant={'subtitle2'}
+          variant={'body2'}
         >
           {movie.title}
         </Typography>
