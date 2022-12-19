@@ -3,7 +3,7 @@ import { Review } from '../types/Review';
 import axios from 'axios';
 import { isNumber } from 'util';
 
-const baseUrl: string = 'http://localhost:8080/users';
+const baseUrl: string = 'http://localhost:8080/user';
 export async function getAllUsers(): Promise<User[]> {
   let resArray: User[] = [];
   try {
@@ -112,7 +112,7 @@ export async function getFollowingWithMovieWatchlist(
 }
 export async function insertUser(newUser: User): Promise<Boolean> {
   try {
-    let response = await axios.post(baseUrl, newUser);
+    let response = await axios.post(baseUrl + '/', newUser);
     if (response.status === 201) {
       return true;
     }

@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Stack, TextField } from '@mui/material';
+import { getOneUser, insertUser } from '../services/UserService';
+import { User } from '../types/User';
+import { useNavigate } from 'react-router-dom';
 
 type InputValues = {
   firstName: string;
@@ -11,6 +14,7 @@ type InputValues = {
 };
 
 export default function SigninComponent() {
+  const navigate = useNavigate();
   const defaultValues: InputValues = {
     firstName: '',
     lastName: '',
@@ -23,7 +27,7 @@ export default function SigninComponent() {
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
-    if (value != '') {
+    if (value !== '') {
       let textField: HTMLElement | null = document.getElementById(
         `${name}-input`
       );
@@ -40,19 +44,58 @@ export default function SigninComponent() {
   function handleSubmit(e: any) {
     e.preventDefault();
     if (
-      formValues.firstName != '' &&
-      formValues.lastName != '' &&
-      formValues.userName != '' &&
-      formValues.password != '' &&
-      formValues.repeatPassword != '' &&
-      formValues.birthday != ''
+      formValues.firstName !== '' &&
+      formValues.lastName !== '' &&
+      formValues.userName !== '' &&
+      formValues.password !== '' &&
+      formValues.repeatPassword !== '' &&
+      formValues.birthday !== ''
     ) {
-      //Check if username exists
+      getOneUser(formValues.userName).then((user) => {
+        if (user == null) {
+          console.log('Found no user with this username');
+          if (formValues.password === formValues.repeatPassword) {
+            let newUser: User = {
+              userId: null,
+              lastName: formValues.lastName,
+              firstName: formValues.firstName,
+              userName: formValues.userName,
+              password: formValues.password,
+              birthday: new Date(formValues.birthday),
+              comment: '',
+              profileImage: null,
+              watchlist: [],
+              followers: [],
+              following: [],
+              reviews: [],
+            };
+            insertUser(newUser).then((result) => {
+              if (result) {
+                navigate('/login');
+              } else {
+                console.log('Error inserting User');
+              }
+            });
+          } else {
+            let textField: HTMLElement | null =
+              document.getElementById(`repeatPassword-input`);
+            if (textField != null) {
+              textField.style.backgroundColor = 'red';
+            }
+          }
+        } else {
+          let textField: HTMLElement | null =
+            document.getElementById(`userName-input`);
+          if (textField != null) {
+            textField.style.backgroundColor = 'red';
+          }
+        }
+      });
       //Safe user
       //Redirect to login
     } else {
       (Object.keys(formValues) as (keyof InputValues)[]).forEach((key) => {
-        if (formValues[key] == '') {
+        if (formValues[key] === '') {
           let textField: HTMLElement | null = document.getElementById(
             `${key}-input`
           );
