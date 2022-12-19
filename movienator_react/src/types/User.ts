@@ -3,7 +3,7 @@ import { Review } from './Review';
 import { Movie } from './Movie';
 
 export type User = {
-  userId: number;
+  userId: number | null;
 
   firstName: string;
 
@@ -17,7 +17,7 @@ export type User = {
 
   birthday: Date;
 
-  profileImage: ProfileImage;
+  profileImage: ProfileImage | null;
 
   reviews: Review[];
 
