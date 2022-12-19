@@ -15,15 +15,23 @@ import {
 } from '../services/ExternService';
 import { getReviewsOfFollowing } from '../services/ReviewService';
 import MovieSearchBarComponent from '../components/MovieSearchBarComponent';
+import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
 
 export default function HomePage() {
+  const navigate = useNavigate();
   const [watchlist, setWatchlist] = useState<Movie[] | null>(null);
   const [popular, setPopular] = useState<Movie[] | null>(null);
   const [recommendations, setRecommendations] = useState<Movie[] | null>(null);
   const [reviews, setReviews] = useState<Review[] | null>(null);
   const [genres, setGenres] = useState<Genre[] | null>(null);
+  const [cookies, setCookies] = useCookies(['userName']);
 
   useEffect(() => {
+    //Rauswerfen wenn nicht eingeloggt
+    if (!cookies.userName) {
+      navigate('/login');
+    }
     getWatchlistMovies(1).then((movies) => {
       setWatchlist(movies);
     });

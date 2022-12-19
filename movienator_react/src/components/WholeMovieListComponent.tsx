@@ -1,5 +1,5 @@
 import { Movie } from '../types/Movie';
-import { Card, CardContent, Stack, Typography } from '@mui/material';
+import { Card, CardContent, Stack } from '@mui/material';
 import SingleMovieFrameComponent from './SingleItemComponents/SingleMovieFrameComponent';
 
 export default function WholeMovieListComponent(props: any) {
