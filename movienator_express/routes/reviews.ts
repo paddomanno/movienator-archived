@@ -2,6 +2,7 @@ import { request } from 'http';
 import Movie from '../entity/movie';
 import Review from '../entity/review';
 import User from '../entity/user';
+import { all } from 'axios';
 
 const expressReview = require('express');
 const reviewRouter = expressReview.Router();
@@ -152,6 +153,39 @@ reviewRouter.get('/user/following/:uId/review/:mId', async (req, res) => {
       reviews.sort((a, b) => Number(b.lastUpdated) - Number(a.lastUpdated));
       res.status(200).json({
         data: reviews,
+      });
+    } else {
+      res.status(404).json();
+    }
+  } catch (er) {
+    console.log(er);
+    res.status(500).json();
+  }
+});
+//Gets Reviews to a movie from people the user is NOT following
+reviewRouter.get('/user/notFollowing/:uId/review/:mId', async (req, res) => {
+  try {
+    const requestedUser = await User.findOne({
+      where: { userId: parseInt(req.params.uId) },
+      relations: { following: true },
+    });
+    if (requestedUser) {
+      const allReviewsToMovie: Review[] = await Review.find({
+        where: { reviewMovieMovieId: parseInt(req.params.mId) },
+        relations: { review_movie: true, review_user: true },
+      });
+      let resReviews: Review[] = [];
+      resReviews = allReviewsToMovie.filter((review) => {
+        return !requestedUser.following.some((user) => {
+          return (
+            user.userId === review.reviewUserUserId ||
+            requestedUser.userId === review.reviewUserUserId
+          );
+        });
+      });
+      resReviews.sort((a, b) => Number(b.lastUpdated) - Number(a.lastUpdated));
+      res.status(200).json({
+        data: resReviews,
       });
     } else {
       res.status(404).json();

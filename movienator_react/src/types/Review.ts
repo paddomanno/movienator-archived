@@ -14,7 +14,7 @@ export type Review = {
 
   lastUpdated: Date;
 
-  review_movie: Movie;
+  review_movie: Movie | null;
 
-  review_user: User;
+  review_user: User | null;
 };
