@@ -3,3 +3,10 @@ http://localhost:8080/movie/one/-1
 
 ###Database config
 https://api.themoviedb.org/3/configuration?api_key=fb73e59a39ce4d841ab2597bdf8b7003
+
+###Test Movie
+https://api.themoviedb.org/3/movie/663712?api_key=fb73e59a39ce4d841ab2597bdf8b7003
+
+###Test Movie
+https://api.themoviedb.org/3/movie/19995/similar?api_key=fb73e59a39ce4d841ab2597bdf8b7003
+

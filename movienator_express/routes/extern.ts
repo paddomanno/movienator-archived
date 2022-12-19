@@ -136,6 +136,28 @@ externRouter.get('/actor/movie/:id', async (req, res) => {
     res.status(500).json();
   }
 });
+externRouter.get('/actor/:id', async (req, res) => {
+  const MAX_ACTORS: number = 8;
+  try {
+    let resActor: Actor = new Actor();
+    let actorsQuery: string =
+      BASE_URL + `/person/${req.params.id}?` + `api_key=${API_KEY}`;
+    let actor = await axios.get(actorsQuery, {
+      headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
+      params: { trophies: true },
+    });
+    if (actor.status == 200) {
+      resActor.name = actor.data.name;
+      resActor.actorId = actor.data.id;
+    }
+    res.status(200).json({
+      data: resActor,
+    });
+  } catch (er) {
+    console.log(er);
+    res.status(500).json();
+  }
+});
 
 //Returns a list of actors fitting that search word
 //The movies array is NOT filled
@@ -162,6 +184,7 @@ externRouter.get('/search/actor/:name', async (req, res) => {
           resActors.push(newActor);
         }
       });
+      resActors.sort((a, b) => a.name.localeCompare(b.name));
     }
     res.status(200).json({
       data: resActors,
@@ -204,9 +227,14 @@ externRouter.get('/movies/actor/:id', async (req, res) => {
     if (response.status == 200) {
       let movieIds: number[] = [];
       response.data.cast.forEach((cast) => {
-        movieIds.push(cast.id);
+        if (movieIds.length <= 20) {
+          movieIds.push(cast.id);
+        }
       });
       resMovies = await getMoviesToIds(movieIds, 20);
+      resMovies.sort(
+        (a, b) => b.releaseDate.getTime() - a.releaseDate.getTime()
+      );
     }
     res.status(200).json({
       data: resMovies,
@@ -242,7 +270,7 @@ externRouter.get('/user/:uId/recommendations', async (req, res) => {
       while (i < reviews.length && i < MAX_DIF_REVIEWS) {
         let query: string =
           BASE_URL +
-          `/movie/${reviews[i].reviewMovieMovieId}/recommendations?` +
+          `/movie/${reviews[i].reviewMovieMovieId}/similar?` +
           `api_key=${API_KEY}`;
         let thisMovieRec = await axios.get(query, {
           headers: {
@@ -291,9 +319,7 @@ externRouter.get('/movie/:mId/recommendations', async (req, res) => {
     }
     let resMovies: Movie[] = [];
     let query: string =
-      BASE_URL +
-      `/movie/${req.params.mId}/recommendations?` +
-      `api_key=${API_KEY}`;
+      BASE_URL + `/movie/${req.params.mId}/similar?` + `api_key=${API_KEY}`;
     let thisMovieRec = await axios.get(query, {
       headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
       params: { trophies: true },

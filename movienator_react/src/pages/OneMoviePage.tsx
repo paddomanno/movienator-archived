@@ -13,9 +13,11 @@ import { getFollowingWithMovieWatchlist } from '../services/UserService';
 import { Review } from '../types/Review';
 import {
   getReviewsOfFollowingToMovie,
+  getReviewsOfNotFollowingToMovie,
   getReviewsToMovie,
 } from '../services/ReviewService';
 import { useCookies } from 'react-cookie';
+import { Stack } from '@mui/material';
 
 export default function OneMoviePage() {
   const navigate = useNavigate();
@@ -26,7 +28,7 @@ export default function OneMoviePage() {
   );
   const [followingReviews, setFollowingReviews] = useState<Review[] | null>([]);
   const [otherReviews, setOtherReviews] = useState<Review[] | null>([]);
-  const [cookies, setCookies] = useCookies(['userName']);
+  const [cookies, setCookies] = useCookies(['userName', 'userId']);
 
   useEffect(() => {
     if (!cookies.userName) {
@@ -41,13 +43,23 @@ export default function OneMoviePage() {
           });
         }
       });
-      getFollowingWithMovieWatchlist(1, parseInt(movieId)).then((users) => {
+
+      getFollowingWithMovieWatchlist(
+        cookies.userId as number,
+        parseInt(movieId)
+      ).then((users) => {
         setFollowingWatchlist(users);
       });
-      getReviewsOfFollowingToMovie(1, parseInt(movieId)).then((reviews) => {
+      getReviewsOfFollowingToMovie(
+        cookies.userId as number,
+        parseInt(movieId)
+      ).then((reviews) => {
         setFollowingReviews(reviews);
       });
-      getReviewsToMovie(parseInt(movieId)).then((reviews) => {
+      getReviewsOfNotFollowingToMovie(
+        cookies.userId as number,
+        parseInt(movieId)
+      ).then((reviews) => {
         setOtherReviews(reviews);
       });
     }
@@ -59,17 +71,16 @@ export default function OneMoviePage() {
       followingWatchlist != null &&
       followingReviews != null &&
       otherReviews != null ? (
-        <>
+        <Stack direction={'column'} spacing={1} alignItems={'center'}>
           <MovieDetailsComponent data={movie} />
           <MovieOwnReviewComponent data={movie} />
           <MovieOnFollowerWatchlistComponent data={followingWatchlist} />
           <MovieFollowerReviewed data={followingReviews} />
           <MovieOthersReviews data={otherReviews} />
-        </>
+        </Stack>
       ) : (
         <></>
       )}
-      <div>Hier ist die One Movie Page von {movieId} </div>
     </>
   );
 }

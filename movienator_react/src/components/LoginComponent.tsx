@@ -15,7 +15,7 @@ export default function LoginComponent() {
     password: '',
   };
   const [formValues, setFormValues] = useState<InputValues>(defaultValues);
-  const [cookies, setCookie] = useCookies(['userName']);
+  const [cookies, setCookie] = useCookies(['userName', 'userId']);
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     if (value !== '') {
@@ -39,6 +39,7 @@ export default function LoginComponent() {
         if (user != null) {
           if (user.password === formValues.password) {
             setCookie('userName', user.userName, { path: '/' });
+            setCookie('userId', user.userId, { path: '/' });
             navigate('/home');
           } else {
             let textField: HTMLElement | null =

@@ -13,7 +13,7 @@ export default function SingleMovieFrameComponent(props: any) {
       <CardMedia
         component="img"
         alt={movie.imagePath != null ? movie.title : 'No image available'}
-        height="210"
+        height="225"
         image={`https://image.tmdb.org/t/p/w154${movie.imagePath}`}
       />
       <CardContent>
@@ -22,7 +22,16 @@ export default function SingleMovieFrameComponent(props: any) {
             ? new Date(movie.releaseDate).getFullYear()
             : 'Not known'}
         </Typography>
-        <Typography variant={'subtitle2'}>{movie.title}</Typography>
+        <Typography
+          sx={{
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+          }}
+          variant={'body2'}
+        >
+          {movie.title}
+        </Typography>
       </CardContent>
     </Card>
   );

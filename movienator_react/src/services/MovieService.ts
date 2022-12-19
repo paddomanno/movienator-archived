@@ -1,7 +1,7 @@
 import { Movie } from '../types/Movie';
 import axios from 'axios';
 
-const baseUrl: string = 'http://localhost:8080/movies';
+const baseUrl: string = 'http://localhost:8080/movie';
 export async function getAllMovies(): Promise<Movie[]> {
   let resArray: Movie[] = [];
   try {
