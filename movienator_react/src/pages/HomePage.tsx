@@ -25,6 +25,7 @@ import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { grey } from '@mui/material/colors';
 import HomeIcon from '@mui/icons-material/Home';
+import ActorSearchBar from '../components/ActorSearchBar';
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -72,7 +73,14 @@ export default function HomePage() {
           <Stack direction={'column'} spacing={1}>
             <Card sx={{ backgroundColor: grey.A200 }}>
               <CardContent>
-                <MovieSearchBarComponent />
+                <Stack
+                  direction={'row'}
+                  spacing={2}
+                  justifyContent={'space-around'}
+                >
+                  <MovieSearchBarComponent />
+                  <ActorSearchBar />
+                </Stack>
               </CardContent>
             </Card>
             <MovieListComponent data={watchlist} type={'watchlist'} />

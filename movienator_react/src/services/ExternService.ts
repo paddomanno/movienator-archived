@@ -68,6 +68,19 @@ export async function getMoviesToActor(actorId: number): Promise<Movie[]> {
   return resArray;
 }
 
+export async function getSingleActor(actorId: number): Promise<Actor | null> {
+  let resArray: Actor | null = null;
+  try {
+    let response = await axios.get(baseUrl + `/actor/${actorId}`);
+    if (response.status === 200) {
+      resArray = response.data.data as Actor;
+    }
+  } catch (e) {
+    console.log('Error fetching Movies: ' + e);
+  }
+  return resArray;
+}
+
 export async function getUserRecommendations(userId: number): Promise<Movie[]> {
   let resArray: Movie[] = [];
   try {

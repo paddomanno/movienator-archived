@@ -65,6 +65,10 @@ export default function MovieDetailsComponent(props: any) {
     navigate('/genreMovies/' + genreId);
   }
 
+  function handleActorClick(actorId: number) {
+    navigate('/actor/' + actorId);
+  }
+
   let leftColumn = (
     <Stack direction={'column'} width={'50%'} alignItems={'center'} spacing={2}>
       <img
@@ -117,7 +121,11 @@ export default function MovieDetailsComponent(props: any) {
         <Grid2 container spacing={1}>
           {movie.actors.map((actor) => (
             <Grid2>
-              <Paper>
+              <Paper
+                onClick={() => {
+                  handleActorClick(actor.actorId);
+                }}
+              >
                 <Typography>{actor.name}</Typography>
               </Paper>
             </Grid2>
