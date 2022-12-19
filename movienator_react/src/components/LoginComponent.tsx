@@ -2,6 +2,7 @@ import { Button, Stack, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import { getOneUser } from '../services/UserService';
 import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 type InputValues = {
   userName: string;
@@ -14,6 +15,7 @@ export default function LoginComponent() {
     password: '',
   };
   const [formValues, setFormValues] = useState<InputValues>(defaultValues);
+  const [cookies, setCookie] = useCookies(['userName']);
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     if (value !== '') {
@@ -36,7 +38,7 @@ export default function LoginComponent() {
       getOneUser(formValues.userName).then((user) => {
         if (user != null) {
           if (user.password === formValues.password) {
-            //Cockie setzen
+            setCookie('userName', user.userName, { path: '/' });
             navigate('/home');
           } else {
             let textField: HTMLElement | null =
@@ -66,6 +68,10 @@ export default function LoginComponent() {
       });
     }
   }
+  function handleClick(e: any) {
+    e.preventDefault();
+    navigate('/signup');
+  }
 
   return (
     <>
@@ -90,6 +96,9 @@ export default function LoginComponent() {
         />
         <Button variant={'contained'} onClick={handleSubmit}>
           Login
+        </Button>
+        <Button variant={'contained'} onClick={handleClick}>
+          I don't have an account
         </Button>
       </Stack>
     </>

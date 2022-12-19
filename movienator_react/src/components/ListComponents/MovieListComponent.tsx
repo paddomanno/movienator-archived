@@ -1,7 +1,6 @@
 import { Movie } from '../../types/Movie';
-import { Card, CardContent, Divider, Stack, Typography } from '@mui/material';
+import { Card, CardContent, Stack, Typography } from '@mui/material';
 import SingleMovieFrameComponent from '../SingleItemComponents/SingleMovieFrameComponent';
-import { useNavigate } from 'react-router-dom';
 
 export default function MovieListComponent(props: any) {
   const movies: Movie[] = props.data as Movie[];

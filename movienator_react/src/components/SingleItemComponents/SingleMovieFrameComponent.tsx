@@ -18,7 +18,7 @@ export default function SingleMovieFrameComponent(props: any) {
       />
       <CardContent>
         <Typography variant={'body2'}>
-          {movie.releaseDate != undefined
+          {movie.releaseDate !== undefined
             ? new Date(movie.releaseDate).getFullYear()
             : 'Not known'}
         </Typography>

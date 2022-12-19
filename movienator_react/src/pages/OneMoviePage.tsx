@@ -1,5 +1,5 @@
 //Route: movienator3000.com/movie/:movieId
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Movie } from '../types/Movie';
 import MovieDetailsComponent from '../components/MoviePageComponents/MovieDetailsComponent';
@@ -9,18 +9,16 @@ import MovieFollowerReviewed from '../components/MoviePageComponents/MovieFollow
 import MovieOthersReviews from '../components/MoviePageComponents/MovieOthersReviews';
 import { getActorsToMovie, getMovieById } from '../services/ExternService';
 import { User } from '../types/User';
-import {
-  getFollowingThatReviewedMovie,
-  getFollowingWithMovieWatchlist,
-} from '../services/UserService';
+import { getFollowingWithMovieWatchlist } from '../services/UserService';
 import { Review } from '../types/Review';
 import {
-  getOneReview,
   getReviewsOfFollowingToMovie,
   getReviewsToMovie,
 } from '../services/ReviewService';
+import { useCookies } from 'react-cookie';
 
 export default function OneMoviePage() {
+  const navigate = useNavigate();
   const { movieId } = useParams();
   const [movie, setMovie] = useState<Movie | null>(null);
   const [followingWatchlist, setFollowingWatchlist] = useState<User[] | null>(
@@ -28,8 +26,12 @@ export default function OneMoviePage() {
   );
   const [followingReviews, setFollowingReviews] = useState<Review[] | null>([]);
   const [otherReviews, setOtherReviews] = useState<Review[] | null>([]);
+  const [cookies, setCookies] = useCookies(['userName']);
 
   useEffect(() => {
+    if (!cookies.userName) {
+      navigate('/login');
+    }
     if (typeof movieId === 'string') {
       getMovieById(parseInt(movieId)).then((movie) => {
         if (movie != null) {

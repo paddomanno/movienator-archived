@@ -1,7 +1,5 @@
 import { User } from '../types/User';
-import { Review } from '../types/Review';
 import axios from 'axios';
-import { isNumber } from 'util';
 
 const baseUrl: string = 'http://localhost:8080/user';
 export async function getAllUsers(): Promise<User[]> {

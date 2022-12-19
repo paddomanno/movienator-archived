@@ -1,5 +1,4 @@
 import { Review } from '../types/Review';
-import { ProfileImage } from '../types/ProfileImage';
 import axios from 'axios';
 
 const baseUrl: string = 'http://localhost:8080/reviews';
