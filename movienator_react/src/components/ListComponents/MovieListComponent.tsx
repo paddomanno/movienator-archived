@@ -25,7 +25,7 @@ export default function MovieListComponent(props: any) {
       <CardContent>
         <Typography>{type}</Typography>
         {movies.length > 0 ? (
-          <Stack direction={'row'} spacing={1} overflow={'auto'}>
+          <Stack direction={'row'} spacing={0} overflow={'auto'}>
             {movies.map((movie) => (
               <SingleMovieFrameComponent data={movie} />
             ))}

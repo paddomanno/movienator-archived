@@ -8,7 +8,6 @@ export default function LoginPage() {
   return (
     <>
       <Card>
-        <Typography>Sign into your Account</Typography>
         <LoginComponent />
       </Card>
     </>

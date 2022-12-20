@@ -4,6 +4,7 @@ import {
   Card,
   CardContent,
   Divider,
+  IconButton,
   Paper,
   Stack,
   Typography,
@@ -98,15 +99,17 @@ export default function MovieDetailsComponent(props: any) {
   let genreComp = (
     <Card sx={{ backgroundColor: grey.A100 }}>
       <CardContent>
-        <Stack direction={'row'} spacing={1}>
+        <Stack direction={'row'} spacing={0}>
           {movie.genres.map((genre) => (
-            <Paper
+            <IconButton
               onClick={() => {
                 handleGenreClick(genre.genreId);
               }}
             >
-              <Typography>{genre.genreName}</Typography>
-            </Paper>
+              <Paper>
+                <Typography>{genre.genreName}</Typography>
+              </Paper>
+            </IconButton>
           ))}
         </Stack>
       </CardContent>
@@ -115,7 +118,7 @@ export default function MovieDetailsComponent(props: any) {
   let actorComp = (
     <Card sx={{ backgroundColor: grey.A100 }}>
       <CardContent>
-        <Grid2 container spacing={1}>
+        <Grid2 container spacing={0}>
           {movie.actors.map((actor) => (
             <Grid2>
               <SingleActorSmall data={actor} />

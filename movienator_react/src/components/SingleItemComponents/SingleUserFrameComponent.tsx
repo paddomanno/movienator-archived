@@ -2,6 +2,7 @@ import { User } from '../../types/User';
 import { Avatar, Card, CardContent, Stack, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useNavigate } from 'react-router-dom';
+import OtherUserAvatar from './OtherUserAvatar';
 
 export default function SingleUserFrameComponent(props: any) {
   const user: User = props.data as User;
@@ -14,18 +15,8 @@ export default function SingleUserFrameComponent(props: any) {
   return (
     <Card sx={{ backgroundColor: grey.A100 }} onClick={handleClick}>
       <CardContent>
-        <Stack direction={'column'} spacing={1} alignItems={'center'}>
-          {user.profileImage ? (
-            <Avatar
-              alt={user.userName}
-              src={user.profileImage.ressourceLink}
-            ></Avatar>
-          ) : (
-            <Avatar>
-              {user.firstName.at(0)}
-              {user.lastName.at(0)}
-            </Avatar>
-          )}
+        <Stack direction={'column'} spacing={0} alignItems={'center'}>
+          <OtherUserAvatar data={user} />
           <Typography>{user.userName}</Typography>
         </Stack>
       </CardContent>

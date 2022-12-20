@@ -11,6 +11,7 @@ import { grey } from '@mui/material/colors';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import React from 'react';
+import OtherUserAvatar from '../SingleItemComponents/OtherUserAvatar';
 
 export default function MovieReviewDetails(props: any) {
   const review: Review = props.data as Review;
@@ -36,21 +37,7 @@ export default function MovieReviewDetails(props: any) {
         ))}
       </Stack>
     );
-    if (review.review_user.profileImage?.ressourceLink != undefined) {
-      avatar = (
-        <Avatar
-          alt={review.review_user.userName}
-          src={review.review_user.profileImage.ressourceLink}
-        ></Avatar>
-      );
-    } else {
-      avatar = (
-        <Avatar>
-          {review.review_user.firstName.at(0)}
-          {review.review_user.lastName.at(0)}
-        </Avatar>
-      );
-    }
+    avatar = <OtherUserAvatar data={review.review_user} />;
   }
   return (
     <Card sx={{ backgroundColor: grey.A200 }}>
