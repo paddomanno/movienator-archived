@@ -25,7 +25,7 @@ import { useNavigate } from 'react-router-dom';
 import MovieSearchbar from '../components/GeneralComponents/MovieSearchbar';
 import { grey } from '@mui/material/colors';
 import HomeIcon from '@mui/icons-material/Home';
-import ActorSearchBar from '../components/ActorSearchBar';
+import ActorSearchBar from '../components/GeneralComponents/ActorSearchBar';
 import MovieSearchBar from '../components/GeneralComponents/MovieSearchbar';
 import MoviesListOneLine from '../components/ListComponents/MoviesListOneLine';
 
