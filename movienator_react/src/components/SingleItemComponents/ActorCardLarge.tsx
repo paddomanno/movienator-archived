@@ -1,8 +1,9 @@
-import { Actor } from '../../types/Actor';
+import { Genre } from '../../types/Genre';
 import { useNavigate } from 'react-router-dom';
-import { IconButton, Paper, Typography } from '@mui/material';
+import { Button, IconButton, Paper, Typography } from '@mui/material';
+import { Actor } from '../../types/Actor';
 
-export default function SingleActorSmall(props: any) {
+export default function ActorCardLarge(props: any) {
   let actor: Actor = props.data as Actor;
   const navigate = useNavigate();
   function manageClick() {
@@ -16,8 +17,8 @@ export default function SingleActorSmall(props: any) {
         sx={{
           minWidth: 100,
           maxWidth: 100,
-          minHeight: 75,
-          maxHeight: 75,
+          minHeight: 100,
+          maxHeight: 100,
           textAlign: 'center',
           verticalAlign: 'middle',
         }}
