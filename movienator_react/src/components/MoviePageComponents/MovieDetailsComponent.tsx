@@ -18,6 +18,7 @@ import {
 import { useCookies } from 'react-cookie';
 import { getWatchlistMovies, saveMovie } from '../../services/MovieService';
 import { grey } from '@mui/material/colors';
+import SingleActorSmall from '../SingleItemComponents/SingleActorSmall';
 
 export default function MovieDetailsComponent(props: any) {
   const movie: Movie = props.data as Movie;
@@ -63,10 +64,6 @@ export default function MovieDetailsComponent(props: any) {
 
   function handleGenreClick(genreId: number) {
     navigate('/genreMovies/' + genreId);
-  }
-
-  function handleActorClick(actorId: number) {
-    navigate('/actor/' + actorId);
   }
 
   let leftColumn = (
@@ -121,13 +118,7 @@ export default function MovieDetailsComponent(props: any) {
         <Grid2 container spacing={1}>
           {movie.actors.map((actor) => (
             <Grid2>
-              <Paper
-                onClick={() => {
-                  handleActorClick(actor.actorId);
-                }}
-              >
-                <Typography>{actor.name}</Typography>
-              </Paper>
+              <SingleActorSmall data={actor} />
             </Grid2>
           ))}
         </Grid2>

@@ -7,6 +7,7 @@ import { Actor } from '../types/Actor';
 import Grid2 from '@mui/material/Unstable_Grid2';
 import ActorSearchBar from '../components/ActorSearchBar';
 import { useCookies } from 'react-cookie';
+import SingleActorLarge from '../components/SingleItemComponents/SingleActorLarge';
 
 export default function ActorSearchPage() {
   const [actors, setActors] = useState<Actor[] | null>(null);
@@ -54,19 +55,7 @@ export default function ActorSearchPage() {
                 <>
                   {actors.map((actor) => (
                     <Grid2>
-                      <Paper
-                        sx={{
-                          minHeight: 100,
-                          maxHeight: 100,
-                          minWidth: 100,
-                          maxWidth: 100,
-                        }}
-                        onClick={() => {
-                          toActorPage(actor.actorId);
-                        }}
-                      >
-                        {actor.name}
-                      </Paper>
+                      <SingleActorLarge data={actor} />
                     </Grid2>
                   ))}
                 </>
