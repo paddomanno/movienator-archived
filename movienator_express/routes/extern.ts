@@ -4,6 +4,7 @@ import Review from '../entity/review';
 import Genre from '../entity/genre';
 import User from '../entity/user';
 import { Console } from 'inspector';
+import { response } from 'express';
 
 const expressExtern = require('express');
 const externRouter = expressExtern.Router();
@@ -73,15 +74,25 @@ async function getMoviesToQuery(
   maxAmount: number
 ): Promise<Movie[]> {
   let movieIds: number[] = [];
-  let response = await axios.get(query, {
-    headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
-    params: { trophies: true },
-  });
-  if (response.status == 200) {
-    response.data.results.forEach((result) => {
-      movieIds.push(result.id);
+  let page: number = 1;
+  let res: any;
+  do {
+    res = await axios.get(query + `&page=${page}`, {
+      headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
+      params: { trophies: true },
     });
-  }
+    if (res.status == 200) {
+      res.data.results.forEach((result) => {
+        movieIds.push(result.id);
+      });
+    }
+    page++;
+    //console.log('Got page ' + res.data.page + ' of ' + res.data.total_pages);
+  } while (
+    res.status == 200 &&
+    res.data.page < res.data.total_pages &&
+    movieIds.length < maxAmount
+  );
   return await getMoviesToIds(movieIds, maxAmount);
 }
 
@@ -96,7 +107,7 @@ externRouter.get('/search/movie/:word', async (req, res) => {
       '/search/movie/?' +
       `api_key=${API_KEY}` +
       `&query=${req.params.word}`;
-    let resMovies: Movie[] = await getMoviesToQuery(query, 20);
+    let resMovies: Movie[] = await getMoviesToQuery(query, 30);
     res.status(200).json({
       data: resMovies,
     });
@@ -108,7 +119,7 @@ externRouter.get('/search/movie/:word', async (req, res) => {
 
 //Returns the first X actors that are playing in a movie
 externRouter.get('/actor/movie/:id', async (req, res) => {
-  const MAX_ACTORS: number = 8;
+  const MAX_ACTORS: number = 10;
   try {
     let resActors: Actor[] = [];
     let actorsQuery: string =
@@ -137,7 +148,6 @@ externRouter.get('/actor/movie/:id', async (req, res) => {
   }
 });
 externRouter.get('/actor/:id', async (req, res) => {
-  const MAX_ACTORS: number = 8;
   try {
     let resActor: Actor = new Actor();
     let actorsQuery: string =
@@ -199,7 +209,7 @@ externRouter.get('/movie/one/:id', async (req, res) => {
   try {
     let resMovies: Movie[] = await getMoviesToIds(
       [parseInt(req.params.id)],
-      20
+      30
     );
     res.status(200).json({
       data: resMovies[0],
@@ -227,11 +237,11 @@ externRouter.get('/movies/actor/:id', async (req, res) => {
     if (response.status == 200) {
       let movieIds: number[] = [];
       response.data.cast.forEach((cast) => {
-        if (movieIds.length <= 20) {
+        if (movieIds.length <= 25) {
           movieIds.push(cast.id);
         }
       });
-      resMovies = await getMoviesToIds(movieIds, 20);
+      resMovies = await getMoviesToIds(movieIds, 25);
       resMovies.sort(
         (a, b) => b.releaseDate.getTime() - a.releaseDate.getTime()
       );
@@ -249,7 +259,7 @@ externRouter.get('/movies/actor/:id', async (req, res) => {
 //The actors array is NOT filled
 //The genre array IS filled
 externRouter.get('/user/:uId/recommendations', async (req, res) => {
-  const MAX_DIF_REVIEWS: number = 5;
+  const MAX_DIF_REVIEWS: number = 10;
   const MAX_REC_PER_REVIEW: number = 2;
   try {
     if (isNaN(+req.params.uId)) {
@@ -347,7 +357,7 @@ externRouter.get('/movie/:mId/recommendations', async (req, res) => {
 externRouter.get('/popular', async (req, res) => {
   try {
     let query: string = BASE_URL + '/movie/popular?' + `api_key=${API_KEY}`;
-    let resMovies = await getMoviesToQuery(query, 20);
+    let resMovies = await getMoviesToQuery(query, 30);
     res.status(200).json({
       data: resMovies,
     });
@@ -396,7 +406,7 @@ externRouter.get('/movie/genre/:id', async (req, res) => {
       '/discover/movie?' +
       `with_genres=${req.params.id}` +
       `&api_key=${API_KEY}`;
-    let resMovies = await getMoviesToQuery(query, 20);
+    let resMovies = await getMoviesToQuery(query, 30);
     if (resMovies.length == 0) {
       res.status(404).json();
     } else {
