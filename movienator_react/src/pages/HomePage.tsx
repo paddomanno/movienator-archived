@@ -28,6 +28,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import ActorSearchBar from '../components/ActorSearchBar';
 
 export default function HomePage() {
+  const MAX_MOVIES_PER_LIST = 10;
   const navigate = useNavigate();
   const [watchlist, setWatchlist] = useState<Movie[] | null>(null);
   const [popular, setPopular] = useState<Movie[] | null>(null);
@@ -42,16 +43,16 @@ export default function HomePage() {
       navigate('/login');
     }
     getWatchlistMovies(cookies.userId as number).then((movies) => {
-      setWatchlist(movies);
+      setWatchlist(movies.slice(0, MAX_MOVIES_PER_LIST));
     });
-    getPopularMovies().then((movies) => {
-      setPopular(movies);
+    getPopularMovies(1).then((movies) => {
+      setPopular(movies.slice(0, MAX_MOVIES_PER_LIST));
     });
     getUserRecommendations(cookies.userId as number).then((movies) => {
-      setRecommendations(movies);
+      setRecommendations(movies.slice(0, MAX_MOVIES_PER_LIST));
     });
     getReviewsOfFollowing(cookies.userId as number).then((reviews) => {
-      setReviews(reviews);
+      setReviews(reviews.slice(0, MAX_MOVIES_PER_LIST));
     });
     getAllGenres().then((genres) => {
       setGenres(genres);

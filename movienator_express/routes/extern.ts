@@ -71,28 +71,24 @@ async function getMoviesToIds(
  */
 async function getMoviesToQuery(
   query: string,
-  maxAmount: number
+  maxAmount: number,
+  page?: number
 ): Promise<Movie[]> {
   let movieIds: number[] = [];
-  let page: number = 1;
   let res: any;
-  do {
-    res = await axios.get(query + `&page=${page}`, {
-      headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
-      params: { trophies: true },
-    });
-    if (res.status == 200) {
-      res.data.results.forEach((result) => {
+  res = await axios.get(query + `&page=${page}`, {
+    headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
+    params: { trophies: true },
+  });
+  if (res.status == 200) {
+    res.data.results.forEach((result) => {
+      if (movieIds.length < maxAmount) {
         movieIds.push(result.id);
-      });
-    }
-    page++;
-    //console.log('Got page ' + res.data.page + ' of ' + res.data.total_pages);
-  } while (
-    res.status == 200 &&
-    res.data.page < res.data.total_pages &&
-    movieIds.length < maxAmount
-  );
+      }
+    });
+  }
+  page++;
+  //console.log('Got page ' + res.data.page + ' of ' + res.data.total_pages);
   return await getMoviesToIds(movieIds, maxAmount);
 }
 
@@ -107,7 +103,8 @@ externRouter.get('/search/movie/:word', async (req, res) => {
       '/search/movie/?' +
       `api_key=${API_KEY}` +
       `&query=${req.params.word}`;
-    let resMovies: Movie[] = await getMoviesToQuery(query, 30);
+    let page: number = parseInt(req.query.page);
+    let resMovies: Movie[] = await getMoviesToQuery(query, 50, page);
     res.status(200).json({
       data: resMovies,
     });
@@ -357,7 +354,8 @@ externRouter.get('/movie/:mId/recommendations', async (req, res) => {
 externRouter.get('/popular', async (req, res) => {
   try {
     let query: string = BASE_URL + '/movie/popular?' + `api_key=${API_KEY}`;
-    let resMovies = await getMoviesToQuery(query, 30);
+    let page: number = parseInt(req.query.page);
+    let resMovies = await getMoviesToQuery(query, 50, page);
     res.status(200).json({
       data: resMovies,
     });
@@ -406,7 +404,8 @@ externRouter.get('/movie/genre/:id', async (req, res) => {
       '/discover/movie?' +
       `with_genres=${req.params.id}` +
       `&api_key=${API_KEY}`;
-    let resMovies = await getMoviesToQuery(query, 30);
+    let page: number = parseInt(req.query.page);
+    let resMovies = await getMoviesToQuery(query, 50, page);
     if (resMovies.length == 0) {
       res.status(404).json();
     } else {
