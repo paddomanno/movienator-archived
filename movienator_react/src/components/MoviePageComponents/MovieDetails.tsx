@@ -19,7 +19,7 @@ import {
 import { useCookies } from 'react-cookie';
 import { getWatchlistMovies, saveMovie } from '../../services/MovieService';
 import { grey } from '@mui/material/colors';
-import SingleActorSmall from '../SingleItemComponents/SingleActorSmall';
+import ActorCardSmall from '../SingleItemComponents/ActorCardSmall';
 
 export default function MovieDetails(props: any) {
   const movie: Movie = props.data as Movie;
@@ -122,7 +122,7 @@ export default function MovieDetails(props: any) {
         <Grid2 container spacing={0}>
           {movie.actors.map((actor) => (
             <Grid2>
-              <SingleActorSmall data={actor} />
+              <ActorCardSmall data={actor} />
             </Grid2>
           ))}
         </Grid2>
