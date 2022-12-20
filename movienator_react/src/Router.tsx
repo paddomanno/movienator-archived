@@ -14,6 +14,7 @@ import OtherProfilePage from './pages/OtherProfilePage';
 import MovieSearchPage from './pages/MovieSearchPage';
 import ActorSearchPage from './pages/ActorSearchPage';
 import ActorMoviesPage from './pages/ActorMoviesPage';
+import PopularPage from './pages/PopularPage';
 
 let router = createBrowserRouter([
   {
@@ -72,6 +73,10 @@ let router = createBrowserRouter([
       {
         path: '/actor/:actorId',
         element: <ActorMoviesPage />,
+      },
+      {
+        path: '/popular',
+        element: <PopularPage />,
       },
     ],
   },
