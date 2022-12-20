@@ -11,6 +11,10 @@ import GenreMoviesPage from './pages/GenreMoviesPage';
 import OneMoviePage from './pages/OneMoviePage';
 import OwnProfilePage from './pages/OwnProfilePage';
 import OtherProfilePage from './pages/OtherProfilePage';
+import MovieSearchPage from './pages/MovieSearchPage';
+import ActorSearchPage from './pages/ActorSearchPage';
+import ActorMoviesPage from './pages/ActorMoviesPage';
+import PopularPage from './pages/PopularPage';
 
 let router = createBrowserRouter([
   {
@@ -57,6 +61,22 @@ let router = createBrowserRouter([
       {
         path: '/user/:userId',
         element: <OtherProfilePage />,
+      },
+      {
+        path: '/search/movie/:searchWord',
+        element: <MovieSearchPage />,
+      },
+      {
+        path: '/search/actor/:searchWord',
+        element: <ActorSearchPage />,
+      },
+      {
+        path: '/actor/:actorId',
+        element: <ActorMoviesPage />,
+      },
+      {
+        path: '/popular',
+        element: <PopularPage />,
       },
     ],
   },

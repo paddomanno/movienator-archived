@@ -4,10 +4,15 @@ import axios from 'axios';
 import { Genre } from '../types/Genre';
 
 const baseUrl: string = 'http://localhost:8080/extern';
-export async function searchMoviesByName(searchWord: string): Promise<Movie[]> {
+export async function searchMoviesByName(
+  searchWord: string,
+  page: number
+): Promise<Movie[]> {
   let resArray: Movie[] = [];
   try {
-    let response = await axios.get(baseUrl + `/search/movie/${searchWord}`);
+    let response = await axios.get(
+      baseUrl + `/search/movie/${searchWord}` + `?page=${page}`
+    );
     if (response.status === 200) {
       resArray = response.data.data as Movie[];
     }
@@ -68,6 +73,19 @@ export async function getMoviesToActor(actorId: number): Promise<Movie[]> {
   return resArray;
 }
 
+export async function getSingleActor(actorId: number): Promise<Actor | null> {
+  let resArray: Actor | null = null;
+  try {
+    let response = await axios.get(baseUrl + `/actor/${actorId}`);
+    if (response.status === 200) {
+      resArray = response.data.data as Actor;
+    }
+  } catch (e) {
+    console.log('Error fetching Movies: ' + e);
+  }
+  return resArray;
+}
+
 export async function getUserRecommendations(userId: number): Promise<Movie[]> {
   let resArray: Movie[] = [];
   try {
@@ -98,10 +116,10 @@ export async function getMovieRecommendations(
   return resArray;
 }
 
-export async function getPopularMovies(): Promise<Movie[]> {
+export async function getPopularMovies(page: number): Promise<Movie[]> {
   let resArray: Movie[] = [];
   try {
-    let response = await axios.get(baseUrl + '/popular');
+    let response = await axios.get(baseUrl + '/popular' + `?page=${page}`);
     if (response.status === 200) {
       resArray = response.data.data as Movie[];
     }
@@ -124,10 +142,15 @@ export async function getAllGenres(): Promise<Genre[]> {
   return resArray;
 }
 
-export async function getMoviesToGenre(genreId: number): Promise<Movie[]> {
+export async function getMoviesToGenre(
+  genreId: number,
+  page: number
+): Promise<Movie[]> {
   let resArray: Movie[] = [];
   try {
-    let response = await axios.get(baseUrl + `/movie/genre/${genreId}`);
+    let response = await axios.get(
+      baseUrl + `/movie/genre/${genreId}` + `?page=${page}`
+    );
     if (response.status === 200) {
       resArray = response.data.data as Movie[];
     }

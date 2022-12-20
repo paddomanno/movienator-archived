@@ -2,7 +2,7 @@ import { IconButton, InputBase, Paper } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-export default function MovieSearchBar(props: any) {
+export default function ActorSearchBar(props: any) {
   const [searchWord, setSearchWord] = useState<string | undefined>(props.data);
   const navigate = useNavigate();
   function handleChange(e: any) {
@@ -13,12 +13,12 @@ export default function MovieSearchBar(props: any) {
 
   function handleClick(e: any) {
     e.preventDefault();
-    navigate('/search/movie/' + searchWord);
+    navigate('/search/actor/' + searchWord);
   }
   function handlePress(e: any) {
     if (e.keyCode == 13) {
       e.preventDefault();
-      navigate('/search/movie/' + searchWord);
+      navigate('/search/actor/' + searchWord);
     }
   }
 
@@ -29,7 +29,7 @@ export default function MovieSearchBar(props: any) {
     >
       <InputBase
         sx={{ ml: 1, flex: 1 }}
-        placeholder="Search Movie"
+        placeholder="Search Actor"
         value={searchWord}
         onChange={handleChange}
         onKeyDown={handlePress}

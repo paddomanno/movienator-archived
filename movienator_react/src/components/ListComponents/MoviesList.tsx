@@ -1,23 +1,27 @@
 import { Movie } from '../../types/Movie';
 import { Card, CardContent, Stack, Typography } from '@mui/material';
 import MovieCard from '../SingleItemComponents/MovieCard';
+import { grey } from '@mui/material/colors';
+import Grid2 from '@mui/material/Unstable_Grid2';
 
 type Props = {
   movies: Movie[];
-  title: string;
+  title?: string;
 };
 
 export default function MoviesList({ title, movies }: Props) {
   return (
-    <Card sx={{ backgroundColor: 'lightgrey' }}>
+    <Card sx={{ backgroundColor: grey.A200 }}>
       <CardContent>
-        <Typography>{title}</Typography>
+        {title ?? <Typography>{title}</Typography>}
         {movies.length > 0 ? (
-          <Stack direction={'row'} spacing={1} overflow={'auto'}>
+          <Grid2 container spacing={1}>
             {movies.map((movie) => (
-              <MovieCard movie={movie} />
+              <Grid2>
+                <MovieCard movie={movie} />
+              </Grid2>
             ))}
-          </Stack>
+          </Grid2>
         ) : (
           <Typography>No movies here</Typography>
         )}
