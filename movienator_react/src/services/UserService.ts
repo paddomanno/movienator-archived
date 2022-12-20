@@ -144,7 +144,9 @@ export async function putOnWatchlist(
   movieId: number
 ): Promise<Boolean> {
   try {
-    let response = await axios.post(baseUrl + `/follow/${userAId}/${movieId}`);
+    let response = await axios.post(
+      baseUrl + `/watchlist/${userAId}/${movieId}`
+    );
     if (response.status === 201) {
       return true;
     }
@@ -186,7 +188,9 @@ export async function deleteFollowing(
   userIdB: number
 ): Promise<Boolean> {
   try {
-    let response = await axios.delete(baseUrl + `/${userIdA}/${userIdB}`);
+    let response = await axios.delete(
+      baseUrl + `/follow/${userIdA}/${userIdB}`
+    );
     if (response.status === 204) {
       return true;
     }
@@ -200,12 +204,14 @@ export async function deleteFromWatchlist(
   movieId: number
 ): Promise<Boolean> {
   try {
-    let response = await axios.delete(baseUrl + `/${userId}/${movieId}`);
+    let response = await axios.delete(
+      baseUrl + `/watchlist/${userId}/${movieId}`
+    );
     if (response.status === 204) {
       return true;
     }
   } catch (e) {
-    console.log('Error inserting User: ' + e);
+    console.log('Error deleting from Watchlist User: ' + e);
   }
   return false;
 }

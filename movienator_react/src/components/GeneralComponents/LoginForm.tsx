@@ -1,4 +1,4 @@
-import { Button, Stack, TextField } from '@mui/material';
+import { Button, Stack, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { getOneUser } from '../../services/UserService';
 import { useNavigate } from 'react-router-dom';
@@ -15,7 +15,7 @@ export default function LoginForm() {
     password: '',
   };
   const [formValues, setFormValues] = useState<InputValues>(defaultValues);
-  const [cookies, setCookie] = useCookies(['userName']);
+  const [cookies, setCookie] = useCookies(['userName', 'userId']);
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     if (value !== '') {
@@ -39,6 +39,7 @@ export default function LoginForm() {
         if (user != null) {
           if (user.password === formValues.password) {
             setCookie('userName', user.userName, { path: '/' });
+            setCookie('userId', user.userId, { path: '/' });
             navigate('/home');
           } else {
             let textField: HTMLElement | null =
@@ -76,6 +77,7 @@ export default function LoginForm() {
   return (
     <>
       <Stack direction={'column'} spacing={1} alignItems={'center'}>
+        <Typography variant={'h5'}>Sign into your Account</Typography>
         <TextField
           sx={{ width: '50%' }}
           id={'userName-input'}

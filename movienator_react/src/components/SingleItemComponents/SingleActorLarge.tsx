@@ -1,12 +1,13 @@
 import { Genre } from '../../types/Genre';
-import { IconButton, Paper, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { Button, IconButton, Paper, Typography } from '@mui/material';
+import { Actor } from '../../types/Actor';
 
-export default function GenreCard(props: any) {
-  let genre: Genre = props.data as Genre;
+export default function SingleActorLarge(props: any) {
+  let actor: Actor = props.data as Actor;
   const navigate = useNavigate();
   function manageClick() {
-    navigate('/genreMovies/' + genre.genreId);
+    navigate('/actor/' + actor.actorId);
   }
   return (
     <IconButton onClick={manageClick}>
@@ -22,7 +23,7 @@ export default function GenreCard(props: any) {
           verticalAlign: 'middle',
         }}
       >
-        <Typography>{genre.genreName}</Typography>
+        <Typography>{actor.name}</Typography>
       </Paper>
     </IconButton>
   );
