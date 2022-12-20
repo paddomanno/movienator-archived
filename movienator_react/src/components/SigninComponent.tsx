@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Stack, TextField } from '@mui/material';
+import { Button, Stack, TextField, Typography } from '@mui/material';
 import { getOneUser, insertUser } from '../services/UserService';
 import { User } from '../types/User';
 import { useNavigate } from 'react-router-dom';
@@ -111,6 +111,7 @@ export default function SigninComponent() {
   return (
     <>
       <Stack direction={'column'} spacing={1} alignItems={'center'}>
+        <Typography variant={'h5'}>Register a new Account</Typography>
         <TextField
           sx={{ width: '50%' }}
           id={'firstName-input'}

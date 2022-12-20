@@ -10,7 +10,7 @@ export default function GenreListComponent(props: any) {
     <Card sx={{ backgroundColor: 'lightgrey' }}>
       <CardContent>
         <Typography variant={'subtitle1'}>Browse our Genres</Typography>
-        <Grid2 container spacing={1}>
+        <Grid2 container spacing={0}>
           {genre.map((genre) => (
             <Grid2>
               <SingleGenreFrameComponent data={genre} />

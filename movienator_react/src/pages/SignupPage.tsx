@@ -8,7 +8,6 @@ export default function SignupPage() {
   return (
     <>
       <Card>
-        <Typography>Register a new Account</Typography>
         <SigninComponent />
       </Card>
     </>

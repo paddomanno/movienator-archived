@@ -1,4 +1,4 @@
-import { Button, Stack, TextField } from '@mui/material';
+import { Button, Stack, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { getOneUser } from '../services/UserService';
 import { useNavigate } from 'react-router-dom';
@@ -77,6 +77,7 @@ export default function LoginComponent() {
   return (
     <>
       <Stack direction={'column'} spacing={1} alignItems={'center'}>
+        <Typography variant={'h5'}>Sign into your Account</Typography>
         <TextField
           sx={{ width: '50%' }}
           id={'userName-input'}
