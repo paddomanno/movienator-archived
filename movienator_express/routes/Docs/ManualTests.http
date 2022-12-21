@@ -10,3 +10,6 @@ https://api.themoviedb.org/3/movie/663712?api_key=fb73e59a39ce4d841ab2597bdf8b70
 ###Test Movie
 https://api.themoviedb.org/3/movie/19995/similar?api_key=fb73e59a39ce4d841ab2597bdf8b7003
 
+###Test Videos
+https://api.themoviedb.org/3/movie/19995/videos?api_key=fb73e59a39ce4d841ab2597bdf8b7003
+

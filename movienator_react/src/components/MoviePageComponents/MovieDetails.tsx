@@ -67,34 +67,22 @@ export default function MovieDetails(props: any) {
     navigate('/genreMovies/' + genreId);
   }
 
-  let leftColumn = (
-    <Stack direction={'column'} width={'50%'} alignItems={'center'} spacing={2}>
-      <img
-        alt={movie.imagePath != null ? movie.title : 'No image available'}
-        height={'auto'}
-        width={300}
-        src={`https://image.tmdb.org/t/p/w342${movie.imagePath}`}
-      />
-      <Card sx={{ backgroundColor: grey.A100 }}>
-        <CardContent>
-          <Stack direction={'row'} spacing={1}>
-            <Paper>
-              <Typography>{movie.lengthMinutes}min</Typography>
-            </Paper>
-            <Paper>
-              <Typography>
-                {new Date(movie.releaseDate).toDateString()}
-              </Typography>
-            </Paper>
-            <Paper>
-              <Typography>
-                Adult: {movie.adultContent ? 'Yes' : 'No'}
-              </Typography>
-            </Paper>
-          </Stack>
-        </CardContent>
-      </Card>
-    </Stack>
+  let videoComp = (
+    <>
+      {movie.videoPath != 'null' ? (
+        <Card sx={{ backgroundColor: grey.A100 }}>
+          <CardContent>
+            <iframe
+              width={500}
+              height={315}
+              src={'https://www.youtube.com/embed/' + movie.videoPath}
+            />
+          </CardContent>
+        </Card>
+      ) : (
+        <></>
+      )}
+    </>
   );
   let genreComp = (
     <Card sx={{ backgroundColor: grey.A100 }}>
@@ -116,6 +104,25 @@ export default function MovieDetails(props: any) {
       </CardContent>
     </Card>
   );
+  let detailsComp = (
+    <Card sx={{ backgroundColor: grey.A100 }}>
+      <CardContent>
+        <Stack direction={'row'} spacing={1}>
+          <Paper>
+            <Typography>{movie.lengthMinutes}min</Typography>
+          </Paper>
+          <Paper>
+            <Typography>
+              {new Date(movie.releaseDate).toDateString()}
+            </Typography>
+          </Paper>
+          <Paper>
+            <Typography>Adult: {movie.adultContent ? 'Yes' : 'No'}</Typography>
+          </Paper>
+        </Stack>
+      </CardContent>
+    </Card>
+  );
   let actorComp = (
     <Card sx={{ backgroundColor: grey.A100 }}>
       <CardContent>
@@ -129,6 +136,21 @@ export default function MovieDetails(props: any) {
       </CardContent>
     </Card>
   );
+  let leftColumn = (
+    <Stack direction={'column'} width={'50%'} alignItems={'center'} spacing={2}>
+      <img
+        alt={movie.imagePath != null ? movie.title : 'No image available'}
+        height={'auto'}
+        width={300}
+        src={`https://image.tmdb.org/t/p/w342${movie.imagePath}`}
+      />
+      {genreComp}
+      {detailsComp}
+      <Button variant={'contained'} onClick={handleWatchlistClick}>
+        {isWatchlist ? 'Remove From Watchlist' : 'Add to Watchlist'}
+      </Button>
+    </Stack>
+  );
   let rightColumn = (
     <Stack
       direction={'column'}
@@ -137,21 +159,17 @@ export default function MovieDetails(props: any) {
       spacing={2}
       justifyContent={'space-between'}
     >
-      {genreComp}
       <Card sx={{ backgroundColor: grey.A100 }}>
         <CardContent>
           <Typography>{movie.overview}</Typography>
         </CardContent>
       </Card>
+      {videoComp}
       {actorComp}
-      <Button variant={'contained'} onClick={handleWatchlistClick}>
-        {isWatchlist ? 'Remove From Watchlist' : 'Add to Watchlist'}
-      </Button>
     </Stack>
   );
 
   return (
-    // TODO: Show user list with friends who watchlisted this movie
     <>
       <Typography variant={'h4'}>{movie.title}</Typography>
       <Divider></Divider>
