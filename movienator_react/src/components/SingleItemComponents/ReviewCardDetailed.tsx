@@ -1,5 +1,5 @@
 import React from 'react';
-import ReviewCardShort from './ReviewCardShort';
+import ReviewCardShort from './ReviewCardsDetailed/ReviewCardShort';
 import ReviewCardWithUser from './ReviewCardsDetailed/ReviewCardWithUser';
 import ReviewCardWithUserAndMovie from './ReviewCardsDetailed/ReviewCardWithUserAndMovie';
 import ReviewCardWithMovie from './ReviewCardsDetailed/ReviewCardWithMovie';

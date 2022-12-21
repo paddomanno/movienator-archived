@@ -74,7 +74,11 @@ export default function GenreMoviesPage() {
       <Card>
         <CardContent>
           <Stack direction={'row'} spacing={2}>
-            <Button variant={'contained'} onClick={decrementPage}>
+            <Button
+              variant={'contained'}
+              disabled={page == 1}
+              onClick={decrementPage}
+            >
               Prev Page
             </Button>
             <Button variant={'contained'} onClick={incrementPage}>
