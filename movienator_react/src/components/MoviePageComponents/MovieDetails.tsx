@@ -75,6 +75,7 @@ export default function MovieDetails(props: any) {
             <iframe
               width={500}
               height={315}
+              allowFullScreen={true}
               src={'https://www.youtube.com/embed/' + movie.videoPath}
             />
           </CardContent>

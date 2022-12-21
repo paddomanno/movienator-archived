@@ -3,8 +3,6 @@ import Actor from '../entity/actor';
 import Review from '../entity/review';
 import Genre from '../entity/genre';
 import User from '../entity/user';
-import { Console } from 'inspector';
-import { response } from 'express';
 
 const expressExtern = require('express');
 const externRouter = expressExtern.Router();
@@ -18,6 +16,25 @@ const BASE_URL = 'https://api.themoviedb.org/3';
  * They should just receive the Data from the external API and put it into
  * Our own datatypes to return (again, without saving the data to the database)
  */
+
+async function getImageToActor(actorId: number): Promise<string | null> {
+  let resString: string | null = null;
+  try {
+    let query: string =
+      BASE_URL + `/person/${actorId}/images?` + `api_key=${API_KEY}`;
+    let response = await axios.get(query, {
+      headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
+      params: { trophies: true },
+    });
+    if (response.status == 200) {
+      if (response.data.profiles.length >= 1) {
+        resString = response.data.profiles[0].file_path;
+        console.log(response.data.profiles[0]);
+      }
+    }
+  } catch (e) {}
+  return resString;
+}
 
 async function getVideoToMovie(movieId: number): Promise<string> {
   let resKey: string = 'null';
@@ -87,7 +104,6 @@ async function getMoviesToIds(
       oneMovie.genres = genres;
       if (resMovies.length < maxAmount) {
         resMovies.push(oneMovie);
-        console.log(oneMovie.videoPath);
       }
     }
   }
@@ -200,6 +216,7 @@ externRouter.get('/actor/:id', async (req, res) => {
 //The movies array is NOT filled
 //See search/people -> known for
 externRouter.get('/search/actor/:name', async (req, res) => {
+  const MAX_RESULTS: number = 20;
   try {
     let resActors: Actor[] = [];
     let query: string =
@@ -212,15 +229,19 @@ externRouter.get('/search/actor/:name', async (req, res) => {
       params: { trophies: true },
     });
     if (response.status == 200) {
-      response.data.results.forEach((result) => {
-        if (result.known_for_department == 'Acting') {
+      for (const result of response.data.results) {
+        if (
+          result.known_for_department == 'Acting' &&
+          resActors.length < MAX_RESULTS
+        ) {
           let newActor: Actor = new Actor();
           newActor.actorId = result.id;
           newActor.name = result.name;
           newActor.movies = [];
+          newActor.imagePath = await getImageToActor(result.id);
           resActors.push(newActor);
         }
-      });
+      }
       resActors.sort((a, b) => a.name.localeCompare(b.name));
     }
     res.status(200).json({
@@ -252,6 +273,7 @@ externRouter.get('/movie/one/:id', async (req, res) => {
 //The actors array is NOT filled
 //The genre array IS filled
 externRouter.get('/movies/actor/:id', async (req, res) => {
+  const MAX_RESULTS = 70;
   try {
     let resMovies: Movie[] = [];
     let query: string =
@@ -265,11 +287,11 @@ externRouter.get('/movies/actor/:id', async (req, res) => {
     if (response.status == 200) {
       let movieIds: number[] = [];
       response.data.cast.forEach((cast) => {
-        if (movieIds.length <= 25) {
+        if (movieIds.length <= MAX_RESULTS) {
           movieIds.push(cast.id);
         }
       });
-      resMovies = await getMoviesToIds(movieIds, 25);
+      resMovies = await getMoviesToIds(movieIds, MAX_RESULTS);
       resMovies.sort(
         (a, b) => b.releaseDate.getTime() - a.releaseDate.getTime()
       );

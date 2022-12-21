@@ -9,6 +9,9 @@ export default class Actor extends BaseEntity {
   @Column()
   name: string;
 
+  @Column({ nullable: true })
+  imagePath: string;
+
   @ManyToMany(() => Movie, (movie) => movie.actors)
   movies: Movie[];
 }
