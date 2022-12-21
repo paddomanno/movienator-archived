@@ -29,7 +29,6 @@ async function getImageToActor(actorId: number): Promise<string | null> {
     if (response.status == 200) {
       if (response.data.profiles.length >= 1) {
         resString = response.data.profiles[0].file_path;
-        console.log(response.data.profiles[0]);
       }
     }
   } catch (e) {}
