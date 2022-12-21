@@ -10,3 +10,6 @@ https://api.themoviedb.org/3/movie/663712?api_key=***REMOVED***
 ###Test Movie
 https://api.themoviedb.org/3/movie/19995/similar?api_key=***REMOVED***
 
+###Test Videos
+https://api.themoviedb.org/3/movie/19995/videos?api_key=***REMOVED***
+

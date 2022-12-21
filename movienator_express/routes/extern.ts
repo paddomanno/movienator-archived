@@ -19,19 +19,43 @@ const BASE_URL = 'https://api.themoviedb.org/3';
  * Our own datatypes to return (again, without saving the data to the database)
  */
 
+async function getVideoToMovie(movieId: number): Promise<string> {
+  let resKey: string = 'null';
+  try {
+    let query: string =
+      BASE_URL + `/movie/${movieId}/videos?` + `api_key=${API_KEY}`;
+    //console.log(query)
+    let response = await axios.get(query, {
+      headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
+      params: { trophies: true },
+    });
+    if (response.status == 200) {
+      response.data.results.forEach((result) => {
+        if (result.site == 'YouTube' && result.type == 'Trailer') {
+          if (resKey == 'null') {
+            resKey = result.key as string;
+          }
+        }
+      });
+    }
+  } catch (e) {}
+  return resKey;
+}
+
 /**
  * Return an array of movies with the given Ids. Actors are not filled. Genres are filled
  * @param ids
  * @param maxAmount The maximum amount of movies that will be returned
+ * @param getVideos
  */
 async function getMoviesToIds(
   ids: number[],
-  maxAmount: number
+  maxAmount: number,
+  getVideos: boolean = false
 ): Promise<Movie[]> {
   let resMovies: Movie[] = [];
   for (const id of ids) {
     let query: string = BASE_URL + `/movie/${id}?` + `api_key=${API_KEY}`;
-    //console.log(query)
     let response = await axios.get(query, {
       headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
       params: { trophies: true },
@@ -52,12 +76,18 @@ async function getMoviesToIds(
       oneMovie.lengthMinutes = response.data.runtime;
       oneMovie.adultContent = response.data.adult;
       oneMovie.imagePath = response.data.poster_path;
-      oneMovie.videoPath = 'null';
+      if (getVideos) {
+        oneMovie.videoPath = await getVideoToMovie(response.data.id);
+        console.log(oneMovie.videoPath);
+      } else {
+        oneMovie.videoPath = 'null';
+      }
       oneMovie.actors = [];
       oneMovie.reviews = [];
       oneMovie.genres = genres;
       if (resMovies.length < maxAmount) {
         resMovies.push(oneMovie);
+        console.log(oneMovie.videoPath);
       }
     }
   }
@@ -206,7 +236,8 @@ externRouter.get('/movie/one/:id', async (req, res) => {
   try {
     let resMovies: Movie[] = await getMoviesToIds(
       [parseInt(req.params.id)],
-      30
+      30,
+      true
     );
     res.status(200).json({
       data: resMovies[0],
