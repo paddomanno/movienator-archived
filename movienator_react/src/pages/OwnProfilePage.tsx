@@ -2,18 +2,11 @@
 import { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
-import {
-  Button,
-  Card,
-  CardContent,
-  CardMedia,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import { User } from '../types/User';
 import { getOneUser } from '../services/UserService';
-import { grey } from '@mui/material/colors';
 import OwnProfileDetails from '../components/OwnProfileComponents/OwnProfileDetails';
+import OwnProfileUsersLists from '../components/OwnProfileComponents/OwnProfileUsersLists';
 
 export default function OwnProfilePage() {
   const navigate = useNavigate();
@@ -32,7 +25,16 @@ export default function OwnProfilePage() {
   return (
     <Stack direction={'column'} spacing={1}>
       {user != null ? (
-        <OwnProfileDetails user={user} />
+        <>
+          <OwnProfileDetails user={user} />
+          <Stack direction={'row'} spacing={1} justifyContent={'space-evenly'}>
+            <OwnProfileUsersLists
+              title="Your Followers:"
+              users={user.followers}
+            />
+            <OwnProfileUsersLists title="You follow:" users={user.following} />
+          </Stack>
+        </>
       ) : (
         <Typography>Loading...</Typography>
       )}

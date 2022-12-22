@@ -9,6 +9,7 @@ type Props = {
 
 function UsersList({ users }: Props) {
   return (
+    // TODO: lieber List mit ListItem's ?
     <>
       <Grid2 container spacing={1}>
         {users.map((user) => (
