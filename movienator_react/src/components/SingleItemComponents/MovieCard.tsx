@@ -30,7 +30,7 @@ export default function MovieCard({ movie }: Props) {
           <Typography variant={'body2'}>
             {new Date(movie.releaseDate).getTime() !== new Date(0).getTime()
               ? new Date(movie.releaseDate).getFullYear()
-              : 'Not known'}
+              : 'Date not known'}
           </Typography>
           <Typography
             sx={{
