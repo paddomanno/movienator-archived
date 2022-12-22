@@ -23,14 +23,14 @@ export default function MovieCard({ movie }: Props) {
         <CardMedia
           component="img"
           alt={movie.imagePath != null ? movie.title : 'No image available'}
-          height="225"
+          height="231"
           image={`https://image.tmdb.org/t/p/w154${movie.imagePath}`}
         />
         <CardContent>
           <Typography variant={'body2'}>
-            {movie.releaseDate !== undefined
+            {new Date(movie.releaseDate).getTime() !== new Date(0).getTime()
               ? new Date(movie.releaseDate).getFullYear()
-              : 'Not known'}
+              : 'Date not known'}
           </Typography>
           <Typography
             sx={{
