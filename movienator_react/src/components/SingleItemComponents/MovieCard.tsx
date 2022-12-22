@@ -28,7 +28,7 @@ export default function MovieCard({ movie }: Props) {
         />
         <CardContent>
           <Typography variant={'body2'}>
-            {movie.releaseDate !== undefined
+            {new Date(movie.releaseDate).getTime() !== new Date(0).getTime()
               ? new Date(movie.releaseDate).getFullYear()
               : 'Not known'}
           </Typography>
