@@ -114,7 +114,9 @@ export default function MovieDetails(props: any) {
           </Paper>
           <Paper>
             <Typography>
-              {new Date(movie.releaseDate).toDateString()}
+              {new Date(movie.releaseDate).getTime() !== new Date(0).getTime()
+                ? new Date(movie.releaseDate).getFullYear()
+                : 'Date Not known'}
             </Typography>
           </Paper>
           <Paper>

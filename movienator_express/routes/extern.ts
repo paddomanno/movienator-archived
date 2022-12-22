@@ -88,13 +88,16 @@ async function getMoviesToIds(
       oneMovie.movieId = response.data.id;
       oneMovie.title = response.data.original_title;
       oneMovie.overview = response.data.overview;
-      oneMovie.releaseDate = new Date(response.data.release_date);
+      if (response.data.release_date) {
+        oneMovie.releaseDate = new Date(response.data.release_date);
+      } else {
+        oneMovie.releaseDate = new Date(0);
+      }
       oneMovie.lengthMinutes = response.data.runtime;
       oneMovie.adultContent = response.data.adult;
       oneMovie.imagePath = response.data.poster_path;
       if (getVideos) {
         oneMovie.videoPath = await getVideoToMovie(response.data.id);
-        console.log(oneMovie.videoPath);
       } else {
         oneMovie.videoPath = 'null';
       }
