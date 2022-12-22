@@ -1,5 +1,12 @@
 import { Genre } from '../../types/Genre';
-import { IconButton, Paper, Typography } from '@mui/material';
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  IconButton,
+  Paper,
+  Typography,
+} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 export default function GenreCard(props: any) {
@@ -10,20 +17,31 @@ export default function GenreCard(props: any) {
   }
   return (
     <IconButton onClick={manageClick}>
-      <Paper
-        elevation={6}
-        variant={'outlined'}
+      <Card
         sx={{
-          minWidth: 100,
-          maxWidth: 100,
-          minHeight: 100,
-          maxHeight: 100,
-          textAlign: 'center',
-          verticalAlign: 'middle',
+          maxWidth: 175,
+          minWidth: 175,
         }}
       >
-        <Typography>{genre.genreName}</Typography>
-      </Paper>
+        <CardMedia
+          component="img"
+          alt={genre.genreName}
+          height="125"
+          image={`${process.env.PUBLIC_URL}/Images/${genre.genreName}.jpg`}
+        />
+        <CardContent>
+          <Typography
+            sx={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}
+            variant={'body2'}
+          >
+            {genre.genreName}
+          </Typography>
+        </CardContent>
+      </Card>
     </IconButton>
   );
 }
