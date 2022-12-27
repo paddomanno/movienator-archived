@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 type Props = {
   reviews: Review[];
 };
-export default function ReviewsList({ reviews }: Props) {
+export default function ReviewsListHomePage({ reviews }: Props) {
   const navigate = useNavigate();
   function handleClick(e: any) {
     e.preventDefault();

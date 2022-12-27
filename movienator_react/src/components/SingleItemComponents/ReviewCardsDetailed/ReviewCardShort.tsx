@@ -14,13 +14,18 @@ import OtherUserAvatar from '../OtherUserAvatar';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { useNavigate } from 'react-router-dom';
+import ReviewDetailsPopup from '../../GeneralComponents/ReviewDetailsPopup';
 
 type Props = {
   review: Review;
 };
 export default function ReviewCardShort({ review }: Props) {
   const navigate = useNavigate();
-  const [showPopup, setShowPopup] = useState<Boolean>(false);
+  const [showPopup, setShowPopup] = useState<boolean>(false);
+
+  function setOpenPopup(open: boolean): void {
+    setShowPopup(open);
+  }
 
   function goToMovie(e: any) {
     e.preventDefault();
@@ -61,48 +66,55 @@ export default function ReviewCardShort({ review }: Props) {
   );
 
   return (
-    <IconButton
-      onClick={() => {
-        setShowPopup(true);
-      }}
-    >
-      <Card sx={{ maxWidth: 200, minWidth: 200 }}>
-        {review.review_movie != null && review.review_user != null ? (
-          <>
-            <CardMedia
-              component="img"
-              alt={
-                review.review_movie.imagePath != null
-                  ? review.review_movie.title
-                  : 'No image available'
-              }
-              height="275"
-              image={`https://image.tmdb.org/t/p/w342${review.review_movie.imagePath}`}
-            />
-            <CardContent>
-              <Typography
-                sx={{
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
-                }}
-                variant={'body2'}
-              >
-                {review.review_movie.title}
-              </Typography>
-              <Stack direction={'row'} spacing={1} alignItems={'center'}>
-                {avatar}
-                {stars}
-              </Stack>
-            </CardContent>
-          </>
-        ) : (
-          <>
-            <CardMedia />
-            <CardContent />
-          </>
-        )}
-      </Card>
-    </IconButton>
+    <>
+      <ReviewDetailsPopup
+        review={review}
+        open={showPopup}
+        openSetter={setOpenPopup}
+      />
+      <IconButton
+        onClick={() => {
+          setShowPopup(true);
+        }}
+      >
+        <Card sx={{ maxWidth: 200, minWidth: 200 }}>
+          {review.review_movie != null && review.review_user != null ? (
+            <>
+              <CardMedia
+                component="img"
+                alt={
+                  review.review_movie.imagePath != null
+                    ? review.review_movie.title
+                    : 'No image available'
+                }
+                height="275"
+                image={`https://image.tmdb.org/t/p/w342${review.review_movie.imagePath}`}
+              />
+              <CardContent>
+                <Typography
+                  sx={{
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
+                  variant={'body2'}
+                >
+                  {review.review_movie.title}
+                </Typography>
+                <Stack direction={'row'} spacing={1} alignItems={'center'}>
+                  {avatar}
+                  {stars}
+                </Stack>
+              </CardContent>
+            </>
+          ) : (
+            <>
+              <CardMedia />
+              <CardContent />
+            </>
+          )}
+        </Card>
+      </IconButton>
+    </>
   );
 }
