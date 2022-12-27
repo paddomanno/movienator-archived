@@ -7,11 +7,15 @@ import { User } from '../types/User';
 import { getOneUser } from '../services/UserService';
 import OwnProfileDetails from '../components/OwnProfileComponents/OwnProfileDetails';
 import OwnProfileUsersLists from '../components/OwnProfileComponents/OwnProfileUsersLists';
+import { Review } from '../types/Review';
+import { getReviewsToUser } from '../services/ReviewService';
+import ReviewListColumn from '../components/ListComponents/ReviewListColumn';
 
 export default function OwnProfilePage() {
   const navigate = useNavigate();
-  const [cookies] = useCookies(['userName']);
+  const [cookies] = useCookies(['userName', 'userId']);
   const [user, setUser] = useState<User | null>(null);
+  const [userReviews, setUserReviews] = useState<Review[] | null>(null);
 
   useEffect(() => {
     if (!cookies.userName) {
@@ -20,11 +24,14 @@ export default function OwnProfilePage() {
     getOneUser(cookies.userName).then((user) => {
       setUser(user);
     });
+    getReviewsToUser(cookies.userId).then((reviews) => {
+      setUserReviews(reviews);
+    });
   }, []);
 
   return (
     <Stack direction={'column'} spacing={1}>
-      {user != null ? (
+      {user != null && userReviews != null ? (
         <>
           <OwnProfileDetails user={user} />
           <Stack direction={'row'} spacing={1} justifyContent={'space-evenly'}>
@@ -34,6 +41,12 @@ export default function OwnProfilePage() {
             />
             <OwnProfileUsersLists title="You follow:" users={user.following} />
           </Stack>
+          <ReviewListColumn
+            reviews={userReviews}
+            showMovie={true}
+            showUser={false}
+            title={'Your Reviews'}
+          />
         </>
       ) : (
         <Typography>Loading...</Typography>
