@@ -1,18 +1,11 @@
 //Route: movienator3000.com/home
-import MoviesList from '../components/ListComponents/MoviesList';
-import ReviewsList from '../components/ListComponents/ReviewsList';
+import ReviewsListHomePage from '../components/ListComponents/ReviewsListHomePage';
 import AllGenresList from '../components/ListComponents/AllGenresList';
 import React, { useEffect, useState } from 'react';
 import { Movie } from '../types/Movie';
 import { Review } from '../types/Review';
 import { Genre } from '../types/Genre';
-import {
-  Card,
-  CardContent,
-  IconButton,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Card, CardContent, Stack, Typography } from '@mui/material';
 import { getWatchlistMovies } from '../services/MovieService';
 import {
   getAllGenres,
@@ -22,9 +15,7 @@ import {
 import { getReviewsOfFollowing } from '../services/ReviewService';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
-import MovieSearchbar from '../components/GeneralComponents/MovieSearchbar';
 import { grey } from '@mui/material/colors';
-import HomeIcon from '@mui/icons-material/Home';
 import ActorSearchBar from '../components/GeneralComponents/ActorSearchBar';
 import MovieSearchBar from '../components/GeneralComponents/MovieSearchbar';
 import MoviesListOneLine from '../components/ListComponents/MoviesListOneLine';
@@ -102,7 +93,7 @@ export default function HomePage() {
               title="Recommendations For You"
               handleClick={() => navigate('/recommendations')}
             />
-            <ReviewsList reviews={reviews} />
+            <ReviewsListHomePage reviews={reviews} />
             <AllGenresList data={genres} />
           </Stack>
         </>
