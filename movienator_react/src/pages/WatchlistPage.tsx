@@ -10,21 +10,21 @@ import MoviesList from '../components/ListComponents/MoviesList';
 export default function WatchlistPage() {
   const navigate = useNavigate();
   const [movies, setMovies] = useState<Movie[] | null>(null);
-  const [cookies] = useCookies(['userName']);
+  const [cookies] = useCookies(['userName', 'userId']);
   const [page, setPage] = useState<number>(1);
 
   useEffect(() => {
     if (!cookies.userName) {
       navigate('/login');
     }
-    getWatchlistMovies(page).then((movies) => {
+    getWatchlistMovies(cookies.userId).then((movies) => {
       setMovies(movies);
     });
   }, []);
 
   useEffect(() => {
     setMovies(null);
-    getWatchlistMovies(page).then((movies) => {
+    getWatchlistMovies(cookies.userId).then((movies) => {
       setMovies(movies);
     });
   }, [page]);
@@ -60,10 +60,18 @@ export default function WatchlistPage() {
       <Card>
         <CardContent>
           <Stack direction={'row'} spacing={2}>
-            <Button variant={'contained'} onClick={decrementPage}>
+            <Button
+              variant={'contained'}
+              onClick={decrementPage}
+              disabled={page == 1}
+            >
               Prev Page
             </Button>
-            <Button variant={'contained'} onClick={incrementPage}>
+            <Button
+              variant={'contained'}
+              onClick={incrementPage}
+              disabled={movies == null || movies.length < 20}
+            >
               Next Page
             </Button>
           </Stack>
