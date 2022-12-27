@@ -22,7 +22,7 @@ export default function MoviesListOneLine({
   handleClick,
 }: Props) {
   return (
-    <Card sx={{ backgroundColor: 'lightgrey' }}>
+    <Card sx={{ backgroundColor: grey.A200 }}>
       <CardContent>
         <Typography>{title}</Typography>
         {movies.length > 0 ? (

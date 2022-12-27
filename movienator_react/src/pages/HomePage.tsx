@@ -102,7 +102,7 @@ export default function HomePage() {
               title="Recommendations For You"
               handleClick={() => navigate('/recommendations')}
             />
-            <ReviewsList data={reviews} />
+            <ReviewsList reviews={reviews} />
             <AllGenresList data={genres} />
           </Stack>
         </>
