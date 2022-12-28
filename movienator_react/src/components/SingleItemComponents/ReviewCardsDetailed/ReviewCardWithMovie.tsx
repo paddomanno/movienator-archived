@@ -1,9 +1,6 @@
-import { Review } from '../../../types/Review';
+import { SingleReviewProps } from '../../../props/ReviewProps';
 
-type Props = {
-  review: Review;
-};
-export default function ReviewCardWithMovie({ review }: Props) {
+export default function ReviewCardWithMovie({ review }: SingleReviewProps) {
   return (
     <div>
       Showing Single Review in Profile. Not showing User{' '}

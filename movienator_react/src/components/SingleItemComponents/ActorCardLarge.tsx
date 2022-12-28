@@ -1,18 +1,14 @@
-import { Genre } from '../../types/Genre';
 import { useNavigate } from 'react-router-dom';
 import {
-  Button,
   Card,
   CardContent,
   CardMedia,
   IconButton,
-  Paper,
   Typography,
 } from '@mui/material';
-import { Actor } from '../../types/Actor';
+import { SingleActorProps } from '../../props/ActorProps';
 
-export default function ActorCardLarge(props: any) {
-  let actor: Actor = props.data as Actor;
+export default function ActorCardLarge({ actor }: SingleActorProps) {
   const navigate = useNavigate();
   function manageClick() {
     navigate('/actor/' + actor.actorId);

@@ -8,15 +8,10 @@ import {
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import ShareIcon from '@mui/icons-material/Share';
-import ReviewsIcon from '@mui/icons-material/Reviews';
 import { grey } from '@mui/material/colors';
-import { User } from '../../types/User';
+import { SingleUserProps } from '../../props/UserProps';
 
-type Props = {
-  user: User;
-};
-
-export default function OwnProfileDetails({ user }: Props) {
+export default function OwnProfileDetails({ user }: SingleUserProps) {
   const SIZE_PROFILEIMAGE = 300;
 
   return (

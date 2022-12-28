@@ -1,4 +1,3 @@
-import { Movie } from '../../types/Movie';
 import {
   Card,
   CardContent,
@@ -7,12 +6,9 @@ import {
   Typography,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { SingleMovieProps } from '../../props/MovieProps';
 
-type Props = {
-  movie: Movie;
-};
-
-export default function MovieCard({ movie }: Props) {
+export default function MovieCard({ movie }: SingleMovieProps) {
   const navigate = useNavigate();
   function manageClick() {
     navigate('/movie/' + movie.movieId);

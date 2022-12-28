@@ -7,7 +7,7 @@ export default function ActorSearchBar(props: any) {
   const navigate = useNavigate();
   function handleChange(e: any) {
     e.preventDefault();
-    const { name, value } = e.target;
+    const { value } = e.target;
     setSearchWord(value);
   }
 
@@ -16,7 +16,7 @@ export default function ActorSearchBar(props: any) {
     navigate('/search/actor/' + searchWord);
   }
   function handlePress(e: any) {
-    if (e.keyCode == 13) {
+    if (e.keyCode === 13) {
       e.preventDefault();
       navigate('/search/actor/' + searchWord);
     }

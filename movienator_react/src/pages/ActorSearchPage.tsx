@@ -1,4 +1,4 @@
-import { Card, CardContent, IconButton, Paper, Stack } from '@mui/material';
+import { Card, CardContent, IconButton, Stack } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { searchActorsByName } from '../services/ExternService';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -19,7 +19,7 @@ export default function ActorSearchPage() {
     if (!cookies.userName) {
       navigate('/login');
     }
-    if (searchWord != undefined) {
+    if (searchWord !== undefined) {
       searchActorsByName(searchWord).then((res) => {
         setActors(res);
       });
@@ -29,10 +29,6 @@ export default function ActorSearchPage() {
   function toHomePage(e: any) {
     e.preventDefault();
     navigate('/home');
-  }
-
-  function toActorPage(actorId: number) {
-    navigate('/actor/' + actorId);
   }
 
   return (
@@ -55,7 +51,7 @@ export default function ActorSearchPage() {
                 <>
                   {actors.map((actor) => (
                     <Grid2>
-                      <ActorCardLarge data={actor} />
+                      <ActorCardLarge actor={actor} />
                     </Grid2>
                   ))}
                 </>

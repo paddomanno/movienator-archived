@@ -1,3 +1,5 @@
-export default function OtherProfileDetails(props: any) {
+import { SingleUserProps } from '../../props/UserProps';
+
+export default function OtherProfileDetails({ user }: SingleUserProps) {
   return <div>Search field</div>;
 }
