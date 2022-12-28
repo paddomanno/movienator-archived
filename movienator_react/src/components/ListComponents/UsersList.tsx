@@ -1,20 +1,16 @@
 import Grid2 from '@mui/material/Unstable_Grid2';
 import React from 'react';
-import { User } from '../../types/User';
 import UserCard from '../SingleItemComponents/UserCard';
+import { UserListProps } from '../../props/UserProps';
 
-type Props = {
-  users: User[];
-};
-
-function UsersList({ users }: Props) {
+function UsersList({ users }: UserListProps) {
   return (
     // TODO: lieber List mit ListItem's ?
     <>
       <Grid2 container spacing={1}>
         {users.map((user) => (
           <Grid2>
-            <UserCard data={user} />
+            <UserCard user={user} />
           </Grid2>
         ))}
       </Grid2>

@@ -1,16 +1,14 @@
-import { Genre } from '../../types/Genre';
 import {
   Card,
   CardContent,
   CardMedia,
   IconButton,
-  Paper,
   Typography,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { SingleGenreProps } from '../../props/GenreProps';
 
-export default function GenreCard(props: any) {
-  let genre: Genre = props.data as Genre;
+export default function GenreCard({ genre }: SingleGenreProps) {
   const navigate = useNavigate();
   function manageClick() {
     navigate('/genreMovies/' + genre.genreId);

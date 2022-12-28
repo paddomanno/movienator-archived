@@ -1,10 +1,9 @@
 //Figma: Detailansicht einer geschriebenen Review
-import { Review } from '../../../types/Review';
+import { SingleReviewProps } from '../../../props/ReviewProps';
 
-type Props = {
-  review: Review;
-};
-export default function ReviewCardWithUserAndMovie({ review }: Props) {
+export default function ReviewCardWithUserAndMovie({
+  review,
+}: SingleReviewProps) {
   return (
     <div>
       Showing Movie & User & Review Infos {review.title}{' '}

@@ -1,22 +1,11 @@
-import {
-  Avatar,
-  Card,
-  CardContent,
-  Paper,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Card, CardContent, Paper, Stack, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import { Review } from '../../../types/Review';
 import OtherUserAvatar from '../OtherUserAvatar';
+import { SingleReviewProps } from '../../../props/ReviewProps';
 
-type Props = {
-  review: Review;
-};
-
-export default function ReviewCardWithUser({ review }: Props) {
+export default function ReviewCardWithUser({ review }: SingleReviewProps) {
   let avatar;
   let titleAndDate;
   let stars;
@@ -39,7 +28,7 @@ export default function ReviewCardWithUser({ review }: Props) {
         ))}
       </Stack>
     );
-    avatar = <OtherUserAvatar data={review.review_user} />;
+    avatar = <OtherUserAvatar user={review.review_user} />;
   }
   return (
     <Card sx={{ backgroundColor: grey.A200 }}>

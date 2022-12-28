@@ -1,4 +1,3 @@
-import { Movie } from '../../types/Movie';
 import React, { useEffect, useState } from 'react';
 import { Review } from '../../types/Review';
 import {
@@ -20,19 +19,19 @@ import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { grey } from '@mui/material/colors';
 import { saveMovie } from '../../services/MovieService';
+import { SingleMovieProps } from '../../props/MovieProps';
 
 type InputData = {
   title: string;
   comment: string;
   rating: number;
 };
-export default function MovieOwnReview(props: any) {
+export default function MovieOwnReview({ movie }: SingleMovieProps) {
   let defaultData: InputData = {
     title: '',
     comment: '',
     rating: 0,
   };
-  const movie: Movie = props.data as Movie;
   const [review, setReview] = useState<Review | null>(null);
   const [inputData, setInputData] = useState<InputData>(defaultData);
   const [editing, setEditing] = useState<boolean>(true);
