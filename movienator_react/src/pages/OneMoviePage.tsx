@@ -70,10 +70,12 @@ export default function OneMoviePage() {
       followingWatchlist != null &&
       followingReviews != null &&
       otherReviews != null ? (
-        <Stack direction={'column'} spacing={1} alignItems={'center'}>
+        <Stack direction={'column'} spacing={1} alignItems={'stretch'}>
           <MovieDetails movie={movie} />
-          <MovieOwnReview movie={movie} />
-          <MovieOnFollowerWatchlistList users={followingWatchlist} />
+          <Stack direction={'row'} spacing={1} justifyContent={'space-evenly'}>
+            <MovieOwnReview movie={movie} />
+            <MovieOnFollowerWatchlistList users={followingWatchlist} />
+          </Stack>
           <MovieFollowingReviewsList reviews={followingReviews} />
           <MovieOthersReviewsList reviews={otherReviews} />
         </Stack>
