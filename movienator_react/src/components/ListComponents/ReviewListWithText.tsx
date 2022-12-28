@@ -10,7 +10,7 @@ type Props = {
   showUser: boolean;
   title: string;
 };
-export default function ReviewListColumn({
+export default function ReviewListWithText({
   reviews,
   showMovie,
   showUser,
