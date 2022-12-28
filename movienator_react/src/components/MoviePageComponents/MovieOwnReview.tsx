@@ -35,7 +35,7 @@ export default function MovieOwnReview(props: any) {
   const movie: Movie = props.data as Movie;
   const [review, setReview] = useState<Review | null>(null);
   const [inputData, setInputData] = useState<InputData>(defaultData);
-  const [editing, setEditing] = useState<boolean>(false);
+  const [editing, setEditing] = useState<boolean>(true);
   const [cookies] = useCookies(['userName', 'userId']);
   const [oldData, setOldData] = useState<InputData>(defaultData);
 
@@ -49,6 +49,7 @@ export default function MovieOwnReview(props: any) {
           ['comment']: review.content,
           ['rating']: review.rating,
         });
+        setEditing(false);
       }
     });
   }, []);
