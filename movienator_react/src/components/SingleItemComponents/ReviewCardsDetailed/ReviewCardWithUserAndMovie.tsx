@@ -1,6 +1,6 @@
 //Figma: Detailansicht einer geschriebenen Review
 import { SingleReviewProps } from '../../../props/ReviewProps';
-import { Card, CardContent, Stack, Typography } from '@mui/material';
+import { Card, CardContent, Paper, Stack, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
@@ -41,10 +41,19 @@ export default function ReviewCardWithUserAndMovie({
                 justifyContent={'space-between'}
                 alignItems={'center'}
               >
-                <Typography variant={'h4'}>{review.title}</Typography>
+                <Typography variant={'h5'}>{review.title}</Typography>
                 {stars}
               </Stack>
-              <Typography variant={'body1'}>{review.content}</Typography>
+              <Paper
+                sx={{
+                  maxHeight: 255,
+                  minHeight: 255,
+                  overflow: 'auto',
+                  padding: 1,
+                }}
+              >
+                <Typography variant={'body1'}>{review.content}</Typography>
+              </Paper>
             </Stack>
             <Stack direction={'column'} id={'middleColumn'} spacing={0}>
               <Typography>

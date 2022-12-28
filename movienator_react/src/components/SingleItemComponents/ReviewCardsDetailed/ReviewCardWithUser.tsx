@@ -4,6 +4,9 @@ import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import OtherUserAvatar from '../OtherUserAvatar';
 import { SingleReviewProps } from '../../../props/ReviewProps';
+import MovieCard from '../MovieCard';
+import UserCard from '../UserCard';
+import React from 'react';
 
 export default function ReviewCardWithUser({ review }: SingleReviewProps) {
   let avatar;
@@ -33,16 +36,36 @@ export default function ReviewCardWithUser({ review }: SingleReviewProps) {
   return (
     <Card sx={{ backgroundColor: grey.A200 }}>
       <CardContent>
-        <Stack direction={'column'} spacing={1}>
-          <Stack direction={'row'} spacing={2} justifyContent={'space-between'}>
-            {avatar}
-            {titleAndDate}
-            {stars}
+        {review.review_movie != null && review.review_user != null ? (
+          <Stack direction={'row'} id={'wholeCardStack'} spacing={2}>
+            <Stack
+              direction={'column'}
+              id={'middleColumn'}
+              spacing={2}
+              flexGrow={1}
+            >
+              <Stack
+                direction={'row'}
+                spacing={2}
+                id={'rightSideTopRow'}
+                justifyContent={'space-between'}
+                alignItems={'center'}
+              >
+                <Typography variant={'h4'}>{review.title}</Typography>
+                {stars}
+              </Stack>
+              <Typography variant={'body1'}>{review.content}</Typography>
+            </Stack>
+            <Stack direction={'column'} id={'middleColumn'} spacing={0}>
+              <Typography>
+                {new Date(review.lastUpdated).toDateString()}
+              </Typography>
+              <UserCard user={review.review_user} />
+            </Stack>
           </Stack>
-          <Paper>
-            <Typography variant={'body2'}>{review.content}</Typography>
-          </Paper>
-        </Stack>
+        ) : (
+          <></>
+        )}
       </CardContent>
     </Card>
   );
