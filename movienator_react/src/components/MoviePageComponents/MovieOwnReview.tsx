@@ -89,60 +89,89 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
     setInputData(oldData);
     setEditing(false);
   }
+
+  function postReviewToBackend(newReview: Review) {
+    postNewReview(newReview).then((r) => {
+      if (!r) {
+        console.log('Error saving review');
+      } else {
+        setReview(newReview);
+        setEditing(false);
+      }
+    });
+  }
+
+  function updateReviewToBackend(newReview: Review) {
+    updateReview(newReview).then((r) => {
+      if (!r) {
+        console.log('Error updating review');
+      } else {
+        setReview(review);
+        setEditing(false);
+      }
+    });
+  }
+
+  function saveReview() {
+    let newReview: Review = {
+      reviewMovieMovieId: movie.movieId,
+      reviewUserUserId: cookies.userId as number,
+      title: inputData.title,
+      content: inputData.comment,
+      rating: inputData.rating,
+      lastUpdated: new Date(),
+      review_user: null,
+      review_movie: null,
+    };
+    saveMovie(movie).then((res) => {
+      if (res) {
+        getOneReview(
+          newReview.reviewUserUserId,
+          newReview.reviewMovieMovieId
+        ).then((revRes) => {
+          if (revRes == null) {
+            postReviewToBackend(newReview);
+          } else {
+            updateReviewToBackend(newReview);
+          }
+        });
+      } else {
+        console.log('Error saving movie');
+      }
+    });
+  }
+
+  function handleErrorTextToLong() {
+    let textField: HTMLElement | null =
+      document.getElementById(`comment-input`);
+    if (textField != null) {
+      textField.style.backgroundColor = 'orange';
+    }
+  }
+
+  function handleErrorFieldsEmpty() {
+    (Object.keys(inputData) as (keyof InputData)[]).forEach((key) => {
+      if (inputData[key] === '') {
+        let textField: HTMLElement | null = document.getElementById(
+          `${key}-input`
+        );
+        if (textField != null) {
+          textField.style.backgroundColor = 'orange';
+        }
+      }
+    });
+  }
+
   function saveEdit(e: any) {
     e.preventDefault();
     if (inputData.title !== '' && inputData.comment !== '') {
-      let newReview: Review = {
-        reviewMovieMovieId: movie.movieId,
-        reviewUserUserId: cookies.userId as number,
-        title: inputData.title,
-        content: inputData.comment,
-        rating: inputData.rating,
-        lastUpdated: new Date(),
-        review_user: null,
-        review_movie: null,
-      };
-      saveMovie(movie).then((res) => {
-        if (res) {
-          getOneReview(
-            newReview.reviewUserUserId,
-            newReview.reviewMovieMovieId
-          ).then((revRes) => {
-            if (revRes == null) {
-              postNewReview(newReview).then((r) => {
-                if (!r) {
-                  console.log('Error saving review');
-                } else {
-                  setReview(newReview);
-                  setEditing(false);
-                }
-              });
-            } else {
-              updateReview(newReview).then((r) => {
-                if (!r) {
-                  console.log('Error updating review');
-                } else {
-                  setReview(review);
-                  setEditing(false);
-                }
-              });
-            }
-          });
-        } else {
-          console.log('Error saving movie');
-        }
-      });
+      if (inputData.comment.length < 3000) {
+        saveReview();
+      } else {
+        handleErrorTextToLong();
+      }
     } else {
-      (Object.keys(inputData) as (keyof InputData)[]).forEach((key) => {
-        if (inputData[key] === '') {
-          let textField: HTMLElement | null = document.getElementById(
-            `${key}-input`
-          );
-          if (textField != null) {
-            textField.style.backgroundColor = 'orange';
-          }
-        }
-      });
+      handleErrorFieldsEmpty();
     }
   }
 
@@ -156,6 +185,7 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
       }
     });
   }
+
   let stars = (
     <Stack direction={'row'}>
       {[...Array(inputData.rating)].map((x, i) => (
