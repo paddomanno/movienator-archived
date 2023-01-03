@@ -11,7 +11,10 @@ type Props = {
 export default function OwnProfileUsersLists({ title, users }: Props) {
   return (
     <>
-      <Card sx={{ backgroundColor: grey.A200 }}>
+      <Card
+        sx={{ backgroundColor: grey.A200 }}
+        style={{ border: 'none', boxShadow: 'none' }}
+      >
         <Typography variant="h5">{title}</Typography>
         {users.length != 0 ? (
           <UsersList users={users} />
