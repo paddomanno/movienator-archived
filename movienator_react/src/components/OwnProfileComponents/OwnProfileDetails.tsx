@@ -14,6 +14,13 @@ import { SingleUserProps } from '../../props/UserProps';
 export default function OwnProfileDetails({ user }: SingleUserProps) {
   const SIZE_PROFILEIMAGE = 300;
 
+  const url = 'http://localhost:3000/user/' + user.userName; // movienator3000.com/
+
+  const copyUrl = async () => {
+    await navigator.clipboard.writeText(url); // https://www.kindacode.com/article/react-copy-to-clipboard-when-click-a-button-link/
+    // alert('Link successfully copied!');
+  };
+
   return (
     <Card sx={{ backgroundColor: grey.A200 }}>
       <CardContent>
@@ -63,12 +70,13 @@ export default function OwnProfileDetails({ user }: SingleUserProps) {
               <Button variant="outlined" startIcon={<EditIcon />}>
                 Edit Profile
               </Button>
-              <Button variant="outlined" startIcon={<ShareIcon />}>
-                Share Profile
+              <Button
+                variant="outlined"
+                startIcon={<ShareIcon />}
+                onClick={copyUrl}
+              >
+                Copy Link to Profile
               </Button>
-              {/* <Button variant="outlined" startIcon={<ReviewsIcon />}>
-                My Reviews
-              </Button> */}
             </Stack>
           </Card>
         </Stack>
