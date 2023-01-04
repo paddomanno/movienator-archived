@@ -9,23 +9,46 @@ import { TextField } from '@mui/material';
 import { Stack } from '@mui/system';
 import { useState } from 'react';
 import { User } from '../../types/User';
-import { updateUser } from '../../services/UserService';
+import { getOneUser, updateUser } from '../../services/UserService';
 
 export default function OwnProfileEditProfileModal({ user }: SingleUserProps) {
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => {
+    setOpen(true);
+    setOldData(userAttributes);
+  };
   const handleClose = () => setOpen(false);
+
+  let currentDate = new Date();
+  let currentDateString: string =
+    currentDate.getFullYear() +
+    '-' +
+    currentDate.getMonth() +
+    '-' +
+    currentDate.getDate();
 
   const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: '50%',
+    height: '50%',
     bgcolor: 'background.paper',
-    border: '0.5px solid #000',
+    border: '0.5px solid #585858',
     boxShadow: 24,
-    p: 4,
+    p: 6,
+    overflow: 'hidden',
+    overflowY: 'scroll',
+  };
+
+  const textFieldStyle = {
+    width: '50%',
+    p: 0.5,
+  };
+
+  const nestedBoxSytle = {
+    mt: 2,
   };
 
   type UserAttributes = {
@@ -48,9 +71,13 @@ export default function OwnProfileEditProfileModal({ user }: SingleUserProps) {
 
   const [userAttributes, setUserAttributes] =
     useState<UserAttributes>(defaultData);
+  const [oldData, setOldData] = useState<UserAttributes>(defaultData);
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
+
+    // if( name !== 'repeat-password'){
+
     setUserAttributes({
       ...userAttributes,
       [name]: value,
@@ -66,27 +93,41 @@ export default function OwnProfileEditProfileModal({ user }: SingleUserProps) {
     ) {
       if (userAttributes.comment.length < 3000) {
         // check if username already exists -> error
+
+        // if (!userNameAlreadyExists(userAttributes.userName)) {
         update();
-        // refresh page
-        // window.location.reload();
         setOpen(false);
+        // } else {
+        //   // handleUserNameExists();
+        // }
       } else {
-        // handleErrorTextToLong();
+        handleErrorTextToLong();
       }
     } else {
-      // handleErrorFieldsEmpty();
+      handleErrorFieldsEmpty();
     }
   }
+
+  // function userNameAlreadyExists(newUserName: string): boolean {
+  //   let exists: boolean = false;
+  //   getOneUser(newUserName).then((user) => {
+  //     if (user) {
+  //       // a user with this username exists
+  //       exists = true;
+  //     }
+  //   });
+  //   return exists;
+  // }
 
   function update() {
     let newUser: User = {
       userId: user.userId,
       firstName: userAttributes.firstName,
       lastName: userAttributes.lastName,
-      userName: userAttributes.userName,
+      userName: user.userName,
       password: userAttributes.password,
       comment: userAttributes.comment,
-      birthday: userAttributes.birthday, //
+      birthday: userAttributes.birthday,
       profileImage: user.profileImage,
       reviews: user.reviews,
       following: user.following,
@@ -105,7 +146,29 @@ export default function OwnProfileEditProfileModal({ user }: SingleUserProps) {
   }
 
   function cancelEdit(e: any) {
+    setUserAttributes(oldData);
     setOpen(false);
+  }
+
+  function handleErrorTextToLong() {
+    let textField: HTMLElement | null =
+      document.getElementById(`comment-input`);
+    if (textField != null) {
+      textField.style.backgroundColor = 'orange';
+    }
+  }
+
+  function handleErrorFieldsEmpty() {
+    (Object.keys(userAttributes) as (keyof UserAttributes)[]).forEach((key) => {
+      if (userAttributes[key] === '') {
+        let textField: HTMLElement | null = document.getElementById(
+          `${key}-input`
+        );
+        if (textField != null) {
+          textField.style.backgroundColor = 'orange';
+        }
+      }
+    });
   }
 
   return (
@@ -122,25 +185,32 @@ export default function OwnProfileEditProfileModal({ user }: SingleUserProps) {
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Update your user profile
           </Typography>
-          <TextField
-            sx={{ width: '50%', padding: '1' }}
-            id={'firstName-input'}
-            name={'firstName'}
-            label={'First Name'}
-            type={'text'}
-            defaultValue={defaultData.firstName}
-            onChange={handleInputChange}
-          />
-          <TextField
-            sx={{ width: '50%' }}
-            id={'lastName-input'}
-            name={'lastName'}
-            label={'Last Name'}
-            type={'text'}
-            defaultValue={defaultData.lastName}
-            onChange={handleInputChange}
-          />
-          <TextField
+          <Box sx={nestedBoxSytle}>
+            <Stack direction={'row'}>
+              <TextField
+                sx={textFieldStyle}
+                id={'firstName-input'}
+                name={'firstName'}
+                label={'First Name'}
+                InputLabelProps={{ shrink: true, required: true }}
+                type={'text'}
+                defaultValue={defaultData.firstName}
+                onChange={handleInputChange}
+              />
+              <TextField
+                sx={textFieldStyle}
+                id={'lastName-input'}
+                name={'lastName'}
+                label={'Last Name'}
+                InputLabelProps={{ shrink: true, required: true }}
+                type={'text'}
+                defaultValue={defaultData.lastName}
+                onChange={handleInputChange}
+              />
+            </Stack>
+          </Box>
+          <Box sx={nestedBoxSytle}></Box>
+          {/* <TextField
             sx={{ width: '50%', padding: '1' }}
             id={'userName-input'}
             name={'userName'}
@@ -148,48 +218,75 @@ export default function OwnProfileEditProfileModal({ user }: SingleUserProps) {
             type={'text'}
             defaultValue={defaultData.userName}
             onChange={handleInputChange}
-          />
-          <TextField
-            sx={{ width: '50%', padding: '1' }}
-            id={'password-input'}
-            name={'password'}
+          /> */}
+          <Box sx={nestedBoxSytle}>
+            <Stack direction={'row'}>
+              <TextField
+                sx={textFieldStyle}
+                id={'birthday-input'}
+                name={'birthday'}
+                label={'birthday'}
+                InputLabelProps={{ shrink: true, required: true }}
+                type={'date'}
+                defaultValue={
+                  new Date(defaultData.birthday).getFullYear() +
+                  '-' +
+                  new Date(defaultData.birthday).getMonth() +
+                  '-' +
+                  new Date(defaultData.birthday).getDate()
+                }
+                InputProps={{
+                  inputProps: { min: '', max: currentDateString },
+                }}
+                onChange={handleInputChange}
+              />
+              <TextField
+                sx={textFieldStyle}
+                id={'password-input'}
+                name={'password'}
+                label={'password'}
+                InputLabelProps={{ shrink: true, required: true }}
+                type={'text'}
+                defaultValue={defaultData.password}
+                onChange={handleInputChange}
+              />
+            </Stack>
+          </Box>
+          {/* <TextField
+            sx={{ width: '50%', padding: '1' }} 
+            id={'repeat-password-input'}
+            name={'repeat-password'}
             label={'password'}
             type={'text'}
             defaultValue={defaultData.password}
             onChange={handleInputChange}
-          />
-          <TextField
-            sx={{ width: '50%', padding: '1' }}
-            id={'comment-input'}
-            name={'comment'}
-            label={'comment'}
-            type={'text'}
-            defaultValue={defaultData.comment}
-            multiline={true}
-            minRows={7}
-            maxRows={12}
-            onChange={handleInputChange}
-          />
-          <TextField
-            sx={{ width: '50%', padding: '1' }}
-            id={'birthday-input'}
-            name={'birthday'}
-            type={'date'}
-            defaultValue={defaultData.birthday}
-            onChange={handleInputChange}
-          />
-          <Stack direction={'row'}>
+          /> */}
+          <Box sx={nestedBoxSytle}>
+            <TextField
+              sx={{ width: '98%', p: 1 }}
+              id={'comment-input'}
+              name={'comment'}
+              label={'comment'}
+              type={'text'}
+              defaultValue={defaultData.comment}
+              multiline={true}
+              minRows={7}
+              maxRows={12}
+              onChange={handleInputChange}
+            />
+          </Box>
+          <Stack direction={'row'} justifyContent={'space-evenly'}>
             <Button
               variant={'contained'}
               onClick={cancelEdit}
-              sx={{ width: '50%' }}
+              sx={{ width: '30%', p: 1 }}
             >
               Cancel
             </Button>
             <Button
               variant={'contained'}
               onClick={saveEdit}
-              sx={{ width: '50%' }}
+              sx={{ width: '30%', p: 1 }}
             >
               Update
             </Button>
