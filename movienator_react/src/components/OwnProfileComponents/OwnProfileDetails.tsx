@@ -10,6 +10,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import ShareIcon from '@mui/icons-material/Share';
 import { grey } from '@mui/material/colors';
 import { SingleUserProps } from '../../props/UserProps';
+import OwnProfileEditProfileModal from './OwnProfileEditProfileModal';
 
 export default function OwnProfileDetails({ user }: SingleUserProps) {
   const SIZE_PROFILEIMAGE = 300;
@@ -18,7 +19,7 @@ export default function OwnProfileDetails({ user }: SingleUserProps) {
 
   const copyUrl = async () => {
     await navigator.clipboard.writeText(url); // https://www.kindacode.com/article/react-copy-to-clipboard-when-click-a-button-link/
-    // alert('Link successfully copied!');
+    // alert('Link successfully copied!'); // besser: https://mui.com/material-ui/react-snackbar/#CustomizedSnackbars.tsx
   };
 
   return (
@@ -67,15 +68,13 @@ export default function OwnProfileDetails({ user }: SingleUserProps) {
             style={{ border: 'none', boxShadow: 'none' }}
           >
             <Stack direction={'column'} spacing={1}>
-              <Button variant="outlined" startIcon={<EditIcon />}>
-                Edit Profile
-              </Button>
+              <OwnProfileEditProfileModal user={user} />
               <Button
                 variant="outlined"
                 startIcon={<ShareIcon />}
                 onClick={copyUrl}
               >
-                Copy Link to Profile
+                Copy Profilelink
               </Button>
             </Stack>
           </Card>
