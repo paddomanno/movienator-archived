@@ -57,7 +57,7 @@ export default function OwnProfileDetails({ user }: SingleUserProps) {
               </Typography>
               <Typography variant={'body1'}>
                 {new Date(user.birthday).getDate()}/
-                {new Date(user.birthday).getMonth()}/
+                {new Date(user.birthday).getMonth() + 1}/
                 {new Date(user.birthday).getFullYear()}
               </Typography>
               <Typography variant={'body1'}>{user.comment}</Typography>
