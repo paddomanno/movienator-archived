@@ -9,48 +9,10 @@ import { TextField } from '@mui/material';
 import { Stack } from '@mui/system';
 import { useState } from 'react';
 import { User } from '../../types/User';
-import { getOneUser, updateUser } from '../../services/UserService';
+import { updateUser } from '../../services/UserService';
+import FeedbackSnackbar from '../GeneralComponents/FeedbackSnackbar';
 
 export default function OwnProfileEditProfileModal({ user }: SingleUserProps) {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-    setOldData(userAttributes);
-  };
-  const handleClose = () => setOpen(false);
-
-  let currentDate = new Date();
-  let currentDateString: string =
-    currentDate.getFullYear() +
-    '-' +
-    currentDate.getMonth() +
-    '-' +
-    currentDate.getDate();
-
-  const style = {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: '50%',
-    height: '50%',
-    bgcolor: 'background.paper',
-    border: '0.5px solid #585858',
-    boxShadow: 24,
-    p: 6,
-    overflow: 'hidden',
-    overflowY: 'scroll',
-  };
-
-  const textFieldStyle = {
-    width: '50%',
-    p: 0.5,
-  };
-
-  const nestedBoxSytle = {
-    mt: 2,
-  };
-
   type UserAttributes = {
     firstName: string;
     lastName: string;
@@ -73,6 +35,26 @@ export default function OwnProfileEditProfileModal({ user }: SingleUserProps) {
     useState<UserAttributes>(defaultData);
   const [oldData, setOldData] = useState<UserAttributes>(defaultData);
 
+  const [activateToggle, setActivateToggle] = useState<boolean>(false);
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+    setOldData(userAttributes);
+  };
+
+  const handleCloseButton = () => {
+    setOpen(false);
+  };
+
+  // let currentDate = new Date();
+  // let currentDateString: string =
+  //   currentDate.getFullYear() +
+  //   '-' +
+  //   currentDate.getMonth() +
+  //   '-' +
+  //   currentDate.getDate();
+
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
 
@@ -92,14 +74,7 @@ export default function OwnProfileEditProfileModal({ user }: SingleUserProps) {
       userAttributes.password !== ''
     ) {
       if (userAttributes.comment.length < 3000) {
-        // check if username already exists -> error
-
-        // if (!userNameAlreadyExists(userAttributes.userName)) {
         update();
-        setOpen(false);
-        // } else {
-        //   // handleUserNameExists();
-        // }
       } else {
         handleErrorTextToLong();
       }
@@ -108,16 +83,7 @@ export default function OwnProfileEditProfileModal({ user }: SingleUserProps) {
     }
   }
 
-  // function userNameAlreadyExists(newUserName: string): boolean {
-  //   let exists: boolean = false;
-  //   getOneUser(newUserName).then((user) => {
-  //     if (user) {
-  //       // a user with this username exists
-  //       exists = true;
-  //     }
-  //   });
-  //   return exists;
-  // }
+  const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
   function update() {
     let newUser: User = {
@@ -135,11 +101,14 @@ export default function OwnProfileEditProfileModal({ user }: SingleUserProps) {
       watchlist: user.watchlist,
     };
 
-    updateUser(newUser).then((user) => {
+    updateUser(newUser).then(async (user) => {
       if (!user) {
         console.log('Error updating user!');
       } else {
         console.log(newUser);
+        setActivateToggle(true);
+        await sleep(1000);
+        setActivateToggle(false);
         window.location.reload();
       }
     });
@@ -171,14 +140,38 @@ export default function OwnProfileEditProfileModal({ user }: SingleUserProps) {
     });
   }
 
+  const style = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '50%',
+    height: '50%',
+    bgcolor: 'background.paper',
+    border: '0.5px solid #585858',
+    boxShadow: 24,
+    p: 6,
+    overflow: 'hidden',
+    overflowY: 'scroll',
+  };
+
+  const textFieldStyle = {
+    width: '50%',
+    p: 0.5,
+  };
+
+  const nestedBoxSytle = {
+    mt: 2,
+  };
+
   return (
-    <div>
+    <>
       <Button variant="outlined" startIcon={<EditIcon />} onClick={handleOpen}>
         Edit Profile
       </Button>
       <Modal
         open={open}
-        onClose={handleClose}
+        onClose={handleCloseButton}
         aria-labelledby="modal-modal-title"
       >
         <Box sx={style}>
@@ -209,16 +202,6 @@ export default function OwnProfileEditProfileModal({ user }: SingleUserProps) {
               />
             </Stack>
           </Box>
-          <Box sx={nestedBoxSytle}></Box>
-          {/* <TextField
-            sx={{ width: '50%', padding: '1' }}
-            id={'userName-input'}
-            name={'userName'}
-            label={'Username'}
-            type={'text'}
-            defaultValue={defaultData.userName}
-            onChange={handleInputChange}
-          /> */}
           <Box sx={nestedBoxSytle}>
             <Stack direction={'row'}>
               <TextField
@@ -235,9 +218,9 @@ export default function OwnProfileEditProfileModal({ user }: SingleUserProps) {
                   '-' +
                   new Date(defaultData.birthday).getDate()
                 }
-                InputProps={{
-                  inputProps: { min: '', max: currentDateString },
-                }}
+                // InputProps={{
+                //   inputProps: { min: '', max: currentDateString },
+                // }}
                 onChange={handleInputChange}
               />
               <TextField
@@ -293,6 +276,10 @@ export default function OwnProfileEditProfileModal({ user }: SingleUserProps) {
           </Stack>
         </Box>
       </Modal>
-    </div>
+      <FeedbackSnackbar
+        activated={activateToggle}
+        message={'Updated your user profile successfully!'}
+      />
+    </>
   );
 }
