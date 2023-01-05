@@ -10,11 +10,8 @@ import { Review } from '../types/Review';
 import {
   getReviewsOfFollowingToMovie,
   getReviewsOfNotFollowingToMovie,
-  getReviewsToMovie,
 } from '../services/ReviewService';
 import { useCookies } from 'react-cookie';
-import ReviewEditForm from '../components/MoviePageComponents/ReviewEditForm';
-import UsersList from '../components/ListComponents/UsersList';
 import MovieFollowingReviewsList from '../components/MoviePageComponents/MovieFollowingReviewsList';
 import MovieOthersReviewsList from '../components/MoviePageComponents/MovieOthersReviewsList';
 import { Stack } from '@mui/material';
@@ -30,7 +27,7 @@ export default function OneMoviePage() {
   );
   const [followingReviews, setFollowingReviews] = useState<Review[] | null>([]);
   const [otherReviews, setOtherReviews] = useState<Review[] | null>([]);
-  const [cookies, setCookies] = useCookies(['userName', 'userId']);
+  const [cookies] = useCookies(['userName', 'userId']);
 
   useEffect(() => {
     if (!cookies.userName) {
@@ -73,10 +70,12 @@ export default function OneMoviePage() {
       followingWatchlist != null &&
       followingReviews != null &&
       otherReviews != null ? (
-        <Stack direction={'column'} spacing={1} alignItems={'center'}>
-          <MovieDetails data={movie} />
-          <MovieOwnReview data={movie} />
-          <MovieOnFollowerWatchlistList users={followingWatchlist} />
+        <Stack direction={'column'} spacing={1} alignItems={'stretch'}>
+          <MovieDetails movie={movie} />
+          <Stack direction={'row'} spacing={1} justifyContent={'space-evenly'}>
+            <MovieOwnReview movie={movie} />
+            <MovieOnFollowerWatchlistList users={followingWatchlist} />
+          </Stack>
           <MovieFollowingReviewsList reviews={followingReviews} />
           <MovieOthersReviewsList reviews={otherReviews} />
         </Stack>

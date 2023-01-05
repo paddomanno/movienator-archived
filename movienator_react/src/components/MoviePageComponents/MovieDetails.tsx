@@ -1,4 +1,3 @@
-import { Movie } from '../../types/Movie';
 import {
   Button,
   Card,
@@ -20,12 +19,12 @@ import { useCookies } from 'react-cookie';
 import { getWatchlistMovies, saveMovie } from '../../services/MovieService';
 import { grey } from '@mui/material/colors';
 import ActorCardSmall from '../SingleItemComponents/ActorCardSmall';
+import { SingleMovieProps } from '../../props/MovieProps';
 
-export default function MovieDetails(props: any) {
-  const movie: Movie = props.data as Movie;
+export default function MovieDetails({ movie }: SingleMovieProps) {
   const navigate = useNavigate();
   const [isWatchlist, setIsWatchlist] = useState<boolean>(false);
-  const [cookies, setCookies] = useCookies(['userName', 'userId']);
+  const [cookies] = useCookies(['userName', 'userId']);
 
   useEffect(() => {
     getWatchlistMovies(cookies.userId as number).then((movies) => {
@@ -35,7 +34,6 @@ export default function MovieDetails(props: any) {
         }
       });
     });
-    //Iswatchlist laden
   }, []);
 
   function handleWatchlistClick(e: any) {
@@ -69,10 +67,11 @@ export default function MovieDetails(props: any) {
 
   let videoComp = (
     <>
-      {movie.videoPath != 'null' ? (
+      {movie.videoPath !== 'null' ? (
         <Card sx={{ backgroundColor: grey.A100 }}>
           <CardContent>
             <iframe
+              title={movie.title + ' Trailer'}
               width={500}
               height={315}
               allowFullScreen={true}
@@ -132,7 +131,7 @@ export default function MovieDetails(props: any) {
         <Grid2 container spacing={0}>
           {movie.actors.map((actor) => (
             <Grid2>
-              <ActorCardSmall data={actor} />
+              <ActorCardSmall actor={actor} />
             </Grid2>
           ))}
         </Grid2>

@@ -6,18 +6,29 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
 import ShareIcon from '@mui/icons-material/Share';
-import ReviewsIcon from '@mui/icons-material/Reviews';
 import { grey } from '@mui/material/colors';
-import { User } from '../../types/User';
+import { SingleUserProps } from '../../props/UserProps';
+import OwnProfileEditProfileModal from './OwnProfileEditProfileModal';
+import FeedbackSnackbar from '../GeneralComponents/FeedbackSnackbar';
+import { useState } from 'react';
+import React from 'react';
 
-type Props = {
-  user: User;
-};
-
-export default function OwnProfileDetails({ user }: Props) {
+export default function OwnProfileDetails({ user }: SingleUserProps) {
   const SIZE_PROFILEIMAGE = 300;
+  const [activated, setActivated] = useState<boolean>(false);
+
+  const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms)); // eher nicht die beste Lösung https://timmousk.com/blog/typescript-sleep/
+
+  const url = 'http://localhost:3000/user/' + user.userName; // movienator3000.com/
+
+  const copyUrl = async () => {
+    await navigator.clipboard.writeText(url); // https://www.kindacode.com/article/react-copy-to-clipboard-when-click-a-button-link/
+    // alert('Link successfully copied!'); // besser: https://mui.com/material-ui/react-snackbar/#CustomizedSnackbars.tsx
+    setActivated(true);
+    await sleep(1000);
+    setActivated(false);
+  };
 
   return (
     <Card sx={{ backgroundColor: grey.A200 }}>
@@ -54,7 +65,7 @@ export default function OwnProfileDetails({ user }: Props) {
               </Typography>
               <Typography variant={'body1'}>
                 {new Date(user.birthday).getDate()}/
-                {new Date(user.birthday).getMonth()}/
+                {new Date(user.birthday).getMonth() + 1}/
                 {new Date(user.birthday).getFullYear()}
               </Typography>
               <Typography variant={'body1'}>{user.comment}</Typography>
@@ -65,19 +76,22 @@ export default function OwnProfileDetails({ user }: Props) {
             style={{ border: 'none', boxShadow: 'none' }}
           >
             <Stack direction={'column'} spacing={1}>
-              <Button variant="outlined" startIcon={<EditIcon />}>
-                Edit Profile
+              <OwnProfileEditProfileModal user={user} />
+              <Button
+                variant="outlined"
+                startIcon={<ShareIcon />}
+                onClick={copyUrl}
+              >
+                Copy Profilelink
               </Button>
-              <Button variant="outlined" startIcon={<ShareIcon />}>
-                Share Profile
-              </Button>
-              {/* <Button variant="outlined" startIcon={<ReviewsIcon />}>
-                My Reviews
-              </Button> */}
             </Stack>
           </Card>
         </Stack>
       </CardContent>
+      <FeedbackSnackbar
+        activated={activated}
+        message={'Copied the link successfully!'}
+      />
     </Card>
   );
 }

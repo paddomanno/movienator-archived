@@ -5,9 +5,9 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
-  DialogTitle,
+  DialogProps,
 } from '@mui/material';
+import ReviewCardDetailed from '../SingleItemComponents/ReviewCardDetailed';
 
 type Props = {
   open: boolean;
@@ -23,21 +23,20 @@ export default function ReviewDetailsPopup({
   return (
     <Dialog
       open={open}
+      maxWidth={'lg'}
+      fullWidth={true}
       onClose={() => {
         openSetter(false);
       }}
       aria-labelledby="PopUpTitle"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">{review.title}</DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-          {review.content}
-        </DialogContentText>
+        <ReviewCardDetailed showUser={true} showMovie={true} review={review} />
       </DialogContent>
       <DialogActions>
         <Button
-          variant={'contained'}
+          variant={'outlined'}
           onClick={() => {
             openSetter(false);
           }}
