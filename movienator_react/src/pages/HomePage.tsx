@@ -28,7 +28,7 @@ export default function HomePage() {
   const [recommendations, setRecommendations] = useState<Movie[] | null>(null);
   const [reviews, setReviews] = useState<Review[] | null>(null);
   const [genres, setGenres] = useState<Genre[] | null>(null);
-  const [cookies, setCookies] = useCookies(['userName', 'userId']);
+  const [cookies] = useCookies(['userName', 'userId']);
 
   useEffect(() => {
     //Rauswerfen wenn nicht eingeloggt
@@ -94,7 +94,7 @@ export default function HomePage() {
               handleClick={() => navigate('/recommendations')}
             />
             <ReviewsListHomePage reviews={reviews} />
-            <AllGenresList data={genres} />
+            <AllGenresList genres={genres} />
           </Stack>
         </>
       )}

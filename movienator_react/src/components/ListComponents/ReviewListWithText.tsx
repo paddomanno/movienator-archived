@@ -2,6 +2,7 @@ import { Review } from '../../types/Review';
 import { grey } from '@mui/material/colors';
 import { Card, CardContent, Stack, Typography } from '@mui/material';
 import ReviewCardDetailed from '../SingleItemComponents/ReviewCardDetailed';
+import Grid2 from '@mui/material/Unstable_Grid2';
 
 type Props = {
   reviews: Review[];
@@ -9,7 +10,7 @@ type Props = {
   showUser: boolean;
   title: string;
 };
-export default function ReviewListColumn({
+export default function ReviewListWithText({
   reviews,
   showMovie,
   showUser,
@@ -20,15 +21,17 @@ export default function ReviewListColumn({
       <Card sx={{ backgroundColor: grey.A200 }}>
         <CardContent>
           <Typography>{title}</Typography>
-          <Stack direction={'column'} spacing={1}>
+          <Grid2 container spacing={1}>
             {reviews.map((review) => (
-              <ReviewCardDetailed
-                showUser={showUser}
-                showMovie={showMovie}
-                review={review}
-              />
+              <Grid2 maxWidth={'50%'} minWidth={'50%'}>
+                <ReviewCardDetailed
+                  showUser={showUser}
+                  showMovie={showMovie}
+                  review={review}
+                />
+              </Grid2>
             ))}
-          </Stack>
+          </Grid2>
         </CardContent>
       </Card>
     </>

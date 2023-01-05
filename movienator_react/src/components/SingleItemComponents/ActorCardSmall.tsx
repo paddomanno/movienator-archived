@@ -1,9 +1,8 @@
-import { Actor } from '../../types/Actor';
 import { useNavigate } from 'react-router-dom';
 import { IconButton, Paper, Typography } from '@mui/material';
+import { SingleActorProps } from '../../props/ActorProps';
 
-export default function ActorCardSmall(props: any) {
-  let actor: Actor = props.data as Actor;
+export default function ActorCardSmall({ actor }: SingleActorProps) {
   const navigate = useNavigate();
   function manageClick() {
     navigate('/actor/' + actor.actorId);

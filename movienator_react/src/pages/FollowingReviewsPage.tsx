@@ -5,7 +5,7 @@ import { getReviewsOfFollowing } from '../services/ReviewService';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { Typography } from '@mui/material';
-import ReviewListColumn from '../components/ListComponents/ReviewListColumn';
+import ReviewListWithText from '../components/ListComponents/ReviewListWithText';
 
 export default function FollowingReviewsPage() {
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ export default function FollowingReviewsPage() {
   return (
     <>
       {reviews != null ? (
-        <ReviewListColumn
+        <ReviewListWithText
           reviews={reviews}
           showMovie={true}
           showUser={true}

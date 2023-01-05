@@ -1,4 +1,3 @@
-import { Review } from '../../types/Review';
 import { grey } from '@mui/material/colors';
 import {
   Card,
@@ -7,16 +6,12 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import Grid2 from '@mui/material/Unstable_Grid2';
-import MovieCard from '../SingleItemComponents/MovieCard';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ReviewCardDetailed from '../SingleItemComponents/ReviewCardDetailed';
 import { useNavigate } from 'react-router-dom';
+import { ReviewListProps } from '../../props/ReviewProps';
 
-type Props = {
-  reviews: Review[];
-};
-export default function ReviewsListHomePage({ reviews }: Props) {
+export default function ReviewsListHomePage({ reviews }: ReviewListProps) {
   const navigate = useNavigate();
   function handleClick(e: any) {
     e.preventDefault();

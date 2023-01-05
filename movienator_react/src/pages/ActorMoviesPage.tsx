@@ -13,7 +13,7 @@ export default function ActorMoviesPage() {
   const { actorId } = useParams();
   const [movies, setMovies] = useState<Movie[] | null>(null);
   const [actor, setActor] = useState<Actor | null>(null);
-  const [cookies, setCookies] = useCookies(['userName']);
+  const [cookies] = useCookies(['userName']);
 
   useEffect(() => {
     if (!cookies.userName) {

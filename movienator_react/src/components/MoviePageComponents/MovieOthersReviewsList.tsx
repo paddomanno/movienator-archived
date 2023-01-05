@@ -1,13 +1,9 @@
 import { Card, CardContent, Typography, Stack } from '@mui/material';
 import { grey } from '@mui/material/colors';
-import { Review } from '../../types/Review';
 import ReviewCardDetailed from '../SingleItemComponents/ReviewCardDetailed';
+import { ReviewListProps } from '../../props/ReviewProps';
 
-type Props = {
-  reviews: Review[];
-};
-
-export default function MovieOthersReviewsList({ reviews }: Props) {
+export default function MovieOthersReviewsList({ reviews }: ReviewListProps) {
   return (
     <Card sx={{ backgroundColor: grey.A200 }}>
       <CardContent>

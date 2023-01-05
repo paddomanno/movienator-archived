@@ -25,10 +25,10 @@ export default class Review extends BaseEntity {
   @PrimaryColumn()
   reviewUserUserId: number;
 
-  @Column()
+  @Column({ length: 100 })
   title: string;
 
-  @Column({ length: 1024 })
+  @Column({ length: 4096 })
   content: string;
 
   /**

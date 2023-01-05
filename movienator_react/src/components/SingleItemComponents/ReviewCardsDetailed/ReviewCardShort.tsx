@@ -1,5 +1,3 @@
-//Puts together SingleMovieFrame and SingleUserFrame
-import { Review } from '../../../types/Review';
 import React, { useState } from 'react';
 import {
   Avatar,
@@ -10,26 +8,16 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import OtherUserAvatar from '../OtherUserAvatar';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import { useNavigate } from 'react-router-dom';
 import ReviewDetailsPopup from '../../GeneralComponents/ReviewDetailsPopup';
+import { SingleReviewProps } from '../../../props/ReviewProps';
 
-type Props = {
-  review: Review;
-};
-export default function ReviewCardShort({ review }: Props) {
-  const navigate = useNavigate();
+export default function ReviewCardShort({ review }: SingleReviewProps) {
   const [showPopup, setShowPopup] = useState<boolean>(false);
 
   function setOpenPopup(open: boolean): void {
     setShowPopup(open);
-  }
-
-  function goToMovie(e: any) {
-    e.preventDefault();
-    navigate('/movie/' + review.reviewMovieMovieId);
   }
 
   let stars = (
@@ -47,7 +35,7 @@ export default function ReviewCardShort({ review }: Props) {
     <>
       {review.review_user != null ? (
         <>
-          {review.review_user.profileImage?.ressourceLink != undefined ? (
+          {review.review_user.profileImage?.ressourceLink !== undefined ? (
             <Avatar
               alt={review.review_user.userName}
               src={review.review_user.profileImage.ressourceLink}
