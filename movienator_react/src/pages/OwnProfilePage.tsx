@@ -42,7 +42,7 @@ export default function OwnProfilePage() {
             />
             <OwnProfileUsersLists title="You follow:" users={user.following} />
           </Stack>
-          <OwnProfileUserSearch user={user} />
+          <OwnProfileUserSearch />
           <ReviewListWithText
             reviews={userReviews}
             showMovie={true}
