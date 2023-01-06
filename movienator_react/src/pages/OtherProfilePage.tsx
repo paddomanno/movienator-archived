@@ -10,7 +10,7 @@ import OtherProfileDetails from '../components/OtherProfileComponent/OtherProfil
 import OwnProfileUsersLists from '../components/OwnProfileComponents/OwnProfileUsersLists';
 import { Review } from '../types/Review';
 import { getReviewsToUser } from '../services/ReviewService';
-import ReviewListColumn from '../components/ListComponents/ReviewListColumn';
+import ReviewListWithText from '../components/ListComponents/ReviewListWithText';
 
 export default function OtherProfilePage() {
   const navigate = useNavigate();
@@ -53,7 +53,7 @@ export default function OtherProfilePage() {
               users={user.following}
             />
           </Stack>
-          <ReviewListColumn
+          <ReviewListWithText
             reviews={userReviews}
             showMovie={true}
             showUser={false}
