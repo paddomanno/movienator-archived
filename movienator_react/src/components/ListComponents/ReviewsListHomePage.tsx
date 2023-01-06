@@ -23,14 +23,16 @@ export default function ReviewsListHomePage({ reviews }: ReviewListProps) {
       <CardContent>
         <Typography>Your friends reviews</Typography>
         {reviews.length > 0 ? (
-          <Stack direction={'row'} spacing={1} overflow={'auto'}>
-            {reviews.map((review) => (
-              <ReviewCardDetailed
-                showUser={false}
-                showMovie={false}
-                review={review}
-              />
-            ))}
+          <Stack direction={'row'} spacing={1} justifyContent={'space-between'}>
+            <Stack direction={'row'} spacing={1} overflow={'auto'}>
+              {reviews.map((review) => (
+                <ReviewCardDetailed
+                  showUser={false}
+                  showMovie={false}
+                  review={review}
+                />
+              ))}
+            </Stack>
             <IconButton
               onClick={handleClick}
               size={'large'}

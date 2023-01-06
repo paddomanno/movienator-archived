@@ -26,10 +26,12 @@ export default function MoviesListOneLine({
       <CardContent>
         <Typography>{title}</Typography>
         {movies.length > 0 ? (
-          <Stack direction={'row'} spacing={1} overflow={'auto'}>
-            {movies.map((movie) => (
-              <MovieCard movie={movie} />
-            ))}
+          <Stack direction={'row'} spacing={1} justifyContent={'space-between'}>
+            <Stack direction={'row'} spacing={1} overflow={'auto'}>
+              {movies.map((movie) => (
+                <MovieCard movie={movie} />
+              ))}
+            </Stack>
             <IconButton
               onClick={handleClick}
               size={'large'}
