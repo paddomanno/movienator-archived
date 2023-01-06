@@ -1,5 +1,6 @@
 import Movie from '../entity/movie';
 import User from '../entity/user';
+import ProfileImage from '../entity/profileImage';
 const expressUser = require('express');
 const userRouter = expressUser.Router();
 
@@ -12,6 +13,7 @@ userRouter.get('/all', async (req, res) => {
         following: true,
         followers: true,
         watchlist: true,
+        profileImage: true,
       },
     });
     if (allUsers) {
@@ -32,12 +34,15 @@ userRouter.get('/one/id/:id', async (req, res) => {
   try {
     const resultUser = await User.findOne({
       where: { userId: parseInt(req.params.id) },
-      relations: {
-        reviews: true,
-        following: true,
-        followers: true,
-        watchlist: true,
-      },
+      relations: [
+        'reviews',
+        'following',
+        'followers',
+        'watchlist',
+        'profileImage',
+        'followers.profileImage',
+        'following.profileImage',
+      ],
     });
     if (resultUser) {
       res.status(200).json({
@@ -56,12 +61,15 @@ userRouter.get('/one/username/:username', async (req, res) => {
   try {
     const resultUser = await User.findOne({
       where: { userName: req.params.username },
-      relations: {
-        reviews: true,
-        following: true,
-        followers: true,
-        watchlist: true,
-      },
+      relations: [
+        'reviews',
+        'following',
+        'followers',
+        'watchlist',
+        'profileImage',
+        'followers.profileImage',
+        'following.profileImage',
+      ],
     });
     if (resultUser) {
       res.status(200).json({
@@ -84,6 +92,7 @@ userRouter.get('/username/:word', async (req, res) => {
         following: true,
         followers: true,
         watchlist: true,
+        profileImage: true,
       },
     });
     if (allUsers) {
@@ -118,6 +127,7 @@ userRouter.get('/followers/:id', async (req, res) => {
         'followers.following',
         'followers.followers',
         'followers.watchlist',
+        'followers.profileImage',
       ],
     });
     if (requestedUser) {
@@ -143,6 +153,7 @@ userRouter.get('/following/:id', async (req, res) => {
         'following.following',
         'following.followers',
         'following.watchlist',
+        'followers.profileImage',
       ],
     });
     if (requestedUser) {
@@ -169,6 +180,7 @@ userRouter.get('/following/:id/rated/:mId', async (req, res) => {
         'following.following',
         'following.followers',
         'following.watchlist',
+        'followers.profileImage',
       ],
     });
     const resultMovie = await Movie.findOne({
@@ -207,6 +219,7 @@ userRouter.get('/following/:id/watchlist/:mId', async (req, res) => {
         'following.following',
         'following.followers',
         'following.reviews',
+        'followers.profileImage',
       ],
     });
     const resultMovie: Movie = await Movie.findOne({
