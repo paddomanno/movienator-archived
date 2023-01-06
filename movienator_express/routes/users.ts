@@ -180,7 +180,7 @@ userRouter.get('/following/:id/rated/:mId', async (req, res) => {
         'following.following',
         'following.followers',
         'following.watchlist',
-        'followers.profileImage',
+        'following.profileImage',
       ],
     });
     const resultMovie = await Movie.findOne({
@@ -219,7 +219,7 @@ userRouter.get('/following/:id/watchlist/:mId', async (req, res) => {
         'following.following',
         'following.followers',
         'following.reviews',
-        'followers.profileImage',
+        'following.profileImage',
       ],
     });
     const resultMovie: Movie = await Movie.findOne({
