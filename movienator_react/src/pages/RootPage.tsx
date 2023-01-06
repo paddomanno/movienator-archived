@@ -9,6 +9,7 @@ import { User } from '../types/User';
 import { getOneUser } from '../services/UserService';
 
 export default function RootPage() {
+  const SIZE_PROFILEIMAGE = 50;
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(['userName', 'userId']);
   const [user, setUser] = useState<User | null>(null);
@@ -54,7 +55,8 @@ export default function RootPage() {
                 <IconButton onClick={profileClick}>
                   <Avatar
                     alt={user.userName}
-                    src={user.profileImage.ressourceLink}
+                    sx={{ width: SIZE_PROFILEIMAGE, height: SIZE_PROFILEIMAGE }}
+                    src={`${process.env.PUBLIC_URL}/Images/ProfileImages/${user.profileImage.ressourceLink}.png`}
                   ></Avatar>
                 </IconButton>
               ) : (

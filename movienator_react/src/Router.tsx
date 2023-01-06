@@ -59,7 +59,7 @@ let router = createBrowserRouter([
         element: <OwnProfilePage />,
       },
       {
-        path: '/user/:userName',
+        path: '/user/:userId',
         element: <OtherProfilePage />,
       },
       {

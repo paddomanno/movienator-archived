@@ -25,7 +25,7 @@ type Props = {
 };
 
 export default function OtherProfileDetails({ user }: Props) {
-  const SIZE_PROFILEIMAGE = 150;
+  const SIZE_PROFILEIMAGE = 300;
   //Boolean that says if the logged in user is following the viewed user or not
   const [following, setFollowing] = useState<boolean>(false);
   //Is needed to check if the logged in user already is following the viewed user
@@ -77,7 +77,8 @@ export default function OtherProfileDetails({ user }: Props) {
               {user.profileImage != null ? (
                 <Avatar
                   alt={user.firstName + ' ' + user.lastName}
-                  src={user.profileImage.ressourceLink}
+                  sx={{ width: SIZE_PROFILEIMAGE, height: SIZE_PROFILEIMAGE }}
+                  src={`${process.env.PUBLIC_URL}/Images/ProfileImages/${user.profileImage.ressourceLink}.png`}
                 />
               ) : (
                 <Avatar
@@ -112,7 +113,7 @@ export default function OtherProfileDetails({ user }: Props) {
           >
             <Stack direction={'column'} spacing={1}>
               <Button variant={'outlined'} onClick={toggleFollowing}>
-                {following == true ? 'Unfollow' : 'Follow'}
+                {following ? 'Unfollow' : 'Follow'}
               </Button>
               {/* <Button variant="outlined" startIcon={<ReviewsIcon />}>
                 My Reviews

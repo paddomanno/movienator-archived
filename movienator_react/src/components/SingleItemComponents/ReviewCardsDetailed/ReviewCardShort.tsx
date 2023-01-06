@@ -14,6 +14,7 @@ import ReviewDetailsPopup from '../../GeneralComponents/ReviewDetailsPopup';
 import { SingleReviewProps } from '../../../props/ReviewProps';
 
 export default function ReviewCardShort({ review }: SingleReviewProps) {
+  const SIZE_PROFILEIMAGE = 50;
   const [showPopup, setShowPopup] = useState<boolean>(false);
 
   function setOpenPopup(open: boolean): void {
@@ -38,7 +39,8 @@ export default function ReviewCardShort({ review }: SingleReviewProps) {
           {review.review_user.profileImage?.ressourceLink !== undefined ? (
             <Avatar
               alt={review.review_user.userName}
-              src={review.review_user.profileImage.ressourceLink}
+              sx={{ width: SIZE_PROFILEIMAGE, height: SIZE_PROFILEIMAGE }}
+              src={`${process.env.PUBLIC_URL}/Images/ProfileImages/${review.review_user.profileImage.ressourceLink}.png`}
             ></Avatar>
           ) : (
             <Avatar>
