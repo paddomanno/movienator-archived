@@ -11,6 +11,13 @@ import OwnProfileUsersLists from '../components/OwnProfileComponents/OwnProfileU
 import { Review } from '../types/Review';
 import { getReviewsToUser } from '../services/ReviewService';
 import ReviewListWithText from '../components/ListComponents/ReviewListWithText';
+import OtherProfileMutualWatchlist from '../components/OtherProfileComponent/OtherProfileMutualWatchlist';
+import {
+  getMutualReviewed,
+  getMutualWatchlist,
+} from '../services/MovieService';
+import { Movie } from '../types/Movie';
+import OtherProfileMutualReviewed from '../components/OtherProfileComponent/OtherProfileMutualReviewed';
 
 export default function OtherProfilePage() {
   const navigate = useNavigate();
@@ -21,6 +28,8 @@ export default function OtherProfilePage() {
   const [cookies] = useCookies(['userName', 'userId']);
   const [user, setUser] = useState<User | null>(null);
   const [userReviews, setUserReviews] = useState<Review[] | null>(null);
+  const [mutualWatchlist, setMutualWatchlist] = useState<Movie[] | null>(null);
+  const [mutualReviewed, setMutualReviewed] = useState<Movie[] | null>(null);
 
   useEffect(() => {
     if (!cookies.userName) {
@@ -32,15 +41,26 @@ export default function OtherProfilePage() {
     }
     getOneUser(userName!).then((user) => {
       setUser(user);
-      getReviewsToUser(user!.userId!).then((reviews) => {
-        setUserReviews(reviews);
-      });
+      if (user != null && user.userId != null) {
+        getReviewsToUser(user.userId!).then((reviews) => {
+          setUserReviews(reviews);
+        });
+        getMutualWatchlist(user.userId, cookies.userId).then((movies) => {
+          setMutualWatchlist(movies);
+        });
+        getMutualReviewed(user.userId, cookies.userId).then((movies) => {
+          setMutualReviewed(movies);
+        });
+      }
     });
   }, []);
 
   return (
     <Stack direction={'column'} spacing={1}>
-      {user != null && userReviews != null ? (
+      {user != null &&
+      userReviews != null &&
+      mutualReviewed != null &&
+      mutualWatchlist != null ? (
         <>
           <OtherProfileDetails user={user} />
           <Stack direction={'row'} spacing={1} justifyContent={'space-evenly'}>
@@ -52,6 +72,10 @@ export default function OtherProfilePage() {
               title="This user follows:"
               users={user.following}
             />
+          </Stack>
+          <Stack direction={'row'} spacing={1} justifyContent={'space-evenly'}>
+            <OtherProfileMutualWatchlist movies={mutualWatchlist} />
+            <OtherProfileMutualReviewed movies={mutualReviewed} />
           </Stack>
           <ReviewListWithText
             reviews={userReviews}
