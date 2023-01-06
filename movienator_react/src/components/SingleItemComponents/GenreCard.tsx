@@ -25,7 +25,7 @@ export default function GenreCard({ genre }: SingleGenreProps) {
           component="img"
           alt={genre.genreName}
           height="125"
-          image={`${process.env.PUBLIC_URL}/Images/${genre.genreName}.jpg`}
+          image={`${process.env.PUBLIC_URL}/Images/Genres/${genre.genreName}.jpg`}
         />
         <CardContent>
           <Typography
