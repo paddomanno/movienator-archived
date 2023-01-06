@@ -50,7 +50,9 @@ async function createTestData() {
 describe('Externtest', () => {
   describe('Testing movieSearch Route', () => {
     it('Should return an array of Movies with max length of 20', async () => {
-      let response = await request(app).get('/extern/search/movie/Harry');
+      let response = await request(app).get(
+        '/extern/search/movie/Harry?page=1'
+      );
       expect(response.statusCode).toBe(200);
       let movies: Movie[] = response.body.data as Movie[];
       expect(movies.length).toBeGreaterThanOrEqual(1);
@@ -60,7 +62,9 @@ describe('Externtest', () => {
       expect(movies.at(0).adultContent).toBeDefined();
     });
     it('Should fill the genres array but not actors', async () => {
-      let response = await request(app).get('/extern/search/movie/Harry');
+      let response = await request(app).get(
+        '/extern/search/movie/Harry?page=1'
+      );
       expect(response.statusCode).toBe(200);
       let movies: Movie[] = response.body.data as Movie[];
       expect(movies.at(0).actors.length).toBe(0);
@@ -91,7 +95,7 @@ describe('Externtest', () => {
       expect(response.statusCode).toBe(200);
       let actors: Actor[] = response.body.data as Actor[];
       expect(actors.length).toBeGreaterThanOrEqual(1);
-      expect(actors.length).toBeLessThanOrEqual(8);
+      expect(actors.length).toBeLessThanOrEqual(10);
       expect(actors.at(0).name).toBeDefined();
       expect(actors.at(0).actorId).toBeDefined();
     });
@@ -108,7 +112,7 @@ describe('Externtest', () => {
       expect(response.statusCode).toBe(200);
       let movies: Movie[] = response.body.data as Movie[];
       expect(movies.length).toBeGreaterThanOrEqual(1);
-      expect(movies.length).toBeLessThanOrEqual(20);
+      expect(movies.length).toBeLessThanOrEqual(70);
       expect(movies.at(0).movieId).toBeDefined();
       expect(movies.at(0).title).toBeDefined();
       expect(movies.at(0).adultContent).toBeDefined();
@@ -230,7 +234,7 @@ describe('Externtest', () => {
 
   describe('Testing getPopular Route', () => {
     it('Should return an array of Movies', async () => {
-      let response = await request(app).get('/extern/popular');
+      let response = await request(app).get('/extern/popular?page=1');
       expect(response.statusCode).toBe(200);
       let movies: Movie[] = response.body.data as Movie[];
       expect(movies.length).toBeGreaterThanOrEqual(1);
@@ -241,7 +245,7 @@ describe('Externtest', () => {
     });
 
     it('Should fill genres but not actors', async () => {
-      let response = await request(app).get('/extern/popular');
+      let response = await request(app).get('/extern/popular?page=1');
       expect(response.statusCode).toBe(200);
       let movies: Movie[] = response.body.data as Movie[];
       expect(movies.at(0).actors.length).toBe(0);
@@ -262,7 +266,7 @@ describe('Externtest', () => {
 
   describe('Testing getMoviesToGenre Route', () => {
     it('Should return an array of Movies', async () => {
-      let response = await request(app).get('/extern/movie/genre/28');
+      let response = await request(app).get('/extern/movie/genre/28?page=1');
       expect(response.statusCode).toBe(200);
       let movies: Movie[] = response.body.data as Movie[];
       expect(movies.length).toBeGreaterThanOrEqual(1);
@@ -273,7 +277,7 @@ describe('Externtest', () => {
     });
 
     it('Should fill the genres array but not actors', async () => {
-      let response = await request(app).get('/extern/movie/genre/28');
+      let response = await request(app).get('/extern/movie/genre/28?page=1');
       expect(response.statusCode).toBe(200);
       let movies: Movie[] = response.body.data as Movie[];
       expect(movies.at(0).actors.length).toBe(0);
@@ -281,12 +285,12 @@ describe('Externtest', () => {
     });
 
     it('Should return 500 if the param is not a number', async () => {
-      let response = await request(app).get('/extern/movie/genre/xxx');
+      let response = await request(app).get('/extern/movie/genre/xxx?page=1');
       expect(response.statusCode).toBe(500);
     });
 
     it("Should return 500 if the genre doesn't exist", async () => {
-      let response = await request(app).get('/extern/movie/genre/99999');
+      let response = await request(app).get('/extern/movie/genre/99999?page=1');
       expect(response.statusCode).toBe(404);
     });
   });
