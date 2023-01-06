@@ -1,8 +1,7 @@
 import { ProfileImage } from '../types/ProfileImage';
-import { Movie } from '../types/Movie';
 import axios from 'axios';
 
-const baseUrl: string = 'http://localhost:8080/profileImages';
+const baseUrl: string = 'http://localhost:8080/profileImage';
 export async function getAllProfileImages(): Promise<ProfileImage[]> {
   let resArray: ProfileImage[] = [];
   try {
@@ -74,6 +73,31 @@ export async function deleteImage(imageId: number): Promise<Boolean> {
     }
   } catch (e) {
     console.log('Error deleting Image: ' + e);
+  }
+  return false;
+}
+export async function setUserImage(
+  imageId: string,
+  userId: number
+): Promise<Boolean> {
+  try {
+    let response = await axios.put(baseUrl + `/image/${userId}/${imageId}`);
+    if (response.status === 201) {
+      return true;
+    }
+  } catch (e) {
+    console.log('Error setting Image: ' + e);
+  }
+  return false;
+}
+export async function deleteUserImage(userId: number): Promise<Boolean> {
+  try {
+    let response = await axios.delete(baseUrl + `/image/${userId}`);
+    if (response.status === 204) {
+      return true;
+    }
+  } catch (e) {
+    console.log('Error removing Image: ' + e);
   }
   return false;
 }

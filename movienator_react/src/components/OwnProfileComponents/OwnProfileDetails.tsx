@@ -41,8 +41,9 @@ export default function OwnProfileDetails({ user }: SingleUserProps) {
             <>
               {user.profileImage != null ? (
                 <Avatar
+                  sx={{ width: SIZE_PROFILEIMAGE, height: SIZE_PROFILEIMAGE }}
                   alt={user.firstName + ' ' + user.lastName}
-                  src={user.profileImage.ressourceLink}
+                  src={`${process.env.PUBLIC_URL}/Images/ProfileImages/${user.profileImage.ressourceLink}.png`}
                 />
               ) : (
                 <Avatar

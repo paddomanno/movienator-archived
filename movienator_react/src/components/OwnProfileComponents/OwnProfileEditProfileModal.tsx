@@ -5,12 +5,20 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import EditIcon from '@mui/icons-material/Edit';
 import { SingleUserProps } from '../../props/UserProps';
-import { TextField } from '@mui/material';
+import { Card, CardContent, IconButton, TextField } from '@mui/material';
 import { Stack } from '@mui/system';
 import { useState } from 'react';
 import { User } from '../../types/User';
 import { updateUser } from '../../services/UserService';
 import FeedbackSnackbar from '../GeneralComponents/FeedbackSnackbar';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import { orange } from '@mui/material/colors';
+import { ProfileImage } from '../../types/ProfileImage';
+import {
+  deleteUserImage,
+  postImage,
+  setUserImage,
+} from '../../services/ProfileImageService';
 
 export default function OwnProfileEditProfileModal({ user }: SingleUserProps) {
   type UserAttributes = {
@@ -20,6 +28,7 @@ export default function OwnProfileEditProfileModal({ user }: SingleUserProps) {
     password: string;
     birthday: Date;
     comment: string;
+    image: string | undefined;
   };
 
   let defaultData: UserAttributes = {
@@ -29,6 +38,7 @@ export default function OwnProfileEditProfileModal({ user }: SingleUserProps) {
     password: user.password,
     birthday: user.birthday,
     comment: user.comment,
+    image: user.profileImage?.ressourceLink,
   };
 
   const [userAttributes, setUserAttributes] =
@@ -47,24 +57,28 @@ export default function OwnProfileEditProfileModal({ user }: SingleUserProps) {
     setOpen(false);
   };
 
-  // let currentDate = new Date();
-  // let currentDateString: string =
-  //   currentDate.getFullYear() +
-  //   '-' +
-  //   currentDate.getMonth() +
-  //   '-' +
-  //   currentDate.getDate();
-
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
-
-    // if( name !== 'repeat-password'){
 
     setUserAttributes({
       ...userAttributes,
       [name]: value,
     });
   };
+
+  function handleImageClick(newImage: number) {
+    setUserAttributes({
+      ...userAttributes,
+      ['image']: newImage.toString(),
+    });
+  }
+
+  function handleRemoveClick() {
+    setUserAttributes({
+      ...userAttributes,
+      ['image']: undefined,
+    });
+  }
 
   function saveEdit(e: any) {
     if (
@@ -100,18 +114,28 @@ export default function OwnProfileEditProfileModal({ user }: SingleUserProps) {
       followers: user.followers,
       watchlist: user.watchlist,
     };
-
-    updateUser(newUser).then(async (user) => {
-      if (!user) {
-        console.log('Error updating user!');
-      } else {
-        console.log(newUser);
-        setActivateToggle(true);
-        await sleep(1000);
-        setActivateToggle(false);
-        window.location.reload();
-      }
-    });
+    if (userAttributes.image != undefined) {
+      let newImage: ProfileImage = {
+        name: userAttributes.image.toString(),
+        ressourceLink: userAttributes.image.toString(),
+        users: [],
+      };
+      postImage(newImage).then(() => {
+        updateUser(newUser).then(() => {
+          setUserImage(newImage.ressourceLink, newUser.userId!!).then(() => {
+            setActivateToggle(false);
+            window.location.reload();
+          });
+        });
+      });
+    } else {
+      updateUser(newUser).then(() => {
+        deleteUserImage(newUser.userId!!).then(() => {
+          setActivateToggle(false);
+          window.location.reload();
+        });
+      });
+    }
   }
 
   function cancelEdit(e: any) {
@@ -235,15 +259,6 @@ export default function OwnProfileEditProfileModal({ user }: SingleUserProps) {
               />
             </Stack>
           </Box>
-          {/* <TextField
-            sx={{ width: '50%', padding: '1' }} 
-            id={'repeat-password-input'}
-            name={'repeat-password'}
-            label={'password'}
-            type={'text'}
-            defaultValue={defaultData.password}
-            onChange={handleInputChange}
-          /> */}
           <Box sx={nestedBoxSytle}>
             <TextField
               sx={{ width: '98%', p: 1 }}
@@ -258,6 +273,41 @@ export default function OwnProfileEditProfileModal({ user }: SingleUserProps) {
               onChange={handleInputChange}
             />
           </Box>
+          <Card>
+            <CardContent>
+              <Stack direction={'row'} justifyContent={'space-evenly'}>
+                {[...Array(5)].map((x, i) => (
+                  <IconButton
+                    sx={{
+                      backgroundColor:
+                        userAttributes.image != undefined &&
+                        i + 1 == parseInt(userAttributes.image)
+                          ? orange.A200
+                          : '',
+                    }}
+                    onClick={() => {
+                      handleImageClick(i + 1);
+                    }}
+                  >
+                    <Box
+                      component={'img'}
+                      sx={{ height: 100, width: 100 }}
+                      src={`${process.env.PUBLIC_URL}/Images/ProfileImages/${
+                        i + 1
+                      }.png`}
+                    />
+                  </IconButton>
+                ))}
+                <IconButton
+                  onClick={() => {
+                    handleRemoveClick();
+                  }}
+                >
+                  <HighlightOffIcon fontSize={'large'} />
+                </IconButton>
+              </Stack>
+            </CardContent>
+          </Card>
           <Stack direction={'row'} justifyContent={'space-evenly'}>
             <Button
               variant={'contained'}

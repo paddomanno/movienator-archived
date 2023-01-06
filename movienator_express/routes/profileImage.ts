@@ -69,6 +69,12 @@ profileImageRouter.get('/user/:id', async (req, res) => {
 profileImageRouter.post('/', async (req, res) => {
   try {
     let newProfileImage: ProfileImage = req.body as ProfileImage;
+    const existingImage: ProfileImage = await ProfileImage.findOne({
+      where: { ressourceLink: newProfileImage.ressourceLink },
+    });
+    if (existingImage) {
+      newProfileImage.users = existingImage.users;
+    }
     await ProfileImage.save(newProfileImage);
     if (newProfileImage) {
       res.status(201).json({
@@ -120,6 +126,49 @@ profileImageRouter.delete('/:ref', async (req, res) => {
     });
     if (requestedProfileImage) {
       await requestedProfileImage.remove();
+      res.status(204).json();
+    } else {
+      res.status(404).json();
+    }
+  } catch (er) {
+    console.log(er);
+    res.status(500).json();
+  }
+});
+
+//Sets the Profile Image of that user
+profileImageRouter.put('/image/:uId/:pId', async (req, res) => {
+  try {
+    const requestedUser = await User.findOne({
+      where: { userId: parseInt(req.params.uId) },
+      relations: ['watchlist'],
+    });
+    const requestedImage = await ProfileImage.findOne({
+      where: { ressourceLink: req.params.pId },
+    });
+    if (requestedUser && requestedImage) {
+      requestedUser.profileImage = requestedImage;
+      await requestedUser.save();
+      res.status(201).json();
+    } else {
+      res.status(404).json();
+    }
+  } catch (er) {
+    console.log(er);
+    res.status(500).json();
+  }
+});
+
+//Sets the Profile Image of that user
+profileImageRouter.delete('/image/:uId', async (req, res) => {
+  try {
+    const requestedUser = await User.findOne({
+      where: { userId: parseInt(req.params.uId) },
+      relations: ['watchlist'],
+    });
+    if (requestedUser) {
+      requestedUser.profileImage = null;
+      await requestedUser.save();
       res.status(204).json();
     } else {
       res.status(404).json();
