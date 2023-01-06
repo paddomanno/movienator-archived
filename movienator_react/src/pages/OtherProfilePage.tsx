@@ -23,7 +23,7 @@ export default function OtherProfilePage() {
   const navigate = useNavigate();
 
   //Gets the viewed user from the url
-  const { userName } = useParams();
+  const { userId } = useParams();
 
   const [cookies] = useCookies(['userName', 'userId']);
   const [user, setUser] = useState<User | null>(null);
@@ -35,11 +35,7 @@ export default function OtherProfilePage() {
     if (!cookies.userName) {
       navigate('/login');
     }
-    //if user is viewing his own user-url he will be redirected to his profile page
-    if (userName === cookies.userName) {
-      navigate('/profile');
-    }
-    getOneUser(userName!).then((user) => {
+    getOneUser(userId!).then((user) => {
       setUser(user);
       if (user != null && user.userId != null) {
         getReviewsToUser(user.userId!).then((reviews) => {
@@ -54,6 +50,12 @@ export default function OtherProfilePage() {
       }
     });
   }, []);
+
+  useEffect(() => {
+    if (userId === cookies.userId) {
+      navigate('/profile');
+    }
+  }, [userId]);
 
   return (
     <Stack direction={'column'} spacing={1}>

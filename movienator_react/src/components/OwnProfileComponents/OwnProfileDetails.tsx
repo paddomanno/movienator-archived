@@ -20,11 +20,10 @@ export default function OwnProfileDetails({ user }: SingleUserProps) {
 
   const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms)); // eher nicht die beste Lösung https://timmousk.com/blog/typescript-sleep/
 
-  const url = 'http://localhost:3000/user/' + user.userName; // movienator3000.com/
+  const url = 'http://localhost:3000/user/' + user.userId; // movienator3000.com/
 
   const copyUrl = async () => {
     await navigator.clipboard.writeText(url); // https://www.kindacode.com/article/react-copy-to-clipboard-when-click-a-button-link/
-    // alert('Link successfully copied!'); // besser: https://mui.com/material-ui/react-snackbar/#CustomizedSnackbars.tsx
     setActivated(true);
     await sleep(1000);
     setActivated(false);

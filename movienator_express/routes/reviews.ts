@@ -13,7 +13,7 @@ const reviewRouter = expressReview.Router();
 reviewRouter.get('/all', async (req, res) => {
   try {
     const allReviews: Review[] = await Review.find({
-      relations: { review_movie: true, review_user: true },
+      relations: ['review_movie', 'review_user', 'review_user.profileImage'],
     });
     if (allReviews) {
       allReviews.sort((a, b) => Number(b.lastUpdated) - Number(a.lastUpdated));
@@ -37,7 +37,7 @@ reviewRouter.get('/one/:mId/:uId', async (req, res) => {
         reviewMovieMovieId: parseInt(req.params.mId),
         reviewUserUserId: parseInt(req.params.uId),
       },
-      relations: { review_movie: true, review_user: true },
+      relations: ['review_movie', 'review_user', 'review_user.profileImage'],
     });
 
     if (requestedReview) {
@@ -58,7 +58,12 @@ reviewRouter.get('/movie/:id', async (req, res) => {
   try {
     const requestedMovie = await Movie.findOne({
       where: { movieId: parseInt(req.params.id) },
-      relations: ['reviews', 'reviews.review_movie', 'reviews.review_user'],
+      relations: [
+        'reviews',
+        'reviews.review_movie',
+        'reviews.review_user',
+        'reviews.review_user.profileImage',
+      ],
     });
 
     if (requestedMovie) {
@@ -82,7 +87,12 @@ reviewRouter.get('/user/own/:id', async (req, res) => {
   try {
     const requestedUser = await User.findOne({
       where: { userId: parseInt(req.params.id) },
-      relations: ['reviews', 'reviews.review_movie', 'reviews.review_user'],
+      relations: [
+        'reviews',
+        'reviews.review_movie',
+        'reviews.review_user',
+        'reviews.review_user.profileImage',
+      ],
     });
     if (requestedUser) {
       const reviews = requestedUser.reviews.sort(
@@ -109,6 +119,7 @@ reviewRouter.get('/user/following/:id', async (req, res) => {
         'following',
         'following.reviews',
         'following.reviews.review_user',
+        'following.reviews.review_user.profileImage',
         'following.reviews.review_movie',
       ],
     });
@@ -139,6 +150,7 @@ reviewRouter.get('/user/following/:uId/review/:mId', async (req, res) => {
         'following',
         'following.reviews',
         'following.reviews.review_user',
+        'following.reviews.review_user.profileImage',
         'following.reviews.review_movie',
       ],
     });
@@ -172,7 +184,7 @@ reviewRouter.get('/user/notFollowing/:uId/review/:mId', async (req, res) => {
     if (requestedUser) {
       const allReviewsToMovie: Review[] = await Review.find({
         where: { reviewMovieMovieId: parseInt(req.params.mId) },
-        relations: { review_movie: true, review_user: true },
+        relations: ['review_movie', 'review_user', 'review_user.profileImage'],
       });
       let resReviews: Review[] = [];
       resReviews = allReviewsToMovie.filter((review) => {
@@ -210,6 +222,7 @@ reviewRouter.get('/user/following/:id/:time', async (req, res) => {
         'following',
         'following.reviews',
         'following.reviews.review_user',
+        'following.reviews.review_user.profileImage',
         'following.reviews.review_movie',
       ],
     });
@@ -249,7 +262,7 @@ reviewRouter.get('/time/:time', async (req, res) => {
       throw new Error('timestamp is NaN');
     }
     const allReviews: Review[] = await Review.find({
-      relations: { review_movie: true, review_user: true },
+      relations: ['review_movie', 'review_user', 'review_user.profileImage'],
     });
     if (allReviews) {
       const filteredReviews = allReviews.filter((rev: Review) => {
