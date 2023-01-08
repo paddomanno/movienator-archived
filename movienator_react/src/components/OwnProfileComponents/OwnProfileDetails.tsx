@@ -13,8 +13,13 @@ import OwnProfileEditProfileModal from './OwnProfileEditProfileModal';
 import FeedbackSnackbar from '../GeneralComponents/FeedbackSnackbar';
 import { useState } from 'react';
 import React from 'react';
+import { User } from '../../types/User';
 
-export default function OwnProfileDetails({ user }: SingleUserProps) {
+type props = {
+  user: User;
+  reloadHandler: () => void;
+};
+export default function OwnProfileDetails({ user, reloadHandler }: props) {
   const SIZE_PROFILEIMAGE = 300;
   const [activated, setActivated] = useState<boolean>(false);
 
@@ -76,7 +81,10 @@ export default function OwnProfileDetails({ user }: SingleUserProps) {
             style={{ border: 'none', boxShadow: 'none' }}
           >
             <Stack direction={'column'} spacing={1}>
-              <OwnProfileEditProfileModal user={user} />
+              <OwnProfileEditProfileModal
+                user={user}
+                reloadHandler={reloadHandler}
+              />
               <Button
                 variant="outlined"
                 startIcon={<ShareIcon />}

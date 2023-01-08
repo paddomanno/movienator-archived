@@ -30,11 +30,17 @@ export default function OwnProfilePage() {
     });
   }, []);
 
+  function reloadUser() {
+    getOneUser(cookies.userName).then((user) => {
+      setUser(user);
+    });
+  }
+
   return (
     <Stack direction={'column'} spacing={1}>
       {user != null && userReviews != null ? (
         <>
-          <OwnProfileDetails user={user} />
+          <OwnProfileDetails user={user} reloadHandler={reloadUser} />
           <Stack direction={'row'} spacing={1} justifyContent={'space-evenly'}>
             <OwnProfileUsersLists
               title="Your Followers:"
