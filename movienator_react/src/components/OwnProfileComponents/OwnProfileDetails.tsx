@@ -99,6 +99,7 @@ export default function OwnProfileDetails({ user, reloadHandler }: props) {
       <FeedbackSnackbar
         activated={activated}
         message={'Copied the link successfully!'}
+        severity={'success'}
       />
     </Card>
   );
