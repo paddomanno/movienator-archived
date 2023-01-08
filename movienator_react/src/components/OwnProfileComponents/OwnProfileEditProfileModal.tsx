@@ -20,17 +20,23 @@ import {
   setUserImage,
 } from '../../services/ProfileImageService';
 
-export default function OwnProfileEditProfileModal({ user }: SingleUserProps) {
-  type UserAttributes = {
-    firstName: string;
-    lastName: string;
-    userName: string;
-    password: string;
-    birthday: Date;
-    comment: string;
-    image: string | undefined;
-  };
-
+type UserAttributes = {
+  firstName: string;
+  lastName: string;
+  userName: string;
+  password: string;
+  birthday: Date;
+  comment: string;
+  image: string | undefined;
+};
+type props = {
+  user: User;
+  reloadHandler: () => void;
+};
+export default function OwnProfileEditProfileModal({
+  user,
+  reloadHandler,
+}: props) {
   let defaultData: UserAttributes = {
     firstName: user.firstName,
     lastName: user.lastName,
@@ -124,7 +130,7 @@ export default function OwnProfileEditProfileModal({ user }: SingleUserProps) {
         updateUser(newUser).then(() => {
           setUserImage(newImage.ressourceLink, newUser.userId!!).then(() => {
             setActivateToggle(false);
-            window.location.reload();
+            reloadHandler();
           });
         });
       });
@@ -132,13 +138,14 @@ export default function OwnProfileEditProfileModal({ user }: SingleUserProps) {
       updateUser(newUser).then(() => {
         deleteUserImage(newUser.userId!!).then(() => {
           setActivateToggle(false);
-          window.location.reload();
+          reloadHandler();
         });
       });
     }
   }
 
   function cancelEdit(e: any) {
+    e.preventDefault();
     setUserAttributes(oldData);
     setOpen(false);
   }
