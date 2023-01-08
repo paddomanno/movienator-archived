@@ -19,6 +19,7 @@ import {
   postImage,
   setUserImage,
 } from '../../services/ProfileImageService';
+import { AlertColor } from '@mui/material/Alert';
 
 type UserAttributes = {
   firstName: string;
@@ -52,6 +53,8 @@ export default function OwnProfileEditProfileModal({
   const [oldData, setOldData] = useState<UserAttributes>(defaultData);
 
   const [activateToggle, setActivateToggle] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>('');
+  const [severity, setSeverity] = useState<AlertColor>('success');
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => {
@@ -103,6 +106,13 @@ export default function OwnProfileEditProfileModal({
     }
   }
 
+  const showMessage = async (msg: string, severity: AlertColor) => {
+    setMessage(msg);
+    setSeverity(severity);
+    setActivateToggle(true);
+    await sleep(1000);
+    setActivateToggle(false);
+  };
   const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
   function update() {
@@ -129,7 +139,7 @@ export default function OwnProfileEditProfileModal({
       postImage(newImage).then(() => {
         updateUser(newUser).then(() => {
           setUserImage(newImage.ressourceLink, newUser.userId!!).then(() => {
-            setActivateToggle(false);
+            showMessage('Changes Saved', 'success');
             reloadHandler();
           });
         });
@@ -138,6 +148,7 @@ export default function OwnProfileEditProfileModal({
       updateUser(newUser).then(() => {
         deleteUserImage(newUser.userId!!).then(() => {
           setActivateToggle(false);
+          showMessage('Changes Saved', 'success');
           reloadHandler();
         });
       });
@@ -155,6 +166,7 @@ export default function OwnProfileEditProfileModal({
       document.getElementById(`comment-input`);
     if (textField != null) {
       textField.style.backgroundColor = 'orange';
+      showMessage('Text is to long', 'warning');
     }
   }
 
@@ -169,6 +181,7 @@ export default function OwnProfileEditProfileModal({
         }
       }
     });
+    showMessage('Fill out all fields', 'warning');
   }
 
   const style = {
@@ -335,7 +348,8 @@ export default function OwnProfileEditProfileModal({
       </Modal>
       <FeedbackSnackbar
         activated={activateToggle}
-        message={'Updated your user profile successfully!'}
+        message={message}
+        severity={severity}
       />
     </>
   );
