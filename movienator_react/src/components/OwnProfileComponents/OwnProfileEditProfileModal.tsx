@@ -68,7 +68,14 @@ export default function OwnProfileEditProfileModal({
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
-
+    if (value !== '') {
+      let textField: HTMLElement | null = document.getElementById(
+        `${name}-input`
+      );
+      if (textField != null) {
+        textField.style.backgroundColor = 'white';
+      }
+    }
     setUserAttributes({
       ...userAttributes,
       [name]: value,
