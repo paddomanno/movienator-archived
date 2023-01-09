@@ -19,6 +19,11 @@ import {
 import { Movie } from '../types/Movie';
 import OtherProfileMutualReviewed from '../components/OtherProfileComponent/OtherProfileMutualReviewed';
 
+type props = {
+  user: User;
+  reloadHandler: () => void;
+};
+
 export default function OtherProfilePage() {
   const navigate = useNavigate();
 
@@ -57,6 +62,13 @@ export default function OtherProfilePage() {
     }
   }, [userId]);
 
+  function reloadViewedUser() {
+    getOneUser(user?.userName!).then((user) => {
+      setUser(user);
+      console.log(user?.followers);
+    });
+  }
+
   return (
     <Stack direction={'column'} spacing={1}>
       {user != null &&
@@ -64,7 +76,10 @@ export default function OtherProfilePage() {
       mutualReviewed != null &&
       mutualWatchlist != null ? (
         <>
-          <OtherProfileDetails user={user} />
+          <OtherProfileDetails
+            user={user}
+            reloadViewedUser={reloadViewedUser}
+          />
           <Stack direction={'row'} spacing={1} justifyContent={'space-evenly'}>
             <OwnProfileUsersLists
               title="Followers of this user:"
