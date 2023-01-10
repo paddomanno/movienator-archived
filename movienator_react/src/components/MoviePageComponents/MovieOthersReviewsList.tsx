@@ -2,6 +2,7 @@ import { Card, CardContent, Typography, Stack } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import ReviewCardDetailed from '../SingleItemComponents/ReviewCardDetailed';
 import { ReviewListProps } from '../../props/ReviewProps';
+import Grid2 from '@mui/material/Unstable_Grid2';
 
 export default function MovieOthersReviewsList({ reviews }: ReviewListProps) {
   return (
@@ -10,15 +11,17 @@ export default function MovieOthersReviewsList({ reviews }: ReviewListProps) {
         <Typography>
           {reviews.length} other Users have reviewed this movie:
         </Typography>
-        <Stack direction={'column'} spacing={1}>
+        <Grid2 container spacing={1}>
           {reviews.map((review) => (
-            <ReviewCardDetailed
-              showMovie={false}
-              showUser={true}
-              review={review}
-            />
+            <Grid2 minWidth={'50%'} maxWidth={'50%'}>
+              <ReviewCardDetailed
+                showMovie={false}
+                showUser={true}
+                review={review}
+              />
+            </Grid2>
           ))}
-        </Stack>
+        </Grid2>
       </CardContent>
     </Card>
   );
