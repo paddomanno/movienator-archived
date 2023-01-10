@@ -5,7 +5,7 @@ import { Movie } from '../types/Movie';
 import { useCookies } from 'react-cookie';
 import { Button, Card, CardContent, Stack, Typography } from '@mui/material';
 import MoviesList from '../components/ListComponents/MoviesList';
-import { getUserRecommendations } from '../services/ExternService';
+import { getUserRecommendationsToUserId } from '../services/ExternService';
 
 export default function RecommendationsPage() {
   const navigate = useNavigate();
@@ -17,14 +17,14 @@ export default function RecommendationsPage() {
     if (!cookies.userName) {
       navigate('/login');
     }
-    getUserRecommendations(cookies.userId).then((movies) => {
+    getUserRecommendationsToUserId(cookies.userId).then((movies) => {
       setMovies(movies);
     });
   }, []);
 
   useEffect(() => {
     setMovies(null);
-    getUserRecommendations(cookies.userId).then((movies) => {
+    getUserRecommendationsToUserId(cookies.userId).then((movies) => {
       setMovies(movies);
     });
   }, [page]);

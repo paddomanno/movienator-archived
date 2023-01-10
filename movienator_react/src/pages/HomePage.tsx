@@ -6,13 +6,13 @@ import { Movie } from '../types/Movie';
 import { Review } from '../types/Review';
 import { Genre } from '../types/Genre';
 import { Card, CardContent, Stack, Typography } from '@mui/material';
-import { getWatchlistMovies } from '../services/MovieService';
+import { getWatchlistMoviesToUserId } from '../services/MovieService';
 import {
   getAllGenres,
-  getPopularMovies,
-  getUserRecommendations,
+  getPopularMoviesToPagenumber,
+  getUserRecommendationsToUserId,
 } from '../services/ExternService';
-import { getReviewsOfFollowing } from '../services/ReviewService';
+import { getAllReviewsOfFollowingToUserId } from '../services/ReviewService';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { grey } from '@mui/material/colors';
@@ -35,18 +35,20 @@ export default function HomePage() {
     if (!cookies.userName) {
       navigate('/login');
     }
-    getWatchlistMovies(cookies.userId as number).then((movies) => {
+    getWatchlistMoviesToUserId(cookies.userId as number).then((movies) => {
       setWatchlist(movies.slice(0, MAX_MOVIES_PER_LIST));
     });
-    getPopularMovies(1).then((movies) => {
+    getPopularMoviesToPagenumber(1).then((movies) => {
       setPopular(movies.slice(0, MAX_MOVIES_PER_LIST));
     });
-    getUserRecommendations(cookies.userId as number).then((movies) => {
+    getUserRecommendationsToUserId(cookies.userId as number).then((movies) => {
       setRecommendations(movies.slice(0, MAX_MOVIES_PER_LIST));
     });
-    getReviewsOfFollowing(cookies.userId as number).then((reviews) => {
-      setReviews(reviews.slice(0, MAX_MOVIES_PER_LIST));
-    });
+    getAllReviewsOfFollowingToUserId(cookies.userId as number).then(
+      (reviews) => {
+        setReviews(reviews.slice(0, MAX_MOVIES_PER_LIST));
+      }
+    );
     getAllGenres().then((genres) => {
       setGenres(genres);
     });

@@ -1,7 +1,7 @@
 //Route: movienator3000.com/followingReviews
 import { useEffect, useState } from 'react';
 import { Review } from '../types/Review';
-import { getReviewsOfFollowing } from '../services/ReviewService';
+import { getAllReviewsOfFollowingToUserId } from '../services/ReviewService';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { Typography } from '@mui/material';
@@ -16,7 +16,7 @@ export default function FollowingReviewsPage() {
     if (!cookies.userName) {
       navigate('/login');
     }
-    getReviewsOfFollowing(cookies.userId).then((reviews) => {
+    getAllReviewsOfFollowingToUserId(cookies.userId).then((reviews) => {
       setReviews(reviews);
     });
   }, []);

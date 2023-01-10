@@ -16,7 +16,7 @@ export async function getAllActors(): Promise<Actor[]> {
   return resArray;
 }
 
-export async function getOneActor(actorId: number): Promise<Actor | null> {
+export async function getOneActorToId(actorId: number): Promise<Actor | null> {
   let resActor: Actor | null = null;
   try {
     let response = await axios.get(baseUrl + `/one/${actorId}`);

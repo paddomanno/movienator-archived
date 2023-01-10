@@ -15,9 +15,9 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { orange } from '@mui/material/colors';
 import { ProfileImage } from '../../types/ProfileImage';
 import {
-  deleteUserImage,
-  postImage,
-  setUserImage,
+  deleteUserImageToUserId,
+  createImage,
+  updateUserImageToImageIdAndUserId,
 } from '../../services/ProfileImageService';
 import { AlertColor } from '@mui/material/Alert';
 
@@ -143,9 +143,12 @@ export default function OwnProfileEditProfileModal({
         ressourceLink: userAttributes.image.toString(),
         users: [],
       };
-      postImage(newImage).then(() => {
+      createImage(newImage).then(() => {
         updateUser(newUser).then(() => {
-          setUserImage(newImage.ressourceLink, newUser.userId!!).then(() => {
+          updateUserImageToImageIdAndUserId(
+            newImage.ressourceLink,
+            newUser.userId!!
+          ).then(() => {
             showMessage('Changes Saved', 'success');
             reloadHandler();
           });
@@ -153,7 +156,7 @@ export default function OwnProfileEditProfileModal({
       });
     } else {
       updateUser(newUser).then(() => {
-        deleteUserImage(newUser.userId!!).then(() => {
+        deleteUserImageToUserId(newUser.userId!!).then(() => {
           setActivateToggle(false);
           showMessage('Changes Saved', 'success');
           reloadHandler();

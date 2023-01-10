@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Review } from '../../types/Review';
 import {
-  deleteReview,
-  getOneReview,
-  postNewReview,
+  deleteReviewToMovieIdAndUserId,
+  getOneReviewToUserIdAndMovieId,
+  createReview,
   updateReview,
 } from '../../services/ReviewService';
 import { useCookies } from 'react-cookie';
@@ -19,7 +19,7 @@ import {
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { grey, red } from '@mui/material/colors';
-import { saveMovie } from '../../services/MovieService';
+import { createMovie } from '../../services/MovieService';
 import { SingleMovieProps } from '../../props/MovieProps';
 
 type InputData = {
@@ -40,7 +40,10 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
   const [oldData, setOldData] = useState<InputData>(defaultData);
 
   useEffect(() => {
-    getOneReview(cookies.userId as number, movie.movieId).then((review) => {
+    getOneReviewToUserIdAndMovieId(
+      cookies.userId as number,
+      movie.movieId
+    ).then((review) => {
       setReview(review);
       if (review != null) {
         setInputData({
@@ -91,7 +94,7 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
   }
 
   function postReviewToBackend(newReview: Review) {
-    postNewReview(newReview).then((r) => {
+    createReview(newReview).then((r) => {
       if (!r) {
         console.log('Error saving review');
       } else {
@@ -123,9 +126,9 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
       review_user: null,
       review_movie: null,
     };
-    saveMovie(movie).then((res) => {
+    createMovie(movie).then((res) => {
       if (res) {
-        getOneReview(
+        getOneReviewToUserIdAndMovieId(
           newReview.reviewUserUserId,
           newReview.reviewMovieMovieId
         ).then((revRes) => {
@@ -177,7 +180,10 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
 
   function delReview(e: any) {
     e.preventDefault();
-    deleteReview(movie.movieId, cookies.userId as number).then((res) => {
+    deleteReviewToMovieIdAndUserId(
+      movie.movieId,
+      cookies.userId as number
+    ).then((res) => {
       if (res) {
         setEditing(false);
         setInputData(defaultData);

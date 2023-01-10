@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Genre } from '../types/Genre';
 
 const baseUrl: string = 'http://localhost:8080/extern';
-export async function searchMoviesByName(
+export async function getMoviesToName(
   searchWord: string,
   page: number
 ): Promise<Movie[]> {
@@ -21,7 +21,7 @@ export async function searchMoviesByName(
   }
   return resArray;
 }
-export async function getMovieById(movieId: number): Promise<Movie | null> {
+export async function getOneMovieToId(movieId: number): Promise<Movie | null> {
   let resMovie: Movie | null = null;
   try {
     let response = await axios.get(baseUrl + `/movie/one/${movieId}`);
@@ -73,7 +73,7 @@ export async function getMoviesToActor(actorId: number): Promise<Movie[]> {
   return resArray;
 }
 
-export async function getSingleActor(actorId: number): Promise<Actor | null> {
+export async function getOneActorToId(actorId: number): Promise<Actor | null> {
   let resArray: Actor | null = null;
   try {
     let response = await axios.get(baseUrl + `/actor/${actorId}`);
@@ -86,7 +86,9 @@ export async function getSingleActor(actorId: number): Promise<Actor | null> {
   return resArray;
 }
 
-export async function getUserRecommendations(userId: number): Promise<Movie[]> {
+export async function getUserRecommendationsToUserId(
+  userId: number
+): Promise<Movie[]> {
   let resArray: Movie[] = [];
   try {
     let response = await axios.get(baseUrl + `/user/${userId}/recommendations`);
@@ -99,7 +101,7 @@ export async function getUserRecommendations(userId: number): Promise<Movie[]> {
   return resArray;
 }
 
-export async function getMovieRecommendations(
+export async function getMovieRecommendationsToMovieId(
   movieId: number
 ): Promise<Movie[]> {
   let resArray: Movie[] = [];
@@ -116,7 +118,9 @@ export async function getMovieRecommendations(
   return resArray;
 }
 
-export async function getPopularMovies(page: number): Promise<Movie[]> {
+export async function getPopularMoviesToPagenumber(
+  page: number
+): Promise<Movie[]> {
   let resArray: Movie[] = [];
   try {
     let response = await axios.get(baseUrl + '/popular' + `?page=${page}`);
@@ -142,7 +146,7 @@ export async function getAllGenres(): Promise<Genre[]> {
   return resArray;
 }
 
-export async function getMoviesToGenre(
+export async function getMoviesToGenreId(
   genreId: number,
   page: number
 ): Promise<Movie[]> {
@@ -160,7 +164,7 @@ export async function getMoviesToGenre(
   return resArray;
 }
 
-export async function getSingleGenre(genreId: number): Promise<Genre | null> {
+export async function getOneGenreToId(genreId: number): Promise<Genre | null> {
   let resGenre: Genre | null = null;
   try {
     let response = await axios.get(baseUrl + `/genre/${genreId}`);

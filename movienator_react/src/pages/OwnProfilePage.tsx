@@ -4,11 +4,11 @@ import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { Stack, Typography } from '@mui/material';
 import { User } from '../types/User';
-import { getOneUser } from '../services/UserService';
+import { getOneUserToUserId } from '../services/UserService';
 import OwnProfileDetails from '../components/OwnProfileComponents/OwnProfileDetails';
 import OwnProfileUsersLists from '../components/OwnProfileComponents/OwnProfileUsersLists';
 import { Review } from '../types/Review';
-import { getReviewsToUser } from '../services/ReviewService';
+import { getAllReviewsToUserId } from '../services/ReviewService';
 import ReviewListWithText from '../components/ListComponents/ReviewListWithText';
 import OwnProfileUserSearch from '../components/OwnProfileComponents/OwnProfileUserSearch';
 
@@ -22,16 +22,16 @@ export default function OwnProfilePage() {
     if (!cookies.userName) {
       navigate('/login');
     }
-    getOneUser(cookies.userName).then((user) => {
+    getOneUserToUserId(cookies.userName).then((user) => {
       setUser(user);
     });
-    getReviewsToUser(cookies.userId).then((reviews) => {
+    getAllReviewsToUserId(cookies.userId).then((reviews) => {
       setUserReviews(reviews);
     });
   }, []);
 
   function reloadUser() {
-    getOneUser(cookies.userName).then((user) => {
+    getOneUserToUserId(cookies.userName).then((user) => {
       setUser(user);
     });
   }

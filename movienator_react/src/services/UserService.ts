@@ -15,7 +15,7 @@ export async function getAllUsers(): Promise<User[]> {
   return resArray;
 }
 
-export async function getOneUser(
+export async function getOneUserToUserId(
   userIdentifier: number | string
 ): Promise<User | null> {
   let resUser: User | null = null;
@@ -38,7 +38,9 @@ export async function getOneUser(
   }
   return resUser;
 }
-export async function searchUsersByWord(word: string): Promise<User[]> {
+export async function searchUsersByUserNameQuery(
+  word: string
+): Promise<User[]> {
   let resArray: User[] = [];
   try {
     let response = await axios.get(baseUrl + `/username/${word}`);
@@ -50,7 +52,7 @@ export async function searchUsersByWord(word: string): Promise<User[]> {
   }
   return resArray;
 }
-export async function getFollowersToUser(userId: number): Promise<User[]> {
+export async function getFollowersToUserId(userId: number): Promise<User[]> {
   let resArray: User[] = [];
   try {
     let response = await axios.get(baseUrl + `/followers/${userId}`);
@@ -62,7 +64,7 @@ export async function getFollowersToUser(userId: number): Promise<User[]> {
   }
   return resArray;
 }
-export async function getFollowingToUser(userId: number): Promise<User[]> {
+export async function getFollowingToUserId(userId: number): Promise<User[]> {
   let resArray: User[] = [];
   try {
     let response = await axios.get(baseUrl + `/following/${userId}`);
@@ -74,7 +76,7 @@ export async function getFollowingToUser(userId: number): Promise<User[]> {
   }
   return resArray;
 }
-export async function getFollowingThatReviewedMovie(
+export async function getFollowingToUserIdThatReviewedMovieId(
   userId: number,
   movieId: number
 ): Promise<User[]> {
@@ -91,7 +93,7 @@ export async function getFollowingThatReviewedMovie(
   }
   return resArray;
 }
-export async function getFollowingWithMovieWatchlist(
+export async function getFollowingToUserIdWithMovieIdOnWatchlist(
   userId: number,
   movieId: number
 ): Promise<User[]> {
@@ -108,7 +110,7 @@ export async function getFollowingWithMovieWatchlist(
   }
   return resArray;
 }
-export async function insertUser(newUser: User): Promise<Boolean> {
+export async function createUser(newUser: User): Promise<Boolean> {
   try {
     let response = await axios.post(baseUrl + '/', newUser);
     if (response.status === 201) {
@@ -125,7 +127,7 @@ export async function insertUser(newUser: User): Promise<Boolean> {
  * @param userAId
  * @param userBId
  */
-export async function insertFollowing(
+export async function insertFollowingToUserIdAndUserId(
   userAId: number,
   userBId: number
 ): Promise<Boolean> {
@@ -139,7 +141,7 @@ export async function insertFollowing(
   }
   return false;
 }
-export async function putOnWatchlist(
+export async function insertMovieIdOnWatchlistToUserId(
   userAId: number,
   movieId: number
 ): Promise<Boolean> {
@@ -166,7 +168,7 @@ export async function updateUser(user: User): Promise<Boolean> {
   }
   return false;
 }
-export async function deleteUser(userId: number): Promise<Boolean> {
+export async function deleteUserToUserId(userId: number): Promise<Boolean> {
   try {
     let response = await axios.delete(baseUrl + `/${userId}`);
     if (response.status === 204) {
@@ -183,7 +185,7 @@ export async function deleteUser(userId: number): Promise<Boolean> {
  * @param userIdA
  * @param userIdB
  */
-export async function deleteFollowing(
+export async function removeUserIdBFromFollowingOfUserIdA(
   userIdA: number,
   userIdB: number
 ): Promise<Boolean> {
@@ -199,7 +201,7 @@ export async function deleteFollowing(
   }
   return false;
 }
-export async function deleteFromWatchlist(
+export async function removeMovieIdFromWatchlistOfUserId(
   userId: number,
   movieId: number
 ): Promise<Boolean> {

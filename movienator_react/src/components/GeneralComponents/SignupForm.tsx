@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Stack, TextField, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { getOneUser, insertUser } from '../../services/UserService';
+import { getOneUserToUserId, createUser } from '../../services/UserService';
 import { User } from '../../types/User';
 
 type InputValues = {
@@ -51,7 +51,7 @@ export default function SignupForm() {
       formValues.repeatPassword !== '' &&
       formValues.birthday !== ''
     ) {
-      getOneUser(formValues.userName).then((user) => {
+      getOneUserToUserId(formValues.userName).then((user) => {
         if (user == null) {
           console.log('Found no user with this username');
           if (formValues.password === formValues.repeatPassword) {
@@ -69,7 +69,7 @@ export default function SignupForm() {
               following: [],
               reviews: [],
             };
-            insertUser(newUser).then((result) => {
+            createUser(newUser).then((result) => {
               if (result) {
                 navigate('/login');
               } else {

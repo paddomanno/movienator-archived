@@ -15,7 +15,7 @@ export async function getAllMovies(): Promise<Movie[]> {
   return resArray;
 }
 
-export async function getOneMovie(movieId: number): Promise<Movie | null> {
+export async function getOneMovieToId(movieId: number): Promise<Movie | null> {
   let resMovie: Movie | null = null;
   try {
     let response = await axios.get(baseUrl + `/one/${movieId}`);
@@ -28,7 +28,7 @@ export async function getOneMovie(movieId: number): Promise<Movie | null> {
   return resMovie;
 }
 
-export async function getMoviesToActor(actorId: number): Promise<Movie[]> {
+export async function getMoviesToActorId(actorId: number): Promise<Movie[]> {
   let resArray: Movie[] = [];
   try {
     let response = await axios.get(baseUrl + `/actor/${actorId}`);
@@ -40,7 +40,9 @@ export async function getMoviesToActor(actorId: number): Promise<Movie[]> {
   }
   return resArray;
 }
-export async function getReviewedMovies(userId: number): Promise<Movie[]> {
+export async function getReviewedMoviesToUserId(
+  userId: number
+): Promise<Movie[]> {
   let resArray: Movie[] = [];
   try {
     let response = await axios.get(baseUrl + `/user/${userId}`);
@@ -52,7 +54,9 @@ export async function getReviewedMovies(userId: number): Promise<Movie[]> {
   }
   return resArray;
 }
-export async function getWatchlistMovies(userId: number): Promise<Movie[]> {
+export async function getWatchlistMoviesToUserId(
+  userId: number
+): Promise<Movie[]> {
   let resArray: Movie[] = [];
   try {
     let response = await axios.get(baseUrl + `/watchlist/${userId}`);
@@ -64,7 +68,9 @@ export async function getWatchlistMovies(userId: number): Promise<Movie[]> {
   }
   return resArray;
 }
-export async function getMoviesByMinTime(minTime: number): Promise<Movie[]> {
+export async function getMoviesToMinimalDurationInMinutes(
+  minTime: number
+): Promise<Movie[]> {
   let resArray: Movie[] = [];
   try {
     let response = await axios.get(baseUrl + `/time/min/${minTime}`);
@@ -76,7 +82,9 @@ export async function getMoviesByMinTime(minTime: number): Promise<Movie[]> {
   }
   return resArray;
 }
-export async function getMoviesByMaxTime(maxTime: number): Promise<Movie[]> {
+export async function getMoviesToMaximalDurationInMinutes(
+  maxTime: number
+): Promise<Movie[]> {
   let resArray: Movie[] = [];
   try {
     let response = await axios.get(baseUrl + `/time/max/${maxTime}`);
@@ -89,7 +97,7 @@ export async function getMoviesByMaxTime(maxTime: number): Promise<Movie[]> {
   return resArray;
 }
 
-export async function getMoviesByDateRange(
+export async function getMoviesToDateRange(
   minDate: Date,
   maxDate: Date
 ): Promise<Movie[]> {
@@ -105,7 +113,7 @@ export async function getMoviesByDateRange(
   return resArray;
 }
 
-export async function getMoviesBySearchWord(
+export async function getMoviesToMovieNameSearchQuery(
   searchWord: string
 ): Promise<Movie[]> {
   let resArray: Movie[] = [];
@@ -119,7 +127,7 @@ export async function getMoviesBySearchWord(
   }
   return resArray;
 }
-export async function getMoviesByMinAvgRating(
+export async function getMoviesToMinAvgRating(
   minRating: number
 ): Promise<Movie[]> {
   let resArray: Movie[] = [];
@@ -133,7 +141,7 @@ export async function getMoviesByMinAvgRating(
   }
   return resArray;
 }
-export async function getMoviesOfGenre(
+export async function getMoviesToGenreIdentifier(
   genreIdentifier: string | number
 ): Promise<Movie[]> {
   let resArray: Movie[] = [];
@@ -148,7 +156,7 @@ export async function getMoviesOfGenre(
   return resArray;
 }
 
-export async function getMutualWatchlist(
+export async function getMutualWatchlistToTwoUserIds(
   userA: number,
   userB: number
 ): Promise<Movie[]> {
@@ -166,7 +174,7 @@ export async function getMutualWatchlist(
   return resArray;
 }
 
-export async function getMutualReviewed(
+export async function getMutualReviewedToTwoUserIds(
   userA: number,
   userB: number
 ): Promise<Movie[]> {
@@ -188,7 +196,7 @@ export async function getMutualReviewed(
  * Inserts the movie if it doesnt exist yet. Does nothing if it already exists
  * @param newMovie
  */
-export async function saveMovie(newMovie: Movie): Promise<Boolean> {
+export async function createMovie(newMovie: Movie): Promise<Boolean> {
   try {
     let response = await axios.post(baseUrl, newMovie);
     if (response.status === 201) {
@@ -203,7 +211,7 @@ export async function saveMovie(newMovie: Movie): Promise<Boolean> {
 /**
  * Shouldn't be used really. Just use saveMovie instead
  * @param newMovie
- * @see saveMovie
+ * @see createMovie
  */
 export async function updateMovie(newMovie: Movie): Promise<Boolean> {
   try {
@@ -217,7 +225,7 @@ export async function updateMovie(newMovie: Movie): Promise<Boolean> {
   return false;
 }
 
-export async function deleteMovie(movieId: number): Promise<Boolean> {
+export async function deleteMovieToId(movieId: number): Promise<Boolean> {
   try {
     let response = await axios.put(baseUrl + `/${movieId}`);
     if (response.status === 204) {

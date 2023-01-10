@@ -2,7 +2,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Movie } from '../types/Movie';
-import { getMoviesToActor, getSingleActor } from '../services/ExternService';
+import { getMoviesToActor, getOneActorToId } from '../services/ExternService';
 import { Typography } from '@mui/material';
 import { useCookies } from 'react-cookie';
 import { Actor } from '../types/Actor';
@@ -20,7 +20,7 @@ export default function ActorMoviesPage() {
       navigate('/login');
     }
     if (typeof actorId == 'string') {
-      getSingleActor(parseInt(actorId)).then((actor) => {
+      getOneActorToId(parseInt(actorId)).then((actor) => {
         setActor(actor);
       });
       getMoviesToActor(parseInt(actorId)).then((movies) => {
