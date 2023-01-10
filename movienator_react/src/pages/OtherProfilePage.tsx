@@ -40,7 +40,23 @@ export default function OtherProfilePage() {
     if (!cookies.userName) {
       navigate('/login');
     }
-    getOneUser(userId!).then((user) => {
+    if (userId != undefined) {
+      loadUserData(parseInt(userId));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (userId === cookies.userId) {
+      navigate('/profile');
+    } else {
+      if (userId != undefined) {
+        loadUserData(parseInt(userId));
+      }
+    }
+  }, [userId]);
+
+  function loadUserData(id: number) {
+    getOneUser(id).then((user) => {
       setUser(user);
       if (user != null && user.userId != null) {
         getReviewsToUser(user.userId!).then((reviews) => {
@@ -54,13 +70,7 @@ export default function OtherProfilePage() {
         });
       }
     });
-  }, []);
-
-  useEffect(() => {
-    if (userId === cookies.userId) {
-      navigate('/profile');
-    }
-  }, [userId]);
+  }
 
   function reloadViewedUser() {
     getOneUser(user?.userName!).then((user) => {
