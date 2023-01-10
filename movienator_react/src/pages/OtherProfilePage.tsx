@@ -112,7 +112,7 @@ export default function OtherProfilePage() {
           />
         </>
       ) : (
-        <Typography>Loading...</Typography>
+        <Typography>There is no user with this id</Typography>
       )}
     </Stack>
   );
