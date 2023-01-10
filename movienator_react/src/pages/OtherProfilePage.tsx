@@ -5,16 +5,16 @@ import { useCookies } from 'react-cookie';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Stack, Typography } from '@mui/material';
 import { User } from '../types/User';
-import { getOneUser } from '../services/UserService';
+import { getOneUserToUserId } from '../services/UserService';
 import OtherProfileDetails from '../components/OtherProfileComponent/OtherProfileDetails';
 import OwnProfileUsersLists from '../components/OwnProfileComponents/OwnProfileUsersLists';
 import { Review } from '../types/Review';
-import { getReviewsToUser } from '../services/ReviewService';
+import { getAllReviewsToUserId } from '../services/ReviewService';
 import ReviewListWithText from '../components/ListComponents/ReviewListWithText';
 import OtherProfileMutualWatchlist from '../components/OtherProfileComponent/OtherProfileMutualWatchlist';
 import {
-  getMutualReviewed,
-  getMutualWatchlist,
+  getMutualReviewedToTwoUserIds,
+  getMutualWatchlistToTwoUserIds,
 } from '../services/MovieService';
 import { Movie } from '../types/Movie';
 import OtherProfileMutualReviewed from '../components/OtherProfileComponent/OtherProfileMutualReviewed';
@@ -56,24 +56,28 @@ export default function OtherProfilePage() {
   }, [userId]);
 
   function loadUserData(id: number) {
-    getOneUser(id).then((user) => {
+    getOneUserToUserId(id).then((user) => {
       setUser(user);
       if (user != null && user.userId != null) {
-        getReviewsToUser(user.userId!).then((reviews) => {
+        getAllReviewsToUserId(user.userId!).then((reviews) => {
           setUserReviews(reviews);
         });
-        getMutualWatchlist(user.userId, cookies.userId).then((movies) => {
-          setMutualWatchlist(movies);
-        });
-        getMutualReviewed(user.userId, cookies.userId).then((movies) => {
-          setMutualReviewed(movies);
-        });
+        getMutualWatchlistToTwoUserIds(user.userId, cookies.userId).then(
+          (movies) => {
+            setMutualWatchlist(movies);
+          }
+        );
+        getMutualReviewedToTwoUserIds(user.userId, cookies.userId).then(
+          (movies) => {
+            setMutualReviewed(movies);
+          }
+        );
       }
     });
   }
 
   function reloadViewedUser() {
-    getOneUser(user?.userName!).then((user) => {
+    getOneUserToUserId(user?.userName!).then((user) => {
       setUser(user);
       console.log(user?.followers);
     });

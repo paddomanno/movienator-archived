@@ -6,7 +6,7 @@ import LiveTvIcon from '@mui/icons-material/LiveTv';
 import LogoutIcon from '@mui/icons-material/Logout';
 import React, { useEffect, useState } from 'react';
 import { User } from '../types/User';
-import { getOneUser } from '../services/UserService';
+import { getOneUserToUserId } from '../services/UserService';
 
 export default function RootPage() {
   const SIZE_PROFILEIMAGE = 50;
@@ -16,7 +16,7 @@ export default function RootPage() {
 
   useEffect(() => {
     if (cookies.userId) {
-      getOneUser(cookies.userId).then((res) => {
+      getOneUserToUserId(cookies.userId).then((res) => {
         setUser(res);
       });
     }

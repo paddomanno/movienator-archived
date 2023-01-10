@@ -14,7 +14,9 @@ export async function getAllReviews(): Promise<Review[]> {
   }
   return resArray;
 }
-export async function getAllReviewsSinceTime(date: Date): Promise<Review[]> {
+export async function getAllReviewsSinceSpecificDate(
+  date: Date
+): Promise<Review[]> {
   let resArray: Review[] = [];
   try {
     let response = await axios.get(baseUrl + `/time/${date}`);
@@ -26,7 +28,7 @@ export async function getAllReviewsSinceTime(date: Date): Promise<Review[]> {
   }
   return resArray;
 }
-export async function getOneReview(
+export async function getOneReviewToUserIdAndMovieId(
   userId: number,
   movieId: number
 ): Promise<Review | null> {
@@ -42,7 +44,9 @@ export async function getOneReview(
   return resReview;
 }
 
-export async function getReviewsToMovie(movieId: number): Promise<Review[]> {
+export async function getAllReviewsToMovieId(
+  movieId: number
+): Promise<Review[]> {
   let resArray: Review[] = [];
   try {
     let response = await axios.get(baseUrl + `/movie/${movieId}`);
@@ -55,7 +59,7 @@ export async function getReviewsToMovie(movieId: number): Promise<Review[]> {
   return resArray;
 }
 
-export async function getReviewsToUser(userId: number): Promise<Review[]> {
+export async function getAllReviewsToUserId(userId: number): Promise<Review[]> {
   let resArray: Review[] = [];
   try {
     let response = await axios.get(baseUrl + `/user/own/${userId}`);
@@ -68,7 +72,9 @@ export async function getReviewsToUser(userId: number): Promise<Review[]> {
   return resArray;
 }
 
-export async function getReviewsOfFollowing(userId: number): Promise<Review[]> {
+export async function getAllReviewsOfFollowingToUserId(
+  userId: number
+): Promise<Review[]> {
   let resArray: Review[] = [];
   try {
     let response = await axios.get(baseUrl + `/user/following/${userId}`);
@@ -81,7 +87,7 @@ export async function getReviewsOfFollowing(userId: number): Promise<Review[]> {
   return resArray;
 }
 
-export async function getReviewsOfFollowingToMovie(
+export async function getAllReviewsOfFollowingToUserIdAndMovieId(
   userId: number,
   movieId: number
 ): Promise<Review[]> {
@@ -98,7 +104,7 @@ export async function getReviewsOfFollowingToMovie(
   }
   return resArray;
 }
-export async function getReviewsOfNotFollowingToMovie(
+export async function getAllReviewsOfNotFollowingToUserIdAndMovieId(
   userId: number,
   movieId: number
 ): Promise<Review[]> {
@@ -115,7 +121,7 @@ export async function getReviewsOfNotFollowingToMovie(
   }
   return resArray;
 }
-export async function getReviewsOfFollowingSinceTime(
+export async function getAllReviewsOfFollowingToUserIdSinceDate(
   userId: number,
   date: Date
 ): Promise<Review[]> {
@@ -132,7 +138,7 @@ export async function getReviewsOfFollowingSinceTime(
   }
   return resArray;
 }
-export async function postNewReview(newReview: Review): Promise<Boolean> {
+export async function createReview(newReview: Review): Promise<Boolean> {
   try {
     let response = await axios.post(baseUrl, newReview);
     if (response.status === 201) {
@@ -154,7 +160,7 @@ export async function updateReview(updatedReview: Review): Promise<Boolean> {
   }
   return false;
 }
-export async function deleteReview(
+export async function deleteReviewToMovieIdAndUserId(
   movieId: number,
   userId: number
 ): Promise<Boolean> {

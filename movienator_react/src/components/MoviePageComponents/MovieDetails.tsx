@@ -12,11 +12,14 @@ import Grid2 from '@mui/material/Unstable_Grid2';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  deleteFromWatchlist,
-  putOnWatchlist,
+  removeMovieIdFromWatchlistOfUserId,
+  insertMovieIdOnWatchlistToUserId,
 } from '../../services/UserService';
 import { useCookies } from 'react-cookie';
-import { getWatchlistMovies, saveMovie } from '../../services/MovieService';
+import {
+  getWatchlistMoviesToUserId,
+  createMovie,
+} from '../../services/MovieService';
 import { grey } from '@mui/material/colors';
 import ActorCardSmall from '../SingleItemComponents/ActorCardSmall';
 import { SingleMovieProps } from '../../props/MovieProps';
@@ -27,7 +30,7 @@ export default function MovieDetails({ movie }: SingleMovieProps) {
   const [cookies] = useCookies(['userName', 'userId']);
 
   useEffect(() => {
-    getWatchlistMovies(cookies.userId as number).then((movies) => {
+    getWatchlistMoviesToUserId(cookies.userId as number).then((movies) => {
       movies.forEach((oneMovie) => {
         if (oneMovie.movieId === movie.movieId) {
           setIsWatchlist(true);
@@ -39,23 +42,25 @@ export default function MovieDetails({ movie }: SingleMovieProps) {
   function handleWatchlistClick(e: any) {
     e.preventDefault();
     if (isWatchlist) {
-      deleteFromWatchlist(cookies.userId as number, movie.movieId).then(
-        (res) => {
-          if (res) {
-            setIsWatchlist(false);
-          }
+      removeMovieIdFromWatchlistOfUserId(
+        cookies.userId as number,
+        movie.movieId
+      ).then((res) => {
+        if (res) {
+          setIsWatchlist(false);
         }
-      );
+      });
     } else {
-      saveMovie(movie).then((movieRes) => {
+      createMovie(movie).then((movieRes) => {
         if (movieRes) {
-          putOnWatchlist(cookies.userId as number, movie.movieId).then(
-            (res) => {
-              if (res) {
-                setIsWatchlist(true);
-              }
+          insertMovieIdOnWatchlistToUserId(
+            cookies.userId as number,
+            movie.movieId
+          ).then((res) => {
+            if (res) {
+              setIsWatchlist(true);
             }
-          );
+          });
         }
       });
     }

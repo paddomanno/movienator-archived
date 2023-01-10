@@ -15,7 +15,7 @@ export async function getAllProfileImages(): Promise<ProfileImage[]> {
   return resArray;
 }
 
-export async function getOneProfileImage(
+export async function getOneProfileImageToRessourceLink(
   ref: string
 ): Promise<ProfileImage | null> {
   let resImage: ProfileImage | null = null;
@@ -29,7 +29,7 @@ export async function getOneProfileImage(
   }
   return resImage;
 }
-export async function getImageOfUser(
+export async function getImageToUserId(
   userId: number
 ): Promise<ProfileImage | null> {
   let resImage: ProfileImage | null = null;
@@ -43,7 +43,7 @@ export async function getImageOfUser(
   }
   return resImage;
 }
-export async function postImage(newImage: ProfileImage): Promise<Boolean> {
+export async function createImage(newImage: ProfileImage): Promise<Boolean> {
   try {
     let response = await axios.post(baseUrl, newImage);
     if (response.status === 201) {
@@ -65,7 +65,7 @@ export async function updateImage(newImage: ProfileImage): Promise<Boolean> {
   }
   return false;
 }
-export async function deleteImage(imageId: number): Promise<Boolean> {
+export async function deleteImageToImageId(imageId: number): Promise<Boolean> {
   try {
     let response = await axios.delete(baseUrl + `/${imageId}`);
     if (response.status === 204) {
@@ -76,7 +76,7 @@ export async function deleteImage(imageId: number): Promise<Boolean> {
   }
   return false;
 }
-export async function setUserImage(
+export async function updateUserImageToImageIdAndUserId(
   imageId: string,
   userId: number
 ): Promise<Boolean> {
@@ -90,7 +90,9 @@ export async function setUserImage(
   }
   return false;
 }
-export async function deleteUserImage(userId: number): Promise<Boolean> {
+export async function deleteUserImageToUserId(
+  userId: number
+): Promise<Boolean> {
   try {
     let response = await axios.delete(baseUrl + `/image/${userId}`);
     if (response.status === 204) {

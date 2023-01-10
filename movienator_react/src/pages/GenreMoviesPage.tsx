@@ -2,7 +2,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { Movie } from '../types/Movie';
-import { getMoviesToGenre, getSingleGenre } from '../services/ExternService';
+import { getMoviesToGenreId, getOneGenreToId } from '../services/ExternService';
 import { Button, Card, CardContent, Stack, Typography } from '@mui/material';
 import { Genre } from '../types/Genre';
 import { useCookies } from 'react-cookie';
@@ -21,10 +21,10 @@ export default function GenreMoviesPage() {
       navigate('/login');
     }
     if (typeof genreId == 'string') {
-      getMoviesToGenre(parseInt(genreId), page).then((movies) => {
+      getMoviesToGenreId(parseInt(genreId), page).then((movies) => {
         setMovies(movies);
       });
-      getSingleGenre(parseInt(genreId)).then((genre) => {
+      getOneGenreToId(parseInt(genreId)).then((genre) => {
         setGenre(genre);
       });
     }
@@ -33,7 +33,7 @@ export default function GenreMoviesPage() {
   useEffect(() => {
     setMovies(null);
     if (typeof genreId == 'string') {
-      getMoviesToGenre(parseInt(genreId), page).then((movies) => {
+      getMoviesToGenreId(parseInt(genreId), page).then((movies) => {
         setMovies(movies);
       });
     }

@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
-import { getWatchlistMovies } from '../services/MovieService';
+import { getWatchlistMoviesToUserId } from '../services/MovieService';
 import { Movie } from '../types/Movie';
 import { Button, Card, CardContent, Stack, Typography } from '@mui/material';
 import MoviesList from '../components/ListComponents/MoviesList';
@@ -17,14 +17,14 @@ export default function WatchlistPage() {
     if (!cookies.userName) {
       navigate('/login');
     }
-    getWatchlistMovies(cookies.userId).then((movies) => {
+    getWatchlistMoviesToUserId(cookies.userId).then((movies) => {
       setMovies(movies);
     });
   }, []);
 
   useEffect(() => {
     setMovies(null);
-    getWatchlistMovies(cookies.userId).then((movies) => {
+    getWatchlistMoviesToUserId(cookies.userId).then((movies) => {
       setMovies(movies);
     });
   }, [page]);

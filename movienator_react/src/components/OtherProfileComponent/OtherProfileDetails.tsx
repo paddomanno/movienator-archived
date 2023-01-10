@@ -14,10 +14,10 @@ import { User } from '../../types/User';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import {
-  deleteFollowing,
-  getFollowingToUser,
-  getOneUser,
-  insertFollowing,
+  removeUserIdBFromFollowingOfUserIdA,
+  getFollowingToUserId,
+  getOneUserToUserId,
+  insertFollowingToUserIdAndUserId,
 } from '../../services/UserService';
 
 type props = {
@@ -37,12 +37,12 @@ export default function OtherProfileDetails({ user, reloadViewedUser }: props) {
 
   useEffect(() => {
     //We dont check if there is a username in the cookies, since the parent component already does that
-    getOneUser(cookies.userName).then((user) => {
+    getOneUserToUserId(cookies.userName).then((user) => {
       console.log(
         'Amount of users the logged in user is following ' +
           user?.following.length
       );
-      getFollowingToUser(user?.userId as number).then((following) => {
+      getFollowingToUserId(user?.userId as number).then((following) => {
         //If the currently viewed user is contained in 'following' of the logged in user, the state following is set to true
         let followingTemp: boolean = false;
         following.forEach((user) => {
@@ -60,20 +60,22 @@ export default function OtherProfileDetails({ user, reloadViewedUser }: props) {
     //Change state following
     if (following === true) {
       //The logged in user unfollows the viewed user
-      deleteFollowing(loggedInUser!.userId!, viewedUser!.userId!).then(
-        (success) => {
-          reloadViewedUser();
-          setFollowing(false);
-        }
-      );
+      removeUserIdBFromFollowingOfUserIdA(
+        loggedInUser!.userId!,
+        viewedUser!.userId!
+      ).then((success) => {
+        reloadViewedUser();
+        setFollowing(false);
+      });
     } else {
       //The logged in user now follows the viewed user
-      insertFollowing(loggedInUser!.userId!, viewedUser!.userId!).then(
-        (success) => {
-          reloadViewedUser();
-          setFollowing(true);
-        }
-      );
+      insertFollowingToUserIdAndUserId(
+        loggedInUser!.userId!,
+        viewedUser!.userId!
+      ).then((success) => {
+        reloadViewedUser();
+        setFollowing(true);
+      });
       setFollowing(true);
     }
   }

@@ -3,9 +3,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { Movie } from '../types/Movie';
 import {
-  getMoviesToGenre,
-  getPopularMovies,
-  getSingleGenre,
+  getMoviesToGenreId,
+  getPopularMoviesToPagenumber,
+  getOneGenreToId,
 } from '../services/ExternService';
 import { Button, Card, CardContent, Stack, Typography } from '@mui/material';
 import { useCookies } from 'react-cookie';
@@ -21,14 +21,14 @@ export default function PopularPage() {
     if (!cookies.userName) {
       navigate('/login');
     }
-    getPopularMovies(page).then((movies) => {
+    getPopularMoviesToPagenumber(page).then((movies) => {
       setMovies(movies);
     });
   }, []);
 
   useEffect(() => {
     setMovies(null);
-    getPopularMovies(page).then((movies) => {
+    getPopularMoviesToPagenumber(page).then((movies) => {
       setMovies(movies);
     });
   }, [page]);

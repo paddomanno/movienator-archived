@@ -4,7 +4,7 @@ import { Card, CardContent, InputBase, Paper, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import OwnProfileUsersLists from './OwnProfileUsersLists';
 import { User } from '../../types/User';
-import { searchUsersByWord } from '../../services/UserService';
+import { searchUsersByUserNameQuery } from '../../services/UserService';
 
 export default function OwnProfileUserSearch() {
   const [searchWord, setSearchWord] = useState<string | undefined>();
@@ -18,7 +18,7 @@ export default function OwnProfileUserSearch() {
 
   useEffect(() => {
     if (searchWord !== undefined) {
-      searchUsersByWord(searchWord).then((res) => {
+      searchUsersByUserNameQuery(searchWord).then((res) => {
         setUsers(res);
       });
     }

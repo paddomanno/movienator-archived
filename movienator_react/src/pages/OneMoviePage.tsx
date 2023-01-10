@@ -3,13 +3,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Movie } from '../types/Movie';
 import MovieDetails from '../components/MoviePageComponents/MovieDetails';
-import { getActorsToMovie, getMovieById } from '../services/ExternService';
+import { getActorsToMovie, getOneMovieToId } from '../services/ExternService';
 import { User } from '../types/User';
-import { getFollowingWithMovieWatchlist } from '../services/UserService';
+import { getFollowingToUserIdWithMovieIdOnWatchlist } from '../services/UserService';
 import { Review } from '../types/Review';
 import {
-  getReviewsOfFollowingToMovie,
-  getReviewsOfNotFollowingToMovie,
+  getAllReviewsOfFollowingToUserIdAndMovieId,
+  getAllReviewsOfNotFollowingToUserIdAndMovieId,
 } from '../services/ReviewService';
 import { useCookies } from 'react-cookie';
 import MovieFollowingReviewsList from '../components/MoviePageComponents/MovieFollowingReviewsList';
@@ -34,7 +34,7 @@ export default function OneMoviePage() {
       navigate('/login');
     }
     if (typeof movieId === 'string') {
-      getMovieById(parseInt(movieId)).then((movie) => {
+      getOneMovieToId(parseInt(movieId)).then((movie) => {
         if (movie != null) {
           getActorsToMovie(movie.movieId).then((actors) => {
             movie.actors = actors;
@@ -43,19 +43,19 @@ export default function OneMoviePage() {
         }
       });
 
-      getFollowingWithMovieWatchlist(
+      getFollowingToUserIdWithMovieIdOnWatchlist(
         cookies.userId as number,
         parseInt(movieId)
       ).then((users) => {
         setFollowingWatchlist(users);
       });
-      getReviewsOfFollowingToMovie(
+      getAllReviewsOfFollowingToUserIdAndMovieId(
         cookies.userId as number,
         parseInt(movieId)
       ).then((reviews) => {
         setFollowingReviews(reviews);
       });
-      getReviewsOfNotFollowingToMovie(
+      getAllReviewsOfNotFollowingToUserIdAndMovieId(
         cookies.userId as number,
         parseInt(movieId)
       ).then((reviews) => {

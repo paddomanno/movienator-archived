@@ -1,7 +1,7 @@
 import { Button, Card, CardContent, IconButton, Stack } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { Movie } from '../types/Movie';
-import { searchMoviesByName } from '../services/ExternService';
+import { getMoviesToName } from '../services/ExternService';
 import { useNavigate, useParams } from 'react-router-dom';
 import { grey } from '@mui/material/colors';
 import HomeIcon from '@mui/icons-material/Home';
@@ -17,7 +17,7 @@ export default function MovieSearchPage() {
   useEffect(() => {
     setMovies(null);
     if (searchWord != undefined) {
-      searchMoviesByName(searchWord, page).then((res) => {
+      getMoviesToName(searchWord, page).then((res) => {
         setMovies(res);
       });
     }

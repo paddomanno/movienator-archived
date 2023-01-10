@@ -1,6 +1,6 @@
 import { Button, Stack, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { getOneUser } from '../../services/UserService';
+import { getOneUserToUserId } from '../../services/UserService';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
@@ -35,7 +35,7 @@ export default function LoginForm() {
   function handleSubmit(e: any) {
     e.preventDefault();
     if (formValues.password !== '' && formValues.userName !== '') {
-      getOneUser(formValues.userName).then((user) => {
+      getOneUserToUserId(formValues.userName).then((user) => {
         if (user != null) {
           if (user.password === formValues.password) {
             setCookie('userName', user.userName, { path: '/' });
