@@ -8,10 +8,12 @@ import {
 } from '../../services/ReviewService';
 import { useCookies } from 'react-cookie';
 import {
+  AlertColor,
   Button,
   Card,
   CardContent,
   Divider,
+  Modal,
   Stack,
   TextField,
   Typography,
@@ -21,6 +23,8 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { grey, red } from '@mui/material/colors';
 import { createMovie } from '../../services/MovieService';
 import { SingleMovieProps } from '../../props/MovieProps';
+import { getContainsHateSpeech } from '../../services/ExternService';
+import FeedbackSnackbar from '../GeneralComponents/FeedbackSnackbar';
 
 type InputData = {
   title: string;
@@ -38,6 +42,11 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
   const [editing, setEditing] = useState<boolean>(true);
   const [cookies] = useCookies(['userName', 'userId']);
   const [oldData, setOldData] = useState<InputData>(defaultData);
+  //To handle the hate speech reminder snackbar
+  const [activateToggle, setActivateToggle] = useState<boolean>(false);
+  const hateSpeechErrorMessage: string =
+    'Reviews are not allowed to contain hate speech';
+  const hateSpeechAlertColor: AlertColor = 'warning';
 
   useEffect(() => {
     getOneReviewToUserIdAndMovieId(
@@ -93,6 +102,13 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
     setEditing(false);
   }
 
+  const showMessage = async () => {
+    setActivateToggle(true);
+    await sleep(1000);
+    setActivateToggle(false);
+  };
+  const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
   function postReviewToBackend(newReview: Review) {
     createReview(newReview).then((r) => {
       if (!r) {
@@ -126,22 +142,34 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
       review_user: null,
       review_movie: null,
     };
-    createMovie(movie).then((res) => {
-      if (res) {
-        getOneReviewToUserIdAndMovieId(
-          newReview.reviewUserUserId,
-          newReview.reviewMovieMovieId
-        ).then((revRes) => {
-          if (revRes == null) {
-            postReviewToBackend(newReview);
-          } else {
-            updateReviewToBackend(newReview);
-          }
-        });
-      } else {
-        console.log('Error saving movie');
+
+    getContainsHateSpeech(newReview.title + ' ' + newReview.content).then(
+      (response) => {
+        console.log('Response of Detection: ' + response.data);
+
+        if (response.data) {
+          showMessage();
+          console.log('Review not created/updated due to hate speech');
+        } else {
+          createMovie(movie).then((res) => {
+            if (res) {
+              getOneReviewToUserIdAndMovieId(
+                newReview.reviewUserUserId,
+                newReview.reviewMovieMovieId
+              ).then((revRes) => {
+                if (revRes == null) {
+                  postReviewToBackend(newReview);
+                } else {
+                  updateReviewToBackend(newReview);
+                }
+              });
+            } else {
+              console.log('Error saving movie');
+            }
+          });
+        }
       }
-    });
+    );
   }
 
   function handleErrorTextToLong() {
@@ -295,6 +323,14 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
           {rightColumn}
         </Stack>
       </CardContent>
+      <FeedbackSnackbar
+        activated={activateToggle}
+        message={hateSpeechErrorMessage}
+        severity={hateSpeechAlertColor}
+      />
     </Card>
   );
+}
+function sleep(arg0: number) {
+  throw new Error('Function not implemented.');
 }
