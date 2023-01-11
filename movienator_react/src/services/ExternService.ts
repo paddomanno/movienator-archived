@@ -176,3 +176,16 @@ export async function getOneGenreToId(genreId: number): Promise<Genre | null> {
   }
   return resGenre;
 }
+
+//Checks if a string contains hatespeech or insults
+export async function getContainsHateSpeech(inputText: string): Promise<any> {
+  return await axios({
+    url: 'https://community-purgomalum.p.rapidapi.com/containsprofanity',
+    method: 'get',
+    params: { text: inputText },
+    headers: {
+      'X-RapidAPI-Key': 'eddda348dcmshda9555178f171efp1f761ajsn6c9cd7ac350e',
+      'X-RapidAPI-Host': 'community-purgomalum.p.rapidapi.com',
+    },
+  });
+}
