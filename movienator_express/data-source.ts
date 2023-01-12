@@ -5,6 +5,7 @@ import ProfileImage from './entity/profileImage';
 import Review from './entity/review';
 import User from './entity/user';
 import Genre from './entity/genre';
+import Recommendation from './entity/recommendation';
 
 /**
  * The Datasource used to connect to the main Database
@@ -17,7 +18,7 @@ export const AppDataSource = new DataSource({
   password: 'root',
   database: 'movienator-database',
   //Hier die importierten Entitätsklassen angeben
-  entities: [Actor, Movie, ProfileImage, Review, User, Genre],
+  entities: [Actor, Movie, ProfileImage, Review, User, Genre, Recommendation],
   synchronize: true,
   logging: false,
 });

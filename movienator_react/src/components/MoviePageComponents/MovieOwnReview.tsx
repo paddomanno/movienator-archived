@@ -45,7 +45,7 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
   //To handle the hate speech reminder snackbar
   const [activateToggle, setActivateToggle] = useState<boolean>(false);
   const hateSpeechErrorMessage: string =
-    'Reviews are not allowed to contain hate speech';
+    'Reviews are not allowed to contain profanity';
   const hateSpeechAlertColor: AlertColor = 'warning';
 
   useEffect(() => {
@@ -149,7 +149,7 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
 
         if (response.data) {
           showMessage();
-          console.log('Review not created/updated due to hate speech');
+          console.log('Review not created/updated due to profanity');
         } else {
           createMovie(movie).then((res) => {
             if (res) {

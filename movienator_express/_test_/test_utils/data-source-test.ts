@@ -5,6 +5,7 @@ import Review from '../../entity/review';
 import User from '../../entity/user';
 import Movie from '../../entity/movie';
 import Genre from '../../entity/genre';
+import Recommendation from '../../entity/recommendation';
 
 export const TestDataSource = new DataSource({
   type: 'mysql',
@@ -13,7 +14,7 @@ export const TestDataSource = new DataSource({
   username: 'root',
   password: 'root',
   database: 'movienator-database-test',
-  entities: [Actor, Movie, ProfileImage, Review, User, Genre],
+  entities: [Actor, Movie, ProfileImage, Review, User, Genre, Recommendation],
   synchronize: true,
   logging: ['warn'],
   dropSchema: true,
