@@ -11,12 +11,16 @@ import { Review } from '../types/Review';
 import { getAllReviewsToUserId } from '../services/ReviewService';
 import ReviewListWithText from '../components/ListComponents/ReviewListWithText';
 import OwnProfileUserSearch from '../components/OwnProfileComponents/OwnProfileUserSearch';
+import { getAllRecommendationsFromUserId } from '../services/RecommendationService';
+import { Recommendation } from '../types/Recommendation';
+import FromOwnRecommendationList from '../components/RecommendationComponents/FromOwnRecommendationList';
 
 export default function OwnProfilePage() {
   const navigate = useNavigate();
   const [cookies] = useCookies(['userName', 'userId']);
   const [user, setUser] = useState<User | null>(null);
   const [userReviews, setUserReviews] = useState<Review[] | null>(null);
+  const [userRecs, setUserRecs] = useState<Recommendation[] | null>(null);
 
   useEffect(() => {
     if (!cookies.userName) {
@@ -28,6 +32,9 @@ export default function OwnProfilePage() {
     getAllReviewsToUserId(cookies.userId).then((reviews) => {
       setUserReviews(reviews);
     });
+    getAllRecommendationsFromUserId(cookies.userId).then((recs) => {
+      setUserRecs(recs);
+    });
   }, []);
 
   function reloadUser() {
@@ -36,9 +43,15 @@ export default function OwnProfilePage() {
     });
   }
 
+  function reloadRecs() {
+    getAllRecommendationsFromUserId(cookies.userId).then((recs) => {
+      setUserRecs(recs);
+    });
+  }
+
   return (
     <Stack direction={'column'} spacing={1}>
-      {user != null && userReviews != null ? (
+      {user != null && userReviews != null && userRecs != null ? (
         <>
           <OwnProfileDetails user={user} reloadHandler={reloadUser} />
           <Stack direction={'row'} spacing={1} justifyContent={'space-evenly'}>
@@ -49,6 +62,7 @@ export default function OwnProfilePage() {
             <OwnProfileUsersLists title="You follow:" users={user.following} />
           </Stack>
           <OwnProfileUserSearch />
+          <FromOwnRecommendationList recs={userRecs} reloadRecs={reloadRecs} />
           <ReviewListWithText
             reviews={userReviews}
             showMovie={true}
