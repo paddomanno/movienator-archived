@@ -1,5 +1,6 @@
 import { User } from '../types/User';
 import axios from 'axios';
+import { Recommendation } from '../types/Recommendation';
 
 const baseUrl: string = 'http://localhost:8080/user';
 export async function getAllUsers(): Promise<User[]> {
@@ -216,4 +217,19 @@ export async function removeMovieIdFromWatchlistOfUserId(
     console.log('Error deleting from Watchlist User: ' + e);
   }
   return false;
+}
+
+export async function getFollowingOfUserIdInFollowers(
+  userId: number
+): Promise<Recommendation[]> {
+  let res: Recommendation[] = [];
+  try {
+    let response = await axios.get(baseUrl + `/followingMutual/${userId}`);
+    if (response.status === 200) {
+      res = response.data.data as Recommendation[];
+    }
+  } catch (e) {
+    console.log(e);
+  }
+  return res;
 }
