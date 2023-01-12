@@ -221,12 +221,12 @@ export async function removeMovieIdFromWatchlistOfUserId(
 
 export async function getFollowingOfUserIdInFollowers(
   userId: number
-): Promise<Recommendation[]> {
-  let res: Recommendation[] = [];
+): Promise<User[]> {
+  let res: User[] = [];
   try {
     let response = await axios.get(baseUrl + `/followingMutual/${userId}`);
     if (response.status === 200) {
-      res = response.data.data as Recommendation[];
+      res = response.data.data as User[];
     }
   } catch (e) {
     console.log(e);

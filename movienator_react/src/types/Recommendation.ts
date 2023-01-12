@@ -6,7 +6,7 @@ export type Recommendation = {
   receivingUserUserId: number;
   recommendedMovieMovieId: number;
   message: string;
-  sendingUser: User;
-  receivingUser: User;
-  recommendedMovie: Movie;
+  sendingUser: User | null;
+  receivingUser: User | null;
+  recommendedMovie: Movie | null;
 };

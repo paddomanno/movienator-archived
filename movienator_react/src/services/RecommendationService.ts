@@ -61,7 +61,7 @@ export async function getAllRecommendationsForUserIdForMovieId(
       return response.data.data as Recommendation[];
     }
   } catch (e) {
-    console.log(e);
+    console.log('Error getting Rec');
   }
   return [];
 }
@@ -70,12 +70,12 @@ export async function postOrUpdateRecommendation(
   rec: Recommendation
 ): Promise<Boolean> {
   try {
-    let response = await axios.post(baseUrl, rec);
-    if (response.status == 201) {
+    let response = await axios.post(baseUrl + '/', rec);
+    if (response.status === 201) {
       return true;
     }
   } catch (e) {
-    console.log(e);
+    console.log('Error saving Rec' + e);
   }
   return false;
 }
