@@ -23,11 +23,17 @@ import {
 import { grey } from '@mui/material/colors';
 import ActorCardSmall from '../SingleItemComponents/ActorCardSmall';
 import { SingleMovieProps } from '../../props/MovieProps';
+import NewRecommendationDialog from '../RecommendationComponents/NewRecommendationDialog';
 
 export default function MovieDetails({ movie }: SingleMovieProps) {
   const navigate = useNavigate();
   const [isWatchlist, setIsWatchlist] = useState<boolean>(false);
   const [cookies] = useCookies(['userName', 'userId']);
+  const [showRecDialog, setShowRecDialog] = useState<boolean>(false);
+
+  function changeShowDialog(value: boolean) {
+    setShowRecDialog(value);
+  }
 
   useEffect(() => {
     getWatchlistMoviesToUserId(cookies.userId as number).then((movies) => {
@@ -156,6 +162,14 @@ export default function MovieDetails({ movie }: SingleMovieProps) {
       <Button variant={'contained'} onClick={handleWatchlistClick}>
         {isWatchlist ? 'Remove From Watchlist' : 'Add to Watchlist'}
       </Button>
+      <Button
+        variant={'contained'}
+        onClick={() => {
+          setShowRecDialog(true);
+        }}
+      >
+        Send Recommendation
+      </Button>
     </Stack>
   );
   let rightColumn = (
@@ -188,6 +202,11 @@ export default function MovieDetails({ movie }: SingleMovieProps) {
           </Stack>
         </CardContent>
       </Card>
+      <NewRecommendationDialog
+        open={showRecDialog}
+        movie={movie}
+        setOpen={changeShowDialog}
+      />
     </>
   );
 }

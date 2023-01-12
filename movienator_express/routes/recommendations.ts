@@ -133,20 +133,33 @@ recommendationRouter.get('/forMovie/:uId/:mId', async (req, res) => {
 recommendationRouter.post('/', async (req, res) => {
   try {
     let newRecommendation: Recommendation = req.body as Recommendation;
-    let userA: User = await User.findOne({
-      where: { userId: newRecommendation.receivingUserUserId },
+    let oldRec: Recommendation = await Recommendation.findOne({
+      where: {
+        sendingUserUserId: newRecommendation.sendingUserUserId,
+        receivingUserUserId: newRecommendation.receivingUserUserId,
+        recommendedMovieMovieId: newRecommendation.recommendedMovieMovieId,
+      },
     });
-    let userB: User = await User.findOne({
-      where: { userId: newRecommendation.sendingUserUserId },
-    });
-    let movie: Movie = await Movie.findOne({
-      where: { movieId: newRecommendation.recommendedMovieMovieId },
-    });
-    if (userA != null && userB != null && movie != null) {
-      await Recommendation.save(newRecommendation);
+    if (oldRec != null) {
+      oldRec.message = newRecommendation.message;
+      await oldRec.save();
       res.status(201).json();
     } else {
-      res.status(404).json();
+      let userA: User = await User.findOne({
+        where: { userId: newRecommendation.receivingUserUserId },
+      });
+      let userB: User = await User.findOne({
+        where: { userId: newRecommendation.sendingUserUserId },
+      });
+      let movie: Movie = await Movie.findOne({
+        where: { movieId: newRecommendation.recommendedMovieMovieId },
+      });
+      if (userA != null && userB != null && movie != null) {
+        await Recommendation.save(newRecommendation);
+        res.status(201).json();
+      } else {
+        res.status(404).json();
+      }
     }
   } catch (er) {
     console.log(er);
