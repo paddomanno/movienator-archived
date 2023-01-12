@@ -14,6 +14,7 @@ const reviewRouter = require('./routes/reviews');
 const userRouter = require('./routes/users');
 const externRouter = require('./routes/extern');
 const genreRouter = require('./routes/genres');
+const recommendationRouter = require('./routes/recommendations');
 
 //Use Body Parser to read http bodies
 app.use(bodyParser.json());
@@ -29,5 +30,6 @@ app.use('/review', reviewRouter);
 app.use('/user', userRouter);
 app.use('/extern', externRouter);
 app.use('/genre', genreRouter);
+app.use('/recommendation', recommendationRouter);
 
 export default app;
