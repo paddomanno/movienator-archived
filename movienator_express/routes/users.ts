@@ -168,6 +168,47 @@ userRouter.get('/following/:id', async (req, res) => {
   }
 });
 
+//Gets all the user that person is following that are also following back
+userRouter.get('/followingMutual/:uId', async (req, res) => {
+  try {
+    if (isNaN(+req.params.uId)) {
+      throw 'Not a number';
+    }
+    const requestedUser = await User.findOne({
+      where: { userId: parseInt(req.params.uId) },
+      relations: [
+        'following',
+        'followers',
+        'followers.reviews',
+        'followers.following',
+        'followers.followers',
+        'followers.watchlist',
+        'followers.profileImage',
+      ],
+    });
+    if (requestedUser != null) {
+      let resUsers: User[] = [];
+      requestedUser.followers.forEach((user) => {
+        if (
+          requestedUser.following.some((userB) => {
+            return user.userId == userB.userId;
+          })
+        ) {
+          resUsers.push(user);
+        }
+      });
+      res.status(200).json({
+        data: resUsers,
+      });
+    } else {
+      res.status(404).json();
+    }
+  } catch (e) {
+    console.log(e);
+    res.status(500).json();
+  }
+});
+
 //Gets all the users that the one user is following and have reviewed the movie
 userRouter.get('/following/:id/rated/:mId', async (req, res) => {
   try {
