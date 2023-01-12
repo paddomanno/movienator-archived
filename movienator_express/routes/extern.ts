@@ -332,7 +332,7 @@ externRouter.get('/user/:uId/recommendations', async (req, res) => {
       while (i < reviews.length && i < MAX_DIF_REVIEWS) {
         let query: string =
           BASE_URL +
-          `/movie/${reviews[i].reviewMovieMovieId}/similar?` +
+          `/movie/${reviews[i].reviewMovieMovieId}/recommendations?` +
           `api_key=${API_KEY}`;
         let thisMovieRec = await axios.get(query, {
           headers: {
