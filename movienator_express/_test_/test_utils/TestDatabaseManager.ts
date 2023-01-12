@@ -5,6 +5,7 @@ import ProfileImage from '../../entity/profileImage';
 import Movie from '../../entity/movie';
 import Actor from '../../entity/actor';
 import User from '../../entity/user';
+import Recommendation from '../../entity/recommendation';
 
 export class TestDatabaseManager {
   private static databaseInstance: TestDatabaseManager;
@@ -36,6 +37,11 @@ export class TestDatabaseManager {
       .createQueryBuilder()
       .delete()
       .from(ProfileImage)
+      .execute();
+    await this.testDatabase
+      .createQueryBuilder()
+      .delete()
+      .from(Recommendation)
       .execute();
     await this.testDatabase.createQueryBuilder().delete().from(Movie).execute();
     await this.testDatabase.createQueryBuilder().delete().from(Actor).execute();

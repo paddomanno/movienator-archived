@@ -33,6 +33,8 @@ recommendationRouter.get('/one/:aId/:bId/:mId', async (req, res) => {
       res.status(200).json({
         data: singleRecommendation,
       });
+    } else {
+      res.status(404).json();
     }
   } catch (er) {
     console.log(er);
