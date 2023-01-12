@@ -156,6 +156,23 @@ async function createTestData() {
 }
 
 describe('GET Tests', () => {
+  it('Get follow backs 1', async () => {
+    const response = await request(app).get('/user/followingMutual/1');
+    expect(response.statusCode).toBe(200);
+    expect(response.body.data.length).toBe(1);
+    expect(response.body.data[0].userId).toBe(2);
+    expect(response.body.data[0].followers.length).toBeGreaterThanOrEqual(1);
+    expect(response.body.data[0].following.length).toBeGreaterThanOrEqual(1);
+  });
+  it('Get follow backs 1', async () => {
+    const response = await request(app).get('/user/followingMutual/2');
+    expect(response.statusCode).toBe(200);
+    expect(response.body.data.length).toBe(2);
+    expect(response.body.data[0].userId).toBe(1);
+    expect(response.body.data[0].followers.length).toBeGreaterThanOrEqual(1);
+    expect(response.body.data[0].following.length).toBeGreaterThanOrEqual(1);
+    expect(response.body.data[0].reviews.length).toBeGreaterThanOrEqual(1);
+  });
   it('Get all users from database TEST', async () => {
     const response = await request(app)
       .get('/user/all')
