@@ -1,4 +1,4 @@
-import { SingleRecommendationProps } from '../../props/RecommendationProps';
+import { SingleRecommendationProps } from '../../../props/RecommendationProps';
 import {
   Card,
   CardContent,
@@ -8,17 +8,17 @@ import {
   Typography,
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
-import OtherUserAvatar from '../SingleItemComponents/OtherUserAvatar';
+import OtherUserAvatar from '../../SingleItemComponents/OtherUserAvatar';
 import React from 'react';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { Recommendation } from '../../types/Recommendation';
-import { deleteRecommendation } from '../../services/RecommendationService';
+import { Recommendation } from '../../../types/Recommendation';
+import { deleteRecommendation } from '../../../services/RecommendationService';
 
 type Props = {
   rec: Recommendation;
   reloadRecs: () => void;
 };
-export default function OwnRecommendation({ rec, reloadRecs }: Props) {
+export default function SentRecommendation({ rec, reloadRecs }: Props) {
   function deleteRecommendationHandler(e: any) {
     e.preventDefault();
     deleteRecommendation(
