@@ -13,7 +13,7 @@ import ReviewListWithText from '../components/ListComponents/ReviewListWithText'
 import OwnProfileUserSearch from '../components/OwnProfileComponents/OwnProfileUserSearch';
 import { getAllRecommendationsFromUserId } from '../services/RecommendationService';
 import { Recommendation } from '../types/Recommendation';
-import FromOwnRecommendationList from '../components/RecommendationComponents/FromOwnRecommendationList';
+import OwnProfileRecommendationList from '../components/RecommendationComponents/OwnProfileRecommendationList';
 
 export default function OwnProfilePage() {
   const navigate = useNavigate();
@@ -62,7 +62,7 @@ export default function OwnProfilePage() {
             <OwnProfileUsersLists title="You follow:" users={user.following} />
           </Stack>
           <OwnProfileUserSearch />
-          <FromOwnRecommendationList recs={userRecs} reloadRecs={reloadRecs} />
+          <OwnProfileRecommendationList recs={userRecs} reloadRecs={reloadRecs} />
           <ReviewListWithText
             reviews={userReviews}
             showMovie={true}
