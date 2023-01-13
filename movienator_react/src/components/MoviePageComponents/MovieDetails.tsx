@@ -76,6 +76,34 @@ export default function MovieDetails({ movie }: SingleMovieProps) {
     navigate('/genreMovies/' + genreId);
   }
 
+  let watchProviderComp = (
+    <>
+      <Typography>TEST</Typography>
+      {movie.watchProviders.length != 0 ? (
+        <Card sx={{ backgroundColor: grey.A100 }}>
+          <CardContent>
+            <Stack direction={'row'} spacing={0}>
+              {movie.watchProviders.map((provider, key) => (
+                <IconButton
+                  key={key}
+                  // onClick={() => {}}
+                >
+                  <Paper>
+                    <Typography>{provider.providerName}</Typography>
+                  </Paper>
+                </IconButton>
+              ))}
+            </Stack>
+          </CardContent>
+        </Card>
+      ) : (
+        <>
+          <Typography>Currently not available for streaming.</Typography>
+        </>
+      )}
+    </>
+  );
+
   let videoComp = (
     <>
       {movie.videoPath !== 'null' ? (
@@ -187,6 +215,7 @@ export default function MovieDetails({ movie }: SingleMovieProps) {
       </Card>
       {videoComp}
       {actorComp}
+      {/* {watchProviderComp} */}
     </Stack>
   );
 
