@@ -19,10 +19,7 @@ type Props = {
   rec: Recommendation;
   reloadRecs: () => void;
 };
-export default function ReceivedRecommendationShort({
-  rec,
-  reloadRecs,
-}: Props) {
+export default function ReceivedRecommendation({ rec, reloadRecs }: Props) {
   function deleteRecommendationHandler(e: any) {
     e.preventDefault();
     deleteRecommendation(

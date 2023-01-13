@@ -28,18 +28,18 @@ export default function SocialPage() {
       }
     );
     getAllRecommendationsForUserId(cookies.userId as number).then((recs) => {
-      setFriendRecs(recs);
+      setFriendRecs(recs.slice(0, MAX_MOVIES_PER_LIST));
     });
   }, []);
 
   function reloadRecs() {
     getAllRecommendationsForUserId(cookies.userId as number).then((recs) => {
-      setFriendRecs(recs);
+      setFriendRecs(recs.slice(0, MAX_MOVIES_PER_LIST));
     });
   }
 
   return (
-    <main>
+    <>
       {reviews == null || friendRecs == null ? (
         <>
           <Typography>Loading...</Typography>
@@ -57,6 +57,6 @@ export default function SocialPage() {
           </Stack>
         </>
       )}
-    </main>
+    </>
   );
 }
