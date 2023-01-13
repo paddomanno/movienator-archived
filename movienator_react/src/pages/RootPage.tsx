@@ -7,6 +7,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import React, { useEffect, useState } from 'react';
 import { User } from '../types/User';
 import { getOneUserToUserId } from '../services/UserService';
+import GroupsIcon from '@mui/icons-material/Groups';
 
 export default function RootPage() {
   const SIZE_PROFILEIMAGE = 50;
@@ -31,28 +32,35 @@ export default function RootPage() {
     }
   }
 
-  function homeClick(e: any) {
-    e.preventDefault();
-    navigate('/home');
-  }
-
-  function profileClick(e: any) {
-    e.preventDefault();
-    navigate('/profile');
-  }
-
   return (
     <div>
       <Stack direction={'row'} justifyContent={'space-between'}>
-        <IconButton onClick={homeClick}>
-          <LiveTvIcon />
-        </IconButton>
+        <Stack direction={'row'} spacing={1}>
+          <IconButton
+            onClick={() => {
+              navigate('/home');
+            }}
+          >
+            <LiveTvIcon />
+          </IconButton>
+          <IconButton
+            onClick={() => {
+              navigate('/socialPage');
+            }}
+          >
+            <GroupsIcon />
+          </IconButton>
+        </Stack>
         <Typography variant={'h3'}>Movienator3000</Typography>
         <Stack direction={'row'} spacing={1}>
           {user != null ? (
             <>
               {user.profileImage != null ? (
-                <IconButton onClick={profileClick}>
+                <IconButton
+                  onClick={() => {
+                    navigate('/profile');
+                  }}
+                >
                   <Avatar
                     alt={user.userName}
                     sx={{ width: SIZE_PROFILEIMAGE, height: SIZE_PROFILEIMAGE }}
@@ -60,7 +68,11 @@ export default function RootPage() {
                   ></Avatar>
                 </IconButton>
               ) : (
-                <IconButton onClick={profileClick}>
+                <IconButton
+                  onClick={() => {
+                    navigate('/profile');
+                  }}
+                >
                   <Avatar>
                     {user.firstName.at(0)}
                     {user.lastName.at(0)}

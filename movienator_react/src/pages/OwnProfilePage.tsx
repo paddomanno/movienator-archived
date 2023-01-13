@@ -10,7 +10,6 @@ import OwnProfileUsersLists from '../components/OwnProfileComponents/OwnProfileU
 import { Review } from '../types/Review';
 import { getAllReviewsToUserId } from '../services/ReviewService';
 import ReviewListWithText from '../components/ListComponents/ReviewListWithText';
-import OwnProfileUserSearch from '../components/OwnProfileComponents/OwnProfileUserSearch';
 import { getAllRecommendationsFromUserId } from '../services/RecommendationService';
 import { Recommendation } from '../types/Recommendation';
 import OwnProfileRecommendationList from '../components/RecommendationComponents/OwnProfileRecommendationList';
@@ -61,8 +60,10 @@ export default function OwnProfilePage() {
             />
             <OwnProfileUsersLists title="You follow:" users={user.following} />
           </Stack>
-          <OwnProfileUserSearch />
-          <OwnProfileRecommendationList recs={userRecs} reloadRecs={reloadRecs} />
+          <OwnProfileRecommendationList
+            recs={userRecs}
+            reloadRecs={reloadRecs}
+          />
           <ReviewListWithText
             reviews={userReviews}
             showMovie={true}

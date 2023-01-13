@@ -13,6 +13,7 @@ import React from 'react';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Recommendation } from '../../../types/Recommendation';
 import { deleteRecommendation } from '../../../services/RecommendationService';
+import UserCard from '../../SingleItemComponents/UserCard';
 
 type Props = {
   rec: Recommendation;
@@ -37,10 +38,7 @@ export default function SentRecommendation({ rec, reloadRecs }: Props) {
       <CardContent>
         <Stack direction={'column'} spacing={1}>
           <Stack direction={'row'} spacing={1} alignItems={'center'}>
-            <Stack direction={'column'} spacing={1} alignItems={'center'}>
-              <OtherUserAvatar user={rec.receivingUser!!} />
-              <Typography>{rec.receivingUser!!.userName}</Typography>
-            </Stack>
+            <UserCard user={rec.receivingUser!!} clickable={true} />
             <Card sx={{ flexGrow: 1 }}>
               <CardContent>
                 <Typography variant={'h5'}>

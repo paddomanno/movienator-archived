@@ -17,11 +17,7 @@ export default function OwnProfileUsersLists({ title, users }: Props) {
       >
         <CardContent>
           <Typography variant="h5">{title}</Typography>
-          {users.length != 0 ? (
-            <UsersList users={users} />
-          ) : (
-            <Typography variant="body1">None</Typography>
-          )}
+          {users.length != 0 ? <UsersList users={users} /> : <></>}
         </CardContent>
       </Card>
     </>

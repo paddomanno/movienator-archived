@@ -9,7 +9,6 @@ import UserCard from '../UserCard';
 import React from 'react';
 
 export default function ReviewCardWithUser({ review }: SingleReviewProps) {
-  let avatar;
   let titleAndDate;
   let stars;
   if (review.review_user != null) {
@@ -31,7 +30,6 @@ export default function ReviewCardWithUser({ review }: SingleReviewProps) {
         ))}
       </Stack>
     );
-    avatar = <OtherUserAvatar user={review.review_user} />;
   }
   return (
     <Card sx={{ backgroundColor: grey.A200 }}>
@@ -69,7 +67,7 @@ export default function ReviewCardWithUser({ review }: SingleReviewProps) {
               <Typography>
                 {new Date(review.lastUpdated).toDateString()}
               </Typography>
-              <UserCard user={review.review_user} />
+              <UserCard user={review.review_user} clickable={true} />
             </Stack>
           </Stack>
         ) : (

@@ -2,15 +2,20 @@ import { useNavigate } from 'react-router-dom';
 import { Avatar, IconButton } from '@mui/material';
 import React from 'react';
 import { SingleUserProps } from '../../props/UserProps';
+import { User } from '../../types/User';
 
-export default function OtherUserAvatar({ user }: SingleUserProps) {
+type Props = {
+  user: User;
+  clickable: boolean;
+};
+export default function OtherUserAvatar({ user, clickable }: Props) {
   const IMAGE_SIZE = 50;
   const navigate = useNavigate();
   function manageClick() {
     navigate('/user/' + user.userId);
   }
   return (
-    <IconButton onClick={manageClick}>
+    <IconButton onClick={clickable ? manageClick : () => {}}>
       {user.profileImage?.ressourceLink !== undefined ? (
         <Avatar
           sx={{ width: IMAGE_SIZE, height: IMAGE_SIZE }}
