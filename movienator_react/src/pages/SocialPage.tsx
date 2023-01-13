@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { Stack, Typography } from '@mui/material';
 import RecommendationListOneLine from '../components/RecommendationComponents/RecommendationListOneLine';
 import ReviewsListHomePage from '../components/ListComponents/ReviewsListHomePage';
-import OwnProfileUserSearch from '../components/GeneralComponents/OwnProfileUserSearch';
+import UserSearch from '../components/GeneralComponents/UserSearch';
 
 export default function SocialPage() {
   const MAX_MOVIES_PER_LIST = 10;
@@ -47,7 +47,7 @@ export default function SocialPage() {
       ) : (
         <>
           <Stack direction={'column'} spacing={1}>
-            <OwnProfileUserSearch />
+            <UserSearch />
             <RecommendationListOneLine
               recs={friendRecs}
               reloadRecs={reloadRecs}

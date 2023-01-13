@@ -11,10 +11,13 @@ import {
 import { grey } from '@mui/material/colors';
 import OwnProfileUsersLists from '../OwnProfileComponents/OwnProfileUsersLists';
 import { User } from '../../types/User';
-import { searchUsersByUserNameQuery } from '../../services/UserService';
+import {
+  getAllUsers,
+  searchUsersByUserNameQuery,
+} from '../../services/UserService';
 
-export default function OwnProfileUserSearch() {
-  const [searchWord, setSearchWord] = useState<string | undefined>();
+export default function UserSearch() {
+  const [searchWord, setSearchWord] = useState<string>('');
   const [users, setUsers] = useState<User[]>([]);
 
   function handleChange(e: any) {
@@ -24,9 +27,21 @@ export default function OwnProfileUserSearch() {
   }
 
   useEffect(() => {
-    if (searchWord !== undefined) {
+    getAllUsers().then((res) => {
+      console.log('USers');
+      setUsers(res.slice(1, 10));
+    });
+  }, []);
+
+  useEffect(() => {
+    if (searchWord !== '') {
       searchUsersByUserNameQuery(searchWord).then((res) => {
         setUsers(res);
+      });
+    } else {
+      getAllUsers().then((res) => {
+        console.log('USers');
+        setUsers(res.slice(1, 10));
       });
     }
   }, [searchWord]);
