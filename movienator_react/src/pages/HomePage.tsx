@@ -29,8 +29,6 @@ export default function HomePage() {
   const [watchlist, setWatchlist] = useState<Movie[] | null>(null);
   const [popular, setPopular] = useState<Movie[] | null>(null);
   const [recommendations, setRecommendations] = useState<Movie[] | null>(null);
-  const [friendRecs, setFriendRecs] = useState<Recommendation[] | null>(null);
-  const [reviews, setReviews] = useState<Review[] | null>(null);
   const [genres, setGenres] = useState<Genre[] | null>(null);
   const [cookies] = useCookies(['userName', 'userId']);
 
@@ -48,33 +46,17 @@ export default function HomePage() {
     getUserRecommendationsToUserId(cookies.userId as number).then((movies) => {
       setRecommendations(movies.slice(0, MAX_MOVIES_PER_LIST));
     });
-    getAllReviewsOfFollowingToUserId(cookies.userId as number).then(
-      (reviews) => {
-        setReviews(reviews.slice(0, MAX_MOVIES_PER_LIST));
-      }
-    );
-    getAllRecommendationsForUserId(cookies.userId as number).then((recs) => {
-      setFriendRecs(recs);
-    });
     getAllGenres().then((genres) => {
       setGenres(genres);
     });
   }, []);
-
-  function reloadRecs() {
-    getAllRecommendationsForUserId(cookies.userId as number).then((recs) => {
-      setFriendRecs(recs);
-    });
-  }
 
   return (
     <main>
       {watchlist == null ||
       popular == null ||
       recommendations == null ||
-      reviews == null ||
-      genres == null ||
-      friendRecs == null ? (
+      genres == null ? (
         <>
           <Typography>Loading...</Typography>
         </>
@@ -109,12 +91,6 @@ export default function HomePage() {
               title="Recommendations For You"
               handleClick={() => navigate('/recommendations')}
             />
-            <RecommendationListOneLine
-              recs={friendRecs}
-              reloadRecs={reloadRecs}
-              handleClick={() => navigate('/friendRecommendations')}
-            />
-            <ReviewsListHomePage reviews={reviews} />
             <AllGenresList genres={genres} />
           </Stack>
         </>

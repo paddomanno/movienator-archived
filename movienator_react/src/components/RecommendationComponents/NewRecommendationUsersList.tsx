@@ -1,4 +1,10 @@
-import { Card, CardContent, IconButton, Typography } from '@mui/material';
+import {
+  Card,
+  CardContent,
+  IconButton,
+  Stack,
+  Typography,
+} from '@mui/material';
 import { grey, orange } from '@mui/material/colors';
 import UsersList from '../ListComponents/UsersList';
 import { User } from '../../types/User';
@@ -21,7 +27,7 @@ export default function NewRecommendationUsersList({
       <Card sx={{ backgroundColor: grey.A200, flexGrow: 1 }}>
         <CardContent>
           {users.length != 0 ? (
-            <Grid2 container spacing={1}>
+            <Stack spacing={1} direction={'row'} overflow={'auto'}>
               {users.map((user) => (
                 <Grid2>
                   <IconButton
@@ -33,11 +39,11 @@ export default function NewRecommendationUsersList({
                       handleChange(user.userId != null ? user.userId : -1);
                     }}
                   >
-                    <UserCard user={user} />
+                    <UserCard user={user} clickable={false} />
                   </IconButton>
                 </Grid2>
               ))}
-            </Grid2>
+            </Stack>
           ) : (
             <Typography variant="body1">None</Typography>
           )}

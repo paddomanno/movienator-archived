@@ -15,6 +15,7 @@ import MovieSearchPage from './pages/MovieSearchPage';
 import ActorSearchPage from './pages/ActorSearchPage';
 import ActorMoviesPage from './pages/ActorMoviesPage';
 import PopularPage from './pages/PopularPage';
+import SocialPage from './pages/SocialPage';
 
 let router = createBrowserRouter([
   {
@@ -77,6 +78,10 @@ let router = createBrowserRouter([
       {
         path: '/popular',
         element: <PopularPage />,
+      },
+      {
+        path: '/socialPage',
+        element: <SocialPage />,
       },
     ],
   },

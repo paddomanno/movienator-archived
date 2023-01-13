@@ -59,7 +59,7 @@ export default function ReviewCardWithUserAndMovie({
               <Typography>
                 {new Date(review.lastUpdated).toDateString()}
               </Typography>
-              <UserCard user={review.review_user} />
+              <UserCard user={review.review_user} clickable={true} />
             </Stack>
           </Stack>
         ) : (
