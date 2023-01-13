@@ -3,6 +3,7 @@ import Actor from '../entity/actor';
 import Review from '../entity/review';
 import Genre from '../entity/genre';
 import User from '../entity/user';
+import WatchProvider from '../entity/watchProvider';
 
 const expressExtern = require('express');
 const externRouter = expressExtern.Router();
@@ -143,6 +144,7 @@ async function getMoviesToQuery(
 //Returns a list of movies that fit this search word
 //The actors array is NOT filled
 //The genre array IS filled
+//The watchProviders array is NOT filles
 //see search/movies
 externRouter.get('/search/movie/:word', async (req, res) => {
   try {
@@ -274,6 +276,7 @@ externRouter.get('/movie/one/:id', async (req, res) => {
 //Returns a list of Movies that this actor has played in
 //The actors array is NOT filled
 //The genre array IS filled
+//The watchProvider array is NOT filled
 externRouter.get('/movies/actor/:id', async (req, res) => {
   const MAX_RESULTS = 70;
   try {
@@ -310,6 +313,7 @@ externRouter.get('/movies/actor/:id', async (req, res) => {
 //Returns a list of movies that this user might like
 //The actors array is NOT filled
 //The genre array IS filled
+//The watchProvider array is NOT filled
 externRouter.get('/user/:uId/recommendations', async (req, res) => {
   const MAX_DIF_REVIEWS: number = 10;
   const MAX_REC_PER_REVIEW: number = 2;
@@ -405,6 +409,7 @@ externRouter.get('/movie/:mId/recommendations', async (req, res) => {
 //Returns a list of the currently popular movies
 //The actors array is NOT filled
 //The genre array IS filled
+//The watchProvider array is NOT filled
 //See movie/popular
 externRouter.get('/popular', async (req, res) => {
   try {
@@ -509,5 +514,72 @@ externRouter.get('/genre/:id', async (req, res) => {
     res.status(500).json();
   }
 });
+
+// Returns all watchProviders available (US)
+// Movies are not filled
+externRouter.get('/watchProviders', async (req, res) => {
+  try {
+    let resProviders: WatchProvider[] = [];
+    let watchRegion: string = 'US';
+    let query: string =
+      BASE_URL +
+      `/watch/providers/movie?` +
+      `api_key=${API_KEY}&&watch_region=${watchRegion}`;
+    let providersRes = await axios.get(query, {
+      headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
+      params: { trophies: true },
+    });
+    if (providersRes.status == 200) {
+      providersRes.data.results.forEach((provider) => {
+        let newWP: WatchProvider = new WatchProvider();
+        newWP.providerId = provider.provider_id;
+        newWP.providerName = provider.provider_name;
+        resProviders.push(newWP);
+      });
+      res.status(200).json({
+        data: resProviders,
+      });
+    } else {
+      res.status(500).json();
+    }
+  } catch (er) {
+    console.log(er);
+    res.status(500).json();
+  }
+});
+
+// Returns the watchProviders for this movie id in the US
+externRouter.get('/watchProviders/:id'),
+  async (req, res) => {
+    try {
+      if (isNaN(+req.params.id)) {
+        throw 'Not a valid number';
+      }
+      let movieId: number = parseInt(req.params.id);
+      let resProvider: WatchProvider = null;
+      let query: string =
+        BASE_URL + `/movie/${movieId}/watch/providers?api_key=${API_KEY}`;
+      let watchProviders = await axios.get(query, {
+        headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
+        params: { trophies: true }, // was ist das?
+      });
+      if (watchProviders.status == 200) {
+        watchProviders.data.results.US.flatrate.forEach((provider) => {
+          // -
+          resProvider = new WatchProvider();
+          resProvider.providerId = provider.provider_id;
+          resProvider.providerName = provider.provider_name;
+        });
+        res.status(200).json({
+          data: watchProviders.data.results.US.flatrate,
+        });
+      } else {
+        res.status(500).json();
+      }
+    } catch (er) {
+      console.log(er);
+      res.status(500).json();
+    }
+  };
 
 module.exports = externRouter;
