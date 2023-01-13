@@ -15,6 +15,7 @@ const userRouter = require('./routes/users');
 const externRouter = require('./routes/extern');
 const genreRouter = require('./routes/genres');
 const recommendationRouter = require('./routes/recommendations');
+const watchProvider = require('./routes/watchProviders');
 
 //Use Body Parser to read http bodies
 app.use(bodyParser.json());
@@ -31,5 +32,6 @@ app.use('/user', userRouter);
 app.use('/extern', externRouter);
 app.use('/genre', genreRouter);
 app.use('/recommendation', recommendationRouter);
+app.use('/watchProvider', watchProvider);
 
 export default app;

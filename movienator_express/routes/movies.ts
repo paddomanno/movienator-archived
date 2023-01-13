@@ -12,7 +12,12 @@ const movieRouter = expressMovie.Router();
 movieRouter.get('/all', async (req, res) => {
   try {
     const allMovies: Movie[] = await Movie.find({
-      relations: { actors: true, reviews: true, genres: true },
+      relations: {
+        actors: true,
+        reviews: true,
+        genres: true,
+        watchProviders: true,
+      },
     });
     allMovies.sort((a, b) => a.title.localeCompare(b.title));
     res.status(200).json({
@@ -32,7 +37,12 @@ movieRouter.get('/one/:id', async (req, res) => {
     }
     const oneMovie: Movie = await Movie.findOne({
       where: { movieId: parseInt(req.params.id) },
-      relations: { actors: true, reviews: true, genres: true },
+      relations: {
+        actors: true,
+        reviews: true,
+        genres: true,
+        watchProviders: true,
+      },
     });
     if (oneMovie) {
       res.status(200).json({
@@ -87,6 +97,7 @@ movieRouter.get('/user/:id', async (req, res) => {
         'reviews.review_movie.reviews',
         'reviews.review_movie.actors',
         'reviews.review_movie.genres',
+        'reviews.review_movie.watchProviders',
       ],
     });
 
@@ -121,6 +132,7 @@ movieRouter.get('/watchlist/:uId', async (req, res) => {
         'watchlist.actors',
         'watchlist.reviews',
         'watchlist.genres',
+        'watchlist.watchProviders',
       ],
     });
     if (user != null) {
@@ -149,7 +161,12 @@ movieRouter.get('/time/min/:min', async (req, res) => {
       where: {
         lengthMinutes: MoreThanOrEqual(min),
       },
-      relations: { reviews: true, actors: true, genres: true },
+      relations: {
+        reviews: true,
+        actors: true,
+        genres: true,
+        watchProviders: true,
+      },
     });
     movies.sort((a, b) => a.title.localeCompare(b.title));
     res.status(200).json({
@@ -172,7 +189,12 @@ movieRouter.get('/time/max/:max', async (req, res) => {
       where: {
         lengthMinutes: LessThanOrEqual(max),
       },
-      relations: { reviews: true, actors: true, genres: true },
+      relations: {
+        reviews: true,
+        actors: true,
+        genres: true,
+        watchProviders: true,
+      },
     });
     movies.sort((a, b) => a.title.localeCompare(b.title));
     res.status(200).json({
@@ -200,7 +222,12 @@ movieRouter.get('/date/:min/:max', async (req, res) => {
       where: {
         releaseDate: Between<Date>(dateMin, dateMax),
       },
-      relations: { reviews: true, actors: true, genres: true },
+      relations: {
+        reviews: true,
+        actors: true,
+        genres: true,
+        watchProviders: true,
+      },
     });
     movies.sort((a, b) => a.title.localeCompare(b.title));
     res.status(200).json({
@@ -217,7 +244,12 @@ movieRouter.get('/name/:word', async (req, res) => {
   try {
     const movies: Movie[] = await Movie.find({
       where: { title: ILike(`%${req.params.word}%`) },
-      relations: { reviews: true, actors: true, genres: true },
+      relations: {
+        reviews: true,
+        actors: true,
+        genres: true,
+        watchProviders: true,
+      },
     });
     movies.sort((a, b) => a.title.localeCompare(b.title));
     res.status(200).json({
@@ -236,7 +268,12 @@ movieRouter.get('/rating/:min', async (req, res) => {
       throw 'Not a valid rating';
     }
     const movies: Movie[] = await Movie.find({
-      relations: { reviews: true, actors: true, genres: true },
+      relations: {
+        reviews: true,
+        actors: true,
+        genres: true,
+        watchProviders: true,
+      },
     });
     let minMovies: Movie[] = movies.filter((movie) => {
       let numReviews: number = 0;
@@ -311,6 +348,7 @@ movieRouter.get('/mutual/watchlist/:aId/:bId', async (req, res) => {
         'watchlist.actors',
         'watchlist.reviews',
         'watchlist.genres',
+        'watchlist.watchProviders',
       ],
     });
     let userB = await User.findOne({
@@ -320,6 +358,7 @@ movieRouter.get('/mutual/watchlist/:aId/:bId', async (req, res) => {
         'watchlist.actors',
         'watchlist.reviews',
         'watchlist.genres',
+        'watchlist.watchProviders',
       ],
     });
     if (userA && userB) {
@@ -358,6 +397,7 @@ movieRouter.get('/mutual/review/:aId/:bId', async (req, res) => {
           'review_movie.genres',
           'review_movie.actors',
           'review_movie.reviews',
+          'review_movie.watchProviders',
         ],
       });
       let userBReviews = await Review.find({
@@ -367,6 +407,7 @@ movieRouter.get('/mutual/review/:aId/:bId', async (req, res) => {
           'review_movie.genres',
           'review_movie.actors',
           'review_movie.reviews',
+          'review_movie.watchProviders',
         ],
       });
       let resReviews = userAReviews.filter((reviewA) =>
@@ -391,6 +432,7 @@ movieRouter.get('/mutual/review/:aId/:bId', async (req, res) => {
 //First check if the movie exists already, if not, insert it
 //Actors should be set already and inserted / updated at the same time
 //Genres should be set already and inserted / updated at the same time
+//WatchProviders should be set already and inserted / updated at the same time
 movieRouter.post('/', async (req, res?) => {
   try {
     let newMovie: Movie = req.body as Movie;
@@ -402,7 +444,12 @@ movieRouter.post('/', async (req, res?) => {
     }
     newMovie = await Movie.findOne({
       where: { movieId: newMovie.movieId },
-      relations: { actors: true, reviews: true, genres: true },
+      relations: {
+        actors: true,
+        reviews: true,
+        genres: true,
+        watchProviders: true,
+      },
     });
     res.status(201).json({
       data: newMovie,
@@ -428,7 +475,8 @@ movieRouter.put('/', async (req, res?) => {
           key != 'movieId' &&
           key != 'reviews' &&
           key != 'actors' &&
-          key != 'genres'
+          key != 'genres' &&
+          key != 'watchProviders'
         ) {
           movie[key] = movieBody[key];
         }
