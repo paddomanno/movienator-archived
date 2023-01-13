@@ -6,7 +6,6 @@ import { Stack } from '@mui/material';
 
 function UsersList({ users }: UserListProps) {
   return (
-    // TODO: lieber List mit ListItem's ?
     <>
       <Stack direction={'row'} spacing={1} overflow={'auto'}>
         {users.map((user) => (

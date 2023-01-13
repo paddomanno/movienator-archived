@@ -1,6 +1,6 @@
 import SentRecommendation from './SentRecommendation';
 import { Recommendation } from '../../../types/Recommendation';
-import ReceivedRecommendationShort from './ReceivedRecommendationShort';
+import ReceivedRecommendation from './ReceivedRecommendation';
 
 type Props = {
   variant: 'showFrom' | 'showFromShort' | 'showFor';
@@ -15,7 +15,7 @@ export default function RecommendationView({
   if (variant == 'showFrom') {
   }
   if (variant == 'showFromShort') {
-    return <ReceivedRecommendationShort rec={rec} reloadRecs={reloadRecs} />;
+    return <ReceivedRecommendation rec={rec} reloadRecs={reloadRecs} />;
   }
   if (variant == 'showFor') {
     return <SentRecommendation rec={rec} reloadRecs={reloadRecs} />;

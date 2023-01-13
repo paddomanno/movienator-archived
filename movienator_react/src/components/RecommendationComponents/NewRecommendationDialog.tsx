@@ -22,6 +22,8 @@ import { postOrUpdateRecommendation } from '../../services/RecommendationService
 import { useCookies } from 'react-cookie';
 import { Recommendation } from '../../types/Recommendation';
 import { Movie } from '../../types/Movie';
+import { getContainsHateSpeech } from '../../services/ExternService';
+import { createMovie } from '../../services/MovieService';
 
 type props = {
   open: boolean;
@@ -77,17 +79,31 @@ export default function NewRecommendationDialog({
       sendingUser: null,
       receivingUser: null,
     };
-    postOrUpdateRecommendation(rec).then((res) => {
-      if (!res) {
-        setSnackBarMessage('Error Saving Recommendation');
+    getContainsHateSpeech(curMessage).then((response) => {
+      if (response.data) {
+        setSnackBarMessage('Profanity detected');
         setSeverity('error');
         showMessage();
       } else {
-        setSnackBarMessage('Recommendation sent');
-        setSeverity('success');
-        showMessage();
-        setForUserId(-1);
-        setOpen(false);
+        createMovie(movie).then((resMovie) => {
+          if (resMovie) {
+            postOrUpdateRecommendation(rec).then((res) => {
+              if (!res) {
+                setSnackBarMessage('Error Saving Recommendation');
+                setSeverity('error');
+                showMessage();
+              } else {
+                setSnackBarMessage('Recommendation sent');
+                setSeverity('success');
+                showMessage();
+                setForUserId(-1);
+                setOpen(false);
+              }
+            });
+          } else {
+            console.log('Error saving Movie');
+          }
+        });
       }
     });
   }
