@@ -17,6 +17,7 @@ import ActorMoviesPage from './pages/ActorMoviesPage';
 import PopularPage from './pages/PopularPage';
 import SocialPage from './pages/SocialPage';
 import FriendRecommendationsPage from './pages/FriendRecommendationsPage';
+import WatchPartyPage from './pages/WatchPartyPage';
 
 let router = createBrowserRouter([
   {
@@ -87,6 +88,10 @@ let router = createBrowserRouter([
       {
         path: '/friendRecommendations',
         element: <FriendRecommendationsPage />,
+      },
+      {
+        path: '/watchparty',
+        element: <WatchPartyPage />,
       },
     ],
   },
