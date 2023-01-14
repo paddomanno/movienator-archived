@@ -2,6 +2,7 @@ import { Movie } from '../types/Movie';
 import { Actor } from '../types/Actor';
 import axios from 'axios';
 import { Genre } from '../types/Genre';
+import { WatchProvider } from '../types/WatchProvider';
 
 const baseUrl: string = 'http://localhost:8080/extern';
 export async function getMoviesToName(
@@ -188,4 +189,34 @@ export async function getContainsHateSpeech(inputText: string): Promise<any> {
       'X-RapidAPI-Host': 'community-purgomalum.p.rapidapi.com',
     },
   });
+}
+
+export async function getAllWatchProvidersUS(): Promise<WatchProvider[]> {
+  let resArray: WatchProvider[] = [];
+  try {
+    let response = await axios.get(baseUrl + '/watchProviders');
+    if (response.status === 200) {
+      resArray = response.data.data as WatchProvider[];
+    }
+  } catch (e) {
+    console.log('Error fetching Watch Providers: ' + e);
+  }
+  return resArray;
+}
+
+export async function getAllWatchProvidersForMovie(
+  movieId: number
+): Promise<WatchProvider[]> {
+  let resArray: WatchProvider[] = [];
+  try {
+    let response = await axios.get(
+      baseUrl + `/watchProviders/movie/${movieId}`
+    );
+    if (response.status === 200) {
+      resArray = response.data.data as WatchProvider[];
+    }
+  } catch (e) {
+    console.log('Error fetching Watch Providers: ' + e);
+  }
+  return resArray;
 }
