@@ -16,6 +16,7 @@ import {
   getOneUserToUserId,
   insertFollowingToUserIdAndUserId,
 } from '../../services/UserService';
+import { getRecommendationForUserList } from '../../services/RecommendationService';
 
 type props = {
   user: User;
@@ -33,6 +34,9 @@ export default function OtherProfileDetails({ user, reloadViewedUser }: props) {
   const [cookies] = useCookies(['userName', 'userId']);
 
   useEffect(() => {
+    //let testInput: User[] = [];
+    //testInput.push(viewedUser!);
+    // getRecommendationForUserList(testInput);
     //We dont check if there is a username in the cookies, since the parent component already does that
     getOneUserToUserId(cookies.userName).then((user) => {
       console.log(
