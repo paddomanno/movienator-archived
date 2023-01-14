@@ -6,9 +6,6 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import ShareIcon from '@mui/icons-material/Share';
-import ReviewsIcon from '@mui/icons-material/Reviews';
 import { grey } from '@mui/material/colors';
 import { User } from '../../types/User';
 import { useEffect, useState } from 'react';
@@ -19,6 +16,7 @@ import {
   getOneUserToUserId,
   insertFollowingToUserIdAndUserId,
 } from '../../services/UserService';
+import { getRecommendationForUserList } from '../../services/RecommendationService';
 
 type props = {
   user: User;
@@ -36,6 +34,9 @@ export default function OtherProfileDetails({ user, reloadViewedUser }: props) {
   const [cookies] = useCookies(['userName', 'userId']);
 
   useEffect(() => {
+    //let testInput: User[] = [];
+    //testInput.push(viewedUser!);
+    // getRecommendationForUserList(testInput);
     //We dont check if there is a username in the cookies, since the parent component already does that
     getOneUserToUserId(cookies.userName).then((user) => {
       console.log(

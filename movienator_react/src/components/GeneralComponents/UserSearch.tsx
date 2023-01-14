@@ -28,7 +28,6 @@ export default function UserSearch() {
 
   useEffect(() => {
     getAllUsers().then((res) => {
-      console.log('USers');
       setUsers(res.slice(1, 10));
     });
   }, []);
@@ -40,7 +39,6 @@ export default function UserSearch() {
       });
     } else {
       getAllUsers().then((res) => {
-        console.log('USers');
         setUsers(res.slice(1, 10));
       });
     }

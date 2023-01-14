@@ -1,5 +1,4 @@
 import Grid2 from '@mui/material/Unstable_Grid2';
-import React from 'react';
 import UserCard from '../SingleItemComponents/UserCard';
 import { UserListProps } from '../../props/UserProps';
 import { Stack } from '@mui/material';
