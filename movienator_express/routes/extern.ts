@@ -549,29 +549,29 @@ externRouter.get('/watchProviders', async (req, res) => {
 });
 
 // Returns the watchProviders for this movie id in the US
-externRouter.get('/watchProviders/:id'),
+externRouter.get('/watchProviders/movie/:id'),
   async (req, res) => {
     try {
       if (isNaN(+req.params.id)) {
         throw 'Not a valid number';
       }
       let movieId: number = parseInt(req.params.id);
-      let resProvider: WatchProvider = null;
+      let resProviders: WatchProvider[] = [];
       let query: string =
         BASE_URL + `/movie/${movieId}/watch/providers?api_key=${API_KEY}`;
       let watchProviders = await axios.get(query, {
         headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
-        params: { trophies: true }, // was ist das?
+        params: { trophies: true },
       });
       if (watchProviders.status == 200) {
         watchProviders.data.results.US.flatrate.forEach((provider) => {
-          // -
-          resProvider = new WatchProvider();
-          resProvider.providerId = provider.provider_id;
-          resProvider.providerName = provider.provider_name;
+          let newWP: WatchProvider = new WatchProvider();
+          newWP.providerId = provider.provider_id;
+          newWP.providerName = provider.provider_name;
+          resProviders.push(newWP);
         });
         res.status(200).json({
-          data: watchProviders.data.results.US.flatrate,
+          data: resProviders,
         });
       } else {
         res.status(500).json();

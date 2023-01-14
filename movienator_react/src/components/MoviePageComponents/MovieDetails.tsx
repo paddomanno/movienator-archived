@@ -78,7 +78,6 @@ export default function MovieDetails({ movie }: SingleMovieProps) {
 
   let watchProviderComp = (
     <>
-      <Typography>TEST</Typography>
       {movie.watchProviders.length != 0 ? (
         <Card sx={{ backgroundColor: grey.A100 }}>
           <CardContent>
@@ -98,7 +97,9 @@ export default function MovieDetails({ movie }: SingleMovieProps) {
         </Card>
       ) : (
         <>
-          <Typography>Currently not available for streaming.</Typography>
+          <Typography>
+            Currently not available for streaming in the US.
+          </Typography>
         </>
       )}
     </>
@@ -215,7 +216,7 @@ export default function MovieDetails({ movie }: SingleMovieProps) {
       </Card>
       {videoComp}
       {actorComp}
-      {/* {watchProviderComp} */}
+      {watchProviderComp}
     </Stack>
   );
 

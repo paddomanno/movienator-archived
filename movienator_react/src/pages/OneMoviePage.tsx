@@ -3,7 +3,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Movie } from '../types/Movie';
 import MovieDetails from '../components/MoviePageComponents/MovieDetails';
-import { getActorsToMovie, getOneMovieToId } from '../services/ExternService';
+import {
+  getActorsToMovie,
+  getAllWatchProvidersForMovie,
+  getOneMovieToId,
+} from '../services/ExternService';
 import { User } from '../types/User';
 import { getFollowingToUserIdWithMovieIdOnWatchlist } from '../services/UserService';
 import { Review } from '../types/Review';
@@ -38,6 +42,10 @@ export default function OneMoviePage() {
         if (movie != null) {
           getActorsToMovie(movie.movieId).then((actors) => {
             movie.actors = actors;
+            setMovie(movie);
+          });
+          getAllWatchProvidersForMovie(movie.movieId).then((providers) => {
+            movie.watchProviders = providers;
             setMovie(movie);
           });
         }
