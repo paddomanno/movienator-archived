@@ -23,7 +23,7 @@ export async function getOneMovieToId(movieId: number): Promise<Movie | null> {
       resMovie = response.data.data as Movie;
     }
   } catch (e) {
-    console.log('Error fetching Genres: ' + e);
+    console.log('Error fetching Movie: ' + e);
   }
   return resMovie;
 }
