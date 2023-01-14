@@ -14,20 +14,26 @@ export default function OtherUserAvatar({ user, clickable }: Props) {
   function manageClick() {
     navigate('/user/' + user.userId);
   }
-  return (
-    <IconButton onClick={clickable ? manageClick : () => {}}>
-      {user.profileImage?.ressourceLink !== undefined ? (
-        <Avatar
-          sx={{ width: IMAGE_SIZE, height: IMAGE_SIZE }}
-          alt={user.userName}
-          src={`${process.env.PUBLIC_URL}/Images/ProfileImages/${user.profileImage.ressourceLink}.png`}
-        ></Avatar>
-      ) : (
-        <Avatar sx={{ width: IMAGE_SIZE, height: IMAGE_SIZE }}>
-          {user.firstName.at(0)}
-          {user.lastName.at(0)}
-        </Avatar>
-      )}
+
+  const content =
+    user.profileImage?.ressourceLink !== undefined ? (
+      <Avatar
+        sx={{ width: IMAGE_SIZE, height: IMAGE_SIZE }}
+        alt={user.userName}
+        src={`${process.env.PUBLIC_URL}/Images/ProfileImages/${user.profileImage.ressourceLink}.png`}
+      ></Avatar>
+    ) : (
+      <Avatar sx={{ width: IMAGE_SIZE, height: IMAGE_SIZE }}>
+        {user.firstName.at(0)}
+        {user.lastName.at(0)}
+      </Avatar>
+    );
+
+  return clickable ? (
+    <IconButton {...(clickable && { onClick: manageClick })}>
+      {content}
     </IconButton>
+  ) : (
+    <>{content}</>
   );
 }
