@@ -18,6 +18,11 @@ import { getOneUserToUserId } from '../services/UserService';
 import WatchPartyGroupList from '../components/WatchPartyPageComponents/WatchPartyGroupList';
 import WatchPartyAddUsersList from '../components/WatchPartyPageComponents/WatchPartyAddUsersList';
 import Fuse from 'fuse.js';
+import {
+  getMoviesToMovieNameSearchQuery,
+  getOneMovieToId,
+} from '../services/MovieService';
+import MoviesList from '../components/ListComponents/MoviesList';
 export default function WatchPartyPage() {
   const navigate = useNavigate();
   const [recommendedMovies, setRecommendedMovies] = useState<Movie[] | null>(
@@ -92,6 +97,27 @@ export default function WatchPartyPage() {
     }
   }
 
+  function handleSubmit() {
+    let dummyMovies: Movie[] = [];
+    for (const id of [315162, 675353, 808]) {
+      console.log(`getting ${id}`);
+      getOneMovieToId(id).then((movie) => {
+        console.log(`got ${movie}`);
+        if (movie) dummyMovies.push(movie);
+      });
+    }
+    // getMoviesToMovieNameSearchQuery('shrek').then((movies) => {
+    //   console.log(`Res: ${movies}`);
+    //   if (movies[0]) dummyMovies.push(movies[0]);
+    // });
+    console.log(`Recommending movies: ${dummyMovies}`);
+    if (dummyMovies) {
+      setRecommendedMovies(dummyMovies);
+    } else {
+      throw new Error('Error getting watch party movie recommendations');
+    }
+  }
+
   return (
     <Stack direction={'column'} spacing={1}>
       <Typography>
@@ -151,6 +177,10 @@ export default function WatchPartyPage() {
           </Card>
         </Grid>
       </Grid>
+      <Button variant="contained" size="large" onClick={handleSubmit}>
+        Give me movies!
+      </Button>
+      {recommendedMovies && <MoviesList movies={recommendedMovies} />}
     </Stack>
   );
 }
