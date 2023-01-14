@@ -6,9 +6,6 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import ShareIcon from '@mui/icons-material/Share';
-import ReviewsIcon from '@mui/icons-material/Reviews';
 import { grey } from '@mui/material/colors';
 import { User } from '../../types/User';
 import { useEffect, useState } from 'react';
