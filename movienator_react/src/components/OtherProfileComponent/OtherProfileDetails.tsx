@@ -36,13 +36,15 @@ export default function OtherProfileDetails({ user, reloadViewedUser }: props) {
   useEffect(() => {
     //let testInput: User[] = [];
     //testInput.push(viewedUser!);
-    // getRecommendationForUserList(testInput);
+
     //We dont check if there is a username in the cookies, since the parent component already does that
     getOneUserToUserId(cookies.userName).then((user) => {
       console.log(
         'Amount of users the logged in user is following ' +
           user?.following.length
       );
+      let testInput: User[] = user?.following!;
+      getRecommendationForUserList(testInput);
       getFollowingToUserId(user?.userId as number).then((following) => {
         //If the currently viewed user is contained in 'following' of the logged in user, the state following is set to true
         let followingTemp: boolean = false;
