@@ -104,6 +104,7 @@ export async function deleteRecommendation(
 }
 
 type movieWithScore = {
+  score: number;
   movieId: number;
   title: string;
   overview: string;
@@ -129,12 +130,28 @@ export async function getRecommendationForUserList(
     currentWatchList.forEach((currentMovie) => {
       //If this movie is not already in watchPartyResult
       //console.log(currentMovie);
-      if (
-        watchPartyResult.findIndex(
-          (x) => x.movieId === currentMovie.movieId
-        ) === -1
-      ) {
-        watchPartyResult.push(currentMovie);
+      let movieIndex = watchPartyResult.findIndex(
+        (x) => x.movieId === currentMovie.movieId
+      );
+      if (movieIndex === -1) {
+        //Create a movieWithScore Object
+        let tempMovie: movieWithScore = {
+          score: 0,
+          movieId: currentMovie.movieId,
+          title: currentMovie.title,
+          overview: currentMovie.overview,
+          releaseDate: currentMovie.releaseDate,
+          lengthMinutes: currentMovie.lengthMinutes,
+          adultContent: currentMovie.adultContent,
+          imagePath: currentMovie.imagePath,
+          videoPath: currentMovie.videoPath,
+          genres: currentMovie.genres,
+        };
+        watchPartyResult.push(tempMovie);
+      }
+      //Movie is already in the list --> Increase score
+      else {
+        watchPartyResult.at(movieIndex)!.score += 1;
       }
     });
 
@@ -146,12 +163,28 @@ export async function getRecommendationForUserList(
     currentRecommendationList.forEach((currentMovie) => {
       //If this movie is not already in watchPartyResult
       //console.log(currentMovie);
-      if (
-        watchPartyResult.findIndex(
-          (x) => x.movieId === currentMovie.movieId
-        ) === -1
-      ) {
-        watchPartyResult.push(currentMovie);
+      let movieIndex = watchPartyResult.findIndex(
+        (x) => x.movieId === currentMovie.movieId
+      );
+      if (movieIndex === -1) {
+        //Create a movieWithScore Object
+        let tempMovie: movieWithScore = {
+          score: 0,
+          movieId: currentMovie.movieId,
+          title: currentMovie.title,
+          overview: currentMovie.overview,
+          releaseDate: currentMovie.releaseDate,
+          lengthMinutes: currentMovie.lengthMinutes,
+          adultContent: currentMovie.adultContent,
+          imagePath: currentMovie.imagePath,
+          videoPath: currentMovie.videoPath,
+          genres: currentMovie.genres,
+        };
+        watchPartyResult.push(tempMovie);
+      }
+      //Movie is already in the list --> Increase score
+      else {
+        watchPartyResult.at(movieIndex)!.score += 1;
       }
     });
 
@@ -164,12 +197,28 @@ export async function getRecommendationForUserList(
       //If this movie is not already in watchPartyResult
 
       //TODO: Kann review_movie null sein?
-      if (
-        watchPartyResult.findIndex(
-          (x) => x.movieId === currentReview.review_movie!.movieId
-        ) === -1
-      ) {
-        watchPartyResult.push(currentReview.review_movie!);
+      let movieIndex = watchPartyResult.findIndex(
+        (x) => x.movieId === currentReview.review_movie!.movieId
+      );
+      if (movieIndex === -1) {
+        //Create a movieWithScore Object
+        let tempMovie: movieWithScore = {
+          score: 0,
+          movieId: currentReview.review_movie!.movieId,
+          title: currentReview.review_movie!.title,
+          overview: currentReview.review_movie!.overview,
+          releaseDate: currentReview.review_movie!.releaseDate,
+          lengthMinutes: currentReview.review_movie!.lengthMinutes,
+          adultContent: currentReview.review_movie!.adultContent,
+          imagePath: currentReview.review_movie!.imagePath,
+          videoPath: currentReview.review_movie!.videoPath,
+          genres: currentReview.review_movie!.genres,
+        };
+        watchPartyResult.push(tempMovie);
+      }
+      //Movie is already in the list --> Increase score
+      else {
+        watchPartyResult.at(movieIndex)!.score += 1;
       }
     });
   });
