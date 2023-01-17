@@ -13,11 +13,18 @@ import WatchProvider from './entity/watchProvider';
  */
 export const AppDataSource = new DataSource({
   type: 'mysql',
-  host: 'database',
+  // for using local docker container
+  // host: 'database',
+  // port: 3306,
+  // username: 'root',
+  // password: 'root',
+  // database: 'movienator-database',
+  // for using remote db
+  host: 'sql11.freesqldatabase.com',
   port: 3306,
-  username: 'root',
-  password: 'root',
-  database: 'movienator-database',
+  username: 'sql11591037',
+  password: 'BLT9Q7rh9u',
+  database: 'sql11591037',
   //Hier die importierten Entitätsklassen angeben
   entities: [
     Actor,
