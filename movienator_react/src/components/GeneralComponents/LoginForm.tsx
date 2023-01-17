@@ -92,7 +92,7 @@ export default function LoginForm() {
           id={'password-input'}
           name={'password'}
           label={'password'}
-          type={'text'}
+          type={'password'}
           value={formValues.password}
           onChange={handleInputChange}
         />
