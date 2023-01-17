@@ -165,6 +165,7 @@ export default function MovieDetails({ movie }: SingleMovieProps) {
       </CardContent>
     </Card>
   );
+
   let actorComp = (
     <Card sx={{ backgroundColor: grey.A100 }}>
       <CardContent>
