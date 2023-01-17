@@ -36,6 +36,7 @@ export default function WatchPartyPage() {
   const [usersInGroup, setUsersInGroup] = useState<User[]>([]);
   const [usersInSearch, setUsersInSearch] = useState<User[]>([]);
   const [searchWord, setSearchWord] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (!cookies.userName) {
@@ -51,6 +52,10 @@ export default function WatchPartyPage() {
       setUser(user);
       setUsersInSearch(user.following);
       if (!usersInGroup.includes(user)) addUserToGroup(user);
+    });
+    setLoading(true);
+    handleSubmit().then(() => {
+      setLoading(false);
     });
   }, []);
 
@@ -101,20 +106,15 @@ export default function WatchPartyPage() {
   }
 
   useEffect(() => {
-    console.log(usersInGroup);
-    handleSubmit();
+    //console.log(usersInGroup);
+    setLoading(true);
+    handleSubmit().then(() => {
+      setLoading(false);
+    });
   }, [usersInGroup]);
 
   async function handleSubmit() {
     let newRecommendedMovies: MovieWithScore[] = [];
-
-    // using dummy movies
-    // for (const id of [436270, 299534, 808]) {
-    //   const movie = await getOneMovieToId(id);
-    //   if (movie) {
-    //     newRecommendedMovies.push({ ...movie, score: 1 });
-    //   }
-    // }
 
     // using recommendation service
     const res = await getRecommendationForUserList(usersInGroup);
@@ -124,7 +124,7 @@ export default function WatchPartyPage() {
       }
     });
 
-    console.log(newRecommendedMovies);
+    //console.log(newRecommendedMovies);
 
     newRecommendedMovies.sort((a, b) => b.score - a.score);
 
@@ -174,6 +174,9 @@ export default function WatchPartyPage() {
                       placeholder="Search User"
                       value={searchWord}
                       onChange={handleSearchChange}
+                      onKeyDown={(e) => {
+                        e.key === 'Enter' && e.preventDefault();
+                      }}
                     />
                   </Paper>
                   {user && user.following.length > 0 ? (
@@ -199,14 +202,13 @@ export default function WatchPartyPage() {
           </Grid>
         </CardContent>
       </Card>
-      {/* <Button variant="contained" size="large" onClick={handleSubmit}>
-        Give me movies!
-      </Button> */}
       {recommendedMovies && (
         <Card>
           <CardContent>
             <Stack direction={'column'} spacing={1}>
-              <Typography variant="h5">Our Picks for You:</Typography>
+              <Typography variant="h5">
+                Our Picks for You: {loading ? 'loading...' : ''}
+              </Typography>
               <WatchPartyResultsList movies={recommendedMovies.slice(0, 5)} />
             </Stack>
           </CardContent>
