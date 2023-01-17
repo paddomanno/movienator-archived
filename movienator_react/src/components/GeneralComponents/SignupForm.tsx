@@ -144,7 +144,7 @@ export default function SignupForm() {
           id={'password-input'}
           name={'password'}
           label={'password'}
-          type={'text'}
+          type={'password'}
           value={formValues.password}
           onChange={handleInputChange}
         />
@@ -153,7 +153,7 @@ export default function SignupForm() {
           id={'repeatPassword-input'}
           name={'repeatPassword'}
           label={'repeatPassword'}
-          type={'text'}
+          type={'password'}
           value={formValues.repeatPassword}
           onChange={handleInputChange}
         />
