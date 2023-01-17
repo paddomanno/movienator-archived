@@ -1,6 +1,6 @@
 import { User } from '../types/User';
 import axios from 'axios';
-import { Recommendation } from '../types/Recommendation';
+import { MovieWithScore, Recommendation } from '../types/Recommendation';
 import { Movie } from '../types/Movie';
 import { getWatchlistMoviesToUserId } from './MovieService';
 import { getUserRecommendationsToUserId } from './ExternService';
@@ -103,118 +103,110 @@ export async function deleteRecommendation(
   return false;
 }
 
-type movieWithScore = {
-  score: number;
-  movieId: number;
-  title: string;
-  overview: string;
-  releaseDate: Date;
-  lengthMinutes: number;
-  adultContent: boolean;
-  imagePath: string;
-  videoPath: string;
-  genres: Genre[];
-};
-
 export async function getRecommendationForUserList(
   users: User[]
-): Promise<movieWithScore[]> {
-  let watchPartyResult: movieWithScore[] = [];
+): Promise<MovieWithScore[]> {
+  let watchPartyResult: MovieWithScore[] = [];
   //Iterate trough all users of the watch party
   users.forEach(async (currentUser) => {
+    console.log(`1 //Looking at User ${currentUser.userName}`);
+
     //WATCHLIST
+    console.log('2 //WATCHLIST');
     let currentWatchList = await getWatchlistMoviesToUserId(
       currentUser.userId as number
     );
+    // console.log(
+    //   `Watchlist of user ${currentUser.userName} has ${currentWatchList.length} movies`
+    // );
+
     //Add the movies that arent already on the list
     currentWatchList.forEach((currentMovie) => {
       //If this movie is not already in watchPartyResult
-      //console.log(currentMovie);
+      // console.log(`Adding movie ${currentMovie.title} to results`);
       let movieIndex = watchPartyResult.findIndex(
         (x) => x.movieId === currentMovie.movieId
       );
       if (movieIndex === -1) {
-        //Create a movieWithScore Object
-        let tempMovie: movieWithScore = {
+        //Create a MovieWithScore Object
+        let currentMovieWithScore: MovieWithScore = {
+          ...currentMovie,
           score: 0,
-          movieId: currentMovie.movieId,
-          title: currentMovie.title,
-          overview: currentMovie.overview,
-          releaseDate: currentMovie.releaseDate,
-          lengthMinutes: currentMovie.lengthMinutes,
-          adultContent: currentMovie.adultContent,
-          imagePath: currentMovie.imagePath,
-          videoPath: currentMovie.videoPath,
-          genres: currentMovie.genres,
         };
-        watchPartyResult.push(tempMovie);
+        watchPartyResult.push(currentMovieWithScore);
       }
       //Movie is already in the list --> Increase score
       else {
         watchPartyResult.at(movieIndex)!.score += 1;
       }
     });
+    // console.log(`Results so far: ${watchPartyResult}`);
 
-    //WATCHLIST
+    //RECOMMENDATIONS
+    console.log('3 //RECOMMENDATIONS');
     let currentRecommendationList = await getUserRecommendationsToUserId(
       currentUser.userId as number
     );
+    // console.log(
+    //   `Recommendations of user ${currentUser.userName} has ${currentRecommendationList.length} movies`
+    // );
     //Add the movies that arent already on the list
     currentRecommendationList.forEach((currentMovie) => {
       //If this movie is not already in watchPartyResult
-      //console.log(currentMovie);
+      // console.log(`Adding movie ${currentMovie.title} to results`);
       let movieIndex = watchPartyResult.findIndex(
         (x) => x.movieId === currentMovie.movieId
       );
       if (movieIndex === -1) {
-        //Create a movieWithScore Object
-        let tempMovie: movieWithScore = {
+        //Create a MovieWithScore Object
+        let currentMovieWithScore: MovieWithScore = {
+          ...currentMovie,
           score: 0,
-          movieId: currentMovie.movieId,
-          title: currentMovie.title,
-          overview: currentMovie.overview,
-          releaseDate: currentMovie.releaseDate,
-          lengthMinutes: currentMovie.lengthMinutes,
-          adultContent: currentMovie.adultContent,
-          imagePath: currentMovie.imagePath,
-          videoPath: currentMovie.videoPath,
-          genres: currentMovie.genres,
         };
-        watchPartyResult.push(tempMovie);
+        watchPartyResult.push(currentMovieWithScore);
       }
       //Movie is already in the list --> Increase score
       else {
         watchPartyResult.at(movieIndex)!.score += 1;
       }
     });
+    // console.log(`Results so far: ${watchPartyResult}`);
 
     //REVIEWS
+    console.log('4 //REVIEWS');
+
     let currentReviewList = await getAllReviewsToUserId(
       currentUser.userId as number
     );
+    // console.log(
+    //   `Reviews of user ${currentUser.userName} has ${currentReviewList.length} movies`
+    // );
     //Add the movies that arent already on the list
     currentReviewList.forEach((currentReview) => {
+      if (!currentReview.review_movie) {
+        // console.log(
+        //   `Review has no movie :s Review Title: ${currentReview.title}`
+        // );
+        return;
+      }
+
+      const currentMovie: Movie = currentReview.review_movie;
+
       //If this movie is not already in watchPartyResult
+      // console.log(`Looking at review for movie ${currentMovie.title}`);
 
       //TODO: Kann review_movie null sein?
       let movieIndex = watchPartyResult.findIndex(
-        (x) => x.movieId === currentReview.review_movie!.movieId
+        (x) => x.movieId === currentMovie.movieId
       );
       if (movieIndex === -1) {
-        //Create a movieWithScore Object
-        let tempMovie: movieWithScore = {
+        //Create a MovieWithScore Object
+        let currentMovieWithScore: MovieWithScore = {
+          ...currentMovie,
           score: 0,
-          movieId: currentReview.review_movie!.movieId,
-          title: currentReview.review_movie!.title,
-          overview: currentReview.review_movie!.overview,
-          releaseDate: currentReview.review_movie!.releaseDate,
-          lengthMinutes: currentReview.review_movie!.lengthMinutes,
-          adultContent: currentReview.review_movie!.adultContent,
-          imagePath: currentReview.review_movie!.imagePath,
-          videoPath: currentReview.review_movie!.videoPath,
-          genres: currentReview.review_movie!.genres,
         };
-        watchPartyResult.push(tempMovie);
+        // console.log(`Adding movie ${currentMovie.title} to results`);
+        watchPartyResult.push(currentMovieWithScore);
       }
       //Movie is already in the list --> Increase score
       else {
@@ -222,7 +214,7 @@ export async function getRecommendationForUserList(
       }
     });
   });
-  console.log(watchPartyResult);
+  console.log(`5 Watch Party Service Result: ${watchPartyResult}`);
   //Now we have a list of movies (without duplicates) that at least one input user has on his/her watchlist, has reviewed or has in his/her recommended
   return watchPartyResult;
 }
