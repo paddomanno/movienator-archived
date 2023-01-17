@@ -47,7 +47,7 @@ export default function OtherProfilePage() {
 
   useEffect(() => {
     if (userId === cookies.userId) {
-      navigate('/profile');
+      navigate('/profile', { replace: true });
     } else {
       if (userId != undefined) {
         loadUserData(parseInt(userId));
