@@ -121,7 +121,7 @@ export async function getRecommendationForUserList(
 async function calculateWatchPartyResults(users: User[]) {
   let watchPartyResult: MovieWithScore[] = [];
   //Iterate trough all users of the watch party
-  users.forEach(async (currentUser) => {
+  for (const currentUser of users) {
     console.log(`1 //Looking at User ${currentUser.userName}`);
 
     //WATCHLIST
@@ -147,7 +147,7 @@ async function calculateWatchPartyResults(users: User[]) {
       (review) => review.review_movie!
     );
     await addMoviesToResults(watchPartyResult, currentMoviesFromReviews);
-  });
+  }
   return watchPartyResult;
 }
 
