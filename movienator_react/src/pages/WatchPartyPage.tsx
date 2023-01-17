@@ -23,11 +23,14 @@ import {
   getOneMovieToId,
 } from '../services/MovieService';
 import MoviesList from '../components/ListComponents/MoviesList';
+import { getRecommendationForUserList } from '../services/RecommendationService';
+import { MovieWithScore } from '../types/Recommendation';
+import WatchPartyResultsList from '../components/WatchPartyPageComponents/WatchPartyResultsList';
 export default function WatchPartyPage() {
   const navigate = useNavigate();
-  const [recommendedMovies, setRecommendedMovies] = useState<Movie[] | null>(
-    null
-  );
+  const [recommendedMovies, setRecommendedMovies] = useState<
+    MovieWithScore[] | null
+  >(null);
   const [cookies] = useCookies(['userName', 'userId']);
   const [user, setUser] = useState<User | null>(null);
   const [usersInGroup, setUsersInGroup] = useState<User[]>([]);
@@ -97,22 +100,28 @@ export default function WatchPartyPage() {
     }
   }
 
-  function handleSubmit() {
-    let dummyMovies: Movie[] = [];
-    for (const id of [315162, 675353, 808]) {
-      console.log(`getting ${id}`);
-      getOneMovieToId(id).then((movie) => {
-        console.log(`got ${movie}`);
-        if (movie) dummyMovies.push(movie);
-      });
-    }
-    // getMoviesToMovieNameSearchQuery('shrek').then((movies) => {
-    //   console.log(`Res: ${movies}`);
-    //   if (movies[0]) dummyMovies.push(movies[0]);
-    // });
-    console.log(`Recommending movies: ${dummyMovies}`);
-    if (dummyMovies) {
-      setRecommendedMovies(dummyMovies);
+  async function handleSubmit() {
+    let newRecommendedMovies: MovieWithScore[] = [];
+
+    // using dummy movies
+    // for (const id of [436270, 299534, 808]) {
+    //   const movie = await getOneMovieToId(id);
+    //   if (movie) {
+    //     newRecommendedMovies.push({ ...movie, score: 1 });
+    //   }
+    // }
+
+    // using recommendation service
+    const res = await getRecommendationForUserList(usersInGroup);
+    res.forEach((movie) => {
+      console.log(movie);
+      if (movie) {
+        newRecommendedMovies.push(movie);
+      }
+    });
+
+    if (newRecommendedMovies) {
+      setRecommendedMovies(newRecommendedMovies);
     } else {
       throw new Error('Error getting watch party movie recommendations');
     }
@@ -180,7 +189,9 @@ export default function WatchPartyPage() {
       <Button variant="contained" size="large" onClick={handleSubmit}>
         Give me movies!
       </Button>
-      {recommendedMovies && <MoviesList movies={recommendedMovies} />}
+      {recommendedMovies && (
+        <WatchPartyResultsList movies={recommendedMovies} />
+      )}
     </Stack>
   );
 }
