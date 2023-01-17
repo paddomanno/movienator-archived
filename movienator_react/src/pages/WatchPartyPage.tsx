@@ -100,6 +100,11 @@ export default function WatchPartyPage() {
     }
   }
 
+  useEffect(() => {
+    console.log(usersInGroup);
+    handleSubmit();
+  }, [usersInGroup]);
+
   async function handleSubmit() {
     let newRecommendedMovies: MovieWithScore[] = [];
 
@@ -119,6 +124,8 @@ export default function WatchPartyPage() {
       }
     });
 
+    console.log(newRecommendedMovies);
+
     newRecommendedMovies.sort((a, b) => b.score - a.score);
 
     if (newRecommendedMovies) {
@@ -130,68 +137,80 @@ export default function WatchPartyPage() {
 
   return (
     <Stack direction={'column'} spacing={1}>
-      <Typography>
-        Watch Party - Get movie recommendations for you and your friends
-      </Typography>
-      <Grid direction="row" container spacing={1}>
-        <Grid container item sm={6}>
-          <Card sx={{ width: '100%' }}>
-            <CardContent>
-              <Typography>Your Group</Typography>
-              <WatchPartyGroupList
-                users={usersInGroup}
-                onClickUser={onClickUser}
-              />
-              <Typography>{`${usersInGroup.length} users selected`}</Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid container item sm={6}>
-          <Card sx={{ width: '100%' }}>
-            <CardContent>
-              <Typography>Choose from your friends</Typography>
-              <Paper
-                component="form"
-                sx={{
-                  p: '2px 4px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  width: 400,
-                }}
-              >
-                <InputBase
-                  sx={{ ml: 1, flex: 1 }}
-                  placeholder="Search User"
-                  value={searchWord}
-                  onChange={handleSearchChange}
-                />
-              </Paper>
-              {user && user.following.length > 0 ? (
-                usersInSearch.length != 0 ? (
-                  <WatchPartyAddUsersList
-                    users={usersInSearch}
-                    usersInGroup={usersInGroup}
+      <Card>
+        <CardContent>
+          <Typography variant="h4">Watch Party</Typography>
+          <Typography variant="h5">
+            Get movie recommendations for you and your friends
+          </Typography>
+          <Grid direction="row" container spacing={1}>
+            <Grid container item sm={6}>
+              <Card sx={{ width: '100%' }}>
+                <CardContent>
+                  <Typography>Your Group</Typography>
+                  <WatchPartyGroupList
+                    users={usersInGroup}
                     onClickUser={onClickUser}
                   />
-                ) : (
-                  <Typography>No results :&lt;</Typography>
-                )
-              ) : (
-                <>
-                  <Typography>
-                    Follow other Movienators to select them here!
-                  </Typography>
-                </>
-              )}
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
-      <Button variant="contained" size="large" onClick={handleSubmit}>
+                  <Typography>{`${usersInGroup.length} users selected`}</Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid container item sm={6}>
+              <Card sx={{ width: '100%' }}>
+                <CardContent>
+                  <Typography>Choose from your friends</Typography>
+                  <Paper
+                    component="form"
+                    sx={{
+                      p: '2px 4px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      width: 400,
+                    }}
+                  >
+                    <InputBase
+                      sx={{ ml: 1, flex: 1 }}
+                      placeholder="Search User"
+                      value={searchWord}
+                      onChange={handleSearchChange}
+                    />
+                  </Paper>
+                  {user && user.following.length > 0 ? (
+                    usersInSearch.length != 0 ? (
+                      <WatchPartyAddUsersList
+                        users={usersInSearch}
+                        usersInGroup={usersInGroup}
+                        onClickUser={onClickUser}
+                      />
+                    ) : (
+                      <Typography>No results :&lt;</Typography>
+                    )
+                  ) : (
+                    <>
+                      <Typography>
+                        Follow other Movienators to select them here!
+                      </Typography>
+                    </>
+                  )}
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
+      {/* <Button variant="contained" size="large" onClick={handleSubmit}>
         Give me movies!
-      </Button>
+      </Button> */}
       {recommendedMovies && (
-        <WatchPartyResultsList movies={recommendedMovies} />
+        <Card>
+          <CardContent>
+            <Stack direction={'column'} spacing={1}>
+              <Typography variant="h5">Our Picks for You:</Typography>
+              <WatchPartyResultsList movies={recommendedMovies.slice(0, 5)} />
+            </Stack>
+          </CardContent>
+        </Card>
       )}
     </Stack>
   );
