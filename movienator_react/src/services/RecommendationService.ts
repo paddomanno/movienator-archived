@@ -6,6 +6,8 @@ import { getWatchlistMoviesToUserId } from './MovieService';
 import { getUserRecommendationsToUserId } from './ExternService';
 import { getAllReviewsToUserId } from './ReviewService';
 import { Genre } from '../types/Genre';
+import { listClasses } from '@mui/material/List';
+import { Review } from '../types/Review';
 
 const baseUrl: string = 'http://localhost:8080/recommendation';
 
@@ -106,6 +108,17 @@ export async function deleteRecommendation(
 export async function getRecommendationForUserList(
   users: User[]
 ): Promise<MovieWithScore[]> {
+  // Get movie recommendations for this group of users
+  const watchPartyResult: MovieWithScore[] = await calculateWatchPartyResults(
+    users
+  );
+  console.log(`5 Watch Party Service Result: ${watchPartyResult}`);
+
+  //Now we have a list of movies (without duplicates) that at least one input user has on his/her watchlist, has reviewed or has in his/her recommended
+  return watchPartyResult;
+}
+
+async function calculateWatchPartyResults(users: User[]) {
   let watchPartyResult: MovieWithScore[] = [];
   //Iterate trough all users of the watch party
   users.forEach(async (currentUser) => {
@@ -113,108 +126,54 @@ export async function getRecommendationForUserList(
 
     //WATCHLIST
     console.log('2 //WATCHLIST');
-    let currentWatchList = await getWatchlistMoviesToUserId(
+    const currentWatchList = await getWatchlistMoviesToUserId(
       currentUser.userId as number
     );
-    // console.log(
-    //   `Watchlist of user ${currentUser.userName} has ${currentWatchList.length} movies`
-    // );
-
-    //Add the movies that arent already on the list
-    currentWatchList.forEach((currentMovie) => {
-      //If this movie is not already in watchPartyResult
-      // console.log(`Adding movie ${currentMovie.title} to results`);
-      let movieIndex = watchPartyResult.findIndex(
-        (x) => x.movieId === currentMovie.movieId
-      );
-      if (movieIndex === -1) {
-        //Create a MovieWithScore Object
-        let currentMovieWithScore: MovieWithScore = {
-          ...currentMovie,
-          score: 0,
-        };
-        watchPartyResult.push(currentMovieWithScore);
-      }
-      //Movie is already in the list --> Increase score
-      else {
-        watchPartyResult.at(movieIndex)!.score += 1;
-      }
-    });
-    // console.log(`Results so far: ${watchPartyResult}`);
+    await addMoviesToResults(watchPartyResult, currentWatchList);
 
     //RECOMMENDATIONS
     console.log('3 //RECOMMENDATIONS');
-    let currentRecommendationList = await getUserRecommendationsToUserId(
+    const currentRecommendationList = await getUserRecommendationsToUserId(
       currentUser.userId as number
     );
-    // console.log(
-    //   `Recommendations of user ${currentUser.userName} has ${currentRecommendationList.length} movies`
-    // );
-    //Add the movies that arent already on the list
-    currentRecommendationList.forEach((currentMovie) => {
-      //If this movie is not already in watchPartyResult
-      // console.log(`Adding movie ${currentMovie.title} to results`);
-      let movieIndex = watchPartyResult.findIndex(
-        (x) => x.movieId === currentMovie.movieId
-      );
-      if (movieIndex === -1) {
-        //Create a MovieWithScore Object
-        let currentMovieWithScore: MovieWithScore = {
-          ...currentMovie,
-          score: 0,
-        };
-        watchPartyResult.push(currentMovieWithScore);
-      }
-      //Movie is already in the list --> Increase score
-      else {
-        watchPartyResult.at(movieIndex)!.score += 1;
-      }
-    });
-    // console.log(`Results so far: ${watchPartyResult}`);
+    await addMoviesToResults(watchPartyResult, currentRecommendationList);
 
     //REVIEWS
     console.log('4 //REVIEWS');
-
-    let currentReviewList = await getAllReviewsToUserId(
+    const currentReviewList = await getAllReviewsToUserId(
       currentUser.userId as number
     );
-    // console.log(
-    //   `Reviews of user ${currentUser.userName} has ${currentReviewList.length} movies`
-    // );
-    //Add the movies that arent already on the list
-    currentReviewList.forEach((currentReview) => {
-      if (!currentReview.review_movie) {
-        // console.log(
-        //   `Review has no movie :s Review Title: ${currentReview.title}`
-        // );
-        return;
-      }
-
-      const currentMovie: Movie = currentReview.review_movie;
-
-      //If this movie is not already in watchPartyResult
-      // console.log(`Looking at review for movie ${currentMovie.title}`);
-
-      //TODO: Kann review_movie null sein?
-      let movieIndex = watchPartyResult.findIndex(
-        (x) => x.movieId === currentMovie.movieId
-      );
-      if (movieIndex === -1) {
-        //Create a MovieWithScore Object
-        let currentMovieWithScore: MovieWithScore = {
-          ...currentMovie,
-          score: 0,
-        };
-        // console.log(`Adding movie ${currentMovie.title} to results`);
-        watchPartyResult.push(currentMovieWithScore);
-      }
-      //Movie is already in the list --> Increase score
-      else {
-        watchPartyResult.at(movieIndex)!.score += 1;
-      }
-    });
+    const currentMoviesFromReviews: Movie[] = currentReviewList.map(
+      (review) => review.review_movie!
+    );
+    await addMoviesToResults(watchPartyResult, currentMoviesFromReviews);
   });
-  console.log(`5 Watch Party Service Result: ${watchPartyResult}`);
-  //Now we have a list of movies (without duplicates) that at least one input user has on his/her watchlist, has reviewed or has in his/her recommended
   return watchPartyResult;
+}
+
+async function addMoviesToResults(
+  watchPartyResult: MovieWithScore[],
+  listToAdd: Movie[]
+) {
+  listToAdd.forEach((currentMovie) => {
+    //If this movie is not already in watchPartyResult
+    // console.log(`Adding movie ${currentMovie.title} to results`);
+    let movieIndex = watchPartyResult.findIndex(
+      (x) => x.movieId === currentMovie.movieId
+    );
+    if (movieIndex === -1) {
+      //Create a MovieWithScore Object
+      let currentMovieWithScore: MovieWithScore = {
+        ...currentMovie,
+        score: 0,
+      };
+      watchPartyResult.push(currentMovieWithScore);
+    }
+    //Movie is already in the list --> Increase score
+    else {
+      watchPartyResult.at(movieIndex)!.score += 1;
+    }
+  });
+
+  // console.log(`Results so far: ${watchPartyResult}`);
 }
