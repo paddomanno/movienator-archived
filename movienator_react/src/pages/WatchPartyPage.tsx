@@ -114,11 +114,12 @@ export default function WatchPartyPage() {
     // using recommendation service
     const res = await getRecommendationForUserList(usersInGroup);
     res.forEach((movie) => {
-      console.log(movie);
       if (movie) {
         newRecommendedMovies.push(movie);
       }
     });
+
+    newRecommendedMovies.sort((a, b) => b.score - a.score);
 
     if (newRecommendedMovies) {
       setRecommendedMovies(newRecommendedMovies);

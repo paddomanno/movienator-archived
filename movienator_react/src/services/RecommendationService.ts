@@ -8,6 +8,7 @@ import { getAllReviewsToUserId } from './ReviewService';
 import { Genre } from '../types/Genre';
 import { listClasses } from '@mui/material/List';
 import { Review } from '../types/Review';
+import { rejects } from 'assert';
 
 const baseUrl: string = 'http://localhost:8080/recommendation';
 
@@ -108,38 +109,36 @@ export async function deleteRecommendation(
 export async function getRecommendationForUserList(
   users: User[]
 ): Promise<MovieWithScore[]> {
-  // Get movie recommendations for this group of users
-  const watchPartyResult: MovieWithScore[] = await calculateWatchPartyResults(
-    users
-  );
-  console.log(`5 Watch Party Service Result: ${watchPartyResult}`);
-
-  //Now we have a list of movies (without duplicates) that at least one input user has on his/her watchlist, has reviewed or has in his/her recommended
-  return watchPartyResult;
+  try {
+    // Get movie recommendations for this group of users
+    const watchPartyResult: MovieWithScore[] = await calculateWatchPartyResults(
+      users
+    );
+    //Now we have a list of movies (without duplicates) that at least one input user has on his/her watchlist, has reviewed or has in his/her recommended
+    return watchPartyResult;
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
 }
 
 async function calculateWatchPartyResults(users: User[]) {
   let watchPartyResult: MovieWithScore[] = [];
   //Iterate trough all users of the watch party
   for (const currentUser of users) {
-    console.log(`1 //Looking at User ${currentUser.userName}`);
-
     //WATCHLIST
-    console.log('2 //WATCHLIST');
     const currentWatchList = await getWatchlistMoviesToUserId(
       currentUser.userId as number
     );
     await addMoviesToResults(watchPartyResult, currentWatchList);
 
     //RECOMMENDATIONS
-    console.log('3 //RECOMMENDATIONS');
     const currentRecommendationList = await getUserRecommendationsToUserId(
       currentUser.userId as number
     );
     await addMoviesToResults(watchPartyResult, currentRecommendationList);
 
     //REVIEWS
-    console.log('4 //REVIEWS');
     const currentReviewList = await getAllReviewsToUserId(
       currentUser.userId as number
     );
@@ -157,7 +156,6 @@ async function addMoviesToResults(
 ) {
   listToAdd.forEach((currentMovie) => {
     //If this movie is not already in watchPartyResult
-    // console.log(`Adding movie ${currentMovie.title} to results`);
     let movieIndex = watchPartyResult.findIndex(
       (x) => x.movieId === currentMovie.movieId
     );
@@ -165,7 +163,7 @@ async function addMoviesToResults(
       //Create a MovieWithScore Object
       let currentMovieWithScore: MovieWithScore = {
         ...currentMovie,
-        score: 0,
+        score: 1,
       };
       watchPartyResult.push(currentMovieWithScore);
     }
@@ -174,6 +172,4 @@ async function addMoviesToResults(
       watchPartyResult.at(movieIndex)!.score += 1;
     }
   });
-
-  // console.log(`Results so far: ${watchPartyResult}`);
 }
