@@ -9,6 +9,8 @@ services:
     container_name: movienator-express-server
     environment:
         TZ: "Europe/Berlin"
+        DB_PASSWORD: ${DB_PASSWORD}
+        MOVIE_API_KEY: ${MOVIE_API_KEY}
     ports:
       - '8080:8080'
       - '9229:9229'
@@ -78,7 +80,8 @@ services:
       - ./movienator_react:/usr/src/app/
       - /usr/src/app/node_modules
     environment:
-      - CHOCKIDAR_USEPOLLING=true
+      CHOCKIDAR_USEPOLLING: true
+      HATESPEECH_API_KEY: ${HATESPEECH_API_KEY}
     depends_on:
       - movienator-express
 
