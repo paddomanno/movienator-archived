@@ -568,7 +568,7 @@ externRouter.get('/watchProviders/movie/:id/:country', async (req, res) => {
     const providersInCountry = apiResponse.data.results[country];
 
     if (apiResponse.status == 200) {
-      providersInCountry.flatrate?.forEach((provider) => {
+      providersInCountry?.flatrate?.forEach((provider) => {
         let newWP: WatchProvider = new WatchProvider();
         newWP.providerId = provider.provider_id;
         newWP.providerName = provider.provider_name;
