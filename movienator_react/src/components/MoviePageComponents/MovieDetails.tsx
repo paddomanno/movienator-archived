@@ -24,25 +24,44 @@ import { grey } from '@mui/material/colors';
 import ActorCardSmall from '../SingleItemComponents/ActorCardSmall';
 import { SingleMovieProps } from '../../props/MovieProps';
 import NewRecommendationDialog from '../RecommendationComponents/NewRecommendationDialog';
+import { getAllWatchProvidersForMovie } from '../../services/ExternService';
+import { WatchProvider } from '../../types/WatchProvider';
 
 export default function MovieDetails({ movie }: SingleMovieProps) {
   const navigate = useNavigate();
   const [isWatchlist, setIsWatchlist] = useState<boolean>(false);
   const [cookies] = useCookies(['userName', 'userId']);
   const [showRecDialog, setShowRecDialog] = useState<boolean>(false);
+  const [country, setCountry] = useState<string>('DE');
+  const [providers, setProviders] = useState<WatchProvider[]>([]);
 
   function changeShowDialog(value: boolean) {
     setShowRecDialog(value);
   }
 
+  async function getMovieDetails() {
+    const watchProvidersWithCountry = await getAllWatchProvidersForMovie(
+      movie.movieId,
+      country
+    );
+    console.log(watchProvidersWithCountry);
+
+    console.log(watchProvidersWithCountry.country);
+    console.log(watchProvidersWithCountry.providers);
+    setProviders(watchProvidersWithCountry.providers);
+
+    const watchlistMovies = await getWatchlistMoviesToUserId(
+      cookies.userId as number
+    );
+    for (const movie of watchlistMovies) {
+      if (movie.movieId === movie.movieId) {
+        setIsWatchlist(true);
+      }
+    }
+  }
+
   useEffect(() => {
-    getWatchlistMoviesToUserId(cookies.userId as number).then((movies) => {
-      movies.forEach((oneMovie) => {
-        if (oneMovie.movieId === movie.movieId) {
-          setIsWatchlist(true);
-        }
-      });
-    });
+    getMovieDetails();
   }, []);
 
   function handleWatchlistClick(e: any) {
@@ -78,30 +97,31 @@ export default function MovieDetails({ movie }: SingleMovieProps) {
 
   let watchProviderComp = (
     <>
-      {movie.watchProviders.length != 0 ? (
-        <Card sx={{ backgroundColor: grey.A100 }}>
-          <CardContent>
-            <Stack direction={'row'} spacing={0}>
-              {movie.watchProviders.map((provider, key) => (
-                <IconButton
-                  key={key}
-                  // onClick={() => {}}
-                >
-                  <Paper>
-                    <Typography>{provider.providerName}</Typography>
-                  </Paper>
-                </IconButton>
-              ))}
-            </Stack>
-          </CardContent>
-        </Card>
-      ) : (
-        <>
-          <Typography>
-            Currently not available for streaming in the US.
-          </Typography>
-        </>
-      )}
+      <Card sx={{ backgroundColor: grey.A100 }}>
+        <CardContent>
+          <Stack direction={'row'} spacing={1}>
+            <Paper>
+              <Typography>{country}</Typography>
+            </Paper>
+            {providers.length != 0 ? (
+              <Typography>Available for streaming on:</Typography>
+            ) : (
+              <>
+                <Typography>
+                  Currently not available for streaming in this country.
+                </Typography>
+              </>
+            )}
+          </Stack>
+          <Stack direction={'row'} spacing={1}>
+            {providers.map((provider, key) => (
+              <Paper>
+                <Typography>{provider.providerName}</Typography>
+              </Paper>
+            ))}
+          </Stack>
+        </CardContent>
+      </Card>
     </>
   );
 
