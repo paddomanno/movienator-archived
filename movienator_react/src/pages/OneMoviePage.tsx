@@ -45,9 +45,6 @@ export default function OneMoviePage() {
           const actors = await getActorsToMovie(movie.movieId);
           movie.actors = actors;
 
-          const providers = await getAllWatchProvidersForMovie(movie.movieId);
-          movie.watchProviders = providers;
-
           setMovie(movie);
         }
 
