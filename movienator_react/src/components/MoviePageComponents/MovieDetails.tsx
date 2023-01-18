@@ -3,8 +3,12 @@ import {
   Card,
   CardContent,
   Divider,
+  FormControl,
   IconButton,
+  InputLabel,
+  MenuItem,
   Paper,
+  Select,
   Stack,
   Typography,
 } from '@mui/material';
@@ -28,28 +32,42 @@ import { getAllWatchProvidersForMovie } from '../../services/ExternService';
 import { WatchProvider } from '../../types/WatchProvider';
 
 export default function MovieDetails({ movie }: SingleMovieProps) {
+  const countryOptions = [
+    { value: 'DE', text: '🇩🇪' },
+    { value: 'US', text: '🇺🇸' },
+    { value: 'GB', text: '🇬🇧' },
+  ];
+
   const navigate = useNavigate();
   const [isWatchlist, setIsWatchlist] = useState<boolean>(false);
   const [cookies] = useCookies(['userName', 'userId']);
   const [showRecDialog, setShowRecDialog] = useState<boolean>(false);
-  const [country, setCountry] = useState<string>('DE');
+  const [country, setCountry] = useState<string>(countryOptions[0].value);
   const [providers, setProviders] = useState<WatchProvider[]>([]);
 
   function changeShowDialog(value: boolean) {
     setShowRecDialog(value);
   }
 
+  useEffect(() => {
+    getMovieDetails();
+  }, []);
+
   async function getMovieDetails() {
+    await getProviders();
+
+    await getIsWatchlist();
+  }
+
+  async function getProviders() {
     const watchProvidersWithCountry = await getAllWatchProvidersForMovie(
       movie.movieId,
       country
     );
-    console.log(watchProvidersWithCountry);
-
-    console.log(watchProvidersWithCountry.country);
-    console.log(watchProvidersWithCountry.providers);
     setProviders(watchProvidersWithCountry.providers);
+  }
 
+  async function getIsWatchlist() {
     const watchlistMovies = await getWatchlistMoviesToUserId(
       cookies.userId as number
     );
@@ -59,10 +77,6 @@ export default function MovieDetails({ movie }: SingleMovieProps) {
       }
     }
   }
-
-  useEffect(() => {
-    getMovieDetails();
-  }, []);
 
   function handleWatchlistClick(e: any) {
     e.preventDefault();
@@ -91,34 +105,58 @@ export default function MovieDetails({ movie }: SingleMovieProps) {
     }
   }
 
+  useEffect(() => {
+    getProviders();
+  }, [country]);
+
   function handleGenreClick(genreId: number) {
     navigate('/genreMovies/' + genreId);
   }
+
+  const handleCountryChange = (e: any) => {
+    setCountry(e.target.value);
+  };
 
   let watchProviderComp = (
     <>
       <Card sx={{ backgroundColor: grey.A100 }}>
         <CardContent>
           <Stack direction={'row'} spacing={1}>
-            <Paper>
-              <Typography>{country}</Typography>
-            </Paper>
-            {providers.length != 0 ? (
-              <Typography>Available for streaming on:</Typography>
-            ) : (
-              <>
-                <Typography>
-                  Currently not available for streaming in this country.
-                </Typography>
-              </>
-            )}
-          </Stack>
-          <Stack direction={'row'} spacing={1}>
-            {providers.map((provider, key) => (
-              <Paper>
-                <Typography>{provider.providerName}</Typography>
-              </Paper>
-            ))}
+            <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>
+              <InputLabel id="country-select-label">Country</InputLabel>
+              <Select
+                defaultValue={'DE'}
+                labelId="country-select-label"
+                id="country-select"
+                value={country}
+                label="Country"
+                onChange={handleCountryChange}
+              >
+                {countryOptions.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.text}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <Stack direction={'column'} spacing={1}>
+              {providers.length != 0 ? (
+                <Typography>Available for streaming on:</Typography>
+              ) : (
+                <>
+                  <Typography>
+                    Currently not available for streaming in this country.
+                  </Typography>
+                </>
+              )}
+              <Stack direction={'row'} spacing={1}>
+                {providers.map((provider, key) => (
+                  <Paper>
+                    <Typography>{provider.providerName}</Typography>
+                  </Paper>
+                ))}
+              </Stack>
+            </Stack>
           </Stack>
         </CardContent>
       </Card>
