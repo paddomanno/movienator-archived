@@ -1,11 +1,11 @@
 version: '3.9'
 
 services:
-  movienator-express:
+  movienator-express-test:
     build:
       context: ./movienator_express
       dockerfile: Dockerfile
-    container_name: movienator-express-server
+    container_name: movienator-express-test
     environment:
       TZ: 'Europe/Berlin'
       DB_PASSWORD: ${DB_PASSWORD}
@@ -17,28 +17,10 @@ services:
       - ./movienator_express:/usr/src/app
       - /usr/src/app/node_modules
     depends_on:
-      - database
       - database-test
     networks:
       - movienator_network
-    command: npm run install-start
-
-  database:
-    build:
-      context: ./movienator_mysql
-      dockerfile: Dockerfile
-    container_name: movienator-database
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: movienator-database
-      MYSQL_USER: public
-      MYSQL_PASSWORD: public
-    ports:
-      - '3306:3306'
-    volumes:
-      - dbdata:/var/lib/mysql
-    networks:
-      - movienator_network
+    command: npm run install-test
 
   database-test:
     build:
@@ -55,24 +37,11 @@ services:
     networks:
       - movienator_network
 
-  phpadmin:
-    build:
-      context: ./movienator_phpadmin
-      dockerfile: Dockerfile
-    container_name: movienator-phpadmin
-    networks:
-      - movienator_network
-    ports:
-      - '8081:80'
-    environment:
-      PMA_HOST: database
-      PMA_PORT: 3306
-
-  react:
+  react-test:
     build:
       context: ./movienator_react
       dockerfile: Dockerfile
-    container_name: movienator-react
+    container_name: movienator-react-test
     stdin_open: true
     ports:
       - '3000:3000'
@@ -83,11 +52,8 @@ services:
       CHOKIDAR_USEPOLLING: 'true'
       HATESPEECH_API_KEY: ${HATESPEECH_API_KEY}
     depends_on:
-      - movienator-express
-    command: npm run install-start
-
-volumes:
-  dbdata:
+      - movienator-express-test
+    command: npm run install-test
 
 networks:
   movienator_network:
