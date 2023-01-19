@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3.3'
 
 services:
   movienator-express-dev:
@@ -75,5 +75,4 @@ volumes:
 
 networks:
   movienator_network:
-    name: movienator_net
     driver: bridge
