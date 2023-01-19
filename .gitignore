@@ -5,3 +5,4 @@ movienator_express/dist
 /phpadmin/
 /node_modules
 
+/.env
