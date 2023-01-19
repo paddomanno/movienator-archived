@@ -23,7 +23,11 @@ export default function ReviewListWithText({
           <Typography>{title}</Typography>
           <Grid2 container spacing={1}>
             {reviews.map((review) => (
-              <Grid2 maxWidth={'50%'} minWidth={'50%'}>
+              <Grid2
+                maxWidth={'50%'}
+                minWidth={'50%'}
+                key={`${review.reviewMovieMovieId}.${review.reviewUserUserId}`}
+              >
                 <ReviewCardDetailed
                   showUser={showUser}
                   showMovie={showMovie}

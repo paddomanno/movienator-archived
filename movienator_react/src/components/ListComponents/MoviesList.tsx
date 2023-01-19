@@ -17,7 +17,7 @@ export default function MoviesList({ title, movies }: Props) {
         {movies.length > 0 ? (
           <Grid2 container spacing={1}>
             {movies.map((movie) => (
-              <Grid2>
+              <Grid2 key={movie.movieId}>
                 <MovieCard movie={movie} />
               </Grid2>
             ))}
