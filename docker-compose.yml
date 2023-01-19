@@ -1,14 +1,13 @@
-version: "3.9"
+version: '3.9'
 
 services:
-
   movienator-express:
     build:
       context: ./movienator_express
       dockerfile: Dockerfile
     container_name: movienator-express-server
     environment:
-        TZ: "Europe/Berlin"
+      TZ: 'Europe/Berlin'
     ports:
       - '8080:8080'
       - '9229:9229'
@@ -20,6 +19,7 @@ services:
       - database-test
     networks:
       - movienator_network
+    command: npm run install-start
 
   database:
     build:
@@ -32,9 +32,9 @@ services:
       MYSQL_USER: public
       MYSQL_PASSWORD: public
     ports:
-        - "3306:3306"
+      - '3306:3306'
     volumes:
-        - dbdata:/var/lib/mysql
+      - dbdata:/var/lib/mysql
     networks:
       - movienator_network
 
@@ -49,7 +49,7 @@ services:
       MYSQL_USER: public
       MYSQL_PASSWORD: public
     ports:
-      - "3307:3306"
+      - '3307:3306'
     networks:
       - movienator_network
 
@@ -61,7 +61,7 @@ services:
     networks:
       - movienator_network
     ports:
-      - "8081:80"
+      - '8081:80'
     environment:
       PMA_HOST: database
       PMA_PORT: 3306
@@ -73,7 +73,7 @@ services:
     container_name: movienator-react
     stdin_open: true
     ports:
-      - "3000:3000"
+      - '3000:3000'
     volumes:
       - ./movienator_react:/usr/src/app/
       - /usr/src/app/node_modules
@@ -81,10 +81,10 @@ services:
       - CHOCKIDAR_USEPOLLING=true
     depends_on:
       - movienator-express
+    command: npm run install-start
 
 volumes:
   dbdata:
-
 
 networks:
   movienator_network:
