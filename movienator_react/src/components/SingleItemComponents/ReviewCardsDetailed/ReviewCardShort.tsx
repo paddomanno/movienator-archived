@@ -21,7 +21,7 @@ export default function ReviewCardShort({ review }: SingleReviewProps) {
     setShowPopup(open);
   }
 
-  let stars = (
+  const stars = (
     <Stack direction={'row'}>
       {[...Array(review.rating)].map((x, i) => (
         <StarIcon />
@@ -32,7 +32,7 @@ export default function ReviewCardShort({ review }: SingleReviewProps) {
     </Stack>
   );
 
-  let avatar = (
+  const avatar = (
     <>
       {review.review_user != null ? (
         <>

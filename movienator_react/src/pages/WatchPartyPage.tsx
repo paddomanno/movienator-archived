@@ -1,10 +1,8 @@
 //Route: movienator3000.com/recommendations
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Movie } from '../types/Movie';
 import { useCookies } from 'react-cookie';
 import {
-  Button,
   Card,
   CardContent,
   Grid,
@@ -18,11 +16,7 @@ import { getOneUserToUserId } from '../services/UserService';
 import WatchPartyGroupList from '../components/WatchPartyPageComponents/WatchPartyGroupList';
 import WatchPartyAddUsersList from '../components/WatchPartyPageComponents/WatchPartyAddUsersList';
 import Fuse from 'fuse.js';
-import {
-  getMoviesToMovieNameSearchQuery,
-  getOneMovieToId,
-} from '../services/MovieService';
-import MoviesList from '../components/ListComponents/MoviesList';
+
 import { getRecommendationForUserList } from '../services/RecommendationService';
 import { MovieWithScore } from '../types/Recommendation';
 import WatchPartyResultsList from '../components/WatchPartyPageComponents/WatchPartyResultsList';
@@ -114,7 +108,7 @@ export default function WatchPartyPage() {
   }, [usersInGroup]);
 
   async function handleSubmit() {
-    let newRecommendedMovies: MovieWithScore[] = [];
+    const newRecommendedMovies: MovieWithScore[] = [];
 
     // using recommendation service
     const res = await getRecommendationForUserList(usersInGroup);

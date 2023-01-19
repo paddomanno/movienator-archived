@@ -1,10 +1,6 @@
-import { SingleUserProps } from '../../props/UserProps';
-import { RecommendationListProps } from '../../props/RecommendationProps';
 import { grey } from '@mui/material/colors';
 import { Card, CardContent, Stack, Typography } from '@mui/material';
 import Grid2 from '@mui/material/Unstable_Grid2';
-import ReviewCardDetailed from '../SingleItemComponents/ReviewCardDetailed';
-import SentRecommendation from './SingleRecommendationViews/SentRecommendation';
 import { Recommendation } from '../../types/Recommendation';
 import RecommendationView from './SingleRecommendationViews/RecommendationView';
 

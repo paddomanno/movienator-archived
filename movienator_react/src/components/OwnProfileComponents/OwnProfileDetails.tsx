@@ -8,7 +8,6 @@ import {
 } from '@mui/material';
 import ShareIcon from '@mui/icons-material/Share';
 import { grey } from '@mui/material/colors';
-import { SingleUserProps } from '../../props/UserProps';
 import OwnProfileEditProfileModal from './OwnProfileEditProfileModal';
 import FeedbackSnackbar from '../GeneralComponents/FeedbackSnackbar';
 import { useState } from 'react';

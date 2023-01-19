@@ -13,7 +13,6 @@ import OtherUserAvatar from '../../SingleItemComponents/OtherUserAvatar';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import React from 'react';
 import { grey } from '@mui/material/colors';
-import UserCard from '../../SingleItemComponents/UserCard';
 
 type Props = {
   rec: Recommendation;
@@ -37,11 +36,11 @@ export default function ReceivedRecommendation({ rec, reloadRecs }: Props) {
     <Card sx={{ minWidth: 400, maxWidth: 400, backgroundColor: grey['300'] }}>
       <CardContent>
         <Stack direction={'row'}>
-          <MovieCard movie={rec.recommendedMovie!!} />
+          <MovieCard movie={rec.recommendedMovie!} />
           <Stack direction={'column'}>
             <Stack direction={'row'} justifyContent={'space-between'}>
               <Stack direction={'row'} alignItems={'center'}>
-                <OtherUserAvatar user={rec.sendingUser!!} clickable={true} />
+                <OtherUserAvatar user={rec.sendingUser!} clickable={true} />
                 <Typography>{rec.sendingUser?.userName}</Typography>
               </Stack>
               <IconButton onClick={deleteRecommendationHandler}>

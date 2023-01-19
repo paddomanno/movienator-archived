@@ -4,7 +4,6 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import EditIcon from '@mui/icons-material/Edit';
-import { SingleUserProps } from '../../props/UserProps';
 import { Card, CardContent, IconButton, TextField } from '@mui/material';
 import { Stack } from '@mui/system';
 import { useState } from 'react';
@@ -38,7 +37,7 @@ export default function OwnProfileEditProfileModal({
   user,
   reloadHandler,
 }: props) {
-  let defaultData: UserAttributes = {
+  const defaultData: UserAttributes = {
     firstName: user.firstName,
     lastName: user.lastName,
     userName: user.userName,
@@ -69,7 +68,7 @@ export default function OwnProfileEditProfileModal({
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     if (value !== '') {
-      let textField: HTMLElement | null = document.getElementById(
+      const textField: HTMLElement | null = document.getElementById(
         `${name}-input`
       );
       if (textField != null) {
@@ -123,7 +122,7 @@ export default function OwnProfileEditProfileModal({
   const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
   function update() {
-    let newUser: User = {
+    const newUser: User = {
       userId: user.userId,
       firstName: userAttributes.firstName,
       lastName: userAttributes.lastName,
@@ -138,7 +137,7 @@ export default function OwnProfileEditProfileModal({
       watchlist: user.watchlist,
     };
     if (userAttributes.image != undefined) {
-      let newImage: ProfileImage = {
+      const newImage: ProfileImage = {
         name: userAttributes.image.toString(),
         ressourceLink: userAttributes.image.toString(),
         users: [],
@@ -147,7 +146,7 @@ export default function OwnProfileEditProfileModal({
         updateUser(newUser).then(() => {
           updateUserImageToImageIdAndUserId(
             newImage.ressourceLink,
-            newUser.userId!!
+            newUser.userId!
           ).then(() => {
             showMessage('Changes Saved', 'success');
             reloadHandler();
@@ -156,7 +155,7 @@ export default function OwnProfileEditProfileModal({
       });
     } else {
       updateUser(newUser).then(() => {
-        deleteUserImageToUserId(newUser.userId!!).then(() => {
+        deleteUserImageToUserId(newUser.userId!).then(() => {
           setActivateToggle(false);
           showMessage('Changes Saved', 'success');
           reloadHandler();
@@ -172,7 +171,7 @@ export default function OwnProfileEditProfileModal({
   }
 
   function handleErrorTextToLong() {
-    let textField: HTMLElement | null =
+    const textField: HTMLElement | null =
       document.getElementById(`comment-input`);
     if (textField != null) {
       textField.style.backgroundColor = 'orange';
@@ -183,7 +182,7 @@ export default function OwnProfileEditProfileModal({
   function handleErrorFieldsEmpty() {
     (Object.keys(userAttributes) as (keyof UserAttributes)[]).forEach((key) => {
       if (userAttributes[key] === '') {
-        let textField: HTMLElement | null = document.getElementById(
+        const textField: HTMLElement | null = document.getElementById(
           `${key}-input`
         );
         if (textField != null) {
@@ -195,7 +194,7 @@ export default function OwnProfileEditProfileModal({
   }
 
   const style = {
-    position: 'absolute' as 'absolute',
+    position: 'absolute' as const,
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',

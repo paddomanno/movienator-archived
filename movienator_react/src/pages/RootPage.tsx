@@ -1,6 +1,6 @@
 //Route: movienator3000.com/
 import { Outlet, useNavigate } from 'react-router-dom';
-import { Avatar, Button, IconButton, Stack, Typography } from '@mui/material';
+import { Avatar, IconButton, Stack, Typography } from '@mui/material';
 import { useCookies } from 'react-cookie';
 import LiveTvIcon from '@mui/icons-material/LiveTv';
 import LogoutIcon from '@mui/icons-material/Logout';

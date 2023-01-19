@@ -2,9 +2,7 @@ import { Card, CardContent, Paper, Stack, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import OtherUserAvatar from '../OtherUserAvatar';
 import { SingleReviewProps } from '../../../props/ReviewProps';
-import MovieCard from '../MovieCard';
 import UserCard from '../UserCard';
 import React from 'react';
 

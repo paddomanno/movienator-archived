@@ -1,12 +1,8 @@
 //Route: movienator3000.com/genreMovies/:genreId
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { Movie } from '../types/Movie';
-import {
-  getMoviesToGenreId,
-  getPopularMoviesToPagenumber,
-  getOneGenreToId,
-} from '../services/ExternService';
+import { getPopularMoviesToPagenumber } from '../services/ExternService';
 import { Button, Card, CardContent, Stack, Typography } from '@mui/material';
 import { useCookies } from 'react-cookie';
 import MoviesList from '../components/ListComponents/MoviesList';

@@ -7,7 +7,7 @@ import { grey } from '@mui/material/colors';
 import MovieCard from '../MovieCard';
 
 export default function ReviewCardWithMovie({ review }: SingleReviewProps) {
-  let stars = (
+  const stars = (
     <Stack direction={'row'}>
       {[...Array(review.rating)].map((x, i) => (
         <StarIcon />

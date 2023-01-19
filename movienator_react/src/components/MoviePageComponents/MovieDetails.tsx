@@ -117,7 +117,7 @@ export default function MovieDetails({ movie }: SingleMovieProps) {
     setCountry(e.target.value);
   };
 
-  let watchProviderComp = (
+  const watchProviderComp = (
     <>
       <Card sx={{ backgroundColor: grey.A100 }}>
         <CardContent>
@@ -163,7 +163,7 @@ export default function MovieDetails({ movie }: SingleMovieProps) {
     </>
   );
 
-  let videoComp = (
+  const videoComp = (
     <>
       {movie.videoPath !== 'null' ? (
         <Card sx={{ backgroundColor: grey.A100 }}>
@@ -182,7 +182,7 @@ export default function MovieDetails({ movie }: SingleMovieProps) {
       )}
     </>
   );
-  let genreComp = (
+  const genreComp = (
     <Card sx={{ backgroundColor: grey.A100 }}>
       <CardContent>
         <Stack direction={'row'} spacing={0}>
@@ -202,7 +202,7 @@ export default function MovieDetails({ movie }: SingleMovieProps) {
       </CardContent>
     </Card>
   );
-  let detailsComp = (
+  const detailsComp = (
     <Card sx={{ backgroundColor: grey.A100 }}>
       <CardContent>
         <Stack direction={'row'} spacing={1}>
@@ -224,7 +224,7 @@ export default function MovieDetails({ movie }: SingleMovieProps) {
     </Card>
   );
 
-  let actorComp = (
+  const actorComp = (
     <Card sx={{ backgroundColor: grey.A100 }}>
       <CardContent>
         <Grid2 container spacing={0}>
@@ -237,7 +237,7 @@ export default function MovieDetails({ movie }: SingleMovieProps) {
       </CardContent>
     </Card>
   );
-  let leftColumn = (
+  const leftColumn = (
     <Stack direction={'column'} width={'50%'} alignItems={'center'} spacing={2}>
       <img
         alt={movie.imagePath != null ? movie.title : 'No image available'}
@@ -260,7 +260,7 @@ export default function MovieDetails({ movie }: SingleMovieProps) {
       </Button>
     </Stack>
   );
-  let rightColumn = (
+  const rightColumn = (
     <Stack
       direction={'column'}
       width={'50%'}
