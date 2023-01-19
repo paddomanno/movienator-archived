@@ -10,7 +10,7 @@ import WatchProvider from '../../entity/watchProvider';
 
 export const TestDataSource = new DataSource({
   type: 'mysql',
-  host: 'database-test',
+  host: 'mysql',
   port: 3306,
   username: 'root',
   password: 'root',

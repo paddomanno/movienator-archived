@@ -3,7 +3,7 @@ variables:
   MYSQL_DATABASE: "movienator-database-test"
   MYSQL_USER: "public"
   MYSQL_PASSWORD: "public"
-  MYSQL_HOST: database-test
+  MYSQL_HOST: mysql
   HATESPEECH_API_KEY: $hateSpeech_API_Key
   MOVIE_API_KEY: $movie_API_Key
   DB_PASSWORD: $DB_password

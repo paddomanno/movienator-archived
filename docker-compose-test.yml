@@ -17,16 +17,16 @@ services:
       - ./movienator_express:/usr/src/app
       - /usr/src/app/node_modules
     depends_on:
-      - database-test
+      - mysql
     networks:
       - movienator_network
     command: npm run install-test
 
-  database-test:
+  mysql:
     build:
       context: ./movienator_mysql_test
       dockerfile: Dockerfile
-    container_name: movienator-database-test
+    container_name: mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: movienator-database-test
