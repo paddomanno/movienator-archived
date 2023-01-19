@@ -3,6 +3,7 @@ variables:
   MYSQL_DATABASE: movienator-database-test
   MYSQL_USER: public
   MYSQL_PASSWORD: public
+  MYSQL_HOST: database-test
   HATESPEECH_API_KEY: $hateSpeech_API_Key
   MOVIE_API_KEY: $movie_API_Key
   DB_PASSWORD: $DB_password
@@ -35,6 +36,6 @@ test-job2:
   before_script:
     - cd movienator_react
   script:
-    - npm install-test
+    - npm install-temp
   after_script:
     - echo 'finished reactTest'

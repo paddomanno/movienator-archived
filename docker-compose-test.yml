@@ -53,7 +53,7 @@ services:
       HATESPEECH_API_KEY: ${HATESPEECH_API_KEY}
     depends_on:
       - movienator-express-test
-    command: npm run install-test
+    command: npm run install-temp
 
 networks:
   movienator_network:
