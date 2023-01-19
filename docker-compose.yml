@@ -80,7 +80,7 @@ services:
       - ./movienator_react:/usr/src/app/
       - /usr/src/app/node_modules
     environment:
-      CHOCKIDAR_USEPOLLING: true
+      CHOKIDAR_USEPOLLING: 'true'
       HATESPEECH_API_KEY: ${HATESPEECH_API_KEY}
     depends_on:
       - movienator-express
