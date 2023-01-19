@@ -16,41 +16,40 @@ services:
     volumes:
       - ./movienator_express:/usr/src/app
       - /usr/src/app/node_modules
-    depends_on:
-      - database
     networks:
       - movienator_network
     command: npm run install-start
 
-  database:
-    build:
-      context: ./movienator_mysql
-      dockerfile: Dockerfile
-    container_name: movienator-database-dev
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: movienator-database
-      MYSQL_USER: public
-      MYSQL_PASSWORD: public
-    ports:
-      - '3306:3306'
-    volumes:
-      - dbdata:/var/lib/mysql
-    networks:
-      - movienator_network
+  # Database currently hosted online
+  #database:
+  #  build:
+  #    context: ./movienator_mysql
+  #    dockerfile: Dockerfile
+  #  container_name: movienator-database-dev
+  #  environment:
+  #    MYSQL_ROOT_PASSWORD: root
+  #    MYSQL_DATABASE: movienator-database
+  #    MYSQL_USER: public
+  #    MYSQL_PASSWORD: public
+  #  ports:
+  #    - '3306:3306'
+  #  volumes:
+  #    - dbdata:/var/lib/mysql
+  #  networks:
+  #    - movienator_network
 
-  phpadmin:
-    build:
-      context: ./movienator_phpadmin
-      dockerfile: Dockerfile
-    container_name: movienator-phpadmin
-    networks:
-      - movienator_network
-    ports:
-      - '8081:80'
-    environment:
-      PMA_HOST: database
-      PMA_PORT: 3306
+  #phpadmin:
+  #  build:
+  #    context: ./movienator_phpadmin
+  #    dockerfile: Dockerfile
+  #  container_name: movienator-phpadmin
+  #  networks:
+  #    - movienator_network
+  #  ports:
+  #    - '8081:80'
+  #  environment:
+  #    PMA_HOST: database
+  #    PMA_PORT: 3306
 
   react:
     build:
