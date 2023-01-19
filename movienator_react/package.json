@@ -28,6 +28,7 @@
   "scripts": {
     "start": "WATCHPACK_POLLING=true react-scripts start",
     "install-start": "npm install && npm start",
+    "install-test": "npm install && echo 'NO TESTS YET'",
     "startlocal": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
