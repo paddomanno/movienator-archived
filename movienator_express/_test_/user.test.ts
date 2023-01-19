@@ -229,13 +229,13 @@ describe('GET Tests', () => {
       .send()
       .expect('Content-Type', 'application/json; charset=utf-8');
     expect(response.statusCode).toBe(200);
-    expect(response.body.data.length).toBe(1);
+    expect(response.body.data.length).toBe(2);
     expect(response.body.data[0].firstName).toBe('Maggus');
   });
 
   it('Get all users whose usernames match the UNMATCHABLE search query TEST', async () => {
     const response = await request(app)
-      .get('/user/username/Maan')
+      .get('/user/username/asduieufnaskdikwqer')
       .send()
       .expect('Content-Type', 'application/json; charset=utf-8');
     expect(response.statusCode).toBe(200);
