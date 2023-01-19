@@ -33,7 +33,7 @@ services:
       MYSQL_USER: public
       MYSQL_PASSWORD: public
     ports:
-      - '3307:3306'
+      - '3306:3306'
     networks:
       - movienator_network
 
