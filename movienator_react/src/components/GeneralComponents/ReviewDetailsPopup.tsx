@@ -1,4 +1,3 @@
-import React from 'react';
 import { Review } from '../../types/Review';
 import { Button, Dialog, DialogActions, DialogContent } from '@mui/material';
 import ReviewCardDetailed from '../SingleItemComponents/ReviewCardDetailed';
