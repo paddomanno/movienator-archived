@@ -9,7 +9,7 @@ const expressExtern = require('express');
 const externRouter = expressExtern.Router();
 const axios = require('axios');
 
-const API_KEY = 'fb73e59a39ce4d841ab2597bdf8b7003';
+const API_KEY = process.env['MOVIE_API_KEY'];
 const BASE_URL = 'https://api.themoviedb.org/3';
 
 /**
