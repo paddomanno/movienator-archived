@@ -11,12 +11,6 @@ variables:
 stages:
   - test
 
-before_script:
-  - echo 'Variables:'
-  - echo "$HATESPEECH_API_KEY"
-  - echo "$MOVIE_API_KEY"
-  - echo "$DB_PASSWORD"
-
 test-job1:
   image: node:latest
   stage: test
@@ -25,7 +19,6 @@ test-job1:
   before_script:
     - cd movienator_express
   script:
-    - echo "Databas host ${MYSQL_HOST} Database ${MYSQL_DATABASE}"
     - npm run install-test
   after_script:
     - echo 'finished expressTest'
