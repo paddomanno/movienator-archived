@@ -5,3 +5,8 @@ export type WatchProvider = {
   providerName: string;
   movies: Movie[];
 };
+
+export type WatchProvidersWithCountry = {
+  country: string;
+  providers: WatchProvider[];
+};

@@ -268,8 +268,6 @@ userRouter.get('/following/:id/watchlist/:mId', async (req, res) => {
     });
 
     if (resultUser && resultMovie) {
-      console.log('USER');
-      console.log(resultUser);
       let matchingUsers: User[] = [];
       //Iterate over all users the requested user is following
       resultUser.following.forEach((currentUser) => {
