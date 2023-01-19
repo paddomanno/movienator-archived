@@ -1,6 +1,7 @@
 import Movie from '../entity/movie';
 import User from '../entity/user';
 import ProfileImage from '../entity/profileImage';
+import Fuse from 'fuse.js';
 const expressUser = require('express');
 const userRouter = expressUser.Router();
 
@@ -95,15 +96,26 @@ userRouter.get('/username/:word', async (req, res) => {
         profileImage: true,
       },
     });
+
     if (allUsers) {
-      let matchingUsers: User[] = [];
       let query: string = req.params.word;
-      allUsers.forEach((currentUser) => {
-        //If the query is a substring of the current users username
-        if (currentUser.userName.toLowerCase().includes(query.toLowerCase())) {
-          matchingUsers.push(currentUser);
-        }
-      });
+      // allUsers.forEach((currentUser) => {
+      //   //If the query is a substring of the current users username
+      //   if (currentUser.userName.toLowerCase().includes(query.toLowerCase())) {
+      //     matchingUsers.push(currentUser);
+      //   }
+      // });
+
+      // define fuse for fuzzy search
+      const fuseOptions = {
+        keys: ['firstName', 'lastName', 'userName'],
+      };
+      const fuse = new Fuse<User>(allUsers, fuseOptions);
+
+      // filter users
+      const matchingUsers: User[] = fuse
+        .search(query)
+        .map((result: Fuse.FuseResult<User>) => result.item);
 
       res.status(200).json({
         data: matchingUsers,
@@ -268,8 +280,6 @@ userRouter.get('/following/:id/watchlist/:mId', async (req, res) => {
     });
 
     if (resultUser && resultMovie) {
-      console.log('USER');
-      console.log(resultUser);
       let matchingUsers: User[] = [];
       //Iterate over all users the requested user is following
       resultUser.following.forEach((currentUser) => {
