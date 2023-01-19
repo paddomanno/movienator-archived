@@ -5,7 +5,7 @@ test-job1:
   stage: test
   image: node:latest
   before_script:
-    - dc movienator_express
+    - cd movienator_express
   script:
     - npm install-test
   after_script:
@@ -16,7 +16,7 @@ test-job2:
   image: node:latest
   before_script:
     - ls
-    - dc movienator_react
+    - cd movienator_react
   script:
     - npm install-test
   after_script:
