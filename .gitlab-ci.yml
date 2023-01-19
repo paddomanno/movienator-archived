@@ -12,8 +12,8 @@ before_script:
   - docker version
   - docker-compose version
 
-build:
-  stage: build
+test:
+  stage: test
   script:
     - ls
     - docker-compose -f .\docker-compose-test.yml down
