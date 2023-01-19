@@ -15,8 +15,9 @@ export default function LoginForm() {
     password: '',
   };
   const [formValues, setFormValues] = useState<InputValues>(defaultValues);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [cookies, setCookie] = useCookies(['userName', 'userId']);
-  const handleInputChange = (e: any) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
     if (value !== '') {
       const textField: HTMLElement | null = document.getElementById(
@@ -32,7 +33,7 @@ export default function LoginForm() {
     });
   };
 
-  function handleSubmit(e: any) {
+  function handleLoginClick(e: React.MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
     if (formValues.password !== '' && formValues.userName !== '') {
       getOneUserToUserId(formValues.userName).then((user) => {
@@ -69,7 +70,7 @@ export default function LoginForm() {
       });
     }
   }
-  function handleClick(e: any) {
+  function handleSignupClick(e: React.MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
     navigate('/signup');
   }
@@ -96,11 +97,11 @@ export default function LoginForm() {
           value={formValues.password}
           onChange={handleInputChange}
         />
-        <Button variant={'contained'} onClick={handleSubmit}>
+        <Button variant={'contained'} onClick={handleLoginClick}>
           Login
         </Button>
-        <Button variant={'contained'} onClick={handleClick}>
-          I don't have an account
+        <Button variant={'contained'} onClick={handleSignupClick}>
+          I don&apos;t have an account
         </Button>
       </Stack>
     </>

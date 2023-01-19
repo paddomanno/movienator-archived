@@ -25,7 +25,7 @@ export default function SignupForm() {
   };
   const [formValues, setFormValues] = useState<InputValues>(defaultValues);
 
-  const handleInputChange = (e: any) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
     if (value !== '') {
       const textField: HTMLElement | null = document.getElementById(
@@ -41,7 +41,7 @@ export default function SignupForm() {
     });
   };
 
-  function handleSubmit(e: any) {
+  function handleSubmit(e: React.MouseEvent): void {
     e.preventDefault();
     if (
       formValues.firstName !== '' &&
