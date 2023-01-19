@@ -6,3 +6,5 @@ Die beiden docker compose files lassen sich starten über.
 
     docker-compose -f .\docker-compose-dev.yml up --remove-orphans
     docker-compose -f .\docker-compose-test.yml up --remove-orphans
+
+Evt müsst ihr einmal `--remove-orphans` als option mitgeben.
