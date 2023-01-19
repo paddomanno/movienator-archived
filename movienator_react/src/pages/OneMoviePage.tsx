@@ -37,39 +37,39 @@ export default function OneMoviePage() {
     if (!cookies.userName) {
       navigate('/login');
     }
-    if (typeof movieId === 'string') {
-      getOneMovieToId(parseInt(movieId)).then((movie) => {
-        if (movie != null) {
-          getActorsToMovie(movie.movieId).then((actors) => {
-            movie.actors = actors;
-            setMovie(movie);
-          });
-          getAllWatchProvidersForMovie(movie.movieId).then((providers) => {
-            movie.watchProviders = providers;
-            setMovie(movie);
-          });
-        }
-      });
 
-      getFollowingToUserIdWithMovieIdOnWatchlist(
-        cookies.userId as number,
-        parseInt(movieId)
-      ).then((users) => {
-        setFollowingWatchlist(users);
-      });
-      getAllReviewsOfFollowingToUserIdAndMovieId(
-        cookies.userId as number,
-        parseInt(movieId)
-      ).then((reviews) => {
-        setFollowingReviews(reviews);
-      });
-      getAllReviewsOfNotFollowingToUserIdAndMovieId(
-        cookies.userId as number,
-        parseInt(movieId)
-      ).then((reviews) => {
-        setOtherReviews(reviews);
-      });
-    }
+    const fetchData = async () => {
+      if (typeof movieId === 'string') {
+        let movie = await getOneMovieToId(parseInt(movieId));
+        if (movie) {
+          const actors = await getActorsToMovie(movie.movieId);
+          movie.actors = actors;
+
+          setMovie(movie);
+        }
+
+        const usersFollowingWatchlist =
+          await getFollowingToUserIdWithMovieIdOnWatchlist(
+            cookies.userId as number,
+            parseInt(movieId)
+          );
+        setFollowingWatchlist(usersFollowingWatchlist);
+
+        const reviewsFollowing =
+          await getAllReviewsOfFollowingToUserIdAndMovieId(
+            cookies.userId as number,
+            parseInt(movieId)
+          );
+        setFollowingReviews(reviewsFollowing);
+
+        const reviewsAll = await getAllReviewsOfNotFollowingToUserIdAndMovieId(
+          cookies.userId as number,
+          parseInt(movieId)
+        );
+        setOtherReviews(reviewsAll);
+      }
+    };
+    fetchData();
   }, []);
 
   return (
