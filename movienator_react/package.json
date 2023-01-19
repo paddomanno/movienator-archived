@@ -31,7 +31,6 @@
     "install-test": "npm install && echo 'NO TESTS YET'",
     "startlocal": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
