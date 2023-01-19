@@ -20,9 +20,10 @@ before_script:
   - echo "$MOVIE_API_KEY"
   - echo "$DB_PASSWORD"
 
+image: node:latest
+
 test-job1:
   stage: test
-  image: node:latest
   before_script:
     - cd movienator_express
   script:
@@ -32,8 +33,8 @@ test-job1:
 
 test-job2:
   stage: test
-  image: node:latest
   before_script:
+    - ls
     - cd movienator_react
   script:
     - npm run install-temp
