@@ -12,7 +12,7 @@ type Props = {
 function WatchPartyAddUsersList({ users, usersInGroup, onClickUser }: Props) {
   return (
     <>
-      <Stack direction={'row'} spacing={1} overflow={'auto'}>
+      <Grid2 container spacing={1}>
         {users.map((user, index) => (
           <Grid2 key={index}>
             <WatchPartyAddUserCard
@@ -23,7 +23,7 @@ function WatchPartyAddUsersList({ users, usersInGroup, onClickUser }: Props) {
             />
           </Grid2>
         ))}
-      </Stack>
+      </Grid2>
     </>
   );
 }

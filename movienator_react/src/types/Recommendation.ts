@@ -10,3 +10,7 @@ export type Recommendation = {
   receivingUser: User | null;
   recommendedMovie: Movie | null;
 };
+
+type Score = { score: number };
+
+export type MovieWithScore = Score & Movie;

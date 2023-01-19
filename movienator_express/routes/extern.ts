@@ -9,7 +9,7 @@ const expressExtern = require('express');
 const externRouter = expressExtern.Router();
 const axios = require('axios');
 
-const API_KEY = 'fb73e59a39ce4d841ab2597bdf8b7003';
+const API_KEY = process.env['MOVIE_API_KEY'];
 const BASE_URL = 'https://api.themoviedb.org/3';
 
 /**
@@ -548,38 +548,42 @@ externRouter.get('/watchProviders', async (req, res) => {
   }
 });
 
-// Returns the watchProviders for this movie id in the US
-externRouter.get('/watchProviders/movie/:id'),
-  async (req, res) => {
-    try {
-      if (isNaN(+req.params.id)) {
-        throw 'Not a valid number';
-      }
-      let movieId: number = parseInt(req.params.id);
-      let resProviders: WatchProvider[] = [];
-      let query: string =
-        BASE_URL + `/movie/${movieId}/watch/providers?api_key=${API_KEY}`;
-      let watchProviders = await axios.get(query, {
-        headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
-        params: { trophies: true },
+// Returns the watchProviders for this movie id in the specified country, or DE by default
+externRouter.get('/watchProviders/movie/:id/:country', async (req, res) => {
+  try {
+    if (isNaN(+req.params.id)) {
+      throw 'Not a valid number';
+    }
+    const movieId: number = parseInt(req.params.id);
+    let resultProviders: WatchProvider[] = [];
+    const query: string =
+      BASE_URL + `/movie/${movieId}/watch/providers?api_key=${API_KEY}`;
+    const apiResponse = await axios.get(query, {
+      headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
+      params: { trophies: true },
+    });
+    const country = apiResponse.data.results[req.params.country]
+      ? req.params.country
+      : 'DE';
+    const providersInCountry = apiResponse.data.results[country];
+
+    if (apiResponse.status == 200) {
+      providersInCountry?.flatrate?.forEach((provider) => {
+        let newWP: WatchProvider = new WatchProvider();
+        newWP.providerId = provider.provider_id;
+        newWP.providerName = provider.provider_name;
+        resultProviders.push(newWP);
       });
-      if (watchProviders.status == 200) {
-        watchProviders.data.results.US.flatrate.forEach((provider) => {
-          let newWP: WatchProvider = new WatchProvider();
-          newWP.providerId = provider.provider_id;
-          newWP.providerName = provider.provider_name;
-          resProviders.push(newWP);
-        });
-        res.status(200).json({
-          data: resProviders,
-        });
-      } else {
-        res.status(500).json();
-      }
-    } catch (er) {
-      console.log(er);
+      res.status(200).json({
+        data: { country: country, providers: resultProviders },
+      });
+    } else {
       res.status(500).json();
     }
-  };
+  } catch (er) {
+    console.log(er);
+    res.status(500).json();
+  }
+});
 
 module.exports = externRouter;

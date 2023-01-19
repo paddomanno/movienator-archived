@@ -6,29 +6,32 @@
   "main": "start.ts",
   "scripts": {
     "dev": "tsc-watch --onSuccess \"node dist/start\"",
-    "test": "jest --forceExit --runInBand --silent"
+    "test": "jest --forceExit --runInBand --silent",
+    "install-test": "npm install && npm run test",
+    "install-start": "npm install && npm run dev"
   },
   "dependencies": {
-    "express": "latest",
-    "typeorm": "latest",
-    "reflect-metadata": "latest",
-    "mysql": "latest",
-    "ts-node": "latest",
-    "rimraf": "latest",
-    "tsc-watch": "latest",
-    "jest": "latest",
     "axios": "latest",
+    "body-parser": "latest",
     "cors": "latest",
-    "body-parser": "latest"
+    "express": "latest",
+    "fuse.js": "^6.6.2",
+    "jest": "latest",
+    "mysql": "latest",
+    "reflect-metadata": "latest",
+    "rimraf": "latest",
+    "ts-node": "latest",
+    "tsc-watch": "latest",
+    "typeorm": "latest"
   },
   "devDependencies": {
-    "@types/node": "latest",
+    "@types/cors": "latest",
     "@types/express": "latest",
     "@types/jest": "latest",
-    "@types/cors": "latest",
-    "typescript": "latest",
+    "@types/node": "latest",
     "nodemon": "latest",
     "supertest": "latest",
-    "ts-jest": "latest"
+    "ts-jest": "latest",
+    "typescript": "latest"
   }
 }
