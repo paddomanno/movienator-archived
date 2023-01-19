@@ -3,12 +3,11 @@ import axios from 'axios';
 import { MovieWithScore, Recommendation } from '../types/Recommendation';
 import { Movie } from '../types/Movie';
 import { getWatchlistMoviesToUserId } from './MovieService';
-import { getUserRecommendationsToUserId } from './ExternService';
-import { getAllReviewsToUserId } from './ReviewService';
-import { Genre } from '../types/Genre';
-import { listClasses } from '@mui/material/List';
-import { Review } from '../types/Review';
-import { rejects } from 'assert';
+import {
+  getMoviesToGenreId,
+  getUserRecommendationsToUserId,
+} from './ExternService';
+import { getFavoriteGenreToUserId } from './GenreService';
 
 const baseUrl: string = 'http://localhost:8080/recommendation';
 
@@ -111,11 +110,8 @@ export async function getRecommendationForUserList(
 ): Promise<MovieWithScore[]> {
   try {
     // Get movie recommendations for this group of users
-    const watchPartyResult: MovieWithScore[] = await calculateWatchPartyResults(
-      users
-    );
     //Now we have a list of movies (without duplicates) that at least one input user has on his/her watchlist, has reviewed or has in his/her recommended
-    return watchPartyResult;
+    return await calculateWatchPartyResults(users);
   } catch (e) {
     console.log(e);
     throw e;
@@ -139,13 +135,19 @@ async function calculateWatchPartyResults(users: User[]) {
     await addMoviesToResults(watchPartyResult, currentRecommendationList);
 
     //REVIEWS
-    const currentReviewList = await getAllReviewsToUserId(
+    const favoriteGenre = await getFavoriteGenreToUserId(
       currentUser.userId as number
     );
-    const currentMoviesFromReviews: Movie[] = currentReviewList.map(
-      (review) => review.review_movie!
-    );
-    await addMoviesToResults(watchPartyResult, currentMoviesFromReviews);
+    if (favoriteGenre != null) {
+      const thisGenreTopMovies = await getMoviesToGenreId(
+        favoriteGenre.genreId,
+        1
+      );
+      await addMoviesToResults(
+        watchPartyResult,
+        thisGenreTopMovies.slice(0, 10)
+      );
+    }
   }
   return watchPartyResult;
 }

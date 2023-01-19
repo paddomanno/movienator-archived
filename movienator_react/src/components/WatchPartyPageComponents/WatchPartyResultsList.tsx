@@ -17,7 +17,7 @@ export default function WatchPartyResultsList({ title, movies }: Props) {
       <CardContent>
         {title ?? <Typography>{title}</Typography>}
         {movies.length > 0 ? (
-          <Grid2 container spacing={1}>
+          <Grid2 container spacing={1} justifyContent="center">
             {movies.map((movie) => (
               <Grid2>
                 <WatchPartyMovieCard movie={movie} />

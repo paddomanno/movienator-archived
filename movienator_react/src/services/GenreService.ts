@@ -1,7 +1,7 @@
 import { Genre } from '../types/Genre';
 import axios from 'axios';
 
-const baseUrl: string = 'http://localhost:8080/genres';
+const baseUrl: string = 'http://localhost:8080/genre';
 export async function getAllGenres(): Promise<Genre[]> {
   let resArray: Genre[] = [];
   try {
@@ -13,4 +13,18 @@ export async function getAllGenres(): Promise<Genre[]> {
     console.log('Error fetching Genres: ' + e);
   }
   return resArray;
+}
+
+export async function getFavoriteGenreToUserId(
+  userId: number
+): Promise<Genre | null> {
+  try {
+    let response = await axios.get(baseUrl + `/favorite/${userId}`);
+    if (response.status === 200) {
+      return response.data.data as Genre;
+    }
+  } catch (e) {
+    console.log('Error getting Genre');
+  }
+  return null;
 }

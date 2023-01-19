@@ -2,7 +2,10 @@ import { Movie } from '../types/Movie';
 import { Actor } from '../types/Actor';
 import axios from 'axios';
 import { Genre } from '../types/Genre';
-import { WatchProvider } from '../types/WatchProvider';
+import {
+  WatchProvider,
+  WatchProvidersWithCountry,
+} from '../types/WatchProvider';
 
 const baseUrl: string = 'http://localhost:8080/extern';
 export async function getMoviesToName(
@@ -185,7 +188,7 @@ export async function getContainsHateSpeech(inputText: string): Promise<any> {
     method: 'get',
     params: { text: inputText },
     headers: {
-      'X-RapidAPI-Key': 'eddda348dcmshda9555178f171efp1f761ajsn6c9cd7ac350e',
+      'X-RapidAPI-Key': process.env['HATESPEECH_API_KEY'],
       'X-RapidAPI-Host': 'community-purgomalum.p.rapidapi.com',
     },
   });
@@ -205,18 +208,19 @@ export async function getAllWatchProvidersUS(): Promise<WatchProvider[]> {
 }
 
 export async function getAllWatchProvidersForMovie(
-  movieId: number
-): Promise<WatchProvider[]> {
-  let resArray: WatchProvider[] = [];
+  movieId: number,
+  country: string
+): Promise<WatchProvidersWithCountry> {
+  let result: WatchProvidersWithCountry = { country: '', providers: [] };
   try {
     let response = await axios.get(
-      baseUrl + `/watchProviders/movie/${movieId}`
+      baseUrl + `/watchProviders/movie/${movieId}/${country}`
     );
     if (response.status === 200) {
-      resArray = response.data.data as WatchProvider[];
+      result = response.data.data;
     }
   } catch (e) {
     console.log('Error fetching Watch Providers: ' + e);
   }
-  return resArray;
+  return result;
 }

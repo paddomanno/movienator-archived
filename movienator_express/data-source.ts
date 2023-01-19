@@ -23,7 +23,7 @@ export const AppDataSource = new DataSource({
   host: 'sql11.freesqldatabase.com',
   port: 3306,
   username: 'sql11591037',
-  password: 'BLT9Q7rh9u',
+  password: process.env['DB_PASSWORD'],
   database: 'sql11591037',
   //Hier die importierten Entitätsklassen angeben
   entities: [

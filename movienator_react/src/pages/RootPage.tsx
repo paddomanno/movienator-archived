@@ -8,6 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { User } from '../types/User';
 import { getOneUserToUserId } from '../services/UserService';
 import GroupsIcon from '@mui/icons-material/Groups';
+import CakeOutlinedIcon from '@mui/icons-material/CakeOutlined';
 
 export default function RootPage() {
   const SIZE_PROFILEIMAGE = 50;
@@ -36,22 +37,38 @@ export default function RootPage() {
     <div>
       <Stack direction={'row'} justifyContent={'space-between'}>
         <Stack direction={'row'} spacing={1}>
+          <Typography variant={'h3'}>Movienator3000</Typography>
           <IconButton
             onClick={() => {
               navigate('/home');
             }}
           >
-            <LiveTvIcon />
+            <Stack direction={'row'} spacing={1}>
+              <Typography>Home</Typography>
+              <LiveTvIcon />
+            </Stack>
           </IconButton>
           <IconButton
             onClick={() => {
               navigate('/socialPage');
             }}
           >
-            <GroupsIcon />
+            <Stack direction={'row'} spacing={1}>
+              <Typography>Social</Typography>
+              <GroupsIcon />
+            </Stack>
+          </IconButton>
+          <IconButton
+            onClick={() => {
+              navigate('/watchparty');
+            }}
+          >
+            <Stack direction={'row'} spacing={1}>
+              <Typography>Watch Party</Typography>
+              <CakeOutlinedIcon />
+            </Stack>
           </IconButton>
         </Stack>
-        <Typography variant={'h3'}>Movienator3000</Typography>
         <Stack direction={'row'} spacing={1}>
           {user != null ? (
             <>
