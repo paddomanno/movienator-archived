@@ -15,8 +15,6 @@ test-job1:
   stage: test
   before_script:
     - echo "Docker versions"
-    - docker version
-    - docker-compose version
   script:
     - ls
     - docker-compose -f .\docker-compose-test.yml down
