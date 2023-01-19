@@ -1,27 +1,21 @@
 //Route: movienator3000.com/home
-import ReviewsListHomePage from '../components/ListComponents/ReviewsListHomePage';
 import AllGenresList from '../components/ListComponents/AllGenresList';
 import React, { useEffect, useState } from 'react';
 import { Movie } from '../types/Movie';
-import { Review } from '../types/Review';
 import { Genre } from '../types/Genre';
-import { Box, Card, CardContent, Stack, Typography } from '@mui/material';
+import { Card, CardContent, Stack, Typography } from '@mui/material';
 import { getWatchlistMoviesToUserId } from '../services/MovieService';
 import {
   getAllGenres,
   getPopularMoviesToPagenumber,
   getUserRecommendationsToUserId,
 } from '../services/ExternService';
-import { getAllReviewsOfFollowingToUserId } from '../services/ReviewService';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { grey } from '@mui/material/colors';
 import ActorSearchBar from '../components/GeneralComponents/ActorSearchBar';
 import MovieSearchBar from '../components/GeneralComponents/MovieSearchbar';
 import MoviesListOneLine from '../components/ListComponents/MoviesListOneLine';
-import RecommendationListOneLine from '../components/RecommendationComponents/RecommendationListOneLine';
-import { Recommendation } from '../types/Recommendation';
-import { getAllRecommendationsForUserId } from '../services/RecommendationService';
 
 export default function HomePage() {
   const MAX_MOVIES_PER_LIST = 10;

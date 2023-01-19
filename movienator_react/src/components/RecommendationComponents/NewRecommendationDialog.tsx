@@ -1,5 +1,4 @@
-import { SingleUserProps } from '../../props/UserProps';
-import { SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Button,
   Dialog,
@@ -9,7 +8,6 @@ import {
   Stack,
   TextField,
 } from '@mui/material';
-import OwnProfileUsersLists from '../OwnProfileComponents/OwnProfileUsersLists';
 import { User } from '../../types/User';
 import {
   getFollowingOfUserIdInFollowers,
@@ -70,7 +68,7 @@ export default function NewRecommendationDialog({
       showMessage();
       return;
     }
-    let rec: Recommendation = {
+    const rec: Recommendation = {
       recommendedMovieMovieId: movie.movieId,
       sendingUserUserId: cookies.userId as number,
       receivingUserUserId: forUserId,

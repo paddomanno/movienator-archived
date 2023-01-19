@@ -11,7 +11,7 @@ import UserCard from '../UserCard';
 export default function ReviewCardWithUserAndMovie({
   review,
 }: SingleReviewProps) {
-  let stars = (
+  const stars = (
     <Stack direction={'row'}>
       {[...Array(review.rating)].map((x, i) => (
         <StarIcon />

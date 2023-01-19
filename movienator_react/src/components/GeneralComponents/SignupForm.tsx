@@ -28,7 +28,7 @@ export default function SignupForm() {
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     if (value !== '') {
-      let textField: HTMLElement | null = document.getElementById(
+      const textField: HTMLElement | null = document.getElementById(
         `${name}-input`
       );
       if (textField != null) {
@@ -55,7 +55,7 @@ export default function SignupForm() {
         if (user == null) {
           console.log('Found no user with this username');
           if (formValues.password === formValues.repeatPassword) {
-            let newUser: User = {
+            const newUser: User = {
               userId: null,
               lastName: formValues.lastName,
               firstName: formValues.firstName,
@@ -77,14 +77,14 @@ export default function SignupForm() {
               }
             });
           } else {
-            let textField: HTMLElement | null =
+            const textField: HTMLElement | null =
               document.getElementById(`repeatPassword-input`);
             if (textField != null) {
               textField.style.backgroundColor = 'red';
             }
           }
         } else {
-          let textField: HTMLElement | null =
+          const textField: HTMLElement | null =
             document.getElementById(`userName-input`);
           if (textField != null) {
             textField.style.backgroundColor = 'red';
@@ -96,7 +96,7 @@ export default function SignupForm() {
     } else {
       (Object.keys(formValues) as (keyof InputValues)[]).forEach((key) => {
         if (formValues[key] === '') {
-          let textField: HTMLElement | null = document.getElementById(
+          const textField: HTMLElement | null = document.getElementById(
             `${key}-input`
           );
           if (textField != null) {

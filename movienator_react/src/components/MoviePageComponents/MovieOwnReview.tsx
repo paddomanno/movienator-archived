@@ -13,14 +13,13 @@ import {
   Card,
   CardContent,
   Divider,
-  Modal,
   Stack,
   TextField,
   Typography,
 } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import { grey, red } from '@mui/material/colors';
+import { grey } from '@mui/material/colors';
 import { createMovie } from '../../services/MovieService';
 import { SingleMovieProps } from '../../props/MovieProps';
 import { getContainsHateSpeech } from '../../services/ExternService';
@@ -32,7 +31,7 @@ type InputData = {
   rating: number;
 };
 export default function MovieOwnReview({ movie }: SingleMovieProps) {
-  let defaultData: InputData = {
+  const defaultData: InputData = {
     title: '',
     comment: '',
     rating: 0,
@@ -44,8 +43,7 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
   const [oldData, setOldData] = useState<InputData>(defaultData);
   //To handle the hate speech reminder snackbar
   const [activateToggle, setActivateToggle] = useState<boolean>(false);
-  const hateSpeechErrorMessage: string =
-    'Reviews are not allowed to contain profanity';
+  const hateSpeechErrorMessage = 'Reviews are not allowed to contain profanity';
   const hateSpeechAlertColor: AlertColor = 'warning';
 
   useEffect(() => {
@@ -78,7 +76,7 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     if (value !== '') {
-      let textField: HTMLElement | null = document.getElementById(
+      const textField: HTMLElement | null = document.getElementById(
         `${name}-input`
       );
       if (textField != null) {
@@ -132,7 +130,7 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
   }
 
   function saveReview() {
-    let newReview: Review = {
+    const newReview: Review = {
       reviewMovieMovieId: movie.movieId,
       reviewUserUserId: cookies.userId as number,
       title: inputData.title,
@@ -173,7 +171,7 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
   }
 
   function handleErrorTextToLong() {
-    let textField: HTMLElement | null =
+    const textField: HTMLElement | null =
       document.getElementById(`comment-input`);
     if (textField != null) {
       textField.style.backgroundColor = 'orange';
@@ -183,7 +181,7 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
   function handleErrorFieldsEmpty() {
     (Object.keys(inputData) as (keyof InputData)[]).forEach((key) => {
       if (inputData[key] === '') {
-        let textField: HTMLElement | null = document.getElementById(
+        const textField: HTMLElement | null = document.getElementById(
           `${key}-input`
         );
         if (textField != null) {
@@ -220,7 +218,7 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
     });
   }
 
-  let stars = (
+  const stars = (
     <Stack direction={'row'}>
       {[...Array(inputData.rating)].map((x, i) => (
         <StarIcon
@@ -243,7 +241,7 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
     </Stack>
   );
 
-  let buttons = (
+  const buttons = (
     <Stack direction={'column'} alignItems={'center'} spacing={1}>
       {editing ? (
         <Stack direction={'row'} spacing={1}>
@@ -269,7 +267,7 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
     </Stack>
   );
 
-  let leftColumn = (
+  const leftColumn = (
     <Stack
       direction={'column'}
       width={'30%'}
@@ -285,7 +283,7 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
       {buttons}
     </Stack>
   );
-  let rightColumn = (
+  const rightColumn = (
     <Stack direction={'column'} width={'70%'} alignItems={'center'} spacing={2}>
       {stars}
       <TextField

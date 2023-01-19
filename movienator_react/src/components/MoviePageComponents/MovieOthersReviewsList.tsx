@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography, Stack } from '@mui/material';
+import { Card, CardContent, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import ReviewCardDetailed from '../SingleItemComponents/ReviewCardDetailed';
 import { ReviewListProps } from '../../props/ReviewProps';

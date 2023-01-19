@@ -7,14 +7,14 @@ import {
   WatchProvidersWithCountry,
 } from '../types/WatchProvider';
 
-const baseUrl: string = 'http://localhost:8080/extern';
+const baseUrl = 'http://localhost:8080/extern';
 export async function getMoviesToName(
   searchWord: string,
   page: number
 ): Promise<Movie[]> {
   let resArray: Movie[] = [];
   try {
-    let response = await axios.get(
+    const response = await axios.get(
       baseUrl + `/search/movie/${searchWord}` + `?page=${page}`
     );
     if (response.status === 200) {
@@ -28,7 +28,7 @@ export async function getMoviesToName(
 export async function getOneMovieToId(movieId: number): Promise<Movie | null> {
   let resMovie: Movie | null = null;
   try {
-    let response = await axios.get(baseUrl + `/movie/one/${movieId}`);
+    const response = await axios.get(baseUrl + `/movie/one/${movieId}`);
     if (response.status === 200) {
       resMovie = response.data.data as Movie;
     }
@@ -41,7 +41,7 @@ export async function getOneMovieToId(movieId: number): Promise<Movie | null> {
 export async function searchActorsByName(searchWord: string): Promise<Actor[]> {
   let resActors: Actor[] = [];
   try {
-    let response = await axios.get(baseUrl + `/search/actor/${searchWord}`);
+    const response = await axios.get(baseUrl + `/search/actor/${searchWord}`);
     if (response.status === 200) {
       resActors = response.data.data as Actor[];
     }
@@ -54,7 +54,7 @@ export async function searchActorsByName(searchWord: string): Promise<Actor[]> {
 export async function getActorsToMovie(movieId: number): Promise<Actor[]> {
   let resArray: Actor[] = [];
   try {
-    let response = await axios.get(baseUrl + `/actor/movie/${movieId}`);
+    const response = await axios.get(baseUrl + `/actor/movie/${movieId}`);
     if (response.status === 200) {
       resArray = response.data.data as Actor[];
     }
@@ -67,7 +67,7 @@ export async function getActorsToMovie(movieId: number): Promise<Actor[]> {
 export async function getMoviesToActor(actorId: number): Promise<Movie[]> {
   let resArray: Movie[] = [];
   try {
-    let response = await axios.get(baseUrl + `/movies/actor/${actorId}`);
+    const response = await axios.get(baseUrl + `/movies/actor/${actorId}`);
     if (response.status === 200) {
       resArray = response.data.data as Movie[];
     }
@@ -80,7 +80,7 @@ export async function getMoviesToActor(actorId: number): Promise<Movie[]> {
 export async function getOneActorToId(actorId: number): Promise<Actor | null> {
   let resArray: Actor | null = null;
   try {
-    let response = await axios.get(baseUrl + `/actor/${actorId}`);
+    const response = await axios.get(baseUrl + `/actor/${actorId}`);
     if (response.status === 200) {
       resArray = response.data.data as Actor;
     }
@@ -95,7 +95,9 @@ export async function getUserRecommendationsToUserId(
 ): Promise<Movie[]> {
   let resArray: Movie[] = [];
   try {
-    let response = await axios.get(baseUrl + `/user/${userId}/recommendations`);
+    const response = await axios.get(
+      baseUrl + `/user/${userId}/recommendations`
+    );
     if (response.status === 200) {
       resArray = response.data.data as Movie[];
     }
@@ -110,7 +112,7 @@ export async function getMovieRecommendationsToMovieId(
 ): Promise<Movie[]> {
   let resArray: Movie[] = [];
   try {
-    let response = await axios.get(
+    const response = await axios.get(
       baseUrl + `/movie/${movieId}/recommendations`
     );
     if (response.status === 200) {
@@ -127,7 +129,7 @@ export async function getPopularMoviesToPagenumber(
 ): Promise<Movie[]> {
   let resArray: Movie[] = [];
   try {
-    let response = await axios.get(baseUrl + '/popular' + `?page=${page}`);
+    const response = await axios.get(baseUrl + '/popular' + `?page=${page}`);
     if (response.status === 200) {
       resArray = response.data.data as Movie[];
     }
@@ -140,7 +142,7 @@ export async function getPopularMoviesToPagenumber(
 export async function getAllGenres(): Promise<Genre[]> {
   let resArray: Genre[] = [];
   try {
-    let response = await axios.get(baseUrl + '/genres');
+    const response = await axios.get(baseUrl + '/genres');
     if (response.status === 200) {
       resArray = response.data.data as Genre[];
     }
@@ -156,7 +158,7 @@ export async function getMoviesToGenreId(
 ): Promise<Movie[]> {
   let resArray: Movie[] = [];
   try {
-    let response = await axios.get(
+    const response = await axios.get(
       baseUrl + `/movie/genre/${genreId}` + `?page=${page}`
     );
     if (response.status === 200) {
@@ -171,7 +173,7 @@ export async function getMoviesToGenreId(
 export async function getOneGenreToId(genreId: number): Promise<Genre | null> {
   let resGenre: Genre | null = null;
   try {
-    let response = await axios.get(baseUrl + `/genre/${genreId}`);
+    const response = await axios.get(baseUrl + `/genre/${genreId}`);
     if (response.status === 200) {
       resGenre = response.data.data as Genre;
     }
@@ -197,7 +199,7 @@ export async function getContainsHateSpeech(inputText: string): Promise<any> {
 export async function getAllWatchProvidersUS(): Promise<WatchProvider[]> {
   let resArray: WatchProvider[] = [];
   try {
-    let response = await axios.get(baseUrl + '/watchProviders');
+    const response = await axios.get(baseUrl + '/watchProviders');
     if (response.status === 200) {
       resArray = response.data.data as WatchProvider[];
     }
@@ -213,7 +215,7 @@ export async function getAllWatchProvidersForMovie(
 ): Promise<WatchProvidersWithCountry> {
   let result: WatchProvidersWithCountry = { country: '', providers: [] };
   try {
-    let response = await axios.get(
+    const response = await axios.get(
       baseUrl + `/watchProviders/movie/${movieId}/${country}`
     );
     if (response.status === 200) {

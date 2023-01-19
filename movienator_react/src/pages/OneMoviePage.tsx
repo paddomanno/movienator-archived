@@ -3,11 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Movie } from '../types/Movie';
 import MovieDetails from '../components/MoviePageComponents/MovieDetails';
-import {
-  getActorsToMovie,
-  getAllWatchProvidersForMovie,
-  getOneMovieToId,
-} from '../services/ExternService';
+import { getActorsToMovie, getOneMovieToId } from '../services/ExternService';
 import { User } from '../types/User';
 import { getFollowingToUserIdWithMovieIdOnWatchlist } from '../services/UserService';
 import { Review } from '../types/Review';
@@ -40,7 +36,7 @@ export default function OneMoviePage() {
 
     const fetchData = async () => {
       if (typeof movieId === 'string') {
-        let movie = await getOneMovieToId(parseInt(movieId));
+        const movie = await getOneMovieToId(parseInt(movieId));
         if (movie) {
           const actors = await getActorsToMovie(movie.movieId);
           movie.actors = actors;

@@ -1,7 +1,6 @@
 //Route: movienator3000.com/login
-import { Card, Typography } from '@mui/material';
+import { Card } from '@mui/material';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import LoginForm from '../components/GeneralComponents/LoginForm';
 
 export default function LoginPage() {

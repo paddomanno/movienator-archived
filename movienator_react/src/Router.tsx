@@ -19,7 +19,7 @@ import SocialPage from './pages/SocialPage';
 import FriendRecommendationsPage from './pages/FriendRecommendationsPage';
 import WatchPartyPage from './pages/WatchPartyPage';
 
-let router = createBrowserRouter([
+const router = createBrowserRouter([
   {
     path: '/',
     element: <RootPage />,

@@ -10,7 +10,7 @@ type InputValues = {
 };
 export default function LoginForm() {
   const navigate = useNavigate();
-  let defaultValues: InputValues = {
+  const defaultValues: InputValues = {
     userName: '',
     password: '',
   };
@@ -19,7 +19,7 @@ export default function LoginForm() {
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     if (value !== '') {
-      let textField: HTMLElement | null = document.getElementById(
+      const textField: HTMLElement | null = document.getElementById(
         `${name}-input`
       );
       if (textField != null) {
@@ -42,14 +42,14 @@ export default function LoginForm() {
             setCookie('userId', user.userId, { path: '/' });
             navigate('/home');
           } else {
-            let textField: HTMLElement | null =
+            const textField: HTMLElement | null =
               document.getElementById(`password-input`);
             if (textField != null) {
               textField.style.backgroundColor = 'red';
             }
           }
         } else {
-          let textField: HTMLElement | null =
+          const textField: HTMLElement | null =
             document.getElementById(`userName-input`);
           if (textField != null) {
             textField.style.backgroundColor = 'red';
@@ -59,7 +59,7 @@ export default function LoginForm() {
     } else {
       (Object.keys(formValues) as (keyof InputValues)[]).forEach((key) => {
         if (formValues[key] === '') {
-          let textField: HTMLElement | null = document.getElementById(
+          const textField: HTMLElement | null = document.getElementById(
             `${key}-input`
           );
           if (textField != null) {

@@ -1,11 +1,11 @@
 import { Review } from '../types/Review';
 import axios from 'axios';
 
-const baseUrl: string = 'http://localhost:8080/review';
+const baseUrl = 'http://localhost:8080/review';
 export async function getAllReviews(): Promise<Review[]> {
   let resArray: Review[] = [];
   try {
-    let response = await axios.get(baseUrl + `/all`);
+    const response = await axios.get(baseUrl + `/all`);
     if (response.status === 200) {
       resArray = response.data.data as Review[];
     }
@@ -19,7 +19,7 @@ export async function getAllReviewsSinceSpecificDate(
 ): Promise<Review[]> {
   let resArray: Review[] = [];
   try {
-    let response = await axios.get(baseUrl + `/time/${date}`);
+    const response = await axios.get(baseUrl + `/time/${date}`);
     if (response.status === 200) {
       resArray = response.data.data as Review[];
     }
@@ -34,7 +34,7 @@ export async function getOneReviewToUserIdAndMovieId(
 ): Promise<Review | null> {
   let resReview: Review | null = null;
   try {
-    let response = await axios.get(baseUrl + `/one/${movieId}/${userId}`);
+    const response = await axios.get(baseUrl + `/one/${movieId}/${userId}`);
     if (response.status === 200) {
       resReview = response.data.data as Review;
     }
@@ -49,7 +49,7 @@ export async function getAllReviewsToMovieId(
 ): Promise<Review[]> {
   let resArray: Review[] = [];
   try {
-    let response = await axios.get(baseUrl + `/movie/${movieId}`);
+    const response = await axios.get(baseUrl + `/movie/${movieId}`);
     if (response.status === 200) {
       resArray = response.data.data as Review[];
     }
@@ -62,7 +62,7 @@ export async function getAllReviewsToMovieId(
 export async function getAllReviewsToUserId(userId: number): Promise<Review[]> {
   let resArray: Review[] = [];
   try {
-    let response = await axios.get(baseUrl + `/user/own/${userId}`);
+    const response = await axios.get(baseUrl + `/user/own/${userId}`);
     if (response.status === 200) {
       resArray = response.data.data as Review[];
     }
@@ -77,7 +77,7 @@ export async function getAllReviewsOfFollowingToUserId(
 ): Promise<Review[]> {
   let resArray: Review[] = [];
   try {
-    let response = await axios.get(baseUrl + `/user/following/${userId}`);
+    const response = await axios.get(baseUrl + `/user/following/${userId}`);
     if (response.status === 200) {
       resArray = response.data.data as Review[];
     }
@@ -93,7 +93,7 @@ export async function getAllReviewsOfFollowingToUserIdAndMovieId(
 ): Promise<Review[]> {
   let resArray: Review[] = [];
   try {
-    let response = await axios.get(
+    const response = await axios.get(
       baseUrl + `/user/following/${userId}/review/${movieId}`
     );
     if (response.status === 200) {
@@ -110,7 +110,7 @@ export async function getAllReviewsOfNotFollowingToUserIdAndMovieId(
 ): Promise<Review[]> {
   let resArray: Review[] = [];
   try {
-    let response = await axios.get(
+    const response = await axios.get(
       baseUrl + `/user/notFollowing/${userId}/review/${movieId}`
     );
     if (response.status === 200) {
@@ -127,7 +127,7 @@ export async function getAllReviewsOfFollowingToUserIdSinceDate(
 ): Promise<Review[]> {
   let resArray: Review[] = [];
   try {
-    let response = await axios.get(
+    const response = await axios.get(
       baseUrl + `/user/following/${userId}/${date}`
     );
     if (response.status === 200) {
@@ -138,9 +138,9 @@ export async function getAllReviewsOfFollowingToUserIdSinceDate(
   }
   return resArray;
 }
-export async function createReview(newReview: Review): Promise<Boolean> {
+export async function createReview(newReview: Review): Promise<boolean> {
   try {
-    let response = await axios.post(baseUrl, newReview);
+    const response = await axios.post(baseUrl, newReview);
     if (response.status === 201) {
       return true;
     }
@@ -149,9 +149,9 @@ export async function createReview(newReview: Review): Promise<Boolean> {
   }
   return false;
 }
-export async function updateReview(updatedReview: Review): Promise<Boolean> {
+export async function updateReview(updatedReview: Review): Promise<boolean> {
   try {
-    let response = await axios.put(baseUrl, updatedReview);
+    const response = await axios.put(baseUrl, updatedReview);
     if (response.status === 201) {
       return true;
     }
@@ -163,9 +163,9 @@ export async function updateReview(updatedReview: Review): Promise<Boolean> {
 export async function deleteReviewToMovieIdAndUserId(
   movieId: number,
   userId: number
-): Promise<Boolean> {
+): Promise<boolean> {
   try {
-    let response = await axios.delete(baseUrl + `/${userId}/${movieId}`);
+    const response = await axios.delete(baseUrl + `/${userId}/${movieId}`);
     if (response.status === 204) {
       return true;
     }

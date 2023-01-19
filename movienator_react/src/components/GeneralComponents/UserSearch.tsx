@@ -1,4 +1,3 @@
-import { SingleUserProps } from '../../props/UserProps';
 import { useState, useEffect } from 'react';
 import {
   Card,

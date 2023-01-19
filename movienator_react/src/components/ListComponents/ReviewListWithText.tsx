@@ -1,6 +1,6 @@
 import { Review } from '../../types/Review';
 import { grey } from '@mui/material/colors';
-import { Card, CardContent, Stack, Typography } from '@mui/material';
+import { Card, CardContent, Typography } from '@mui/material';
 import ReviewCardDetailed from '../SingleItemComponents/ReviewCardDetailed';
 import Grid2 from '@mui/material/Unstable_Grid2';
 

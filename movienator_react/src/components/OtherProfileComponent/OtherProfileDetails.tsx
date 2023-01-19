@@ -43,11 +43,11 @@ export default function OtherProfileDetails({ user, reloadViewedUser }: props) {
         'Amount of users the logged in user is following ' +
           user?.following.length
       );
-      let testInput: User[] = user?.following!;
+      const testInput: User[] = user?.following!;
       getRecommendationForUserList(testInput);
       getFollowingToUserId(user?.userId as number).then((following) => {
         //If the currently viewed user is contained in 'following' of the logged in user, the state following is set to true
-        let followingTemp: boolean = false;
+        let followingTemp = false;
         following.forEach((user) => {
           if (user.userId === viewedUser!.userId) followingTemp = true;
         });

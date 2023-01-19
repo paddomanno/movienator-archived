@@ -1,11 +1,11 @@
 import { Genre } from '../types/Genre';
 import axios from 'axios';
 
-const baseUrl: string = 'http://localhost:8080/genre';
+const baseUrl = 'http://localhost:8080/genre';
 export async function getAllGenres(): Promise<Genre[]> {
   let resArray: Genre[] = [];
   try {
-    let response = await axios.get(baseUrl + '/all');
+    const response = await axios.get(baseUrl + '/all');
     if (response.status === 200) {
       resArray = response.data.data as Genre[];
     }
@@ -19,7 +19,7 @@ export async function getFavoriteGenreToUserId(
   userId: number
 ): Promise<Genre | null> {
   try {
-    let response = await axios.get(baseUrl + `/favorite/${userId}`);
+    const response = await axios.get(baseUrl + `/favorite/${userId}`);
     if (response.status === 200) {
       return response.data.data as Genre;
     }
