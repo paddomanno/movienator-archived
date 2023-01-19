@@ -34,7 +34,6 @@ test-job1:
 test-job2:
   stage: test
   before_script:
-    - ls
     - cd movienator_react
   script:
     - npm run install-temp
