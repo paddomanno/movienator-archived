@@ -188,7 +188,7 @@ export async function getContainsHateSpeech(inputText: string): Promise<any> {
     method: 'get',
     params: { text: inputText },
     headers: {
-      'X-RapidAPI-Key': process.env['HATESPEECH_API_KEY'],
+      'X-RapidAPI-Key': process.env['REACT_APP_HATESPEECH_API_KEY'],
       'X-RapidAPI-Host': 'community-purgomalum.p.rapidapi.com',
     },
   });
