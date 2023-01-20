@@ -64,7 +64,7 @@ services:
       - /usr/src/app/node_modules
     environment:
       CHOKIDAR_USEPOLLING: 'true'
-      HATESPEECH_API_KEY: ${HATESPEECH_API_KEY}
+      REACT_APP_HATESPEECH_API_KEY: ${HATESPEECH_API_KEY}
       MOVIE_API_KEY: ${MOVIE_API_KEY}
     depends_on:
       - movienator-express-dev
