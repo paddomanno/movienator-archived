@@ -4,6 +4,7 @@ import Review from '../entity/review';
 import Genre from '../entity/genre';
 import User from '../entity/user';
 import WatchProvider from '../entity/watchProvider';
+import { expect } from '@jest/globals';
 
 const expressExtern = require('express');
 const externRouter = expressExtern.Router();
@@ -582,6 +583,29 @@ externRouter.get('/watchProviders/movie/:id/:country', async (req, res) => {
     }
   } catch (er) {
     console.log(er);
+    res.status(500).json();
+  }
+});
+
+externRouter.get('/hateSpeech', async (req, res) => {
+  try {
+    let response = await axios({
+      url: 'https://community-purgomalum.p.rapidapi.com/containsprofanity',
+      method: 'get',
+      params: { text: req.query.text },
+      headers: {
+        'X-RapidAPI-Key': process.env['HATESPEECH_API_KEY'],
+        'X-RapidAPI-Host': 'community-purgomalum.p.rapidapi.com',
+      },
+    });
+    if (response.status == 200) {
+      res.status(200).json({
+        data: response.data as boolean,
+      });
+    } else {
+      res.status(500).json();
+    }
+  } catch (e) {
     res.status(500).json();
   }
 });

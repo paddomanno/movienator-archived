@@ -182,16 +182,20 @@ export async function getOneGenreToId(genreId: number): Promise<Genre | null> {
 }
 
 //Checks if a string contains hatespeech or insults
-export async function getContainsHateSpeech(inputText: string): Promise<any> {
-  return await axios({
-    url: 'https://community-purgomalum.p.rapidapi.com/containsprofanity',
-    method: 'get',
-    params: { text: inputText },
-    headers: {
-      'X-RapidAPI-Key': process.env['HATESPEECH_API_KEY'],
-      'X-RapidAPI-Host': 'community-purgomalum.p.rapidapi.com',
-    },
-  });
+export async function getContainsHateSpeech(
+  inputText: string
+): Promise<boolean> {
+  try {
+    let response = await axios.get(baseUrl + '/hatespeech', {
+      params: { text: inputText },
+    });
+    if (response.status == 200) {
+      return response.data.data as boolean;
+    }
+  } catch (e) {
+    console.log(e);
+  }
+  return false;
 }
 
 export async function getAllWatchProvidersUS(): Promise<WatchProvider[]> {
