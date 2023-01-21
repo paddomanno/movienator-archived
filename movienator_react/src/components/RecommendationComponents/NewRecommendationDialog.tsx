@@ -80,7 +80,7 @@ export default function NewRecommendationDialog({
       receivingUser: null,
     };
     getContainsHateSpeech(curMessage).then((response) => {
-      if (response.data) {
+      if (response) {
         setSnackBarMessage('Profanity detected');
         setSeverity('error');
         showMessage();

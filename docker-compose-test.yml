@@ -10,6 +10,7 @@ services:
       TZ: 'Europe/Berlin'
       DB_PASSWORD: ${DB_PASSWORD}
       MOVIE_API_KEY: ${MOVIE_API_KEY}
+      HATESPEECH_API_KEY: ${HATESPEECH_API_KEY}
     ports:
       - '8080:8080'
       - '9229:9229'
@@ -50,7 +51,6 @@ services:
       - /usr/src/app/node_modules
     environment:
       CHOKIDAR_USEPOLLING: 'true'
-      REACT_APP_HATESPEECH_API_KEY: ${HATESPEECH_API_KEY}
     depends_on:
       - movienator-express-test
     command: npm run install-temp
