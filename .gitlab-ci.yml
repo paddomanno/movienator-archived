@@ -1,0 +1,34 @@
+variables:
+  MYSQL_ROOT_PASSWORD: "root"
+  MYSQL_DATABASE: "movienator-database-test"
+  MYSQL_USER: "public"
+  MYSQL_PASSWORD: "public"
+  MYSQL_HOST: mysql
+  HATESPEECH_API_KEY: $hateSpeech_API_Key
+  MOVIE_API_KEY: $movie_API_Key
+  DB_PASSWORD: $DB_password
+
+stages:
+  - test
+
+test-job1:
+  image: node:latest
+  stage: test
+  services:
+    - mysql:5.7
+  before_script:
+    - cd movienator_express
+  script:
+    - npm run install-test
+  after_script:
+    - echo 'finished expressTest'
+
+test-job2:
+  image: node:latest
+  stage: test
+  before_script:
+    - cd movienator_react
+  script:
+    - npm run install-temp
+  after_script:
+    - echo 'finished reactTest'
