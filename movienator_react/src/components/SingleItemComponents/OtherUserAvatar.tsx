@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Avatar, IconButton } from '@mui/material';
 import React from 'react';
-import { SingleUserProps } from '../../props/UserProps';
 import { User } from '../../types/User';
 
 type Props = {

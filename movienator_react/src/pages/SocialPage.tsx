@@ -22,6 +22,10 @@ export default function SocialPage() {
     if (!cookies.userName) {
       navigate('/login');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     getAllReviewsOfFollowingToUserId(cookies.userId as number).then(
       (reviews) => {
         setReviews(reviews.slice(0, MAX_MOVIES_PER_LIST));
@@ -30,7 +34,7 @@ export default function SocialPage() {
     getAllRecommendationsForUserId(cookies.userId as number).then((recs) => {
       setFriendRecs(recs.slice(0, MAX_MOVIES_PER_LIST));
     });
-  }, []);
+  }, [cookies.userId]);
 
   function reloadRecs() {
     getAllRecommendationsForUserId(cookies.userId as number).then((recs) => {

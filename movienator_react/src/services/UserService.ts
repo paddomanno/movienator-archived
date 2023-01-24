@@ -1,12 +1,11 @@
-import { User } from '../types/User';
+import { NullableUser, User } from '../types/User';
 import axios from 'axios';
-import { Recommendation } from '../types/Recommendation';
 
-const baseUrl: string = 'http://localhost:8080/user';
+const baseUrl = 'http://localhost:8080/user';
 export async function getAllUsers(): Promise<User[]> {
   let resArray: User[] = [];
   try {
-    let response = await axios.get(baseUrl + `/all`);
+    const response = await axios.get(baseUrl + `/all`);
     if (response.status === 200) {
       resArray = response.data.data as User[];
     }
@@ -22,14 +21,14 @@ export async function getOneUserToUserId(
   let resUser: User | null = null;
   try {
     if (isNaN(+userIdentifier)) {
-      let response = await axios.get(
+      const response = await axios.get(
         baseUrl + `/one/username/${userIdentifier}`
       );
       if (response.status === 200) {
         resUser = response.data.data as User;
       }
     } else {
-      let response = await axios.get(baseUrl + `/one/id/${userIdentifier}`);
+      const response = await axios.get(baseUrl + `/one/id/${userIdentifier}`);
       if (response.status === 200) {
         resUser = response.data.data as User;
       }
@@ -44,7 +43,7 @@ export async function searchUsersByUserNameQuery(
 ): Promise<User[]> {
   let resArray: User[] = [];
   try {
-    let response = await axios.get(baseUrl + `/username/${word}`);
+    const response = await axios.get(baseUrl + `/username/${word}`);
     if (response.status === 200) {
       resArray = response.data.data as User[];
     }
@@ -56,7 +55,7 @@ export async function searchUsersByUserNameQuery(
 export async function getFollowersToUserId(userId: number): Promise<User[]> {
   let resArray: User[] = [];
   try {
-    let response = await axios.get(baseUrl + `/followers/${userId}`);
+    const response = await axios.get(baseUrl + `/followers/${userId}`);
     if (response.status === 200) {
       resArray = response.data.data as User[];
     }
@@ -68,7 +67,7 @@ export async function getFollowersToUserId(userId: number): Promise<User[]> {
 export async function getFollowingToUserId(userId: number): Promise<User[]> {
   let resArray: User[] = [];
   try {
-    let response = await axios.get(baseUrl + `/following/${userId}`);
+    const response = await axios.get(baseUrl + `/following/${userId}`);
     if (response.status === 200) {
       resArray = response.data.data as User[];
     }
@@ -83,7 +82,7 @@ export async function getFollowingToUserIdThatReviewedMovieId(
 ): Promise<User[]> {
   let resArray: User[] = [];
   try {
-    let response = await axios.get(
+    const response = await axios.get(
       baseUrl + `/following/${userId}/rated/${movieId}`
     );
     if (response.status === 200) {
@@ -100,7 +99,7 @@ export async function getFollowingToUserIdWithMovieIdOnWatchlist(
 ): Promise<User[]> {
   let resArray: User[] = [];
   try {
-    let response = await axios.get(
+    const response = await axios.get(
       baseUrl + `/following/${userId}/watchlist/${movieId}`
     );
     if (response.status === 200) {
@@ -111,9 +110,9 @@ export async function getFollowingToUserIdWithMovieIdOnWatchlist(
   }
   return resArray;
 }
-export async function createUser(newUser: User): Promise<Boolean> {
+export async function createUser(newUser: NullableUser): Promise<boolean> {
   try {
-    let response = await axios.post(baseUrl + '/', newUser);
+    const response = await axios.post(baseUrl + '/', newUser);
     if (response.status === 201) {
       return true;
     }
@@ -131,9 +130,11 @@ export async function createUser(newUser: User): Promise<Boolean> {
 export async function insertFollowingToUserIdAndUserId(
   userAId: number,
   userBId: number
-): Promise<Boolean> {
+): Promise<boolean> {
   try {
-    let response = await axios.post(baseUrl + `/follow/${userAId}/${userBId}`);
+    const response = await axios.post(
+      baseUrl + `/follow/${userAId}/${userBId}`
+    );
     if (response.status === 201) {
       return true;
     }
@@ -145,9 +146,9 @@ export async function insertFollowingToUserIdAndUserId(
 export async function insertMovieIdOnWatchlistToUserId(
   userAId: number,
   movieId: number
-): Promise<Boolean> {
+): Promise<boolean> {
   try {
-    let response = await axios.post(
+    const response = await axios.post(
       baseUrl + `/watchlist/${userAId}/${movieId}`
     );
     if (response.status === 201) {
@@ -158,9 +159,9 @@ export async function insertMovieIdOnWatchlistToUserId(
   }
   return false;
 }
-export async function updateUser(user: User): Promise<Boolean> {
+export async function updateUser(user: User): Promise<boolean> {
   try {
-    let response = await axios.put(baseUrl, user);
+    const response = await axios.put(baseUrl, user);
     if (response.status === 201) {
       return true;
     }
@@ -169,9 +170,9 @@ export async function updateUser(user: User): Promise<Boolean> {
   }
   return false;
 }
-export async function deleteUserToUserId(userId: number): Promise<Boolean> {
+export async function deleteUserToUserId(userId: number): Promise<boolean> {
   try {
-    let response = await axios.delete(baseUrl + `/${userId}`);
+    const response = await axios.delete(baseUrl + `/${userId}`);
     if (response.status === 204) {
       return true;
     }
@@ -189,9 +190,9 @@ export async function deleteUserToUserId(userId: number): Promise<Boolean> {
 export async function removeUserIdBFromFollowingOfUserIdA(
   userIdA: number,
   userIdB: number
-): Promise<Boolean> {
+): Promise<boolean> {
   try {
-    let response = await axios.delete(
+    const response = await axios.delete(
       baseUrl + `/follow/${userIdA}/${userIdB}`
     );
     if (response.status === 204) {
@@ -205,9 +206,9 @@ export async function removeUserIdBFromFollowingOfUserIdA(
 export async function removeMovieIdFromWatchlistOfUserId(
   userId: number,
   movieId: number
-): Promise<Boolean> {
+): Promise<boolean> {
   try {
-    let response = await axios.delete(
+    const response = await axios.delete(
       baseUrl + `/watchlist/${userId}/${movieId}`
     );
     if (response.status === 204) {
@@ -224,7 +225,7 @@ export async function getFollowingOfUserIdInFollowers(
 ): Promise<User[]> {
   let res: User[] = [];
   try {
-    let response = await axios.get(baseUrl + `/followingMutual/${userId}`);
+    const response = await axios.get(baseUrl + `/followingMutual/${userId}`);
     if (response.status === 200) {
       res = response.data.data as User[];
     }

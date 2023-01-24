@@ -13,7 +13,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 type Props = {
   movies: Movie[];
   title: string;
-  handleClick: (e: any) => void;
+  handleClick: (e: React.MouseEvent) => void;
 };
 
 export default function MoviesListOneLine({
@@ -29,7 +29,7 @@ export default function MoviesListOneLine({
           <Stack direction={'row'} spacing={1} justifyContent={'space-between'}>
             <Stack direction={'row'} spacing={1} overflow={'auto'}>
               {movies.map((movie) => (
-                <MovieCard movie={movie} />
+                <MovieCard movie={movie} key={movie.movieId} />
               ))}
             </Stack>
             <IconButton

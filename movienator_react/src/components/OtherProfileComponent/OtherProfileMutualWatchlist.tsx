@@ -14,7 +14,7 @@ export default function OtherProfileMutualWatchlist({
         </Typography>
         <Stack direction={'row'} overflow={'auto'}>
           {movies.map((movie) => (
-            <MovieCard movie={movie} />
+            <MovieCard movie={movie} key={movie.movieId} />
           ))}
         </Stack>
       </CardContent>

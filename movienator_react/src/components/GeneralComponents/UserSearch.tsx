@@ -1,4 +1,3 @@
-import { SingleUserProps } from '../../props/UserProps';
 import { useState, useEffect } from 'react';
 import {
   Card,
@@ -20,7 +19,7 @@ export default function UserSearch() {
   const [searchWord, setSearchWord] = useState<string>('');
   const [users, setUsers] = useState<User[]>([]);
 
-  function handleChange(e: any) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
     e.preventDefault();
     const { value } = e.target;
     setSearchWord(value);

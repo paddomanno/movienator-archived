@@ -23,19 +23,19 @@ export default function MovieSearchPage() {
     }
   }, [searchWord, page]);
 
-  function toHomePage(e: any) {
+  function toHomePage(e: React.MouseEvent): void {
     e.preventDefault();
     navigate('/home');
   }
 
-  function decrementPage(e: any) {
+  function decrementPage(e: React.MouseEvent): void {
     e.preventDefault();
     if (page > 1) {
       setPage(page - 1);
     }
   }
 
-  function incrementPage(e: any) {
+  function incrementPage(e: React.MouseEvent): void {
     e.preventDefault();
     setPage(page + 1);
   }
@@ -48,7 +48,7 @@ export default function MovieSearchPage() {
               <IconButton onClick={toHomePage}>
                 <HomeIcon />
               </IconButton>
-              <MovieSearchBar data={searchWord} />
+              <MovieSearchBar initialSearchWord={searchWord ?? ''} />
             </Stack>
           </CardContent>
         </Card>

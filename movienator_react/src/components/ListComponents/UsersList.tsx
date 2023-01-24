@@ -8,7 +8,7 @@ function UsersList({ users }: UserListProps) {
     <>
       <Stack direction={'row'} spacing={1} overflow={'auto'}>
         {users.map((user) => (
-          <Grid2>
+          <Grid2 key={user.userId}>
             <UserCard user={user} clickable={true} />
           </Grid2>
         ))}

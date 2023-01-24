@@ -1,11 +1,11 @@
 import { ProfileImage } from '../types/ProfileImage';
 import axios from 'axios';
 
-const baseUrl: string = 'http://localhost:8080/profileImage';
+const baseUrl = 'http://localhost:8080/profileImage';
 export async function getAllProfileImages(): Promise<ProfileImage[]> {
   let resArray: ProfileImage[] = [];
   try {
-    let response = await axios.get(baseUrl + `/all`);
+    const response = await axios.get(baseUrl + `/all`);
     if (response.status === 200) {
       resArray = response.data.data as ProfileImage[];
     }
@@ -20,7 +20,7 @@ export async function getOneProfileImageToRessourceLink(
 ): Promise<ProfileImage | null> {
   let resImage: ProfileImage | null = null;
   try {
-    let response = await axios.get(baseUrl + `/ref/${ref}`);
+    const response = await axios.get(baseUrl + `/ref/${ref}`);
     if (response.status === 200) {
       resImage = response.data.data as ProfileImage;
     }
@@ -34,7 +34,7 @@ export async function getImageToUserId(
 ): Promise<ProfileImage | null> {
   let resImage: ProfileImage | null = null;
   try {
-    let response = await axios.get(baseUrl + `/user/${userId}`);
+    const response = await axios.get(baseUrl + `/user/${userId}`);
     if (response.status === 200) {
       resImage = response.data.data as ProfileImage;
     }
@@ -43,9 +43,9 @@ export async function getImageToUserId(
   }
   return resImage;
 }
-export async function createImage(newImage: ProfileImage): Promise<Boolean> {
+export async function createImage(newImage: ProfileImage): Promise<boolean> {
   try {
-    let response = await axios.post(baseUrl, newImage);
+    const response = await axios.post(baseUrl, newImage);
     if (response.status === 201) {
       return true;
     }
@@ -54,9 +54,9 @@ export async function createImage(newImage: ProfileImage): Promise<Boolean> {
   }
   return false;
 }
-export async function updateImage(newImage: ProfileImage): Promise<Boolean> {
+export async function updateImage(newImage: ProfileImage): Promise<boolean> {
   try {
-    let response = await axios.put(baseUrl, newImage);
+    const response = await axios.put(baseUrl, newImage);
     if (response.status === 201) {
       return true;
     }
@@ -65,9 +65,9 @@ export async function updateImage(newImage: ProfileImage): Promise<Boolean> {
   }
   return false;
 }
-export async function deleteImageToImageId(imageId: number): Promise<Boolean> {
+export async function deleteImageToImageId(imageId: number): Promise<boolean> {
   try {
-    let response = await axios.delete(baseUrl + `/${imageId}`);
+    const response = await axios.delete(baseUrl + `/${imageId}`);
     if (response.status === 204) {
       return true;
     }
@@ -79,9 +79,9 @@ export async function deleteImageToImageId(imageId: number): Promise<Boolean> {
 export async function updateUserImageToImageIdAndUserId(
   imageId: string,
   userId: number
-): Promise<Boolean> {
+): Promise<boolean> {
   try {
-    let response = await axios.put(baseUrl + `/image/${userId}/${imageId}`);
+    const response = await axios.put(baseUrl + `/image/${userId}/${imageId}`);
     if (response.status === 201) {
       return true;
     }
@@ -92,9 +92,9 @@ export async function updateUserImageToImageIdAndUserId(
 }
 export async function deleteUserImageToUserId(
   userId: number
-): Promise<Boolean> {
+): Promise<boolean> {
   try {
-    let response = await axios.delete(baseUrl + `/image/${userId}`);
+    const response = await axios.delete(baseUrl + `/image/${userId}`);
     if (response.status === 204) {
       return true;
     }

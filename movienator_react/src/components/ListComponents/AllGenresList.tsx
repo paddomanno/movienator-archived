@@ -11,7 +11,7 @@ export default function AllGenresList({ genres }: GenreListProps) {
         <Typography variant={'subtitle1'}>Browse our Genres</Typography>
         <Grid2 container spacing={0}>
           {genres.map((genre) => (
-            <Grid2>
+            <Grid2 key={genre.genreId}>
               <GenreCard genre={genre} />
             </Grid2>
           ))}

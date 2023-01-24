@@ -1,5 +1,4 @@
-import { SingleUserProps } from '../../props/UserProps';
-import { SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Button,
   Dialog,
@@ -9,7 +8,6 @@ import {
   Stack,
   TextField,
 } from '@mui/material';
-import OwnProfileUsersLists from '../OwnProfileComponents/OwnProfileUsersLists';
 import { User } from '../../types/User';
 import {
   getFollowingOfUserIdInFollowers,
@@ -20,7 +18,7 @@ import CustomizedSnackbars from '../GeneralComponents/FeedbackSnackbar';
 import { AlertColor } from '@mui/material/Alert';
 import { postOrUpdateRecommendation } from '../../services/RecommendationService';
 import { useCookies } from 'react-cookie';
-import { Recommendation } from '../../types/Recommendation';
+import { CreateRecommendationDTO } from '../../types/Recommendation';
 import { Movie } from '../../types/Movie';
 import { getContainsHateSpeech } from '../../services/ExternService';
 import { createMovie } from '../../services/MovieService';
@@ -55,6 +53,7 @@ export default function NewRecommendationDialog({
         setUsers(mutualUsers);
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function handleSubmit() {
@@ -70,14 +69,11 @@ export default function NewRecommendationDialog({
       showMessage();
       return;
     }
-    let rec: Recommendation = {
+    const rec: CreateRecommendationDTO = {
       recommendedMovieMovieId: movie.movieId,
       sendingUserUserId: cookies.userId as number,
       receivingUserUserId: forUserId,
       message: curMessage,
-      recommendedMovie: null,
-      sendingUser: null,
-      receivingUser: null,
     };
     getContainsHateSpeech(curMessage).then((response) => {
       if (response) {
@@ -113,7 +109,7 @@ export default function NewRecommendationDialog({
     setOpen(false);
   }
 
-  function handleSearchChange(e: any) {
+  function handleSearchChange(e: React.ChangeEvent<HTMLInputElement>): void {
     e.preventDefault();
     const { value } = e.target;
     if (value != '') {
@@ -129,7 +125,7 @@ export default function NewRecommendationDialog({
     }
   }
 
-  function handleMessageChange(e: any) {
+  function handleMessageChange(e: React.ChangeEvent<HTMLInputElement>): void {
     e.preventDefault();
     const { value } = e.target;
     setCurMessage(value);
@@ -179,17 +175,17 @@ export default function NewRecommendationDialog({
           <DialogActions>
             <Button
               onClick={() => {
-                handleSubmit();
-              }}
-            >
-              Send
-            </Button>
-            <Button
-              onClick={() => {
                 handleCancel();
               }}
             >
               Cancel
+            </Button>
+            <Button
+              onClick={() => {
+                handleSubmit();
+              }}
+            >
+              Send
             </Button>
           </DialogActions>
         </DialogContent>

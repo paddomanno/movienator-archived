@@ -1,18 +1,15 @@
 //Route: movienator3000.com/home
-import ReviewsListHomePage from '../components/ListComponents/ReviewsListHomePage';
 import AllGenresList from '../components/ListComponents/AllGenresList';
 import React, { useEffect, useState } from 'react';
 import { Movie } from '../types/Movie';
-import { Review } from '../types/Review';
 import { Genre } from '../types/Genre';
-import { Box, Card, CardContent, Stack, Typography } from '@mui/material';
+import { Card, CardContent, Stack, Typography } from '@mui/material';
 import { getWatchlistMoviesToUserId } from '../services/MovieService';
 import {
   getAllGenres,
   getPopularMoviesToPagenumber,
   getUserRecommendationsToUserId,
 } from '../services/ExternService';
-import { getAllReviewsOfFollowingToUserId } from '../services/ReviewService';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { grey } from '@mui/material/colors';
@@ -36,6 +33,10 @@ export default function HomePage() {
     if (!cookies.userName) {
       navigate('/login');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     getWatchlistMoviesToUserId(cookies.userId as number).then((movies) => {
       setWatchlist(movies.slice(0, MAX_MOVIES_PER_LIST));
     });
@@ -48,7 +49,7 @@ export default function HomePage() {
     getAllGenres().then((genres) => {
       setGenres(genres);
     });
-  }, []);
+  }, [cookies.userId]);
 
   return (
     <main>
@@ -70,6 +71,8 @@ export default function HomePage() {
                   justifyContent={'space-around'}
                 >
                   <ActorMovieSearchBar />
+                  {/* <MovieSearchBar initialSearchWord={''} />
+                  <ActorSearchBar initialSearchWord={''} /> */}
                 </Stack>
               </CardContent>
             </Card>

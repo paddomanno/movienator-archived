@@ -1,12 +1,11 @@
 import { Actor } from '../types/Actor';
 import axios from 'axios';
-import { Console } from 'inspector';
 
-const baseUrl: string = 'http://localhost:8080/actors';
+const baseUrl = 'http://localhost:8080/actors';
 export async function getAllActors(): Promise<Actor[]> {
   let resArray: Actor[] = [];
   try {
-    let response = await axios.get(baseUrl + '/all');
+    const response = await axios.get(baseUrl + '/all');
     if (response.status === 200) {
       resArray = response.data.data as Actor[];
     }
@@ -19,7 +18,7 @@ export async function getAllActors(): Promise<Actor[]> {
 export async function getOneActorToId(actorId: number): Promise<Actor | null> {
   let resActor: Actor | null = null;
   try {
-    let response = await axios.get(baseUrl + `/one/${actorId}`);
+    const response = await axios.get(baseUrl + `/one/${actorId}`);
     if (response.status === 200) {
       resActor = response.data.data as Actor;
     }
@@ -32,7 +31,7 @@ export async function getOneActorToId(actorId: number): Promise<Actor | null> {
 export async function getActorsToMovie(movieId: number): Promise<Actor[]> {
   let resArray: Actor[] = [];
   try {
-    let response = await axios.get(baseUrl + `/movies/`);
+    const response = await axios.get(baseUrl + `/movies/${movieId}`);
     if (response.status === 200) {
       resArray = response.data.data as Actor[];
     }

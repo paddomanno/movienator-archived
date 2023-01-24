@@ -1,11 +1,15 @@
 //Route: movienator3000.com/user/:username
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useCookies } from 'react-cookie';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Stack, Typography } from '@mui/material';
 import { User } from '../types/User';
-import { getOneUserToUserId } from '../services/UserService';
+import {
+  getOneUserToUserId,
+  insertFollowingToUserIdAndUserId,
+  removeUserIdBFromFollowingOfUserIdA,
+} from '../services/UserService';
 import OtherProfileDetails from '../components/OtherProfileComponent/OtherProfileDetails';
 import OwnProfileUsersLists from '../components/OwnProfileComponents/OwnProfileUsersLists';
 import { Review } from '../types/Review';
@@ -19,47 +23,66 @@ import {
 import { Movie } from '../types/Movie';
 import OtherProfileMutualReviewed from '../components/OtherProfileComponent/OtherProfileMutualReviewed';
 
-type props = {
-  user: User;
-  reloadHandler: () => void;
-};
-
 export default function OtherProfilePage() {
   const navigate = useNavigate();
 
   //Gets the viewed user from the url
   const { userId } = useParams();
-
   const [cookies] = useCookies(['userName', 'userId']);
-  const [user, setUser] = useState<User | null>(null);
+  const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
+  const [viewedUser, setViewedUser] = useState<User | null>(null);
   const [userReviews, setUserReviews] = useState<Review[] | null>(null);
   const [mutualWatchlist, setMutualWatchlist] = useState<Movie[] | null>(null);
   const [mutualReviewed, setMutualReviewed] = useState<Movie[] | null>(null);
 
+  const handleFollow = async () => {
+    if (
+      !loggedInUser ||
+      !loggedInUser.userId ||
+      !viewedUser ||
+      !viewedUser.userId
+    ) {
+      return;
+    }
+    await insertFollowingToUserIdAndUserId(
+      loggedInUser.userId,
+      viewedUser.userId
+    );
+    const updatedUser = await getOneUserToUserId(viewedUser.userId);
+    setViewedUser(updatedUser);
+  };
+
+  const handleUnfollow = async () => {
+    if (
+      !loggedInUser ||
+      !loggedInUser.userId ||
+      !viewedUser ||
+      !viewedUser.userId
+    ) {
+      return;
+    }
+    await removeUserIdBFromFollowingOfUserIdA(
+      loggedInUser.userId,
+      viewedUser.userId
+    );
+    const updatedUser = await getOneUserToUserId(viewedUser.userId);
+    setViewedUser(updatedUser);
+  };
+
+  // get logged-in user from cookies and viewed user from url
   useEffect(() => {
     if (!cookies.userName) {
       navigate('/login');
     }
-    if (userId != undefined) {
-      loadUserData(parseInt(userId));
-    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    if (userId === cookies.userId) {
-      navigate('/profile', { replace: true });
-    } else {
-      if (userId != undefined) {
-        loadUserData(parseInt(userId));
-      }
-    }
-  }, [userId]);
-
-  function loadUserData(id: number) {
-    getOneUserToUserId(id).then((user) => {
-      setUser(user);
+  const loadUserData = useCallback(
+    async (id: number) => {
+      const user = await getOneUserToUserId(id);
+      setViewedUser(user);
       if (user != null && user.userId != null) {
-        getAllReviewsToUserId(user.userId!).then((reviews) => {
+        getAllReviewsToUserId(user.userId).then((reviews) => {
           setUserReviews(reviews);
         });
         getMutualWatchlistToTwoUserIds(user.userId, cookies.userId).then(
@@ -73,35 +96,49 @@ export default function OtherProfilePage() {
           }
         );
       }
-    });
-  }
+    },
+    [cookies.userId]
+  );
 
-  function reloadViewedUser() {
-    getOneUserToUserId(user?.userName!).then((user) => {
-      setUser(user);
-      console.log(user?.followers);
+  useEffect(() => {
+    // get logged-in user from cookies
+    getOneUserToUserId(cookies.userName).then((user) => {
+      setLoggedInUser(user);
     });
-  }
+
+    if (userId === cookies.userId) {
+      // forward to own profile page
+      navigate('/profile', { replace: true });
+    } else {
+      if (userId) {
+        loadUserData(parseInt(userId));
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userId]);
 
   return (
     <Stack direction={'column'} spacing={1}>
-      {user != null &&
+      {viewedUser != null &&
+      loggedInUser != null &&
       userReviews != null &&
       mutualReviewed != null &&
       mutualWatchlist != null ? (
         <>
           <OtherProfileDetails
-            user={user}
-            reloadViewedUser={reloadViewedUser}
+            viewedUser={viewedUser}
+            loggedInUser={loggedInUser}
+            onFollow={handleFollow}
+            onUnfollow={handleUnfollow}
           />
           <Stack direction={'row'} spacing={1} justifyContent={'space-evenly'}>
             <OwnProfileUsersLists
               title="Followers of this user:"
-              users={user.followers}
+              users={viewedUser.followers}
             />
             <OwnProfileUsersLists
               title="This user follows:"
-              users={user.following}
+              users={viewedUser.following}
             />
           </Stack>
           <Stack direction={'row'} spacing={1} justifyContent={'space-evenly'}>

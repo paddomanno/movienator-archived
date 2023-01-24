@@ -1,7 +1,6 @@
 import { Actor } from './Actor';
 import { Review } from './Review';
 import { Genre } from './Genre';
-import { WatchProvider, WatchProvidersWithCountry } from './WatchProvider';
 
 export type Movie = {
   movieId: number;

@@ -1,6 +1,10 @@
 import { User } from '../types/User';
 import axios from 'axios';
-import { MovieWithScore, Recommendation } from '../types/Recommendation';
+import {
+  CreateRecommendationDTO,
+  MovieWithScore,
+  Recommendation,
+} from '../types/Recommendation';
 import { Movie } from '../types/Movie';
 import { getWatchlistMoviesToUserId } from './MovieService';
 import {
@@ -9,7 +13,7 @@ import {
 } from './ExternService';
 import { getFavoriteGenreToUserId } from './GenreService';
 
-const baseUrl: string = 'http://localhost:8080/recommendation';
+const baseUrl = 'http://localhost:8080/recommendation';
 
 export async function getOneRecommendationByAllIds(
   fromUserId: number,
@@ -17,7 +21,7 @@ export async function getOneRecommendationByAllIds(
   movieId: number
 ): Promise<Recommendation | null> {
   try {
-    let response = await axios.get(
+    const response = await axios.get(
       baseUrl + `/one/${fromUserId}/${forUserId}/${movieId}`
     );
     if (response.status === 200) {
@@ -33,7 +37,7 @@ export async function getAllRecommendationsForUserId(
   forUserId: number
 ): Promise<Recommendation[]> {
   try {
-    let response = await axios.get(baseUrl + `/for/${forUserId}`);
+    const response = await axios.get(baseUrl + `/for/${forUserId}`);
     if (response.status === 200) {
       return response.data.data as Recommendation[];
     }
@@ -47,7 +51,7 @@ export async function getAllRecommendationsFromUserId(
   fromUserId: number
 ): Promise<Recommendation[]> {
   try {
-    let response = await axios.get(baseUrl + `/from/${fromUserId}`);
+    const response = await axios.get(baseUrl + `/from/${fromUserId}`);
     if (response.status === 200) {
       return response.data.data as Recommendation[];
     }
@@ -61,7 +65,7 @@ export async function getAllRecommendationsForUserIdForMovieId(
   movieId: number
 ): Promise<Recommendation[]> {
   try {
-    let response = await axios.get(
+    const response = await axios.get(
       baseUrl + `/forMovie/${fromUserId}/${movieId}`
     );
     if (response.status === 200) {
@@ -74,10 +78,10 @@ export async function getAllRecommendationsForUserIdForMovieId(
 }
 
 export async function postOrUpdateRecommendation(
-  rec: Recommendation
-): Promise<Boolean> {
+  rec: CreateRecommendationDTO
+): Promise<boolean> {
   try {
-    let response = await axios.post(baseUrl + '/', rec);
+    const response = await axios.post(baseUrl + '/', rec);
     if (response.status === 201) {
       return true;
     }
@@ -91,9 +95,9 @@ export async function deleteRecommendation(
   fromUserId: number,
   forUserId: number,
   movieId: number
-): Promise<Boolean> {
+): Promise<boolean> {
   try {
-    let response = await axios.delete(
+    const response = await axios.delete(
       baseUrl + `/${fromUserId}/${forUserId}/${movieId}`
     );
     if (response.status === 204) {
@@ -119,7 +123,7 @@ export async function getRecommendationForUserList(
 }
 
 async function calculateWatchPartyResults(users: User[]) {
-  let watchPartyResult: MovieWithScore[] = [];
+  const watchPartyResult: MovieWithScore[] = [];
   //Iterate trough all users of the watch party
   for (const currentUser of users) {
     //WATCHLIST
@@ -157,13 +161,15 @@ async function addMoviesToResults(
   listToAdd: Movie[]
 ) {
   listToAdd.forEach((currentMovie) => {
-    //If this movie is not already in watchPartyResult
-    let movieIndex = watchPartyResult.findIndex(
+    // check if this movie is already in watchPartyResult
+    const movieInList = watchPartyResult.find(
       (x) => x.movieId === currentMovie.movieId
-    );
-    if (movieIndex === -1) {
+    ) ?? { score: 0 };
+
+    // if movieInList is undefined, it will be set as an object with score 0 instead of undefined
+    if (movieInList.score === 0) {
       //Create a MovieWithScore Object
-      let currentMovieWithScore: MovieWithScore = {
+      const currentMovieWithScore: MovieWithScore = {
         ...currentMovie,
         score: 1,
       };
@@ -171,7 +177,7 @@ async function addMoviesToResults(
     }
     //Movie is already in the list --> Increase score
     else {
-      watchPartyResult.at(movieIndex)!.score += 1;
+      movieInList.score += 1;
     }
   });
 }

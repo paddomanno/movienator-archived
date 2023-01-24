@@ -1,5 +1,5 @@
 import { Movie } from '../../types/Movie';
-import { Card, CardContent, Stack, Typography } from '@mui/material';
+import { Card, CardContent, Typography } from '@mui/material';
 import MovieCard from '../SingleItemComponents/MovieCard';
 import { grey } from '@mui/material/colors';
 import Grid2 from '@mui/material/Unstable_Grid2';
@@ -17,7 +17,7 @@ export default function MoviesList({ title, movies }: Props) {
         {movies.length > 0 ? (
           <Grid2 container spacing={1}>
             {movies.map((movie) => (
-              <Grid2>
+              <Grid2 key={movie.movieId}>
                 <MovieCard movie={movie} />
               </Grid2>
             ))}
