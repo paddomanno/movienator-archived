@@ -18,10 +18,7 @@ import CustomizedSnackbars from '../GeneralComponents/FeedbackSnackbar';
 import { AlertColor } from '@mui/material/Alert';
 import { postOrUpdateRecommendation } from '../../services/RecommendationService';
 import { useCookies } from 'react-cookie';
-import {
-  Recommendation,
-  CreateRecommendationDTO,
-} from '../../types/Recommendation';
+import { CreateRecommendationDTO } from '../../types/Recommendation';
 import { Movie } from '../../types/Movie';
 import { getContainsHateSpeech } from '../../services/ExternService';
 import { createMovie } from '../../services/MovieService';
@@ -86,12 +83,7 @@ export default function NewRecommendationDialog({
       } else {
         createMovie(movie).then((resMovie) => {
           if (resMovie) {
-            postOrUpdateRecommendation({
-              ...rec,
-              sendingUser: null,
-              receivingUser: null,
-              recommendedMovie: null,
-            }).then((res) => {
+            postOrUpdateRecommendation(rec).then((res) => {
               if (!res) {
                 setSnackBarMessage('Error Saving Recommendation');
                 setSeverity('error');
