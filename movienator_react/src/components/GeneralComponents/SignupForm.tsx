@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Stack, TextField, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { getOneUserToUserId, createUser } from '../../services/UserService';
-import { NullableUser, User } from '../../types/User';
+import { NullableUser } from '../../types/User';
 
 type InputValues = {
   firstName: string;

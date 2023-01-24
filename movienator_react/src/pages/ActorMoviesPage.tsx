@@ -19,6 +19,10 @@ export default function ActorMoviesPage() {
     if (!cookies.userName) {
       navigate('/login');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     if (typeof actorId == 'string') {
       getOneActorToId(parseInt(actorId)).then((actor) => {
         setActor(actor);
@@ -27,7 +31,7 @@ export default function ActorMoviesPage() {
         setMovies(movies);
       });
     }
-  }, []);
+  }, [actorId]);
 
   return (
     <div>

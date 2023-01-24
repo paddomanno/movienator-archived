@@ -31,6 +31,10 @@ export default function HomePage() {
     if (!cookies.userName) {
       navigate('/login');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     getWatchlistMoviesToUserId(cookies.userId as number).then((movies) => {
       setWatchlist(movies.slice(0, MAX_MOVIES_PER_LIST));
     });
@@ -43,7 +47,7 @@ export default function HomePage() {
     getAllGenres().then((genres) => {
       setGenres(genres);
     });
-  }, []);
+  }, [cookies.userId]);
 
   return (
     <main>
@@ -64,8 +68,8 @@ export default function HomePage() {
                   spacing={2}
                   justifyContent={'space-around'}
                 >
-                  <MovieSearchBar />
-                  <ActorSearchBar />
+                  <MovieSearchBar initialSearchWord={''} />
+                  <ActorSearchBar initialSearchWord={''} />
                 </Stack>
               </CardContent>
             </Card>

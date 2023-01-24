@@ -31,7 +31,7 @@ export async function getOneActorToId(actorId: number): Promise<Actor | null> {
 export async function getActorsToMovie(movieId: number): Promise<Actor[]> {
   let resArray: Actor[] = [];
   try {
-    const response = await axios.get(baseUrl + `/movies/`);
+    const response = await axios.get(baseUrl + `/movies/${movieId}`);
     if (response.status === 200) {
       resArray = response.data.data as Actor[];
     }

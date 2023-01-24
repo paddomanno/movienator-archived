@@ -19,6 +19,10 @@ export default function ActorSearchPage() {
     if (!cookies.userName) {
       navigate('/login');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     if (searchWord !== undefined) {
       searchActorsByName(searchWord).then((res) => {
         setActors(res);
@@ -26,7 +30,7 @@ export default function ActorSearchPage() {
     }
   }, [searchWord]);
 
-  function toHomePage(e: any) {
+  function toHomePage(e: React.MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
     navigate('/home');
   }
@@ -40,7 +44,7 @@ export default function ActorSearchPage() {
               <IconButton onClick={toHomePage}>
                 <HomeIcon />
               </IconButton>
-              <ActorSearchBar data={searchWord} />
+              <ActorSearchBar initialSearchWord={searchWord ?? ''} />
             </Stack>
           </CardContent>
         </Card>
@@ -50,7 +54,7 @@ export default function ActorSearchPage() {
               {actors != null ? (
                 <>
                   {actors.map((actor) => (
-                    <Grid2>
+                    <Grid2 key={actor.actorId}>
                       <ActorCardLarge actor={actor} />
                     </Grid2>
                   ))}

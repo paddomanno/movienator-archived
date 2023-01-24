@@ -36,10 +36,12 @@ export default function WatchPartyPage() {
     if (!cookies.userName) {
       navigate('/login');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     getOneUserToUserId(cookies.userName).then((user) => {
       if (!user) {
-        // somebody handle this
-        console.log('No user found??');
         navigate('/login');
         return;
       }
@@ -51,14 +53,15 @@ export default function WatchPartyPage() {
     handleSubmit().then(() => {
       setLoading(false);
     });
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cookies.userName]);
 
   const fuseOptions = {
     keys: ['firstName', 'lastName', 'userName'],
   };
   const fuse = new Fuse<User>(usersInSearch, fuseOptions);
 
-  function handleSearchChange(e: any) {
+  function handleSearchChange(e: React.ChangeEvent<HTMLInputElement>): void {
     e.preventDefault();
     const { value } = e.target;
     setSearchWord(value);
@@ -75,6 +78,7 @@ export default function WatchPartyPage() {
       // show all users the logged in user is following
       if (user && user.following) setUsersInSearch(user.following);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchWord, user]);
 
   function addUserToGroup(addedUser: User) {
@@ -105,6 +109,7 @@ export default function WatchPartyPage() {
     handleSubmit().then(() => {
       setLoading(false);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [usersInGroup]);
 
   async function handleSubmit() {
