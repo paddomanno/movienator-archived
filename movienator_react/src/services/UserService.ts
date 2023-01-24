@@ -1,4 +1,4 @@
-import { User } from '../types/User';
+import { NullableUser, User } from '../types/User';
 import axios from 'axios';
 
 const baseUrl = 'http://localhost:8080/user';
@@ -110,7 +110,7 @@ export async function getFollowingToUserIdWithMovieIdOnWatchlist(
   }
   return resArray;
 }
-export async function createUser(newUser: User): Promise<boolean> {
+export async function createUser(newUser: NullableUser): Promise<boolean> {
   try {
     const response = await axios.post(baseUrl + '/', newUser);
     if (response.status === 201) {

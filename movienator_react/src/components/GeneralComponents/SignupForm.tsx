@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Stack, TextField, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { getOneUserToUserId, createUser } from '../../services/UserService';
-import { User } from '../../types/User';
+import { NullableUser, User } from '../../types/User';
 
 type InputValues = {
   firstName: string;
@@ -55,7 +55,7 @@ export default function SignupForm() {
         if (user == null) {
           console.log('Found no user with this username');
           if (formValues.password === formValues.repeatPassword) {
-            const newUser: User = {
+            const newUser: NullableUser = {
               userId: null,
               lastName: formValues.lastName,
               firstName: formValues.firstName,
