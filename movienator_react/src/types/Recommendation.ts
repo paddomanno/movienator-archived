@@ -6,10 +6,15 @@ export type Recommendation = {
   receivingUserUserId: number;
   recommendedMovieMovieId: number;
   message: string;
-  sendingUser: User | null;
-  receivingUser: User | null;
-  recommendedMovie: Movie | null;
+  sendingUser: User;
+  receivingUser: User;
+  recommendedMovie: Movie;
 };
+
+export type CreateRecommendationDTO = Omit<
+  Recommendation,
+  'sendingUser' | 'receivingUser' | 'recommendedMovie'
+>;
 
 type Score = { score: number };
 
