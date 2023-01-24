@@ -69,7 +69,7 @@ movieRouter.get('/actor/:id', async (req, res) => {
       relations: ['movies', 'movies.reviews', 'movies.actors', 'movies.genres'],
     });
     if (actor != null) {
-      let actorMovies: Movie[] = actor.movies;
+      const actorMovies: Movie[] = actor.movies;
       actorMovies.sort((a, b) => a.title.localeCompare(b.title));
       res.status(200).json({
         data: actorMovies,
@@ -102,7 +102,7 @@ movieRouter.get('/user/:id', async (req, res) => {
     });
 
     if (user != null) {
-      let userMovies: Movie[] = [];
+      const userMovies: Movie[] = [];
       user.reviews.forEach((review) => {
         userMovies.push(review.review_movie);
       });
@@ -136,7 +136,7 @@ movieRouter.get('/watchlist/:uId', async (req, res) => {
       ],
     });
     if (user != null) {
-      let userWatchlist: Movie[] = user.watchlist;
+      const userWatchlist: Movie[] = user.watchlist;
       userWatchlist.sort((a, b) => a.title.localeCompare(b.title));
       res.status(200).json({
         data: userWatchlist,
@@ -153,7 +153,7 @@ movieRouter.get('/watchlist/:uId', async (req, res) => {
 //Gets all movies with a min time
 movieRouter.get('/time/min/:min', async (req, res) => {
   try {
-    let min: number = parseInt(req.params.min);
+    const min: number = parseInt(req.params.min);
     if (min <= 0 || isNaN(min)) {
       throw `${req.params.min} is not a valid number`;
     }
@@ -181,7 +181,7 @@ movieRouter.get('/time/min/:min', async (req, res) => {
 //Gets all movies with a max time
 movieRouter.get('/time/max/:max', async (req, res) => {
   try {
-    let max: number = parseInt(req.params.max);
+    const max: number = parseInt(req.params.max);
     if (max <= 0 || isNaN(max)) {
       throw `${req.params.max} is not a valid number`;
     }
@@ -209,8 +209,8 @@ movieRouter.get('/time/max/:max', async (req, res) => {
 //Gets all movies released in this time span
 movieRouter.get('/date/:min/:max', async (req, res) => {
   try {
-    let dateMin: Date = new Date(req.params.min);
-    let dateMax: Date = new Date(req.params.max);
+    const dateMin: Date = new Date(req.params.min);
+    const dateMax: Date = new Date(req.params.max);
     if (
       isNaN(dateMin.getTime()) ||
       isNaN(dateMax.getTime()) ||
@@ -275,9 +275,9 @@ movieRouter.get('/rating/:min', async (req, res) => {
         watchProviders: true,
       },
     });
-    let minMovies: Movie[] = movies.filter((movie) => {
-      let numReviews: number = 0;
-      let sumReviews: number = 0;
+    const minMovies: Movie[] = movies.filter((movie) => {
+      let numReviews = 0;
+      let sumReviews = 0;
       movie.reviews.forEach((review) => {
         sumReviews += review.rating;
         numReviews++;
@@ -321,7 +321,7 @@ movieRouter.get('/genre/:genre', async (req, res) => {
       });
     }
     if (genre) {
-      let movies: Movie[] = genre.movies;
+      const movies: Movie[] = genre.movies;
       movies.sort((a, b) => a.title.localeCompare(b.title));
       res.status(200).json({
         data: movies,
@@ -341,7 +341,7 @@ movieRouter.get('/mutual/watchlist/:aId/:bId', async (req, res) => {
     if (isNaN(+req.params.aId) || isNaN(+req.params.bId)) {
       throw `${req.params.aId} or ${req.params.bId} Not a valid number`;
     }
-    let userA = await User.findOne({
+    const userA = await User.findOne({
       where: { userId: parseInt(req.params.aId) },
       relations: [
         'watchlist',
@@ -351,7 +351,7 @@ movieRouter.get('/mutual/watchlist/:aId/:bId', async (req, res) => {
         'watchlist.watchProviders',
       ],
     });
-    let userB = await User.findOne({
+    const userB = await User.findOne({
       where: { userId: parseInt(req.params.bId) },
       relations: [
         'watchlist',
@@ -362,7 +362,7 @@ movieRouter.get('/mutual/watchlist/:aId/:bId', async (req, res) => {
       ],
     });
     if (userA && userB) {
-      let resMovies = userA.watchlist.filter((movieA) =>
+      const resMovies = userA.watchlist.filter((movieA) =>
         userB.watchlist.some((movieB) => movieB.movieId == movieA.movieId)
       );
       res.status(200).json({
@@ -383,14 +383,14 @@ movieRouter.get('/mutual/review/:aId/:bId', async (req, res) => {
     if (isNaN(+req.params.aId) || isNaN(+req.params.bId)) {
       throw `${req.params.aId} or ${req.params.bId} Not a valid number`;
     }
-    let userA = await User.findOne({
+    const userA = await User.findOne({
       where: { userId: parseInt(req.params.aId) },
     });
-    let userB = await User.findOne({
+    const userB = await User.findOne({
       where: { userId: parseInt(req.params.bId) },
     });
     if (userA && userB) {
-      let userAReviews = await Review.find({
+      const userAReviews = await Review.find({
         where: { reviewUserUserId: userA.userId },
         relations: [
           'review_movie',
@@ -400,7 +400,7 @@ movieRouter.get('/mutual/review/:aId/:bId', async (req, res) => {
           'review_movie.watchProviders',
         ],
       });
-      let userBReviews = await Review.find({
+      const userBReviews = await Review.find({
         where: { reviewUserUserId: userB.userId },
         relations: [
           'review_movie',
@@ -410,12 +410,12 @@ movieRouter.get('/mutual/review/:aId/:bId', async (req, res) => {
           'review_movie.watchProviders',
         ],
       });
-      let resReviews = userAReviews.filter((reviewA) =>
+      const resReviews = userAReviews.filter((reviewA) =>
         userBReviews.some(
           (reviewB) => reviewB.reviewMovieMovieId == reviewA.reviewMovieMovieId
         )
       );
-      let resMovies = resReviews.map((review) => review.review_movie);
+      const resMovies = resReviews.map((review) => review.review_movie);
       res.status(200).json({
         data: resMovies,
       });
@@ -436,7 +436,7 @@ movieRouter.get('/mutual/review/:aId/:bId', async (req, res) => {
 movieRouter.post('/', async (req, res?) => {
   try {
     let newMovie: Movie = req.body as Movie;
-    let existingMovie: Movie = await Movie.findOne({
+    const existingMovie: Movie = await Movie.findOne({
       where: { movieId: newMovie.movieId },
     });
     if (existingMovie == null) {
@@ -465,7 +465,7 @@ movieRouter.post('/', async (req, res?) => {
 //We shouldn't really use this
 movieRouter.put('/', async (req, res?) => {
   try {
-    let movieBody = req.body as Movie;
+    const movieBody = req.body as Movie;
     let movie: Movie = await Movie.findOne({
       where: { movieId: movieBody.movieId },
     });

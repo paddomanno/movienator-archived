@@ -27,7 +27,7 @@ beforeEach(async () => {
 }, 10_000);
 
 async function createTestData() {
-  let newMovie1: Movie = Movie.create({
+  const newMovie1: Movie = Movie.create({
     movieId: 1,
     title: 'Testmovie',
     adultContent: false,
@@ -38,7 +38,7 @@ async function createTestData() {
 
   await Movie.save(newMovie1);
 
-  let newUser1: User = User.create({
+  const newUser1: User = User.create({
     firstName: 'Maggus',
     lastName: 'Rühl',
     userName: 'Roswita',
@@ -50,7 +50,7 @@ async function createTestData() {
     watchlist: [],
   });
 
-  let newUser2: User = User.create({
+  const newUser2: User = User.create({
     firstName: 'Tschai',
     lastName: 'Katla',
     userName: 'tschai111',
@@ -62,7 +62,7 @@ async function createTestData() {
     watchlist: [],
   });
 
-  let newUser3: User = User.create({
+  const newUser3: User = User.create({
     firstName: 'Ronnie',
     lastName: 'Colman',
     userName: 'MrOlympia',
@@ -134,7 +134,7 @@ async function createTestData() {
   console.log(controlUser);
 
   //Maggus reviews the Testmovie
-  let newReview1 = Review.create({
+  const newReview1 = Review.create({
     reviewMovieMovieId: 1,
     reviewUserUserId: 1,
     title: 'Bruddaler Film',
@@ -144,7 +144,7 @@ async function createTestData() {
   });
   await Review.save(newReview1);
 
-  let newReview2 = Review.create({
+  const newReview2 = Review.create({
     reviewMovieMovieId: 1,
     reviewUserUserId: 2,
     title: 'Bruddaler Film',
@@ -333,7 +333,7 @@ describe('GET Tests', () => {
 
 describe('POST Tests', () => {
   it('Creating a new user TEST', async () => {
-    let newUser4 = User.create({
+    const newUser4 = User.create({
       firstName: 'Chris',
       lastName: 'Bumstead',
       userName: 'Cbum',
@@ -357,7 +357,7 @@ describe('POST Tests', () => {
   });
 
   it('Try creating a user where userId is not NULL TEST', async () => {
-    let newUser4 = User.create({
+    const newUser4 = User.create({
       userId: 2332,
       firstName: 'Chris',
       lastName: 'Bumstead',
@@ -423,7 +423,7 @@ describe('POST Tests', () => {
 
 describe('PUT Tests', () => {
   it('Updates existing user TEST', async () => {
-    let updatedUser1 = User.create({
+    const updatedUser1 = User.create({
       userId: 1,
       firstName: 'Markus',
     });
@@ -441,7 +441,7 @@ describe('PUT Tests', () => {
   });
 
   it('Updates NON-existing user TEST', async () => {
-    let updatedUser1 = User.create({
+    const updatedUser1 = User.create({
       userId: 99,
       firstName: 'Markus',
     });
@@ -454,7 +454,7 @@ describe('PUT Tests', () => {
   });
 
   it('Tries updating existing user (But overwrites a relation) TEST', async () => {
-    let updatedUser1 = User.create({
+    const updatedUser1 = User.create({
       userId: 3,
       firstName: 'MarkusUpdated',
       watchlist: [], //Redefines a relation

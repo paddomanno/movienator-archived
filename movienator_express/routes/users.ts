@@ -1,6 +1,5 @@
 import Movie from '../entity/movie';
 import User from '../entity/user';
-import ProfileImage from '../entity/profileImage';
 import Fuse from 'fuse.js';
 const expressUser = require('express');
 const userRouter = expressUser.Router();
@@ -98,7 +97,7 @@ userRouter.get('/username/:word', async (req, res) => {
     });
 
     if (allUsers) {
-      let query: string = req.params.word;
+      const query: string = req.params.word;
       // allUsers.forEach((currentUser) => {
       //   //If the query is a substring of the current users username
       //   if (currentUser.userName.toLowerCase().includes(query.toLowerCase())) {
@@ -199,7 +198,7 @@ userRouter.get('/followingMutual/:uId', async (req, res) => {
       ],
     });
     if (requestedUser != null) {
-      let resUsers: User[] = [];
+      const resUsers: User[] = [];
       requestedUser.followers.forEach((user) => {
         if (
           requestedUser.following.some((userB) => {
@@ -241,7 +240,7 @@ userRouter.get('/following/:id/rated/:mId', async (req, res) => {
     });
 
     if (resultUser && resultMovie) {
-      let matchingUsers: User[] = [];
+      const matchingUsers: User[] = [];
       //Iterate over all users the requested user is following
       resultUser.following.forEach((currentUser) => {
         //Iterate over all reviews of the current user
@@ -280,7 +279,7 @@ userRouter.get('/following/:id/watchlist/:mId', async (req, res) => {
     });
 
     if (resultUser && resultMovie) {
-      let matchingUsers: User[] = [];
+      const matchingUsers: User[] = [];
       //Iterate over all users the requested user is following
       resultUser.following.forEach((currentUser) => {
         //Iterate over all reviews of the current user
@@ -373,7 +372,7 @@ userRouter.post('/watchlist/:uId/:mId', async (req, res) => {
 //Updates the User send in the body. Do NOT update the primary key or Relations
 userRouter.put('/', async (req, res) => {
   try {
-    let updatedUser = req.body as User;
+    const updatedUser = req.body as User;
     const requestedUser = await User.findOne({
       where: { userId: updatedUser.userId },
       relations: {},

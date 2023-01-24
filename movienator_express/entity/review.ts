@@ -1,15 +1,6 @@
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  JoinTable,
-  ManyToOne,
-  PrimaryColumn,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
 import Movie from './movie';
 import User from './user';
-import { JoinColumn } from 'typeorm/browser';
 
 @Entity()
 export default class Review extends BaseEntity {

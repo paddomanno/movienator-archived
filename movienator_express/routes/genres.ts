@@ -35,8 +35,8 @@ genresRouter.get('/favorite/:uId', async (req, res) => {
     if (allReviews.length === 0) {
       res.status(404).json();
     } else {
-      let scoreMap = new Map<number, number>();
-      let genreMap = new Map<number, Genre>();
+      const scoreMap = new Map<number, number>();
+      const genreMap = new Map<number, Genre>();
       allReviews.forEach((review) => {
         review.review_movie.genres.forEach((genre) => {
           if (!genreMap.has(genre.genreId)) {

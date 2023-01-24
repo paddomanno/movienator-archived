@@ -53,7 +53,7 @@ actorRouter.get('/movie/:id', async (req, res) => {
     });
 
     if (movie) {
-      let allActorsFromMovie: Actor[] = movie.actors;
+      const allActorsFromMovie: Actor[] = movie.actors;
       allActorsFromMovie.sort((a, b) => a.name.localeCompare(b.name));
       res.status(200).json({
         data: allActorsFromMovie,
@@ -72,7 +72,7 @@ actorRouter.get('/movie/:id', async (req, res) => {
 // TODO: 'We shouldnt use this' ??
 actorRouter.put('/', async (req, res) => {
   try {
-    let updatedActor: Actor = req.body as Actor;
+    const updatedActor: Actor = req.body as Actor;
     const requestedActor: Actor = await Actor.findOne({
       where: { actorId: updatedActor.actorId },
     });

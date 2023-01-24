@@ -132,8 +132,8 @@ recommendationRouter.get('/forMovie/:uId/:mId', async (req, res) => {
 //Insert recommendation
 recommendationRouter.post('/', async (req, res) => {
   try {
-    let newRecommendation: Recommendation = req.body as Recommendation;
-    let oldRec: Recommendation = await Recommendation.findOne({
+    const newRecommendation: Recommendation = req.body as Recommendation;
+    const oldRec: Recommendation = await Recommendation.findOne({
       where: {
         sendingUserUserId: newRecommendation.sendingUserUserId,
         receivingUserUserId: newRecommendation.receivingUserUserId,
@@ -145,13 +145,13 @@ recommendationRouter.post('/', async (req, res) => {
       await oldRec.save();
       res.status(201).json();
     } else {
-      let userA: User = await User.findOne({
+      const userA: User = await User.findOne({
         where: { userId: newRecommendation.receivingUserUserId },
       });
-      let userB: User = await User.findOne({
+      const userB: User = await User.findOne({
         where: { userId: newRecommendation.sendingUserUserId },
       });
-      let movie: Movie = await Movie.findOne({
+      const movie: Movie = await Movie.findOne({
         where: { movieId: newRecommendation.recommendedMovieMovieId },
       });
       if (userA != null && userB != null && movie != null) {
@@ -170,8 +170,8 @@ recommendationRouter.post('/', async (req, res) => {
 //Update recommendation text
 recommendationRouter.put('/', async (req, res) => {
   try {
-    let updateRecommendation: Recommendation = req.body as Recommendation;
-    let resRecommendation = await Recommendation.findOne({
+    const updateRecommendation: Recommendation = req.body as Recommendation;
+    const resRecommendation = await Recommendation.findOne({
       where: {
         receivingUserUserId: updateRecommendation.receivingUserUserId,
         sendingUserUserId: updateRecommendation.sendingUserUserId,

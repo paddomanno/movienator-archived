@@ -1,8 +1,6 @@
-import { request } from 'http';
 import Movie from '../entity/movie';
 import Review from '../entity/review';
 import User from '../entity/user';
-import { all } from 'axios';
 
 const expressReview = require('express');
 const reviewRouter = expressReview.Router();
@@ -327,7 +325,7 @@ reviewRouter.post('/', async (req, res) => {
 //Make sure to NOT update the primary keys or relations
 reviewRouter.put('/', async (req, res) => {
   try {
-    let updatedReview = req.body as Review;
+    const updatedReview = req.body as Review;
 
     const requestedReview: Review = await Review.findOne({
       where: {
