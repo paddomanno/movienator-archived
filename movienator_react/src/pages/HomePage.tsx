@@ -16,12 +16,11 @@ import { getAllReviewsOfFollowingToUserId } from '../services/ReviewService';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { grey } from '@mui/material/colors';
-import ActorSearchBar from '../components/GeneralComponents/ActorSearchBar';
-import MovieSearchBar from '../components/GeneralComponents/MovieSearchbar';
 import MoviesListOneLine from '../components/ListComponents/MoviesListOneLine';
 import RecommendationListOneLine from '../components/RecommendationComponents/RecommendationListOneLine';
 import { Recommendation } from '../types/Recommendation';
 import { getAllRecommendationsForUserId } from '../services/RecommendationService';
+import ActorMovieSearchBar from '../components/GeneralComponents/ActorMovieSearchBar';
 
 export default function HomePage() {
   const MAX_MOVIES_PER_LIST = 10;
@@ -70,8 +69,7 @@ export default function HomePage() {
                   spacing={2}
                   justifyContent={'space-around'}
                 >
-                  <MovieSearchBar />
-                  <ActorSearchBar />
+                  <ActorMovieSearchBar />
                 </Stack>
               </CardContent>
             </Card>
