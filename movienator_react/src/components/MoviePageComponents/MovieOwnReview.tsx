@@ -143,9 +143,9 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
 
     getContainsHateSpeech(newReview.title + ' ' + newReview.content).then(
       (response) => {
-        console.log('Response of Detection: ' + response.data);
+        console.log('Response of Detection: ' + response);
 
-        if (response.data) {
+        if (response) {
           showMessage();
           console.log('Review not created/updated due to profanity');
         } else {

@@ -10,9 +10,6 @@ RUN yarn global add nodemon
 # where available (npm@5+)
 COPY package*.json ./
 
-#No idea why, but the only way I could get some of these
-#packages to work was to manually stall them globally in the Container
-
 RUN npm install
 
 # Bundle app source

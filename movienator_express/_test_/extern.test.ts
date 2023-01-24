@@ -294,4 +294,17 @@ describe('Externtest', () => {
       expect(response.statusCode).toBe(404);
     });
   });
+
+  describe('Testing the hatespeech API', () => {
+    it('should return false if profanity was detected', async () => {
+      let response = await request(app).get('/extern/hatespeech?text=FUCK');
+      expect(response.statusCode).toBe(200);
+      expect(response.body.data as boolean).toBeTruthy();
+    });
+    it('should return false if no profanity was detected', async () => {
+      let response = await request(app).get('/extern/hatespeech?text=HELLO');
+      expect(response.statusCode).toBe(200);
+      expect(response.body.data as boolean).toBeFalsy();
+    });
+  });
 });
