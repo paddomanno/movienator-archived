@@ -17,8 +17,10 @@ type Props = {
   rec: Recommendation;
   reloadRecs: () => void;
 };
-export default function SentRecommendation({ rec, reloadRecs }: Props) {
-  function deleteRecommendationHandler(e: any) {
+export default function SentRecommendationCard({ rec, reloadRecs }: Props) {
+  function deleteRecommendationHandler(
+    e: React.MouseEvent<HTMLButtonElement>
+  ): void {
     e.preventDefault();
     deleteRecommendation(
       rec.sendingUserUserId,
@@ -36,7 +38,7 @@ export default function SentRecommendation({ rec, reloadRecs }: Props) {
       <CardContent>
         <Stack direction={'column'} spacing={1}>
           <Stack direction={'row'} spacing={1} alignItems={'center'}>
-            <UserCard user={rec.receivingUser!} clickable={true} />
+            <UserCard user={rec.receivingUser} clickable={true} />
             <Card sx={{ flexGrow: 1 }}>
               <CardContent>
                 <Typography variant={'h5'}>

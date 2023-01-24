@@ -13,7 +13,7 @@ import RecommendationView from './SingleRecommendationViews/RecommendationView';
 type Props = {
   recs: Recommendation[];
   reloadRecs: () => void;
-  handleClick: (e: any) => void;
+  handleClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 export default function RecommendationListOneLine({
   recs,
@@ -32,6 +32,7 @@ export default function RecommendationListOneLine({
                   rec={rec}
                   reloadRecs={reloadRecs}
                   variant={'showFromShort'}
+                  key={`${rec.sendingUserUserId}.${rec.recommendedMovieMovieId}`}
                 />
               ))}
             </Stack>

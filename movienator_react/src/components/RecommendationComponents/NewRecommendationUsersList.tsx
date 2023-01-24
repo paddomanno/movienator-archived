@@ -14,7 +14,7 @@ import React from 'react';
 type Props = {
   curUserId: number;
   users: User[];
-  handleChange: (userId: number) => any;
+  handleChange: (userId: number) => void;
 };
 export default function NewRecommendationUsersList({
   curUserId,
@@ -28,7 +28,7 @@ export default function NewRecommendationUsersList({
           {users.length != 0 ? (
             <Stack spacing={1} direction={'row'} overflow={'auto'}>
               {users.map((user) => (
-                <Grid2>
+                <Grid2 key={user.userId}>
                   <IconButton
                     sx={{
                       backgroundColor:

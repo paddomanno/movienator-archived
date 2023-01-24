@@ -18,7 +18,11 @@ export default function OwnProfileRecommendationList({
         <Typography>Movies you recommended</Typography>
         <Stack direction={'row'} spacing={1} overflow={'auto'}>
           {recs.map((rec) => (
-            <Grid2 maxWidth={'33%'} minWidth={'33%'}>
+            <Grid2
+              maxWidth={'33%'}
+              minWidth={'33%'}
+              key={`${rec.sendingUserUserId}.${rec.recommendedMovieMovieId}`}
+            >
               <RecommendationView
                 rec={rec}
                 reloadRecs={reloadRecs}
