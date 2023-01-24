@@ -11,6 +11,11 @@ export type Recommendation = {
   recommendedMovie: Movie | null;
 };
 
+export type CreateRecommendationDTO = Omit<
+  Recommendation,
+  'sendingUser' | 'receivingUser' | 'recommendedMovie'
+>;
+
 type Score = { score: number };
 
 export type MovieWithScore = Score & Movie;

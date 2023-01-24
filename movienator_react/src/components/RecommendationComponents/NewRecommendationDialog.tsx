@@ -18,7 +18,10 @@ import CustomizedSnackbars from '../GeneralComponents/FeedbackSnackbar';
 import { AlertColor } from '@mui/material/Alert';
 import { postOrUpdateRecommendation } from '../../services/RecommendationService';
 import { useCookies } from 'react-cookie';
-import { Recommendation } from '../../types/Recommendation';
+import {
+  Recommendation,
+  CreateRecommendationDTO,
+} from '../../types/Recommendation';
 import { Movie } from '../../types/Movie';
 import { getContainsHateSpeech } from '../../services/ExternService';
 import { createMovie } from '../../services/MovieService';
@@ -53,6 +56,7 @@ export default function NewRecommendationDialog({
         setUsers(mutualUsers);
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function handleSubmit() {
@@ -68,14 +72,11 @@ export default function NewRecommendationDialog({
       showMessage();
       return;
     }
-    const rec: Recommendation = {
+    const rec: CreateRecommendationDTO = {
       recommendedMovieMovieId: movie.movieId,
       sendingUserUserId: cookies.userId as number,
       receivingUserUserId: forUserId,
       message: curMessage,
-      recommendedMovie: null,
-      sendingUser: null,
-      receivingUser: null,
     };
     getContainsHateSpeech(curMessage).then((response) => {
       if (response) {
@@ -85,7 +86,12 @@ export default function NewRecommendationDialog({
       } else {
         createMovie(movie).then((resMovie) => {
           if (resMovie) {
-            postOrUpdateRecommendation(rec).then((res) => {
+            postOrUpdateRecommendation({
+              ...rec,
+              sendingUser: null,
+              receivingUser: null,
+              recommendedMovie: null,
+            }).then((res) => {
               if (!res) {
                 setSnackBarMessage('Error Saving Recommendation');
                 setSeverity('error');
@@ -111,7 +117,7 @@ export default function NewRecommendationDialog({
     setOpen(false);
   }
 
-  function handleSearchChange(e: any) {
+  function handleSearchChange(e: React.ChangeEvent<HTMLInputElement>): void {
     e.preventDefault();
     const { value } = e.target;
     if (value != '') {
@@ -127,7 +133,7 @@ export default function NewRecommendationDialog({
     }
   }
 
-  function handleMessageChange(e: any) {
+  function handleMessageChange(e: React.ChangeEvent<HTMLInputElement>): void {
     e.preventDefault();
     const { value } = e.target;
     setCurMessage(value);
