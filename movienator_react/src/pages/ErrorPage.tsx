@@ -5,6 +5,8 @@ import { Link, useRouteError } from 'react-router-dom';
  * Provides a link to get back to the homepage
  */
 export default function ErrorPage() {
+  // 'any' is ok here because useRouteError is not typed
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const error: any = useRouteError();
   console.error(error);
 

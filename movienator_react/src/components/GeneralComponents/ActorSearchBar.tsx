@@ -2,10 +2,10 @@ import { IconButton, InputBase, Paper } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-export default function ActorSearchBar(props: {
-  data: string | (() => string | undefined) | undefined;
-}) {
-  const [searchWord, setSearchWord] = useState<string | undefined>(props.data);
+export default function ActorSearchBar(props: { initialSearchWord: string }) {
+  const [searchWord, setSearchWord] = useState<string | undefined>(
+    props.initialSearchWord
+  );
   const navigate = useNavigate();
   function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
     e.preventDefault();

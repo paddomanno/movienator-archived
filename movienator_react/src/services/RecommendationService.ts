@@ -161,11 +161,13 @@ async function addMoviesToResults(
   listToAdd: Movie[]
 ) {
   listToAdd.forEach((currentMovie) => {
-    //If this movie is not already in watchPartyResult
-    const movieIndex = watchPartyResult.findIndex(
+    // check if this movie is already in watchPartyResult
+    const movieInList = watchPartyResult.find(
       (x) => x.movieId === currentMovie.movieId
-    );
-    if (movieIndex === -1) {
+    ) ?? { score: 0 };
+
+    // if movieInList is undefined, it will be set as an object with score 0 instead of undefined
+    if (movieInList.score === 0) {
       //Create a MovieWithScore Object
       const currentMovieWithScore: MovieWithScore = {
         ...currentMovie,
@@ -175,7 +177,7 @@ async function addMoviesToResults(
     }
     //Movie is already in the list --> Increase score
     else {
-      watchPartyResult.at(movieIndex)!.score += 1;
+      movieInList.score += 1;
     }
   });
 }

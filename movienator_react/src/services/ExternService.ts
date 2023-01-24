@@ -188,7 +188,7 @@ export async function getContainsHateSpeech(
   inputText: string
 ): Promise<boolean> {
   try {
-    let response = await axios.get(baseUrl + '/hatespeech', {
+    const response = await axios.get(baseUrl + '/hatespeech', {
       params: { text: inputText },
     });
     if (response.status == 200) {
@@ -217,13 +217,13 @@ export async function getAllWatchProvidersForMovie(
   movieId: number,
   country: string
 ): Promise<WatchProvidersWithCountry> {
-  let result: WatchProvidersWithCountry = { country: '', providers: [] };
+  const result: WatchProvidersWithCountry = { country: '', providers: [] };
   try {
     const response = await axios.get(
       baseUrl + `/watchProviders/movie/${movieId}/${country}`
     );
     if (response.status === 200) {
-      result = response.data.data;
+      return response.data.data;
     }
   } catch (e) {
     console.log('Error fetching Watch Providers: ' + e);

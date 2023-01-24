@@ -13,6 +13,7 @@ import CakeOutlinedIcon from '@mui/icons-material/CakeOutlined';
 export default function RootPage() {
   const SIZE_PROFILEIMAGE = 50;
   const navigate = useNavigate();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [cookies, setCookie, removeCookie] = useCookies(['userName', 'userId']);
   const [user, setUser] = useState<User | null>(null);
 
@@ -22,8 +23,9 @@ export default function RootPage() {
         setUser(res);
       });
     }
-  }, cookies.userId);
-  function handleLogout(e: any) {
+  }, [cookies.userId]);
+
+  function handleLogout(e: React.MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
     if (cookies.userName) {
       removeCookie('userName');

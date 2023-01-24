@@ -1,7 +1,5 @@
 import { SingleReviewProps } from '../../../props/ReviewProps';
 import { Card, CardContent, Paper, Stack, Typography } from '@mui/material';
-import StarIcon from '@mui/icons-material/Star';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
 import React from 'react';
 import { grey } from '@mui/material/colors';
 import MovieCard from '../MovieCard';

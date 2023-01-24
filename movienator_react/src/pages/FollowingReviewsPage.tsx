@@ -16,10 +16,14 @@ export default function FollowingReviewsPage() {
     if (!cookies.userName) {
       navigate('/login');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     getAllReviewsOfFollowingToUserId(cookies.userId).then((reviews) => {
       setReviews(reviews);
     });
-  }, []);
+  }, [cookies.userId]);
 
   return (
     <>
