@@ -65,7 +65,7 @@ export default function OwnProfileEditProfileModal({
     setOpen(false);
   };
 
-  const handleInputChange = (e: any) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
     if (value !== '') {
       const textField: HTMLElement | null = document.getElementById(
@@ -95,7 +95,8 @@ export default function OwnProfileEditProfileModal({
     });
   }
 
-  function saveEdit(e: any) {
+  function saveEdit(e: React.MouseEvent<HTMLButtonElement>): void {
+    e.preventDefault();
     if (
       userAttributes.firstName !== '' &&
       userAttributes.lastName !== '' &&
@@ -122,6 +123,9 @@ export default function OwnProfileEditProfileModal({
   const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
   function update() {
+    if (!user || !user.userId) {
+      return;
+    }
     const newUser: User = {
       userId: user.userId,
       firstName: userAttributes.firstName,
@@ -136,7 +140,7 @@ export default function OwnProfileEditProfileModal({
       followers: user.followers,
       watchlist: user.watchlist,
     };
-    if (userAttributes.image != undefined) {
+    if (userAttributes.image !== undefined) {
       const newImage: ProfileImage = {
         name: userAttributes.image.toString(),
         ressourceLink: userAttributes.image.toString(),
@@ -146,7 +150,7 @@ export default function OwnProfileEditProfileModal({
         updateUser(newUser).then(() => {
           updateUserImageToImageIdAndUserId(
             newImage.ressourceLink,
-            newUser.userId!
+            newUser.userId
           ).then(() => {
             showMessage('Changes Saved', 'success');
             reloadHandler();
@@ -155,7 +159,7 @@ export default function OwnProfileEditProfileModal({
       });
     } else {
       updateUser(newUser).then(() => {
-        deleteUserImageToUserId(newUser.userId!).then(() => {
+        deleteUserImageToUserId(newUser.userId).then(() => {
           setActivateToggle(false);
           showMessage('Changes Saved', 'success');
           reloadHandler();
@@ -164,7 +168,7 @@ export default function OwnProfileEditProfileModal({
     }
   }
 
-  function cancelEdit(e: any) {
+  function cancelEdit(e: React.MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
     setUserAttributes(oldData);
     setOpen(false);
@@ -307,6 +311,7 @@ export default function OwnProfileEditProfileModal({
               <Stack direction={'row'} justifyContent={'space-evenly'}>
                 {[...Array(5)].map((x, i) => (
                   <IconButton
+                    key={i}
                     sx={{
                       backgroundColor:
                         userAttributes.image != undefined &&
