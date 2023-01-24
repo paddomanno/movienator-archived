@@ -8,7 +8,7 @@ export default function MovieOnFollowerWatchlistList({ users }: UserListProps) {
     <Card sx={{ backgroundColor: grey.A200, flexGrow: 1 }}>
       <CardContent>
         <Typography>
-          {users.length} of the Users you are following have this movie on their
+          {users.length} users you are following have this movie on their
           watchlist:
         </Typography>
         <UsersList users={users} />
