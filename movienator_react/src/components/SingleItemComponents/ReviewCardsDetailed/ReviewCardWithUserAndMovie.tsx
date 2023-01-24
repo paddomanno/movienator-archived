@@ -2,26 +2,13 @@
 import { SingleReviewProps } from '../../../props/ReviewProps';
 import { Card, CardContent, Paper, Stack, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
-import StarIcon from '@mui/icons-material/Star';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
-import React from 'react';
 import MovieCard from '../MovieCard';
 import UserCard from '../UserCard';
+import RatingStars from './RatingStars';
 
 export default function ReviewCardWithUserAndMovie({
   review,
 }: SingleReviewProps) {
-  const stars = (
-    <Stack direction={'row'}>
-      {[...Array(review.rating)].map((x, i) => (
-        <StarIcon />
-      ))}
-      {[...Array(5 - review.rating)].map((x, i) => (
-        <StarBorderIcon />
-      ))}
-    </Stack>
-  );
-
   return (
     <Card sx={{ backgroundColor: grey.A200 }}>
       <CardContent>
@@ -42,7 +29,7 @@ export default function ReviewCardWithUserAndMovie({
                 alignItems={'center'}
               >
                 <Typography variant={'h5'}>{review.title}</Typography>
-                {stars}
+                <RatingStars rating={review.rating} max={5} />
               </Stack>
               <Paper
                 sx={{
