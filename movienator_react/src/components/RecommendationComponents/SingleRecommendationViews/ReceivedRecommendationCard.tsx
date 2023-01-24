@@ -18,8 +18,8 @@ type Props = {
   rec: Recommendation;
   reloadRecs: () => void;
 };
-export default function ReceivedRecommendation({ rec, reloadRecs }: Props) {
-  function deleteRecommendationHandler(e: any) {
+export default function ReceivedRecommendationCard({ rec, reloadRecs }: Props) {
+  function deleteRecommendationHandler(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     deleteRecommendation(
       rec.sendingUserUserId,
@@ -36,11 +36,11 @@ export default function ReceivedRecommendation({ rec, reloadRecs }: Props) {
     <Card sx={{ minWidth: 400, maxWidth: 400, backgroundColor: grey['300'] }}>
       <CardContent>
         <Stack direction={'row'}>
-          <MovieCard movie={rec.recommendedMovie!} />
+          <MovieCard movie={rec.recommendedMovie} />
           <Stack direction={'column'}>
             <Stack direction={'row'} justifyContent={'space-between'}>
               <Stack direction={'row'} alignItems={'center'}>
-                <OtherUserAvatar user={rec.sendingUser!} clickable={true} />
+                <OtherUserAvatar user={rec.sendingUser} clickable={true} />
                 <Typography>{rec.sendingUser?.userName}</Typography>
               </Stack>
               <IconButton onClick={deleteRecommendationHandler}>

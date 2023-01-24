@@ -175,17 +175,17 @@ export default function NewRecommendationDialog({
           <DialogActions>
             <Button
               onClick={() => {
-                handleSubmit();
-              }}
-            >
-              Send
-            </Button>
-            <Button
-              onClick={() => {
                 handleCancel();
               }}
             >
               Cancel
+            </Button>
+            <Button
+              onClick={() => {
+                handleSubmit();
+              }}
+            >
+              Send
             </Button>
           </DialogActions>
         </DialogContent>

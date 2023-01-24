@@ -5,7 +5,7 @@ import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, Stack, Typography } from '@mui/material';
 import Grid2 from '@mui/material/Unstable_Grid2';
-import ReceivedRecommendation from '../components/RecommendationComponents/SingleRecommendationViews/ReceivedRecommendation';
+import ReceivedRecommendationCard from '../components/RecommendationComponents/SingleRecommendationViews/ReceivedRecommendationCard';
 import { grey } from '@mui/material/colors';
 
 export default function FriendRecommendationsPage() {
@@ -14,14 +14,18 @@ export default function FriendRecommendationsPage() {
   const [cookies] = useCookies(['userName', 'userId']);
 
   useEffect(() => {
-    //Rauswerfen wenn nicht eingeloggt
     if (!cookies.userName) {
       navigate('/login');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     getAllRecommendationsForUserId(cookies.userId as number).then((recs) => {
       setFriendRecs(recs);
     });
-  }, []);
+  }, [cookies.userId]);
+
   function reloadRecs() {
     getAllRecommendationsForUserId(cookies.userId as number).then((recs) => {
       setFriendRecs(recs);
@@ -38,8 +42,10 @@ export default function FriendRecommendationsPage() {
               <>
                 <Grid2 container spacing={1}>
                   {friendRecs.map((rec) => (
-                    <Grid2>
-                      <ReceivedRecommendation
+                    <Grid2
+                      key={`${rec.sendingUserUserId}.${rec.recommendedMovieMovieId}`}
+                    >
+                      <ReceivedRecommendationCard
                         rec={rec}
                         reloadRecs={reloadRecs}
                       />

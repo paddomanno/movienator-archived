@@ -1,6 +1,6 @@
-import SentRecommendation from './SentRecommendation';
+import SentRecommendationCard from './SentRecommendationCard';
 import { Recommendation } from '../../../types/Recommendation';
-import ReceivedRecommendation from './ReceivedRecommendation';
+import ReceivedRecommendationCard from './ReceivedRecommendationCard';
 
 type Props = {
   variant: 'showFrom' | 'showFromShort' | 'showFor';
@@ -13,12 +13,13 @@ export default function RecommendationView({
   rec,
 }: Props) {
   if (variant == 'showFrom') {
+    // TODO: implement longer ReceivedRecommendationCard component
   }
   if (variant == 'showFromShort') {
-    return <ReceivedRecommendation rec={rec} reloadRecs={reloadRecs} />;
+    return <ReceivedRecommendationCard rec={rec} reloadRecs={reloadRecs} />;
   }
   if (variant == 'showFor') {
-    return <SentRecommendation rec={rec} reloadRecs={reloadRecs} />;
+    return <SentRecommendationCard rec={rec} reloadRecs={reloadRecs} />;
   }
   return <></>;
 }
