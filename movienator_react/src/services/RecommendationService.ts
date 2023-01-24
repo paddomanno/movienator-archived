@@ -1,6 +1,10 @@
 import { User } from '../types/User';
 import axios from 'axios';
-import { MovieWithScore, Recommendation } from '../types/Recommendation';
+import {
+  CreateRecommendationDTO,
+  MovieWithScore,
+  Recommendation,
+} from '../types/Recommendation';
 import { Movie } from '../types/Movie';
 import { getWatchlistMoviesToUserId } from './MovieService';
 import {
@@ -74,7 +78,7 @@ export async function getAllRecommendationsForUserIdForMovieId(
 }
 
 export async function postOrUpdateRecommendation(
-  rec: Recommendation
+  rec: CreateRecommendationDTO
 ): Promise<boolean> {
   try {
     const response = await axios.post(baseUrl + '/', rec);
