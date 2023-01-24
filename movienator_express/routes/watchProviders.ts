@@ -36,7 +36,7 @@ watchProviderRoutes.get('/movie/:mID', async (req, res) => {
       relations: { watchProviders: true },
     });
     if (oneMovie) {
-      let movieProviders: WatchProvider[] = oneMovie.watchProviders;
+      const movieProviders: WatchProvider[] = oneMovie.watchProviders;
       movieProviders.sort((a, b) =>
         a.providerName.localeCompare(b.providerName)
       );

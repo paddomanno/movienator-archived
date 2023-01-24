@@ -26,25 +26,25 @@ beforeEach(async () => {
 }, 10_000);
 
 async function createTestData() {
-  let image1: ProfileImage = new ProfileImage();
+  const image1: ProfileImage = new ProfileImage();
   image1.ressourceLink = 'cat.png';
   image1.name = 'Cat';
   image1.users = [];
   await image1.save();
 
-  let image2: ProfileImage = new ProfileImage();
+  const image2: ProfileImage = new ProfileImage();
   image2.ressourceLink = 'dog.png';
   image2.name = 'Dog';
   image2.users = [];
   await image2.save();
 
-  let image3: ProfileImage = new ProfileImage();
+  const image3: ProfileImage = new ProfileImage();
   image3.ressourceLink = 'funny.png';
   image3.name = 'Funny';
   image3.users = [];
   await image3.save();
 
-  let user: User = new User();
+  const user: User = new User();
   user.firstName = 'Ula';
   user.lastName = 'Metz';
   user.userName = 'ulme';
@@ -53,7 +53,7 @@ async function createTestData() {
   user.profileImage = image1;
   await user.save();
 
-  let userNoImage: User = new User();
+  const userNoImage: User = new User();
   userNoImage.firstName = 'Freddi';
   userNoImage.lastName = 'Koch';
   userNoImage.userName = 'feko';
@@ -66,7 +66,7 @@ describe('Imagetest', () => {
   describe('getAllProfileImages route', () => {
     describe('good case', () => {
       it('should return all images', async () => {
-        let response = await request(app).get('/profileImage/all');
+        const response = await request(app).get('/profileImage/all');
         expect(response.statusCode).toBe(200);
         const allImages: ProfileImage[] = response.body.data;
         expect(allImages.length).toBe(3);
@@ -78,7 +78,7 @@ describe('Imagetest', () => {
   describe('getOneProfileImageWithLink route', () => {
     describe('good case', () => {
       it('should return one image', async () => {
-        let response = await request(app).get('/profileImage/ref/cat.png');
+        const response = await request(app).get('/profileImage/ref/cat.png');
         expect(response.statusCode).toBe(200);
         const allImages: ProfileImage = response.body.data;
         expect(allImages.name).toBe('Cat');
@@ -88,7 +88,9 @@ describe('Imagetest', () => {
     describe('bad case', () => {
       describe('given link does not exist', () => {
         it('should return 404', async () => {
-          let response = await request(app).get('/profileImage/ref/error.png');
+          const response = await request(app).get(
+            '/profileImage/ref/error.png'
+          );
           expect(response.statusCode).toBe(404);
         });
       });
@@ -99,7 +101,7 @@ describe('Imagetest', () => {
     describe('good case', () => {
       it('should return image of user', async () => {
         // Kevin - Ich glaube in der Route war ein Fehler, könnt jetzt nochmal probieren
-        let response = await request(app).get('/profileImage/user/1');
+        const response = await request(app).get('/profileImage/user/1');
         expect(response.statusCode).toBe(200);
         const image: ProfileImage = response.body.data;
         expect(image.name).toBe('Cat');
@@ -107,7 +109,7 @@ describe('Imagetest', () => {
       });
       describe('given user does not have an image', () => {
         it('should return 200 and undefined image', async () => {
-          let response = await request(app).get('/profileImage/user/2');
+          const response = await request(app).get('/profileImage/user/2');
           expect(response.statusCode).toBe(200);
           const image: ProfileImage = response.body.data;
           expect(image).toBe(null);
@@ -117,7 +119,7 @@ describe('Imagetest', () => {
     describe('bad case', () => {
       describe('given user does not exist', () => {
         it('should return 404', async () => {
-          let response = await request(app).get('/profileImage/user/11');
+          const response = await request(app).get('/profileImage/user/11');
           expect(response.statusCode).toBe(404);
         });
       });
@@ -127,11 +129,11 @@ describe('Imagetest', () => {
   describe('postNewImage route', () => {
     describe('good case', () => {
       it('should return the new image and status 201', async () => {
-        let image: ProfileImage = new ProfileImage();
+        const image: ProfileImage = new ProfileImage();
         image.ressourceLink = 'donkey.png';
         image.name = 'Donkey';
 
-        let response = await request(app).post('/profileImage/').send(image);
+        const response = await request(app).post('/profileImage/').send(image);
         expect(response.statusCode).toBe(201);
         expect(response.body.data.name).toBe('Donkey');
       });
@@ -139,10 +141,12 @@ describe('Imagetest', () => {
     describe('bad case', () => {
       describe('given no ressourceLink', () => {
         it('should return 500', async () => {
-          let image: ProfileImage = new ProfileImage();
+          const image: ProfileImage = new ProfileImage();
           image.name = 'Donkey';
 
-          let response = await request(app).post('/profileImage/').send(image);
+          const response = await request(app)
+            .post('/profileImage/')
+            .send(image);
           expect(response.statusCode).toBe(500);
         });
       });
@@ -152,11 +156,11 @@ describe('Imagetest', () => {
   describe('putImage Route', () => {
     describe('good case', () => {
       it('Should update the image in the database', async () => {
-        let image: ProfileImage = await ProfileImage.findOne({
+        const image: ProfileImage = await ProfileImage.findOne({
           where: { ressourceLink: 'funny.png' },
         });
         image.name = 'Funny Image';
-        let response = await request(app).put('/profileImage/').send(image);
+        const response = await request(app).put('/profileImage/').send(image);
         expect(response.statusCode).toBe(201);
         expect(response.body.data.name).toBe('Funny Image');
       });
@@ -164,13 +168,15 @@ describe('Imagetest', () => {
     describe('bad case', () => {
       describe('image does not exist', () => {
         it('should return 404', async () => {
-          let noImage: ProfileImage = ProfileImage.create({
+          const noImage: ProfileImage = ProfileImage.create({
             ressourceLink: 'none.png',
             name: 'no',
-            users:[],
+            users: [],
           });
           noImage.ressourceLink = 'none1.png';
-          let response = await request(app).put('/profileImage/').send(noImage);
+          const response = await request(app)
+            .put('/profileImage/')
+            .send(noImage);
           expect(response.statusCode).toBe(404);
         });
       });
@@ -180,9 +186,9 @@ describe('Imagetest', () => {
   describe('deleteImage route', () => {
     describe('good case', () => {
       it('should return nothing and status 204', async () => {
-        let response = await request(app).delete('/profileImage/dog.png');
+        const response = await request(app).delete('/profileImage/dog.png');
         expect(response.statusCode).toBe(204);
-        let image = await ProfileImage.findOne({
+        const image = await ProfileImage.findOne({
           where: { ressourceLink: 'dog.png' },
         });
         expect(image).toBeNull();
@@ -191,7 +197,7 @@ describe('Imagetest', () => {
     describe('bad cases', () => {
       describe('given image does not exist', () => {
         it('should return 404', async () => {
-          let response = await request(app).delete('/review/11/1');
+          const response = await request(app).delete('/review/11/1');
           expect(response.statusCode).toBe(404);
         });
       });

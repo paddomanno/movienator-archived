@@ -9,7 +9,6 @@ import {
 } from 'typeorm';
 import Actor from './actor';
 import Review from './review';
-import { JoinColumn } from 'typeorm/browser';
 import Genre from './genre';
 import WatchProvider from './watchProvider';
 

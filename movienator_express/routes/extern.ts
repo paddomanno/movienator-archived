@@ -4,7 +4,6 @@ import Review from '../entity/review';
 import Genre from '../entity/genre';
 import User from '../entity/user';
 import WatchProvider from '../entity/watchProvider';
-import { expect } from '@jest/globals';
 
 const expressExtern = require('express');
 const externRouter = expressExtern.Router();
@@ -22,9 +21,9 @@ const BASE_URL = 'https://api.themoviedb.org/3';
 async function getImageToActor(actorId: number): Promise<string | null> {
   let resString: string | null = null;
   try {
-    let query: string =
+    const query: string =
       BASE_URL + `/person/${actorId}/images?` + `api_key=${API_KEY}`;
-    let response = await axios.get(query, {
+    const response = await axios.get(query, {
       headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
       params: { trophies: true },
     });
@@ -38,12 +37,12 @@ async function getImageToActor(actorId: number): Promise<string | null> {
 }
 
 async function getVideoToMovie(movieId: number): Promise<string> {
-  let resKey: string = 'null';
+  let resKey = 'null';
   try {
-    let query: string =
+    const query: string =
       BASE_URL + `/movie/${movieId}/videos?` + `api_key=${API_KEY}`;
     //console.log(query)
-    let response = await axios.get(query, {
+    const response = await axios.get(query, {
       headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
       params: { trophies: true },
     });
@@ -69,24 +68,24 @@ async function getVideoToMovie(movieId: number): Promise<string> {
 async function getMoviesToIds(
   ids: number[],
   maxAmount: number,
-  getVideos: boolean = false
+  getVideos = false
 ): Promise<Movie[]> {
-  let resMovies: Movie[] = [];
+  const resMovies: Movie[] = [];
   for (const id of ids) {
-    let query: string = BASE_URL + `/movie/${id}?` + `api_key=${API_KEY}`;
-    let response = await axios.get(query, {
+    const query: string = BASE_URL + `/movie/${id}?` + `api_key=${API_KEY}`;
+    const response = await axios.get(query, {
       headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
       params: { trophies: true },
     });
     if (response.status == 200) {
-      let genres: Genre[] = [];
+      const genres: Genre[] = [];
       response.data.genres.forEach((genre) => {
-        let oneGenre: Genre = new Genre();
+        const oneGenre: Genre = new Genre();
         oneGenre.genreId = genre.id;
         oneGenre.genreName = genre.name;
         genres.push(oneGenre);
       });
-      let oneMovie: Movie = new Movie();
+      const oneMovie: Movie = new Movie();
       oneMovie.movieId = response.data.id;
       oneMovie.title = response.data.original_title;
       oneMovie.overview = response.data.overview;
@@ -124,7 +123,7 @@ async function getMoviesToQuery(
   maxAmount: number,
   page?: number
 ): Promise<Movie[]> {
-  let movieIds: number[] = [];
+  const movieIds: number[] = [];
   let res: any;
   res = await axios.get(query + `&page=${page}`, {
     headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
@@ -149,13 +148,13 @@ async function getMoviesToQuery(
 //see search/movies
 externRouter.get('/search/movie/:word', async (req, res) => {
   try {
-    let query: string =
+    const query: string =
       BASE_URL +
       '/search/movie/?' +
       `api_key=${API_KEY}` +
       `&query=${req.params.word}`;
-    let page: number = parseInt(req.query.page);
-    let resMovies: Movie[] = await getMoviesToQuery(query, 50, page);
+    const page: number = parseInt(req.query.page);
+    const resMovies: Movie[] = await getMoviesToQuery(query, 50, page);
     res.status(200).json({
       data: resMovies,
     });
@@ -167,18 +166,18 @@ externRouter.get('/search/movie/:word', async (req, res) => {
 
 //Returns the first X actors that are playing in a movie
 externRouter.get('/actor/movie/:id', async (req, res) => {
-  const MAX_ACTORS: number = 10;
+  const MAX_ACTORS = 10;
   try {
-    let resActors: Actor[] = [];
-    let actorsQuery: string =
+    const resActors: Actor[] = [];
+    const actorsQuery: string =
       BASE_URL + `/movie/${req.params.id}/credits?` + `api_key=${API_KEY}`;
-    let actors = await axios.get(actorsQuery, {
+    const actors = await axios.get(actorsQuery, {
       headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
       params: { trophies: true },
     });
     if (actors.status == 200) {
       actors.data.cast.forEach((castMember) => {
-        let oneActor: Actor = new Actor();
+        const oneActor: Actor = new Actor();
         oneActor.actorId = castMember.id;
         oneActor.name = castMember.original_name;
         oneActor.movies = [];
@@ -197,10 +196,10 @@ externRouter.get('/actor/movie/:id', async (req, res) => {
 });
 externRouter.get('/actor/:id', async (req, res) => {
   try {
-    let resActor: Actor = new Actor();
-    let actorsQuery: string =
+    const resActor: Actor = new Actor();
+    const actorsQuery: string =
       BASE_URL + `/person/${req.params.id}?` + `api_key=${API_KEY}`;
-    let actor = await axios.get(actorsQuery, {
+    const actor = await axios.get(actorsQuery, {
       headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
       params: { trophies: true },
     });
@@ -221,15 +220,15 @@ externRouter.get('/actor/:id', async (req, res) => {
 //The movies array is NOT filled
 //See search/people -> known for
 externRouter.get('/search/actor/:name', async (req, res) => {
-  const MAX_RESULTS: number = 20;
+  const MAX_RESULTS = 20;
   try {
-    let resActors: Actor[] = [];
-    let query: string =
+    const resActors: Actor[] = [];
+    const query: string =
       BASE_URL +
       '/search/person?' +
       `api_key=${API_KEY}` +
       `&query=${req.params.name}`;
-    let response = await axios.get(query, {
+    const response = await axios.get(query, {
       headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
       params: { trophies: true },
     });
@@ -239,7 +238,7 @@ externRouter.get('/search/actor/:name', async (req, res) => {
           result.known_for_department == 'Acting' &&
           resActors.length < MAX_RESULTS
         ) {
-          let newActor: Actor = new Actor();
+          const newActor: Actor = new Actor();
           newActor.actorId = result.id;
           newActor.name = result.name;
           newActor.movies = [];
@@ -260,7 +259,7 @@ externRouter.get('/search/actor/:name', async (req, res) => {
 
 externRouter.get('/movie/one/:id', async (req, res) => {
   try {
-    let resMovies: Movie[] = await getMoviesToIds(
+    const resMovies: Movie[] = await getMoviesToIds(
       [parseInt(req.params.id)],
       30,
       true
@@ -282,16 +281,16 @@ externRouter.get('/movies/actor/:id', async (req, res) => {
   const MAX_RESULTS = 70;
   try {
     let resMovies: Movie[] = [];
-    let query: string =
+    const query: string =
       BASE_URL +
       `/person/${req.params.id}/movie_credits?` +
       `api_key=${API_KEY}`;
-    let response = await axios.get(query, {
+    const response = await axios.get(query, {
       headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
       params: { trophies: true },
     });
     if (response.status == 200) {
-      let movieIds: number[] = [];
+      const movieIds: number[] = [];
       response.data.cast.forEach((cast) => {
         if (movieIds.length <= MAX_RESULTS) {
           movieIds.push(cast.id);
@@ -316,30 +315,30 @@ externRouter.get('/movies/actor/:id', async (req, res) => {
 //The genre array IS filled
 //The watchProvider array is NOT filled
 externRouter.get('/user/:uId/recommendations', async (req, res) => {
-  const MAX_DIF_REVIEWS: number = 10;
-  const MAX_REC_PER_REVIEW: number = 2;
+  const MAX_DIF_REVIEWS = 10;
+  const MAX_REC_PER_REVIEW = 2;
   try {
     if (isNaN(+req.params.uId)) {
       throw 'Not a valid number';
     }
-    let user: User = await User.findOne({
+    const user: User = await User.findOne({
       where: { userId: parseInt(req.params.uId) },
     });
     if (user != null) {
-      let reviews: Review[] = await Review.find({
+      const reviews: Review[] = await Review.find({
         where: { reviewUserUserId: parseInt(req.params.uId) },
       });
       reviews.sort((a, b) => b.rating - a.rating);
-      let movieIds: number[] = [];
+      const movieIds: number[] = [];
 
       //Get recommendations for the top-rated movies of that user
-      let i: number = 0;
+      let i = 0;
       while (i < reviews.length && i < MAX_DIF_REVIEWS) {
-        let query: string =
+        const query: string =
           BASE_URL +
           `/movie/${reviews[i].reviewMovieMovieId}/recommendations?` +
           `api_key=${API_KEY}`;
-        let thisMovieRec = await axios.get(query, {
+        const thisMovieRec = await axios.get(query, {
           headers: {
             Accept: 'application/json',
             'Accept-Encoding': 'identity',
@@ -349,7 +348,7 @@ externRouter.get('/user/:uId/recommendations', async (req, res) => {
 
         if (thisMovieRec.status == 200) {
           //Collect Movie ids from the first 2 recommendations
-          let x: number = 0;
+          let x = 0;
           while (
             x < thisMovieRec.data.results.length &&
             x < MAX_REC_PER_REVIEW
@@ -360,7 +359,7 @@ externRouter.get('/user/:uId/recommendations', async (req, res) => {
         }
         i++;
       }
-      let resMovies: Movie[] = await getMoviesToIds(
+      const resMovies: Movie[] = await getMoviesToIds(
         movieIds,
         MAX_DIF_REVIEWS * MAX_REC_PER_REVIEW
       );
@@ -385,14 +384,14 @@ externRouter.get('/movie/:mId/recommendations', async (req, res) => {
       throw 'Not a valid Number';
     }
     let resMovies: Movie[] = [];
-    let query: string =
+    const query: string =
       BASE_URL + `/movie/${req.params.mId}/similar?` + `api_key=${API_KEY}`;
-    let thisMovieRec = await axios.get(query, {
+    const thisMovieRec = await axios.get(query, {
       headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
       params: { trophies: true },
     });
     if (thisMovieRec.status == 200) {
-      let movieIds: number[] = [];
+      const movieIds: number[] = [];
       thisMovieRec.data.results.forEach((result) => {
         movieIds.push(result.id);
       });
@@ -414,9 +413,9 @@ externRouter.get('/movie/:mId/recommendations', async (req, res) => {
 //See movie/popular
 externRouter.get('/popular', async (req, res) => {
   try {
-    let query: string = BASE_URL + '/movie/popular?' + `api_key=${API_KEY}`;
-    let page: number = parseInt(req.query.page);
-    let resMovies = await getMoviesToQuery(query, 50, page);
+    const query: string = BASE_URL + '/movie/popular?' + `api_key=${API_KEY}`;
+    const page: number = parseInt(req.query.page);
+    const resMovies = await getMoviesToQuery(query, 50, page);
     res.status(200).json({
       data: resMovies,
     });
@@ -430,15 +429,16 @@ externRouter.get('/popular', async (req, res) => {
 //Movies are not filled
 externRouter.get('/genres', async (req, res) => {
   try {
-    let resGenres: Genre[] = [];
-    let query: string = BASE_URL + `/genre/movie/list?` + `api_key=${API_KEY}`;
-    let genreRes = await axios.get(query, {
+    const resGenres: Genre[] = [];
+    const query: string =
+      BASE_URL + `/genre/movie/list?` + `api_key=${API_KEY}`;
+    const genreRes = await axios.get(query, {
       headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
       params: { trophies: true },
     });
     if (genreRes.status == 200) {
       genreRes.data.genres.forEach((genre) => {
-        let newGen: Genre = new Genre();
+        const newGen: Genre = new Genre();
         newGen.genreId = genre.id;
         newGen.genreName = genre.name;
         resGenres.push(newGen);
@@ -460,13 +460,13 @@ externRouter.get('/movie/genre/:id', async (req, res) => {
     if (isNaN(+req.params.id)) {
       throw 'Not a valid number';
     }
-    let query: string =
+    const query: string =
       BASE_URL +
       '/discover/movie?' +
       `with_genres=${req.params.id}` +
       `&api_key=${API_KEY}`;
-    let page: number = parseInt(req.query.page);
-    let resMovies = await getMoviesToQuery(query, 50, page);
+    const page: number = parseInt(req.query.page);
+    const resMovies = await getMoviesToQuery(query, 50, page);
     if (resMovies.length == 0) {
       res.status(404).json();
     } else {
@@ -485,10 +485,11 @@ externRouter.get('/genre/:id', async (req, res) => {
     if (isNaN(+req.params.id)) {
       throw 'Not a valid number';
     }
-    let genreId: number = parseInt(req.params.id);
+    const genreId: number = parseInt(req.params.id);
     let resGenre: Genre = null;
-    let query: string = BASE_URL + `/genre/movie/list?` + `api_key=${API_KEY}`;
-    let genreRes = await axios.get(query, {
+    const query: string =
+      BASE_URL + `/genre/movie/list?` + `api_key=${API_KEY}`;
+    const genreRes = await axios.get(query, {
       headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
       params: { trophies: true },
     });
@@ -520,19 +521,19 @@ externRouter.get('/genre/:id', async (req, res) => {
 // Movies are not filled
 externRouter.get('/watchProviders', async (req, res) => {
   try {
-    let resProviders: WatchProvider[] = [];
-    let watchRegion: string = 'US';
-    let query: string =
+    const resProviders: WatchProvider[] = [];
+    const watchRegion = 'US';
+    const query: string =
       BASE_URL +
       `/watch/providers/movie?` +
       `api_key=${API_KEY}&&watch_region=${watchRegion}`;
-    let providersRes = await axios.get(query, {
+    const providersRes = await axios.get(query, {
       headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
       params: { trophies: true },
     });
     if (providersRes.status == 200) {
       providersRes.data.results.forEach((provider) => {
-        let newWP: WatchProvider = new WatchProvider();
+        const newWP: WatchProvider = new WatchProvider();
         newWP.providerId = provider.provider_id;
         newWP.providerName = provider.provider_name;
         resProviders.push(newWP);
@@ -556,7 +557,7 @@ externRouter.get('/watchProviders/movie/:id/:country', async (req, res) => {
       throw 'Not a valid number';
     }
     const movieId: number = parseInt(req.params.id);
-    let resultProviders: WatchProvider[] = [];
+    const resultProviders: WatchProvider[] = [];
     const query: string =
       BASE_URL + `/movie/${movieId}/watch/providers?api_key=${API_KEY}`;
     const apiResponse = await axios.get(query, {
@@ -570,7 +571,7 @@ externRouter.get('/watchProviders/movie/:id/:country', async (req, res) => {
 
     if (apiResponse.status == 200) {
       providersInCountry?.flatrate?.forEach((provider) => {
-        let newWP: WatchProvider = new WatchProvider();
+        const newWP: WatchProvider = new WatchProvider();
         newWP.providerId = provider.provider_id;
         newWP.providerName = provider.provider_name;
         resultProviders.push(newWP);
@@ -589,7 +590,7 @@ externRouter.get('/watchProviders/movie/:id/:country', async (req, res) => {
 
 externRouter.get('/hateSpeech', async (req, res) => {
   try {
-    let response = await axios({
+    const response = await axios({
       url: 'https://community-purgomalum.p.rapidapi.com/containsprofanity',
       method: 'get',
       params: { text: req.query.text },

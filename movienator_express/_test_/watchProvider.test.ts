@@ -7,8 +7,6 @@ import {
   it,
 } from '@jest/globals';
 import { TestDatabaseManager } from './test_utils/TestDatabaseManager';
-import app from '../app';
-import request from 'supertest';
 
 beforeAll(async () => {
   await TestDatabaseManager.getInstance().connectTestDatabase();

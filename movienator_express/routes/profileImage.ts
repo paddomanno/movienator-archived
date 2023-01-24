@@ -68,7 +68,7 @@ profileImageRouter.get('/user/:id', async (req, res) => {
 //Saves the image from the body
 profileImageRouter.post('/', async (req, res) => {
   try {
-    let newProfileImage: ProfileImage = req.body as ProfileImage;
+    const newProfileImage: ProfileImage = req.body as ProfileImage;
     const existingImage: ProfileImage = await ProfileImage.findOne({
       where: { ressourceLink: newProfileImage.ressourceLink },
     });
@@ -92,7 +92,7 @@ profileImageRouter.post('/', async (req, res) => {
 //Updates the image from the body
 profileImageRouter.put('/', async (req, res) => {
   try {
-    let updatedProfileImage = req.body as ProfileImage;
+    const updatedProfileImage = req.body as ProfileImage;
     const requestedProfileImage: ProfileImage = await ProfileImage.findOne({
       where: { ressourceLink: updatedProfileImage.ressourceLink },
     });
