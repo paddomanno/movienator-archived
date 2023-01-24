@@ -1,12 +1,8 @@
 //Route: movienator3000.com/genreMovies/:genreId
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { Movie } from '../types/Movie';
-import {
-  getMoviesToGenreId,
-  getPopularMoviesToPagenumber,
-  getOneGenreToId,
-} from '../services/ExternService';
+import { getPopularMoviesToPagenumber } from '../services/ExternService';
 import { Button, Card, CardContent, Stack, Typography } from '@mui/material';
 import { useCookies } from 'react-cookie';
 import MoviesList from '../components/ListComponents/MoviesList';
@@ -21,10 +17,14 @@ export default function PopularPage() {
     if (!cookies.userName) {
       navigate('/login');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     getPopularMoviesToPagenumber(page).then((movies) => {
       setMovies(movies);
     });
-  }, []);
+  });
 
   useEffect(() => {
     setMovies(null);
@@ -33,14 +33,14 @@ export default function PopularPage() {
     });
   }, [page]);
 
-  function decrementPage(e: any) {
+  function decrementPage(e: React.MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
     if (page > 1) {
       setPage(page - 1);
     }
   }
 
-  function incrementPage(e: any) {
+  function incrementPage(e: React.MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
     setPage(page + 1);
   }

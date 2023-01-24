@@ -13,7 +13,7 @@ import { ReviewListProps } from '../../props/ReviewProps';
 
 export default function ReviewsListHomePage({ reviews }: ReviewListProps) {
   const navigate = useNavigate();
-  function handleClick(e: any) {
+  function handleClick(e: React.MouseEvent) {
     e.preventDefault();
     navigate('/followingReviews');
   }
@@ -30,6 +30,7 @@ export default function ReviewsListHomePage({ reviews }: ReviewListProps) {
                   showUser={false}
                   showMovie={false}
                   review={review}
+                  key={`${review.reviewMovieMovieId}.${review.reviewUserUserId}`}
                 />
               ))}
             </Stack>

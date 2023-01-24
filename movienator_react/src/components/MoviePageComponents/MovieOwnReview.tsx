@@ -13,14 +13,13 @@ import {
   Card,
   CardContent,
   Divider,
-  Modal,
   Stack,
   TextField,
   Typography,
 } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import { grey, red } from '@mui/material/colors';
+import { grey } from '@mui/material/colors';
 import { createMovie } from '../../services/MovieService';
 import { SingleMovieProps } from '../../props/MovieProps';
 import { getContainsHateSpeech } from '../../services/ExternService';
@@ -32,7 +31,7 @@ type InputData = {
   rating: number;
 };
 export default function MovieOwnReview({ movie }: SingleMovieProps) {
-  let defaultData: InputData = {
+  const defaultData: InputData = {
     title: '',
     comment: '',
     rating: 0,
@@ -44,16 +43,22 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
   const [oldData, setOldData] = useState<InputData>(defaultData);
   //To handle the hate speech reminder snackbar
   const [activateToggle, setActivateToggle] = useState<boolean>(false);
-  const hateSpeechErrorMessage: string =
-    'Reviews are not allowed to contain profanity';
+  const [feedbackMessage, setFeedbackMessage] = useState('');
+  const [feedbackColor, setFeedbackColor] = useState<AlertColor>('info');
+  const hateSpeechErrorMessage = 'Reviews are not allowed to contain profanity';
   const hateSpeechAlertColor: AlertColor = 'warning';
+  const generalErrorMessage = 'Error saving review';
+  const generalAlertColor: AlertColor = 'error';
 
   useEffect(() => {
+    // checking if a review already exists
     getOneReviewToUserIdAndMovieId(
       cookies.userId as number,
       movie.movieId
     ).then((review) => {
       setReview(review);
+
+      // if a review already exists, it is shown and editing is disabled
       if (review != null) {
         setInputData({
           ...inputData,
@@ -64,6 +69,7 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
         setEditing(false);
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function changeRating(newRating: number) {
@@ -75,10 +81,10 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
     }
   }
 
-  const handleInputChange = (e: any) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (value !== '') {
-      let textField: HTMLElement | null = document.getElementById(
+      const textField: HTMLElement | null = document.getElementById(
         `${name}-input`
       );
       if (textField != null) {
@@ -91,12 +97,12 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
     });
   };
 
-  function startEdit(e: any) {
+  function startEdit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     setOldData(inputData);
     setEditing(true);
   }
-  function cancelEdit(e: any) {
+  function cancelEdit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     setInputData(oldData);
     setEditing(false);
@@ -112,7 +118,9 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
   function postReviewToBackend(newReview: Review) {
     createReview(newReview).then((r) => {
       if (!r) {
-        console.log('Error saving review');
+        setFeedbackMessage(generalErrorMessage);
+        setFeedbackColor(generalAlertColor);
+        showMessage();
       } else {
         setReview(newReview);
         setEditing(false);
@@ -131,8 +139,8 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
     });
   }
 
-  function saveReview() {
-    let newReview: Review = {
+  async function saveReview() {
+    const newReview: Review = {
       reviewMovieMovieId: movie.movieId,
       reviewUserUserId: cookies.userId as number,
       title: inputData.title,
@@ -142,38 +150,47 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
       review_user: null,
       review_movie: null,
     };
+    // console.log('getting hatespeech results');
+    try {
+      const containsHatespeech = await getContainsHateSpeech(
+        newReview.title + ' ' + newReview.content
+      );
+      // console.log('Response of Detection: ' + containsHatespeech);
 
-    getContainsHateSpeech(newReview.title + ' ' + newReview.content).then(
-      (response) => {
-        console.log('Response of Detection: ' + response);
-
-        if (response) {
-          showMessage();
-          console.log('Review not created/updated due to profanity');
-        } else {
-          createMovie(movie).then((res) => {
-            if (res) {
-              getOneReviewToUserIdAndMovieId(
-                newReview.reviewUserUserId,
-                newReview.reviewMovieMovieId
-              ).then((revRes) => {
-                if (revRes == null) {
-                  postReviewToBackend(newReview);
-                } else {
-                  updateReviewToBackend(newReview);
-                }
-              });
-            } else {
-              console.log('Error saving movie');
-            }
-          });
-        }
+      if (containsHatespeech) {
+        setFeedbackMessage(hateSpeechErrorMessage);
+        setFeedbackColor(hateSpeechAlertColor);
+        showMessage();
+        // console.log('Review not created/updated due to profanity');
+      } else {
+        createMovie(movie).then((res) => {
+          // console.log('checking if review exists');
+          if (res) {
+            getOneReviewToUserIdAndMovieId(
+              newReview.reviewUserUserId,
+              newReview.reviewMovieMovieId
+            ).then((revRes) => {
+              if (revRes == null) {
+                postReviewToBackend(newReview);
+              } else {
+                updateReviewToBackend(newReview);
+              }
+            });
+          } else {
+            // console.log('Error saving movie');
+          }
+        });
       }
-    );
+    } catch (error) {
+      // console.log('Error saving review');
+      setFeedbackMessage(generalErrorMessage);
+      setFeedbackColor(generalAlertColor);
+      showMessage();
+    }
   }
 
   function handleErrorTextToLong() {
-    let textField: HTMLElement | null =
+    const textField: HTMLElement | null =
       document.getElementById(`comment-input`);
     if (textField != null) {
       textField.style.backgroundColor = 'orange';
@@ -183,7 +200,7 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
   function handleErrorFieldsEmpty() {
     (Object.keys(inputData) as (keyof InputData)[]).forEach((key) => {
       if (inputData[key] === '') {
-        let textField: HTMLElement | null = document.getElementById(
+        const textField: HTMLElement | null = document.getElementById(
           `${key}-input`
         );
         if (textField != null) {
@@ -193,7 +210,7 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
     });
   }
 
-  function saveEdit(e: any) {
+  function saveEdit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     if (inputData.title !== '' && inputData.comment !== '') {
       if (inputData.comment.length < 3000) {
@@ -206,7 +223,7 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
     }
   }
 
-  function delReview(e: any) {
+  function delReview(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     deleteReviewToMovieIdAndUserId(
       movie.movieId,
@@ -220,22 +237,24 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
     });
   }
 
-  let stars = (
+  const stars = (
     <Stack direction={'row'}>
-      {[...Array(inputData.rating)].map((x, i) => (
+      {[...Array(inputData.rating)].map((_, i) => (
         <StarIcon
+          key={i}
           fontSize={'large'}
           id={`star${i}`}
-          onClick={(e) => {
+          onClick={() => {
             changeRating(i + 1);
           }}
         />
       ))}
-      {[...Array(5 - inputData.rating)].map((x, i) => (
+      {[...Array(5 - inputData.rating)].map((_, i) => (
         <StarBorderIcon
+          key={i}
           fontSize={'large'}
           id={`starBorder${i}`}
-          onClick={(e) => {
+          onClick={() => {
             changeRating(inputData.rating + i + 1);
           }}
         />
@@ -243,7 +262,7 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
     </Stack>
   );
 
-  let buttons = (
+  const buttons = (
     <Stack direction={'column'} alignItems={'center'} spacing={1}>
       {editing ? (
         <Stack direction={'row'} spacing={1}>
@@ -269,7 +288,7 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
     </Stack>
   );
 
-  let leftColumn = (
+  const leftColumn = (
     <Stack
       direction={'column'}
       width={'30%'}
@@ -285,7 +304,7 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
       {buttons}
     </Stack>
   );
-  let rightColumn = (
+  const rightColumn = (
     <Stack direction={'column'} width={'70%'} alignItems={'center'} spacing={2}>
       {stars}
       <TextField
@@ -325,12 +344,9 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
       </CardContent>
       <FeedbackSnackbar
         activated={activateToggle}
-        message={hateSpeechErrorMessage}
-        severity={hateSpeechAlertColor}
+        message={feedbackMessage}
+        severity={feedbackColor}
       />
     </Card>
   );
-}
-function sleep(arg0: number) {
-  throw new Error('Function not implemented.');
 }

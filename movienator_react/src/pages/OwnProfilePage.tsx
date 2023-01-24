@@ -25,6 +25,10 @@ export default function OwnProfilePage() {
     if (!cookies.userName) {
       navigate('/login');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     getOneUserToUserId(cookies.userName).then((user) => {
       setUser(user);
     });
@@ -34,6 +38,7 @@ export default function OwnProfilePage() {
     getAllRecommendationsFromUserId(cookies.userId).then((recs) => {
       setUserRecs(recs);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function reloadUser() {

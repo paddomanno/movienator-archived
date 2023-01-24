@@ -20,6 +20,10 @@ export default function GenreMoviesPage() {
     if (!cookies.userName) {
       navigate('/login');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     if (typeof genreId == 'string') {
       getMoviesToGenreId(parseInt(genreId), page).then((movies) => {
         setMovies(movies);
@@ -28,7 +32,8 @@ export default function GenreMoviesPage() {
         setGenre(genre);
       });
     }
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [genreId]);
 
   useEffect(() => {
     setMovies(null);
@@ -37,16 +42,16 @@ export default function GenreMoviesPage() {
         setMovies(movies);
       });
     }
-  }, [page]);
+  }, [genreId, page]);
 
-  function decrementPage(e: any) {
+  function decrementPage(e: React.MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
     if (page > 1) {
       setPage(page - 1);
     }
   }
 
-  function incrementPage(e: any) {
+  function incrementPage(e: React.MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
     setPage(page + 1);
   }

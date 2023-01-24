@@ -8,10 +8,9 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import StarIcon from '@mui/icons-material/Star';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
 import ReviewDetailsPopup from '../../GeneralComponents/ReviewDetailsPopup';
 import { SingleReviewProps } from '../../../props/ReviewProps';
+import RatingStars from './RatingStars';
 
 export default function ReviewCardShort({ review }: SingleReviewProps) {
   const SIZE_PROFILEIMAGE = 50;
@@ -21,18 +20,7 @@ export default function ReviewCardShort({ review }: SingleReviewProps) {
     setShowPopup(open);
   }
 
-  let stars = (
-    <Stack direction={'row'}>
-      {[...Array(review.rating)].map((x, i) => (
-        <StarIcon />
-      ))}
-      {[...Array(5 - review.rating)].map((x, i) => (
-        <StarBorderIcon />
-      ))}
-    </Stack>
-  );
-
-  let avatar = (
+  const avatar = (
     <>
       {review.review_user != null ? (
         <>
@@ -93,7 +81,7 @@ export default function ReviewCardShort({ review }: SingleReviewProps) {
                 </Typography>
                 <Stack direction={'row'} spacing={1} alignItems={'center'}>
                   {avatar}
-                  {stars}
+                  <RatingStars rating={review.rating} max={5} />
                 </Stack>
               </CardContent>
             </>

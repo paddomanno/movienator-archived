@@ -1,5 +1,4 @@
 import Grid2 from '@mui/material/Unstable_Grid2';
-import { Stack } from '@mui/material';
 import WatchPartyGroupUserCard from './WatchPartyGroupUserCard';
 import { User } from '../../types/User';
 

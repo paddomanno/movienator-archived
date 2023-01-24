@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Stack, TextField, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { getOneUserToUserId, createUser } from '../../services/UserService';
-import { User } from '../../types/User';
+import { NullableUser } from '../../types/User';
 
 type InputValues = {
   firstName: string;
@@ -25,10 +25,10 @@ export default function SignupForm() {
   };
   const [formValues, setFormValues] = useState<InputValues>(defaultValues);
 
-  const handleInputChange = (e: any) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
     if (value !== '') {
-      let textField: HTMLElement | null = document.getElementById(
+      const textField: HTMLElement | null = document.getElementById(
         `${name}-input`
       );
       if (textField != null) {
@@ -41,7 +41,7 @@ export default function SignupForm() {
     });
   };
 
-  function handleSubmit(e: any) {
+  function handleSubmit(e: React.MouseEvent): void {
     e.preventDefault();
     if (
       formValues.firstName !== '' &&
@@ -55,7 +55,7 @@ export default function SignupForm() {
         if (user == null) {
           console.log('Found no user with this username');
           if (formValues.password === formValues.repeatPassword) {
-            let newUser: User = {
+            const newUser: NullableUser = {
               userId: null,
               lastName: formValues.lastName,
               firstName: formValues.firstName,
@@ -77,14 +77,14 @@ export default function SignupForm() {
               }
             });
           } else {
-            let textField: HTMLElement | null =
+            const textField: HTMLElement | null =
               document.getElementById(`repeatPassword-input`);
             if (textField != null) {
               textField.style.backgroundColor = 'red';
             }
           }
         } else {
-          let textField: HTMLElement | null =
+          const textField: HTMLElement | null =
             document.getElementById(`userName-input`);
           if (textField != null) {
             textField.style.backgroundColor = 'red';
@@ -96,7 +96,7 @@ export default function SignupForm() {
     } else {
       (Object.keys(formValues) as (keyof InputValues)[]).forEach((key) => {
         if (formValues[key] === '') {
-          let textField: HTMLElement | null = document.getElementById(
+          const textField: HTMLElement | null = document.getElementById(
             `${key}-input`
           );
           if (textField != null) {

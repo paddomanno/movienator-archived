@@ -1,6 +1,6 @@
 import { Review } from '../../types/Review';
 import { grey } from '@mui/material/colors';
-import { Card, CardContent, Stack, Typography } from '@mui/material';
+import { Card, CardContent, Typography } from '@mui/material';
 import ReviewCardDetailed from '../SingleItemComponents/ReviewCardDetailed';
 import Grid2 from '@mui/material/Unstable_Grid2';
 
@@ -23,7 +23,11 @@ export default function ReviewListWithText({
           <Typography>{title}</Typography>
           <Grid2 container spacing={1}>
             {reviews.map((review) => (
-              <Grid2 maxWidth={'50%'} minWidth={'50%'}>
+              <Grid2
+                maxWidth={'50%'}
+                minWidth={'50%'}
+                key={`${review.reviewMovieMovieId}.${review.reviewUserUserId}`}
+              >
                 <ReviewCardDetailed
                   showUser={showUser}
                   showMovie={showMovie}

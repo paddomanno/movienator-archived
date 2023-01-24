@@ -20,7 +20,7 @@ import FriendRecommendationsPage from './pages/FriendRecommendationsPage';
 import WatchPartyPage from './pages/WatchPartyPage';
 import ActorMovieSearchPage from './pages/ActorMovieSearchPage';
 
-let router = createBrowserRouter([
+const router = createBrowserRouter([
   {
     path: '/',
     element: <RootPage />,

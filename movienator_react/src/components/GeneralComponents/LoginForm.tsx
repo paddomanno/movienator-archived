@@ -10,16 +10,17 @@ type InputValues = {
 };
 export default function LoginForm() {
   const navigate = useNavigate();
-  let defaultValues: InputValues = {
+  const defaultValues: InputValues = {
     userName: '',
     password: '',
   };
   const [formValues, setFormValues] = useState<InputValues>(defaultValues);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [cookies, setCookie] = useCookies(['userName', 'userId']);
-  const handleInputChange = (e: any) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
     if (value !== '') {
-      let textField: HTMLElement | null = document.getElementById(
+      const textField: HTMLElement | null = document.getElementById(
         `${name}-input`
       );
       if (textField != null) {
@@ -32,7 +33,7 @@ export default function LoginForm() {
     });
   };
 
-  function handleSubmit(e: any) {
+  function handleLoginClick(e: React.MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
     if (formValues.password !== '' && formValues.userName !== '') {
       getOneUserToUserId(formValues.userName).then((user) => {
@@ -42,14 +43,14 @@ export default function LoginForm() {
             setCookie('userId', user.userId, { path: '/' });
             navigate('/home');
           } else {
-            let textField: HTMLElement | null =
+            const textField: HTMLElement | null =
               document.getElementById(`password-input`);
             if (textField != null) {
               textField.style.backgroundColor = 'red';
             }
           }
         } else {
-          let textField: HTMLElement | null =
+          const textField: HTMLElement | null =
             document.getElementById(`userName-input`);
           if (textField != null) {
             textField.style.backgroundColor = 'red';
@@ -59,7 +60,7 @@ export default function LoginForm() {
     } else {
       (Object.keys(formValues) as (keyof InputValues)[]).forEach((key) => {
         if (formValues[key] === '') {
-          let textField: HTMLElement | null = document.getElementById(
+          const textField: HTMLElement | null = document.getElementById(
             `${key}-input`
           );
           if (textField != null) {
@@ -69,7 +70,7 @@ export default function LoginForm() {
       });
     }
   }
-  function handleClick(e: any) {
+  function handleSignupClick(e: React.MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
     navigate('/signup');
   }
@@ -96,11 +97,11 @@ export default function LoginForm() {
           value={formValues.password}
           onChange={handleInputChange}
         />
-        <Button variant={'contained'} onClick={handleSubmit}>
+        <Button variant={'contained'} onClick={handleLoginClick}>
           Login
         </Button>
-        <Button variant={'contained'} onClick={handleClick}>
-          I don't have an account
+        <Button variant={'contained'} onClick={handleSignupClick}>
+          I don&apos;t have an account
         </Button>
       </Stack>
     </>

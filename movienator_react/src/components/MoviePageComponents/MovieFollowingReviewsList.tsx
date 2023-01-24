@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography, Stack } from '@mui/material';
+import { Card, CardContent, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import ReviewCardDetailed from '../SingleItemComponents/ReviewCardDetailed';
 import { ReviewListProps } from '../../props/ReviewProps';
@@ -16,7 +16,11 @@ export default function MovieFollowingReviewsList({
         </Typography>
         <Grid2 container spacing={1}>
           {reviews.map((review) => (
-            <Grid2 minWidth={'50%'} maxWidth={'50%'}>
+            <Grid2
+              minWidth={'50%'}
+              maxWidth={'50%'}
+              key={`${review.reviewMovieMovieId}.${review.reviewUserUserId}`}
+            >
               <ReviewCardDetailed
                 showMovie={false}
                 showUser={true}

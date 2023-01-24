@@ -3,11 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Movie } from '../types/Movie';
 import MovieDetails from '../components/MoviePageComponents/MovieDetails';
-import {
-  getActorsToMovie,
-  getAllWatchProvidersForMovie,
-  getOneMovieToId,
-} from '../services/ExternService';
+import { getActorsToMovie, getOneMovieToId } from '../services/ExternService';
 import { User } from '../types/User';
 import { getFollowingToUserIdWithMovieIdOnWatchlist } from '../services/UserService';
 import { Review } from '../types/Review';
@@ -37,40 +33,44 @@ export default function OneMoviePage() {
     if (!cookies.userName) {
       navigate('/login');
     }
+  }, [cookies.userName, navigate]);
 
-    const fetchData = async () => {
-      if (typeof movieId === 'string') {
-        let movie = await getOneMovieToId(parseInt(movieId));
-        if (movie) {
-          const actors = await getActorsToMovie(movie.movieId);
-          movie.actors = actors;
-
-          setMovie(movie);
-        }
-
-        const usersFollowingWatchlist =
-          await getFollowingToUserIdWithMovieIdOnWatchlist(
-            cookies.userId as number,
-            parseInt(movieId)
-          );
-        setFollowingWatchlist(usersFollowingWatchlist);
-
-        const reviewsFollowing =
-          await getAllReviewsOfFollowingToUserIdAndMovieId(
-            cookies.userId as number,
-            parseInt(movieId)
-          );
-        setFollowingReviews(reviewsFollowing);
-
-        const reviewsAll = await getAllReviewsOfNotFollowingToUserIdAndMovieId(
-          cookies.userId as number,
-          parseInt(movieId)
-        );
-        setOtherReviews(reviewsAll);
-      }
-    };
+  useEffect(() => {
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  async function fetchData() {
+    if (typeof movieId !== 'string') {
+      return;
+    }
+    const movie = await getOneMovieToId(parseInt(movieId));
+    if (movie) {
+      const actors = await getActorsToMovie(movie.movieId);
+      movie.actors = actors;
+
+      setMovie(movie);
+    }
+
+    const usersFollowingWatchlist =
+      await getFollowingToUserIdWithMovieIdOnWatchlist(
+        cookies.userId as number,
+        parseInt(movieId)
+      );
+    setFollowingWatchlist(usersFollowingWatchlist);
+
+    const reviewsFollowing = await getAllReviewsOfFollowingToUserIdAndMovieId(
+      cookies.userId as number,
+      parseInt(movieId)
+    );
+    setFollowingReviews(reviewsFollowing);
+
+    const reviewsAll = await getAllReviewsOfNotFollowingToUserIdAndMovieId(
+      cookies.userId as number,
+      parseInt(movieId)
+    );
+    setOtherReviews(reviewsAll);
+  }
 
   return (
     <>
