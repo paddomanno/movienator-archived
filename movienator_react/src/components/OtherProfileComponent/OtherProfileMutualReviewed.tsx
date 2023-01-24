@@ -10,7 +10,7 @@ export default function OtherProfileMutualReviewed({ movies }: MovieListProps) {
         <Typography variant={'h5'}>Movies you have both reviewed: </Typography>
         <Stack direction={'row'} overflow={'auto'}>
           {movies.map((movie) => (
-            <MovieCard movie={movie} />
+            <MovieCard movie={movie} key={movie.movieId} />
           ))}
         </Stack>
       </CardContent>
