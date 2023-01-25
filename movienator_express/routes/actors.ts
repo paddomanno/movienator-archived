@@ -1,7 +1,7 @@
 import Actor from '../entity/actor';
 import Movie from '../entity/movie';
 
-const expressActor = require('express');
+import expressActor from'express';
 const actorRouter = expressActor.Router();
 
 //Gets all actors from the database
@@ -114,4 +114,4 @@ actorRouter.delete('/:id', async (req, res) => {
   }
 });
 
-module.exports = actorRouter;
+export default actorRouter;
