@@ -22,6 +22,7 @@ afterAll(async () => {
 
 beforeEach(async () => {
   await TestDatabaseManager.getInstance().resetTestDatabase();
+  await createTestData();
 }, 10_000);
 
 async function createTestData() {
@@ -39,8 +40,7 @@ async function createTestData() {
   movie.movieId = 1;
   movie.title = 'Movie';
   movie.adultContent = false;
-  movie.watchProviders.push(provider);
-  movie.watchProviders.push(provider2);
+  movie.watchProviders = [];
   await movie.save();
 
   const movie2: Movie = new Movie();
@@ -48,34 +48,37 @@ async function createTestData() {
   movie2.title = 'Movie2';
   movie2.adultContent = false;
   await movie2.save();
+
+  movie.watchProviders.push(provider);
+  movie.watchProviders.push(provider2);
+  await movie.save();
 }
 
-describe('WatchProvider Test', () => {
-  it('getAllWatchProviders Route', async () => {
-    describe('good case (Watch Providers exist)', () => {
-      it('should return the WatchProviders sorted by name and status 200', async () => {
-        const response = await request(app).get('/watchProvider/all');
-        expect(response.statusCode).toBe(200);
-        const allProviders: WatchProvider[] = response.body.data;
-        expect(allProviders.length).toBe(2);
-        expect(allProviders.at(0).providerName).toBe('Netflix');
-        expect(allProviders.at(1).movies.at(0).title).toBe('Movie');
-      });
+describe('WatchProvider Tests', () => {
+  describe('Get all WatchProviders: good case (Watch Providers exist)', () => {
+    it('should return the WatchProviders sorted by name and status 200', async () => {
+      const response = await request(app).get('/watchProvider/all');
+      expect(response.statusCode).toBe(200);
+      const allProviders: WatchProvider[] = response.body.data;
+      expect(allProviders.length).toBe(2);
+      expect(allProviders.at(0).providerName).toBe('Netflix');
+      expect(allProviders.at(1).movies.at(0).title).toBe('Movie');
     });
-    describe('bad cases', () => {
-      describe('given no Watch Providers exist', () => {
-        it('should return 200', async () => {
-          await TestDatabaseManager.getInstance().resetTestDatabase();
-          const response = await request(app).get('/watchProvider/all');
-          expect(response.statusCode).toBe(200);
-          const allProviders: WatchProvider[] = response.body.data;
-          expect(allProviders.length).toBe(0);
-        });
-      });
+  });
+  describe('Get all WatchProviders: bad cases (no Watch Providers exist)', () => {
+    it('should return 200', async () => {
+      const provider: WatchProvider[] = await WatchProvider.find();
+      for (const oneProvider of provider) {
+        await oneProvider.remove();
+      }
+      const response = await request(app).get('/watchProvider/all');
+      expect(response.statusCode).toBe(200);
+      const noProviders: WatchProvider[] = response.body.data;
+      expect(noProviders.length).toBe(0);
     });
   });
 
-  it('Gets all providers for a movie with the specific movieId', async () => {
+  describe('Gets all providers for a movie with the specific movieId', () => {
     describe('good case', () => {
       it('should return the WatchProviders sorted by name and status 200', async () => {
         const response = await request(app).get('/watchProvider/movie/1');
