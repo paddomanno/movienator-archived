@@ -9,7 +9,7 @@ const HOST = '0.0.0.0';
  */
 
 AppDataSource.initialize()
-  .then(async (r) => {
+  .then(async () => {
     console.log('Database connection established');
   })
   .catch((error) => console.log(error));

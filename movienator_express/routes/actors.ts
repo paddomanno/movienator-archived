@@ -96,10 +96,6 @@ actorRouter.put('/', async (req, res) => {
   }
 });
 
-//Inserts the actor send in the body
-// TODO: Should better be done in insert POST movie - delete this route?
-actorRouter.post('/', async (req, res) => {});
-
 //Deletes the actor with that id
 actorRouter.delete('/:id', async (req, res) => {
   try {
