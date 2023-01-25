@@ -1,7 +1,7 @@
 import Actor from '../entity/actor';
 import Movie from '../entity/movie';
 
-import expressActor from'express';
+import expressActor from 'express';
 const actorRouter = expressActor.Router();
 
 //Gets all actors from the database

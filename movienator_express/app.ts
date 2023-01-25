@@ -3,19 +3,18 @@
 import 'reflect-metadata';
 import 'body-parser';
 
-
 import bodyParser = require('body-parser');
-import cors from'cors';
-import express from'express';
+import cors from 'cors';
+import express from 'express';
 import actorRouter from './routes/actors';
 import movieRouter from './routes/movies';
-import profileImageRouter from'./routes/profileImage';
-import reviewRouter from'./routes/reviews';
-import userRouter from'./routes/users';
-import externRouter from'./routes/extern';
-import genreRouter from'./routes/genres';
-import recommendationRouter from'./routes/recommendations';
-import watchProvider from'./routes/watchProviders';
+import profileImageRouter from './routes/profileImage';
+import reviewRouter from './routes/reviews';
+import userRouter from './routes/users';
+import externRouter from './routes/extern';
+import genreRouter from './routes/genres';
+import recommendationRouter from './routes/recommendations';
+import watchProvider from './routes/watchProviders';
 
 const app = express();
 

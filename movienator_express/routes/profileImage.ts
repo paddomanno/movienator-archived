@@ -178,4 +178,4 @@ profileImageRouter.delete('/image/:uId', async (req, res) => {
     res.status(500).json();
   }
 });
- export default profileImageRouter;
+export default profileImageRouter;
