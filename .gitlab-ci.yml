@@ -41,7 +41,7 @@ test-job3:
     - npm install -g eslint
     - eslint --init
   script:
-    - eslint -- .tsx,.ts
+    - eslint -- *.tsx,*.ts
 
 test-job4:
   image: node:latest
@@ -51,4 +51,4 @@ test-job4:
     - npm install -g eslint
     - eslint --init
   script:
-    - eslint -- .tsx,.ts src/
+    - eslint -- *.tsx,*.ts src/
