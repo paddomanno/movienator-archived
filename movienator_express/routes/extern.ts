@@ -32,7 +32,9 @@ async function getImageToActor(actorId: number): Promise<string | null> {
         resString = response.data.profiles[0].file_path;
       }
     }
-  } catch (e) {console.log(e)}
+  } catch (e) {
+    console.log(e);
+  }
   return resString;
 }
 
@@ -55,7 +57,9 @@ async function getVideoToMovie(movieId: number): Promise<string> {
         }
       });
     }
-  } catch (e) {console.log(e)}
+  } catch (e) {
+    console.log(e);
+  }
   return resKey;
 }
 
