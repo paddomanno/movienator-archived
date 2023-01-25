@@ -2,7 +2,7 @@ import Movie from '../entity/movie';
 import Recommendation from '../entity/recommendation';
 import User from '../entity/user';
 
-const expressRecommendation = require('express');
+import expressRecommendation from 'express';
 const recommendationRouter = expressRecommendation.Router();
 
 //Get a single recommendation
@@ -220,4 +220,4 @@ recommendationRouter.delete('/:aId/:bId/:mId', async (req, res) => {
   }
 });
 
-module.exports = recommendationRouter;
+export default recommendationRouter;

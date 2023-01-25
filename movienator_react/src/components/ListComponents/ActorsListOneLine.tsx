@@ -13,7 +13,7 @@ import ActorCardLarge from '../SingleItemComponents/ActorCardLarge';
 type Props = {
   actors: Actor[];
   title: string;
-  handleClick: (e: any) => void;
+  handleClick: () => void;
 };
 
 export default function ActorsListOneLine({
@@ -29,7 +29,7 @@ export default function ActorsListOneLine({
           <Stack direction={'row'} spacing={1} justifyContent={'space-between'}>
             <Stack direction={'row'} spacing={1} overflow={'auto'}>
               {actors.map((actor) => (
-                <ActorCardLarge actor={actor} />
+                <ActorCardLarge actor={actor} key={actor.actorId} />
               ))}
             </Stack>
             <IconButton

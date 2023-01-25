@@ -1,7 +1,7 @@
 import Movie from '../entity/movie';
 import User from '../entity/user';
 import Fuse from 'fuse.js';
-const expressUser = require('express');
+import expressUser from 'express';
 const userRouter = expressUser.Router();
 
 //Gets all users from the database
@@ -473,4 +473,4 @@ userRouter.delete('/watchlist/:uId/:mId', async (req, res) => {
   }
 });
 
-module.exports = userRouter;
+export default userRouter;

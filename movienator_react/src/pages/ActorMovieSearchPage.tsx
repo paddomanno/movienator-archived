@@ -12,17 +12,15 @@ import HomeIcon from '@mui/icons-material/Home';
 import { Actor } from '../types/Actor';
 import Grid2 from '@mui/material/Unstable_Grid2';
 import { useCookies } from 'react-cookie';
-import ActorCardLarge from '../components/SingleItemComponents/ActorCardLarge';
 import { Movie } from '../types/Movie';
 import ActorMovieSearchBar from '../components/GeneralComponents/ActorMovieSearchBar';
-import MoviesList from '../components/ListComponents/MoviesList';
 import MoviesListOneLine from '../components/ListComponents/MoviesListOneLine';
 import ActorsListOneLine from '../components/ListComponents/ActorsListOneLine';
 
 export default function ActorMovieSearchPage() {
   const [actors, setActors] = useState<Actor[] | null>(null);
   const [movies, setMovies] = useState<Movie[] | null>(null);
-  const [page, setPage] = useState<number>(1);
+  const [page] = useState<number>(1);
   const { searchWord } = useParams();
   const navigate = useNavigate();
   const [cookies] = useCookies(['userName']);
@@ -39,10 +37,10 @@ export default function ActorMovieSearchPage() {
         setMovies(res);
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchWord]);
 
-  function toHomePage(e: any) {
-    e.preventDefault();
+  function toHomePage() {
     navigate('/home');
   }
 
@@ -52,10 +50,14 @@ export default function ActorMovieSearchPage() {
         <Card>
           <CardContent>
             <Stack spacing={1} direction={'row'}>
-              <IconButton onClick={toHomePage}>
+              <IconButton
+                onClick={() => {
+                  toHomePage();
+                }}
+              >
                 <HomeIcon />
               </IconButton>
-              <ActorMovieSearchBar data={searchWord} />
+              <ActorMovieSearchBar initialSearchWord={searchWord ? searchWord : ''} />
             </Stack>
           </CardContent>
         </Card>
