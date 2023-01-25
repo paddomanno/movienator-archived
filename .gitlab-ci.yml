@@ -39,7 +39,10 @@ test-job3:
   allow_failure: true
   before_script:
     - cd movienator_express
-    - npm install -g eslint
+    - |
+      npm install -g eslint \
+      eslint-config-prettier \
+      eslint-plugin-prettier
     - eslint --init
   script:
     - eslint -- *.tsx,*.ts
@@ -50,7 +53,10 @@ test-job4:
   allow_failure: true
   before_script:
     - cd movienator_react
-    - npm install -g eslint
+    - |
+      npm install -g eslint \
+      eslint-config-prettier \
+      eslint-plugin-prettier
     - eslint --init
   script:
     - eslint -- *.tsx,*.ts src/
