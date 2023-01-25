@@ -7,6 +7,7 @@ import { grey } from '@mui/material/colors';
 import HomeIcon from '@mui/icons-material/Home';
 import MovieSearchBar from '../components/GeneralComponents/MovieSearchbar';
 import MoviesList from '../components/ListComponents/MoviesList';
+import ActorMovieSearchBar from '../components/GeneralComponents/ActorMovieSearchBar';
 
 export default function MovieSearchPage() {
   const [movies, setMovies] = useState<Movie[] | null>(null);
@@ -48,7 +49,8 @@ export default function MovieSearchPage() {
               <IconButton onClick={toHomePage}>
                 <HomeIcon />
               </IconButton>
-              <MovieSearchBar initialSearchWord={searchWord ?? ''} />
+              {/* <MovieSearchBar initialSearchWord={searchWord ?? ''} /> */}
+              <ActorMovieSearchBar />
             </Stack>
           </CardContent>
         </Card>
