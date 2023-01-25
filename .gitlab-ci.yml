@@ -34,7 +34,7 @@ test-job2:
     - echo 'finished reactTest'
 
 test-job3:
-  image: nope:latest
+  image: node:latest
   stage: test
   before_script:
     - cd movienator_express
@@ -44,7 +44,7 @@ test-job3:
     - eslint -- --ext .tsx,.ts
 
 test-job4:
-  image: nope:latest
+  image: node:latest
   stage: test
   before_script:
     - cd movienator_react
