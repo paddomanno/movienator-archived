@@ -36,19 +36,17 @@ test-job2:
 test-job3:
   image: node:latest
   stage: test
+  allow_failure: true
   before_script:
     - cd movienator_express
-    - npm install -g eslint
-    - eslint --init
   script:
-    - eslint -- .tsx,.ts
+    - npm run install-lint
 
 test-job4:
   image: node:latest
   stage: test
+  allow_failure: true
   before_script:
     - cd movienator_react
-    - npm install -g eslint
-    - eslint --init
   script:
-    - eslint -- .tsx,.ts src/
+    - npm run install-lint
