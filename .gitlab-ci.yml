@@ -11,7 +11,7 @@ variables:
 stages:
   - test
 
-test-job1:
+backend-tests:
   image: node:latest
   stage: test
   services:
@@ -23,7 +23,7 @@ test-job1:
   after_script:
     - echo 'finished expressTest'
 
-test-job2:
+frontend-tests:
   image: node:latest
   stage: test
   before_script:
@@ -33,7 +33,7 @@ test-job2:
   after_script:
     - echo 'finished reactTest'
 
-test-job3:
+backend-linter:
   image: node:latest
   stage: test
   allow_failure: true
@@ -42,7 +42,7 @@ test-job3:
   script:
     - npm run install-lint
 
-test-job4:
+frontend-linter:
   image: node:latest
   stage: test
   allow_failure: true

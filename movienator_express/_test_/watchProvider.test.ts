@@ -22,7 +22,6 @@ afterAll(async () => {
 
 beforeEach(async () => {
   await TestDatabaseManager.getInstance().resetTestDatabase();
-  await createTestData();
 }, 10_000);
 
 async function createTestData() {

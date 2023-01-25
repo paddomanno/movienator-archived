@@ -67,7 +67,7 @@ export default function HomePage() {
                   spacing={2}
                   justifyContent={'space-around'}
                 >
-                  <ActorMovieSearchBar data={''} />
+                  <ActorMovieSearchBar initialSearchWord={''} />
                   {/* <MovieSearchBar initialSearchWord={''} />
                   <ActorSearchBar initialSearchWord={''} /> */}
                 </Stack>

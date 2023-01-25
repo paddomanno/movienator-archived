@@ -2,7 +2,7 @@ import Movie from '../entity/movie';
 import Review from '../entity/review';
 import User from '../entity/user';
 
-const expressReview = require('express');
+import expressReview from 'express';
 const reviewRouter = expressReview.Router();
 
 //TODO Routing implementieren
@@ -380,4 +380,4 @@ reviewRouter.delete('/:uId/:mId', async (req, res) => {
   }
 });
 
-module.exports = reviewRouter;
+export default reviewRouter;
