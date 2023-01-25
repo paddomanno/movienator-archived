@@ -32,3 +32,21 @@ test-job2:
     - npm run install-temp
   after_script:
     - echo 'finished reactTest'
+
+test-job3:
+  image: node:latest
+  stage: test
+  allow_failure: true
+  before_script:
+    - cd movienator_express
+  script:
+    - npm run install-lint
+
+test-job4:
+  image: node:latest
+  stage: test
+  allow_failure: true
+  before_script:
+    - cd movienator_react
+  script:
+    - npm run install-lint
