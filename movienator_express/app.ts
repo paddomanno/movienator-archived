@@ -3,10 +3,10 @@
 import 'reflect-metadata';
 import 'body-parser';
 
+
 import bodyParser = require('body-parser');
 import cors = require('cors');
-const express = require('express');
-const app = express();
+import express = require('express');
 const actorRouter = require('./routes/actors');
 const movieRouter = require('./routes/movies');
 const profileImageRouter = require('./routes/profileImage');
@@ -16,6 +16,8 @@ const externRouter = require('./routes/extern');
 const genreRouter = require('./routes/genres');
 const recommendationRouter = require('./routes/recommendations');
 const watchProvider = require('./routes/watchProviders');
+
+const app = express();
 
 //Use Body Parser to read http bodies
 app.use(bodyParser.json());

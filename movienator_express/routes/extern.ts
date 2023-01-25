@@ -32,7 +32,7 @@ async function getImageToActor(actorId: number): Promise<string | null> {
         resString = response.data.profiles[0].file_path;
       }
     }
-  } catch (e) {}
+  } catch (e) {console.log(e)}
   return resString;
 }
 
@@ -55,7 +55,7 @@ async function getVideoToMovie(movieId: number): Promise<string> {
         }
       });
     }
-  } catch (e) {}
+  } catch (e) {console.log(e)}
   return resKey;
 }
 
@@ -124,8 +124,7 @@ async function getMoviesToQuery(
   page?: number
 ): Promise<Movie[]> {
   const movieIds: number[] = [];
-  let res: any;
-  res = await axios.get(query + `&page=${page}`, {
+  const res = await axios.get(query + `&page=${page}`, {
     headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
     params: { trophies: true },
   });
