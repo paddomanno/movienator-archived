@@ -4,13 +4,11 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 type Props = {
-  data: string;
-};
-export default function ActorMovieSearchBar(props: {
   initialSearchWord: string;
-}) {
+};
+export default function ActorMovieSearchBar({ initialSearchWord }: Props) {
   const [searchWord, setSearchWord] = useState<string | undefined>(
-    props.initialSearchWord
+    initialSearchWord
   );
   const navigate = useNavigate();
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
