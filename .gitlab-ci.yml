@@ -32,3 +32,23 @@ test-job2:
     - npm run install-temp
   after_script:
     - echo 'finished reactTest'
+
+test-job3:
+  image: nope:latest
+  stage: test
+  before_script:
+    - cd movienator_express
+    - npm install -g eslint
+    - eslint --init
+  script:
+    - eslint -- --ext .tsx,.ts
+
+test-job4:
+  image: nope:latest
+  stage: test
+  before_script:
+    - cd movienator_react
+    - npm install -g eslint
+    - eslint --init
+  script:
+    - eslint -- --ext .tsx,.ts src/
