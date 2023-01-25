@@ -1,7 +1,7 @@
 import Genre from '../entity/genre';
 import Review from '../entity/review';
 
-const expressGenres = require('express');
+import expressGenres from 'express';
 const genresRouter = expressGenres.Router();
 
 //Returns all the genres there currently are in the database
@@ -64,4 +64,4 @@ genresRouter.get('/favorite/:uId', async (req, res) => {
   }
 });
 
-module.exports = genresRouter;
+export default genresRouter;

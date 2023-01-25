@@ -1,8 +1,8 @@
 import Movie from '../entity/movie';
 import WatchProvider from '../entity/watchProvider';
 
-const espressWatchProvider = require('express');
-const watchProviderRoutes = espressWatchProvider.Router();
+import expressWatchProvider from 'express';
+const watchProviderRoutes = expressWatchProvider.Router();
 
 //Returns all the watchproviders there currently are in the database
 //Movies array is filled
@@ -53,4 +53,4 @@ watchProviderRoutes.get('/movie/:mID', async (req, res) => {
   }
 });
 
-module.exports = watchProviderRoutes;
+export default watchProviderRoutes;

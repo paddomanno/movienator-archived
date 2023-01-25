@@ -57,7 +57,7 @@ export default function ActorMovieSearchPage() {
               >
                 <HomeIcon />
               </IconButton>
-              <ActorMovieSearchBar data={searchWord ? searchWord : ''} />
+              <ActorMovieSearchBar initialSearchWord={searchWord ? searchWord : ''} />
             </Stack>
           </CardContent>
         </Card>
