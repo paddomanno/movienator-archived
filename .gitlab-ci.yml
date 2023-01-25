@@ -41,8 +41,8 @@ test-job3:
     - cd movienator_express
     - |
       npm install -g eslint \
+      eslint-plugin-prettier \
       eslint-config-prettier \
-      eslint-plugin-prettier
     - eslint --init
   script:
     - eslint -- *.tsx,*.ts
@@ -55,8 +55,8 @@ test-job4:
     - cd movienator_react
     - |
       npm install -g eslint \
-      eslint-config-prettier \
-      eslint-plugin-prettier
+      eslint-plugin-prettier \
+      eslint-config-prettier
     - eslint --init
   script:
     - eslint -- *.tsx,*.ts src/
