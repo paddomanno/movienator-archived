@@ -1,7 +1,7 @@
 import ProfileImage from '../entity/profileImage';
 import User from '../entity/user';
 
-const expressProfileImage = require('express');
+import expressProfileImage from 'express';
 const profileImageRouter = expressProfileImage.Router();
 
 //All images
@@ -178,5 +178,4 @@ profileImageRouter.delete('/image/:uId', async (req, res) => {
     res.status(500).json();
   }
 });
-
-module.exports = profileImageRouter;
+ export default profileImageRouter;

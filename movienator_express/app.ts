@@ -5,17 +5,17 @@ import 'body-parser';
 
 
 import bodyParser = require('body-parser');
-import cors = require('cors');
-import express = require('express');
-const actorRouter = require('./routes/actors');
-const movieRouter = require('./routes/movies');
-const profileImageRouter = require('./routes/profileImage');
-const reviewRouter = require('./routes/reviews');
-const userRouter = require('./routes/users');
-const externRouter = require('./routes/extern');
-const genreRouter = require('./routes/genres');
-const recommendationRouter = require('./routes/recommendations');
-const watchProvider = require('./routes/watchProviders');
+import cors from'cors';
+import express from'express';
+import actorRouter from './routes/actors';
+import movieRouter from './routes/movies';
+import profileImageRouter from'./routes/profileImage';
+import reviewRouter from'./routes/reviews';
+import userRouter from'./routes/users';
+import externRouter from'./routes/extern';
+import genreRouter from'./routes/genres';
+import recommendationRouter from'./routes/recommendations';
+import watchProvider from'./routes/watchProviders';
 
 const app = express();
 

@@ -5,7 +5,7 @@ import { Between, ILike, LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
 import Genre from '../entity/genre';
 import Review from '../entity/review';
 
-const expressMovie = require('express');
+import expressMovie from 'express';
 const movieRouter = expressMovie.Router();
 
 //Get all the movies from the database
@@ -516,4 +516,4 @@ movieRouter.delete('/:id', async (req, res?) => {
   }
 });
 
-module.exports = movieRouter;
+export default movieRouter;

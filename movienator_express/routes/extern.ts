@@ -5,9 +5,9 @@ import Genre from '../entity/genre';
 import User from '../entity/user';
 import WatchProvider from '../entity/watchProvider';
 
-const expressExtern = require('express');
+import expressExtern from 'express';
 const externRouter = expressExtern.Router();
-const axios = require('axios');
+import axios from 'axios';
 
 const API_KEY = process.env['MOVIE_API_KEY'];
 const BASE_URL = 'https://api.themoviedb.org/3';
@@ -152,7 +152,7 @@ externRouter.get('/search/movie/:word', async (req, res) => {
       '/search/movie/?' +
       `api_key=${API_KEY}` +
       `&query=${req.params.word}`;
-    const page: number = parseInt(req.query.page);
+    const page: number = parseInt(req.query.page.toString());
     const resMovies: Movie[] = await getMoviesToQuery(query, 50, page);
     res.status(200).json({
       data: resMovies,
@@ -413,7 +413,7 @@ externRouter.get('/movie/:mId/recommendations', async (req, res) => {
 externRouter.get('/popular', async (req, res) => {
   try {
     const query: string = BASE_URL + '/movie/popular?' + `api_key=${API_KEY}`;
-    const page: number = parseInt(req.query.page);
+    const page: number = parseInt(req.query.page.toString());
     const resMovies = await getMoviesToQuery(query, 50, page);
     res.status(200).json({
       data: resMovies,
@@ -464,7 +464,7 @@ externRouter.get('/movie/genre/:id', async (req, res) => {
       '/discover/movie?' +
       `with_genres=${req.params.id}` +
       `&api_key=${API_KEY}`;
-    const page: number = parseInt(req.query.page);
+    const page: number = parseInt(req.query.page.toString());
     const resMovies = await getMoviesToQuery(query, 50, page);
     if (resMovies.length == 0) {
       res.status(404).json();
@@ -610,4 +610,4 @@ externRouter.get('/hateSpeech', async (req, res) => {
   }
 });
 
-module.exports = externRouter;
+export default externRouter;
