@@ -1,7 +1,7 @@
 import Actor from '../entity/actor';
 import Movie from '../entity/movie';
 
-const expressActor = require('express');
+import expressActor from'express';
 const actorRouter = expressActor.Router();
 
 //Gets all actors from the database
@@ -96,10 +96,6 @@ actorRouter.put('/', async (req, res) => {
   }
 });
 
-//Inserts the actor send in the body
-// TODO: Should better be done in insert POST movie - delete this route?
-actorRouter.post('/', async (req, res) => {});
-
 //Deletes the actor with that id
 actorRouter.delete('/:id', async (req, res) => {
   try {
@@ -118,4 +114,4 @@ actorRouter.delete('/:id', async (req, res) => {
   }
 });
 
-module.exports = actorRouter;
+export default actorRouter;

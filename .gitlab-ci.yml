@@ -11,7 +11,7 @@ variables:
 stages:
   - test
 
-test-job1:
+backend-tests:
   image: node:latest
   stage: test
   services:
@@ -23,7 +23,7 @@ test-job1:
   after_script:
     - echo 'finished expressTest'
 
-test-job2:
+frontend-tests:
   image: node:latest
   stage: test
   before_script:
@@ -32,3 +32,21 @@ test-job2:
     - npm run install-temp
   after_script:
     - echo 'finished reactTest'
+
+backend-linter:
+  image: node:latest
+  stage: test
+  allow_failure: true
+  before_script:
+    - cd movienator_express
+  script:
+    - npm run install-lint
+
+frontend-linter:
+  image: node:latest
+  stage: test
+  allow_failure: true
+  before_script:
+    - cd movienator_react
+  script:
+    - npm run install-lint

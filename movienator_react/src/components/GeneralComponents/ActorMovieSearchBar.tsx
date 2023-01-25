@@ -1,22 +1,27 @@
 import { IconButton, InputBase, Paper } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function ActorMovieSearchBar(props: any) {
-  const [searchWord, setSearchWord] = useState<string | undefined>(props.data);
+type Props = {
+  initialSearchWord: string;
+};
+export default function ActorMovieSearchBar({ initialSearchWord }: Props) {
+  const [searchWord, setSearchWord] = useState<string | undefined>(
+    initialSearchWord
+  );
   const navigate = useNavigate();
-  function handleChange(e: any) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
-    const { name, value } = e.target;
+    const { value } = e.target;
     setSearchWord(value);
   }
 
-  function handleClick(e: any) {
+  function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     navigate('/search/actor/movie/' + searchWord);
   }
-  function handlePress(e: any) {
+  function handlePress(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.keyCode == 13) {
       e.preventDefault();
       navigate('/search/actor/movie/' + searchWord);

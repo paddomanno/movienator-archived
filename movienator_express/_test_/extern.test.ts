@@ -115,7 +115,7 @@ describe('Externtest', () => {
       expect(movies.at(0).movieId).toBeDefined();
       expect(movies.at(0).title).toBeDefined();
       expect(movies.at(0).adultContent).toBeDefined();
-    }, 10_000);
+    }, 25_000);
 
     it('Should fill the genres array but not the actors array', async () => {
       const response = await request(app).get('/extern/movies/actor/8784');
