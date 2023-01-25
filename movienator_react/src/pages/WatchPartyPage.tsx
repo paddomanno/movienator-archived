@@ -31,6 +31,7 @@ export default function WatchPartyPage() {
   const [usersInSearch, setUsersInSearch] = useState<User[]>([]);
   const [searchWord, setSearchWord] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [fuse, setFuse] = useState<Fuse<User>>();
 
   useEffect(() => {
     if (!cookies.userName) {
@@ -48,6 +49,12 @@ export default function WatchPartyPage() {
       setUser(user);
       setUsersInSearch(user.following);
       if (!usersInGroup.includes(user)) addUserToGroup(user);
+
+      const fuseOptions = {
+        keys: ['firstName', 'lastName', 'userName'],
+      };
+      const fuse = new Fuse<User>(user.following, fuseOptions);
+      setFuse(fuse);
     });
     setLoading(true);
     handleSubmit().then(() => {
@@ -56,11 +63,6 @@ export default function WatchPartyPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cookies.userName]);
 
-  const fuseOptions = {
-    keys: ['firstName', 'lastName', 'userName'],
-  };
-  const fuse = new Fuse<User>(usersInSearch, fuseOptions);
-
   function handleSearchChange(e: React.ChangeEvent<HTMLInputElement>): void {
     e.preventDefault();
     const { value } = e.target;
@@ -68,7 +70,7 @@ export default function WatchPartyPage() {
   }
 
   useEffect(() => {
-    if (searchWord !== '') {
+    if (searchWord !== '' && fuse) {
       // filter users
       const searchResults = fuse
         .search(searchWord)
