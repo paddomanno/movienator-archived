@@ -5,7 +5,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 import { Actor } from '../types/Actor';
 import Grid2 from '@mui/material/Unstable_Grid2';
-import ActorSearchBar from '../components/GeneralComponents/ActorSearchBar';
 import { useCookies } from 'react-cookie';
 import ActorCardLarge from '../components/SingleItemComponents/ActorCardLarge';
 import ActorMovieSearchBar from '../components/GeneralComponents/ActorMovieSearchBar';
@@ -45,8 +44,7 @@ export default function ActorSearchPage() {
               <IconButton onClick={toHomePage}>
                 <HomeIcon />
               </IconButton>
-              {/* <ActorSearchBar initialSearchWord={searchWord ?? ''} /> */}
-              <ActorMovieSearchBar />
+              <ActorMovieSearchBar initialSearchWord={searchWord ?? ''} />
             </Stack>
           </CardContent>
         </Card>
