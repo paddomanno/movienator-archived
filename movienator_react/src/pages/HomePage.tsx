@@ -14,9 +14,6 @@ import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { grey } from '@mui/material/colors';
 import MoviesListOneLine from '../components/ListComponents/MoviesListOneLine';
-import RecommendationListOneLine from '../components/RecommendationComponents/RecommendationListOneLine';
-import { Recommendation } from '../types/Recommendation';
-import { getAllRecommendationsForUserId } from '../services/RecommendationService';
 import ActorMovieSearchBar from '../components/GeneralComponents/ActorMovieSearchBar';
 
 export default function HomePage() {
@@ -70,7 +67,7 @@ export default function HomePage() {
                   spacing={2}
                   justifyContent={'space-around'}
                 >
-                  <ActorMovieSearchBar />
+                  <ActorMovieSearchBar data={''} />
                   {/* <MovieSearchBar initialSearchWord={''} />
                   <ActorSearchBar initialSearchWord={''} /> */}
                 </Stack>
