@@ -8,10 +8,10 @@ services:
     container_name: movienator-express-dev
     environment:
       TZ: 'Europe/Berlin'
-      DB_PASSWORD: 'root'
-      DB_USERNAME: 'root'
-      DB_HOST: 'database'
-      DB_NAME: 'movienator-database'
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_USERNAME: 'sql11591037'
+      DB_HOST: 'sql11.freesqldatabase.com'
+      DB_NAME: 'sql11591037'
       MOVIE_API_KEY: ${MOVIE_API_KEY}
       HATESPEECH_API_KEY: ${HATESPEECH_API_KEY}
     ports:
@@ -23,36 +23,6 @@ services:
     networks:
       - movienator_network
     command: npm run install-start
-
-  database:
-    build:
-      context: ./movienator_mysql
-      dockerfile: Dockerfile
-    container_name: movienator-database-dev
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: movienator-database
-      MYSQL_USER: public
-      MYSQL_PASSWORD: public
-    ports:
-      - '3306:3306'
-    volumes:
-      - dbdata:/var/lib/mysql
-    networks:
-      - movienator_network
-
-  phpadmin:
-    build:
-      context: ./movienator_phpadmin
-      dockerfile: Dockerfile
-    container_name: movienator-phpadmin
-    networks:
-      - movienator_network
-    ports:
-      - '8081:80'
-    environment:
-      PMA_HOST: database
-      PMA_PORT: 3306
 
   react:
     build:
@@ -77,3 +47,4 @@ volumes:
 networks:
   movienator_network:
     driver: bridge
+
