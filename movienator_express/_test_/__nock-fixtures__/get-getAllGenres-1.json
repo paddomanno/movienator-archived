@@ -1,0 +1,232 @@
+[
+    {
+        "scope": "https://api.themoviedb.org:443",
+        "method": "GET",
+        "path": "/3/genre/movie/list?api_key=***REMOVED***&trophies=true",
+        "body": "",
+        "status": 200,
+        "response": {
+            "genres": [
+                {
+                    "id": 28,
+                    "name": "Action"
+                },
+                {
+                    "id": 12,
+                    "name": "Adventure"
+                },
+                {
+                    "id": 16,
+                    "name": "Animation"
+                },
+                {
+                    "id": 35,
+                    "name": "Comedy"
+                },
+                {
+                    "id": 80,
+                    "name": "Crime"
+                },
+                {
+                    "id": 99,
+                    "name": "Documentary"
+                },
+                {
+                    "id": 18,
+                    "name": "Drama"
+                },
+                {
+                    "id": 10751,
+                    "name": "Family"
+                },
+                {
+                    "id": 14,
+                    "name": "Fantasy"
+                },
+                {
+                    "id": 36,
+                    "name": "History"
+                },
+                {
+                    "id": 27,
+                    "name": "Horror"
+                },
+                {
+                    "id": 10402,
+                    "name": "Music"
+                },
+                {
+                    "id": 9648,
+                    "name": "Mystery"
+                },
+                {
+                    "id": 10749,
+                    "name": "Romance"
+                },
+                {
+                    "id": 878,
+                    "name": "Science Fiction"
+                },
+                {
+                    "id": 10770,
+                    "name": "TV Movie"
+                },
+                {
+                    "id": 53,
+                    "name": "Thriller"
+                },
+                {
+                    "id": 10752,
+                    "name": "War"
+                },
+                {
+                    "id": 37,
+                    "name": "Western"
+                }
+            ]
+        },
+        "rawHeaders": [
+            "Content-Type",
+            "application/json;charset=utf-8",
+            "Content-Length",
+            "547",
+            "Connection",
+            "keep-alive",
+            "Date",
+            "Sat, 28 Jan 2023 11:08:53 GMT",
+            "Server",
+            "openresty",
+            "Cache-Control",
+            "public, max-age=28800",
+            "X-Memc",
+            "HIT",
+            "X-Memc-Key",
+            "af4426908218dad356a942000911b15f14e85c85",
+            "X-Memc-Age",
+            "15579",
+            "X-Memc-Expires",
+            "1422",
+            "ETag",
+            "W/\"98d6f4fb3a0e0c77544a7277f32baebb\"",
+            "Vary",
+            "Accept-Encoding,Accept-Encoding,Accept-Encoding",
+            "X-Cache",
+            "Miss from cloudfront",
+            "Via",
+            "1.1 78720628b37ebf3e33c42dc098252ee8.cloudfront.net (CloudFront)",
+            "X-Amz-Cf-Pop",
+            "FRA56-P7",
+            "Alt-Svc",
+            "h3=\":443\"; ma=86400",
+            "X-Amz-Cf-Id",
+            "0QxEliasJSMXcGeIwnloqcD69i1s6tiv2j20K9yRtnyDhJTaBE1lHQ==",
+            "Vary",
+            "Origin"
+        ],
+        "responseIsBinary": false
+    },
+    {
+        "scope": "http://127.0.0.1:44073",
+        "method": "GET",
+        "path": "/extern/genres",
+        "body": "",
+        "status": 200,
+        "response": {
+            "data": [
+                {
+                    "genreId": 28,
+                    "genreName": "Action"
+                },
+                {
+                    "genreId": 12,
+                    "genreName": "Adventure"
+                },
+                {
+                    "genreId": 16,
+                    "genreName": "Animation"
+                },
+                {
+                    "genreId": 35,
+                    "genreName": "Comedy"
+                },
+                {
+                    "genreId": 80,
+                    "genreName": "Crime"
+                },
+                {
+                    "genreId": 99,
+                    "genreName": "Documentary"
+                },
+                {
+                    "genreId": 18,
+                    "genreName": "Drama"
+                },
+                {
+                    "genreId": 10751,
+                    "genreName": "Family"
+                },
+                {
+                    "genreId": 14,
+                    "genreName": "Fantasy"
+                },
+                {
+                    "genreId": 36,
+                    "genreName": "History"
+                },
+                {
+                    "genreId": 27,
+                    "genreName": "Horror"
+                },
+                {
+                    "genreId": 10402,
+                    "genreName": "Music"
+                },
+                {
+                    "genreId": 9648,
+                    "genreName": "Mystery"
+                },
+                {
+                    "genreId": 10749,
+                    "genreName": "Romance"
+                },
+                {
+                    "genreId": 878,
+                    "genreName": "Science Fiction"
+                },
+                {
+                    "genreId": 10770,
+                    "genreName": "TV Movie"
+                },
+                {
+                    "genreId": 53,
+                    "genreName": "Thriller"
+                },
+                {
+                    "genreId": 10752,
+                    "genreName": "War"
+                },
+                {
+                    "genreId": 37,
+                    "genreName": "Western"
+                }
+            ]
+        },
+        "rawHeaders": [
+            "X-Powered-By",
+            "Express",
+            "Access-Control-Allow-Origin",
+            "*",
+            "Content-Type",
+            "application/json; charset=utf-8",
+            "Content-Length",
+            "735",
+            "ETag",
+            "W/\"2df-2Jb2NzP/h6692BmDFDaXHQrfweQ\"",
+            "Date",
+            "Sat, 28 Jan 2023 11:08:53 GMT",
+            "Connection",
+            "close"
+        ],
+        "responseIsBinary": false
+    }
+]

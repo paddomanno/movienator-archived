@@ -1,0 +1,58 @@
+[
+    {
+        "scope": "https://community-purgomalum.p.rapidapi.com:443",
+        "method": "GET",
+        "path": "/containsprofanity?text=FUCK",
+        "body": "",
+        "status": 200,
+        "response": true,
+        "rawHeaders": [
+            "Date",
+            "Sat, 28 Jan 2023 11:08:55 GMT",
+            "Content-Type",
+            "text/plain; charset=UTF-8",
+            "Content-Length",
+            "4",
+            "Connection",
+            "keep-alive",
+            "X-Cloud-Trace-Context",
+            "480c7ffaf957f896681c56c46f5f457f",
+            "Access-Control-Allow-Origin",
+            "*",
+            "Server",
+            "RapidAPI-1.2.8",
+            "X-RapidAPI-Version",
+            "1.2.8",
+            "X-RapidAPI-Region",
+            "AWS - eu-central-1"
+        ],
+        "responseIsBinary": false
+    },
+    {
+        "scope": "http://127.0.0.1:44843",
+        "method": "GET",
+        "path": "/extern/hatespeech?text=FUCK",
+        "body": "",
+        "status": 200,
+        "response": {
+            "data": true
+        },
+        "rawHeaders": [
+            "X-Powered-By",
+            "Express",
+            "Access-Control-Allow-Origin",
+            "*",
+            "Content-Type",
+            "application/json; charset=utf-8",
+            "Content-Length",
+            "13",
+            "ETag",
+            "W/\"d-AZMLZIkhLL6zV6brmxWwd5pv3rs\"",
+            "Date",
+            "Sat, 28 Jan 2023 11:08:54 GMT",
+            "Connection",
+            "close"
+        ],
+        "responseIsBinary": false
+    }
+]
