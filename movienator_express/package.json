@@ -6,7 +6,7 @@
   "main": "start.ts",
   "scripts": {
     "dev": "tsc-watch --onSuccess \"node dist/start\"",
-    "test": "jest --forceExit --runInBand --silent",
+    "test": "jest --forceExit --runInBand --silent _test_/extern.test.ts",
     "install-test": "npm install && npm run test",
     "install-start": "npm install && npm run dev",
     "install-lint": "npm install && eslint --ignore-path .gitignore . --ext .ts"
@@ -29,6 +29,8 @@
     "@types/cors": "latest",
     "@types/express": "latest",
     "@types/jest": "latest",
+    "@types/moxios": "^0.4.15",
+    "@types/nock": "^11.1.0",
     "@types/node": "latest",
     "@typescript-eslint/eslint-plugin": "^5.49.0",
     "@typescript-eslint/parser": "^5.49.0",
@@ -36,6 +38,8 @@
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-unused-imports": "^2.0.0",
+    "moxios": "^0.4.0",
+    "nock": "^13.3.0",
     "nodemon": "latest",
     "supertest": "latest",
     "ts-jest": "latest",

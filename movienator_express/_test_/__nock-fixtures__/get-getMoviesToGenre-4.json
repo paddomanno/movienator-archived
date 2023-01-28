@@ -1,0 +1,69 @@
+[
+    {
+        "scope": "https://api.themoviedb.org:443",
+        "method": "GET",
+        "path": "/3/discover/movie?with_genres=99999&api_key=fb73e59a39ce4d841ab2597bdf8b7003&page=1&trophies=true",
+        "body": "",
+        "status": 200,
+        "response": {
+            "page": 1,
+            "results": [],
+            "total_pages": 0,
+            "total_results": 0
+        },
+        "rawHeaders": [
+            "Content-Type",
+            "application/json;charset=utf-8",
+            "Content-Length",
+            "57",
+            "Connection",
+            "keep-alive",
+            "Server",
+            "openresty",
+            "Date",
+            "Sat, 28 Jan 2023 11:08:54 GMT",
+            "Cache-Control",
+            "public, max-age=600",
+            "ETag",
+            "a8d277d2d95f2ea20f792a48c43093dc",
+            "Vary",
+            "Accept-Encoding",
+            "X-Cache",
+            "RefreshHit from cloudfront",
+            "Via",
+            "1.1 78720628b37ebf3e33c42dc098252ee8.cloudfront.net (CloudFront)",
+            "X-Amz-Cf-Pop",
+            "FRA56-P7",
+            "Alt-Svc",
+            "h3=\":443\"; ma=86400",
+            "X-Amz-Cf-Id",
+            "xE3JYXmNpdR8QABrlvmuVPbHvt3hyG3c4vHYFuMPZzZmsjFReElUzg==",
+            "Vary",
+            "Origin"
+        ],
+        "responseIsBinary": false
+    },
+    {
+        "scope": "http://127.0.0.1:39629",
+        "method": "GET",
+        "path": "/extern/movie/genre/99999?page=1",
+        "body": "",
+        "status": 404,
+        "response": "",
+        "rawHeaders": [
+            "X-Powered-By",
+            "Express",
+            "Access-Control-Allow-Origin",
+            "*",
+            "Content-Type",
+            "application/json; charset=utf-8",
+            "Date",
+            "Sat, 28 Jan 2023 11:08:53 GMT",
+            "Connection",
+            "close",
+            "Content-Length",
+            "0"
+        ],
+        "responseIsBinary": false
+    }
+]

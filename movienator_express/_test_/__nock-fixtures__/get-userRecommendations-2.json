@@ -1,0 +1,25 @@
+[
+    {
+        "scope": "http://127.0.0.1:37729",
+        "method": "GET",
+        "path": "/extern/user/10/recommendations",
+        "body": "",
+        "status": 404,
+        "response": "",
+        "rawHeaders": [
+            "X-Powered-By",
+            "Express",
+            "Access-Control-Allow-Origin",
+            "*",
+            "Content-Type",
+            "application/json; charset=utf-8",
+            "Date",
+            "Sat, 28 Jan 2023 11:08:51 GMT",
+            "Connection",
+            "close",
+            "Content-Length",
+            "0"
+        ],
+        "responseIsBinary": false
+    }
+]
