@@ -318,60 +318,80 @@ externRouter.get('/movies/actor/:id', async (req, res) => {
 //The genre array IS filled
 //The watchProvider array is NOT filled
 externRouter.get('/user/:uId/recommendations', async (req, res) => {
-  const MAX_DIF_REVIEWS = 10;
-  const MAX_REC_PER_REVIEW = 2;
+  const MAX_DIF_REVIEWS = 10; // max number of movie recommendations returned in total
+  const MAX_REC_PER_REVIEW = 2; // max number of movie recommendations given for each reviewed movie
   try {
     if (isNaN(+req.params.uId)) {
-      throw 'Not a valid number';
+      throw "Can't get recommendations for user - User ID Not a valid number";
     }
+
+    //Get user by id
     const user: User = await User.findOne({
       where: { userId: parseInt(req.params.uId) },
     });
-    if (user != null) {
-      const reviews: Review[] = await Review.find({
-        where: { reviewUserUserId: parseInt(req.params.uId) },
-      });
-      reviews.sort((a, b) => b.rating - a.rating);
-      const movieIds: number[] = [];
 
-      //Get recommendations for the top-rated movies of that user
-      let i = 0;
-      while (i < reviews.length && i < MAX_DIF_REVIEWS) {
-        const query: string =
-          BASE_URL +
-          `/movie/${reviews[i].reviewMovieMovieId}/recommendations?` +
-          `api_key=${API_KEY}`;
-        const thisMovieRec = await axios.get(query, {
-          headers: {
-            Accept: 'application/json',
-            'Accept-Encoding': 'identity',
-          },
-          params: { trophies: true },
-        });
-
-        if (thisMovieRec.status == 200) {
-          //Collect Movie ids from the first 2 recommendations
-          let x = 0;
-          while (
-            x < thisMovieRec.data.results.length &&
-            x < MAX_REC_PER_REVIEW
-          ) {
-            movieIds.push(thisMovieRec.data.results[x].id);
-            x++;
-          }
-        }
-        i++;
-      }
-      const resMovies: Movie[] = await getMoviesToIds(
-        movieIds,
-        MAX_DIF_REVIEWS * MAX_REC_PER_REVIEW
-      );
-      res.status(200).json({
-        data: resMovies,
-      });
-    } else {
+    if (user === null) {
       res.status(404).json();
     }
+
+    //Get top-rated reviews of that user
+    const reviews: Review[] = await Review.find({
+      where: { reviewUserUserId: parseInt(req.params.uId) },
+    });
+    reviews.sort((a, b) => b.rating - a.rating);
+    const reviewedMovieIds = reviews.map((review) => review.reviewMovieMovieId);
+
+    //Get recommendations for the top-rated movies of that user
+    const recommendedMovieIds: number[] = [];
+
+    for (let i = 0; i < reviews.length; i++) {
+      if (recommendedMovieIds.length >= MAX_DIF_REVIEWS) break;
+
+      const query: string =
+        BASE_URL +
+        `/movie/${reviews[i].reviewMovieMovieId}/recommendations?` +
+        `api_key=${API_KEY}`;
+      const res = await axios.get(query, {
+        headers: {
+          Accept: 'application/json',
+          'Accept-Encoding': 'identity',
+        },
+        params: { trophies: true },
+      });
+
+      if (res.status == 200) {
+        const thisMovieRecommendations = res.data.results;
+
+        //Collect Movie ids from the first MAX_REC_PER_REVIEW recommendations
+        let recsPerReviewCounter = 0;
+        for (let x = 0; x < thisMovieRecommendations.length; x++) {
+          if (recsPerReviewCounter >= MAX_REC_PER_REVIEW) {
+            break;
+          }
+
+          //only add movie as recommendation if the movie has not yet been reviewed by the user
+          const thisRecommendedMovie = thisMovieRecommendations[x];
+          if (
+            reviewedMovieIds.includes(thisRecommendedMovie.id) ||
+            recommendedMovieIds.includes(thisRecommendedMovie.id)
+          ) {
+            continue;
+          } else {
+            recommendedMovieIds.push(thisRecommendedMovie.id);
+            recsPerReviewCounter++;
+          }
+        }
+      }
+    }
+
+    //Get movie objects to the saved movie ids
+    const resMovies: Movie[] = await getMoviesToIds(
+      recommendedMovieIds,
+      MAX_DIF_REVIEWS * MAX_REC_PER_REVIEW
+    );
+    res.status(200).json({
+      data: resMovies,
+    });
   } catch (er) {
     console.log(er);
     res.status(500).json();
