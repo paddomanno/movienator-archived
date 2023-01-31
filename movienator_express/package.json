@@ -6,7 +6,7 @@
   "main": "start.ts",
   "scripts": {
     "dev": "tsc-watch --onSuccess \"node dist/start\"",
-    "test": "dotenv -v MOVIE_API_KEY=MOVIE_API_KEY -v HATESPEECH_API_KEY=HATESPEECH_API_KEY -- jest --forceExit --runInBand --silent=false _test_/extern.test.ts",
+    "test": "dotenv -v MOVIE_API_KEY=MOVIE_API_KEY -v HATESPEECH_API_KEY=HATESPEECH_API_KEY -- jest --forceExit --runInBand --silent",
     "install-test": "npm install && npm run test",
     "install-start": "npm install && npm run dev",
     "install-lint": "npm install && eslint --ignore-path .gitignore . --ext .ts"
