@@ -65,7 +65,6 @@ function removeSecretsFromRecords(nockRecords: nock.Definition[]) {
 describe('Externtest', () => {
   describe('Testing movieSearch Route', () => {
     it('Should return an array of Movies with max length of 20', async () => {
-      console.log(`#### env ${process.env['MOVIE_API_KEY']}`);
       const { nockDone } = await nock.back('get-movieSearch-1.json', {
         afterRecord: removeSecretsFromRecords,
       });
