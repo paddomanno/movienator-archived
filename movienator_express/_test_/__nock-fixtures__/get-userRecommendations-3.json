@@ -1,6 +1,6 @@
 [
     {
-        "scope": "http://127.0.0.1:45811",
+        "scope": "http://127.0.0.1:44471",
         "method": "GET",
         "path": "/extern/user/blabla/recommendations",
         "body": "",
@@ -14,7 +14,7 @@
             "Content-Type",
             "application/json; charset=utf-8",
             "Date",
-            "Sat, 28 Jan 2023 11:08:51 GMT",
+            "Tue, 31 Jan 2023 13:31:35 GMT",
             "Connection",
             "close",
             "Content-Length",

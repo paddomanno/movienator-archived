@@ -6,7 +6,7 @@
   "main": "start.ts",
   "scripts": {
     "dev": "tsc-watch --onSuccess \"node dist/start\"",
-    "test": "jest --forceExit --runInBand --silent _test_/extern.test.ts",
+    "test": "dotenv -v MOVIE_API_KEY=MOVIE_API_KEY -v HATESPEECH_API_KEY=HATESPEECH_API_KEY -- jest --forceExit --runInBand --silent=false _test_/extern.test.ts",
     "install-test": "npm install && npm run test",
     "install-start": "npm install && npm run dev",
     "install-lint": "npm install && eslint --ignore-path .gitignore . --ext .ts"
@@ -34,6 +34,8 @@
     "@types/node": "latest",
     "@typescript-eslint/eslint-plugin": "^5.49.0",
     "@typescript-eslint/parser": "^5.49.0",
+    "dotenv": "^16.0.3",
+    "dotenv-cli": "^7.0.0",
     "eslint": "^8.32.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",

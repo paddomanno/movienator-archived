@@ -20,7 +20,7 @@ import path from 'path';
 beforeAll(async () => {
   await TestDatabaseManager.getInstance().connectTestDatabase();
   nock.back.fixtures = path.join(__dirname, '__nock-fixtures__');
-  nock.back.setMode('lockdown'); // change to 'record' or 'update' when writing new tests or API changes, see https://github.com/nock/nock#modes
+  nock.back.setMode('record'); // change to 'record' or 'update' when writing new tests or API changes, see https://github.com/nock/nock#modes
 }, 10_000);
 
 afterAll(async () => {
@@ -50,10 +50,25 @@ async function createTestData() {
   await user1.save();
 }
 
+function removeSecretsFromRecords(nockRecords: nock.Definition[]) {
+  return nockRecords.map((record) => {
+    if (typeof record.path === 'string') {
+      record.path = record.path.replace(
+        process.env['MOVIE_API_KEY'],
+        'MOVIE_API_KEY'
+      );
+    }
+    return record;
+  });
+}
+
 describe('Externtest', () => {
   describe('Testing movieSearch Route', () => {
     it('Should return an array of Movies with max length of 20', async () => {
-      const { nockDone } = await nock.back('get-movieSearch-1.json');
+      console.log(`#### env ${process.env['MOVIE_API_KEY']}`);
+      const { nockDone } = await nock.back('get-movieSearch-1.json', {
+        afterRecord: removeSecretsFromRecords,
+      });
       nock.enableNetConnect(/(localhost|127\.0\.0\.1)/); // nock disables external requests, this enables localhost connections
 
       const response = await request(app).get(
@@ -69,7 +84,9 @@ describe('Externtest', () => {
       nockDone();
     });
     it('Should fill the genres array but not actors', async () => {
-      const { nockDone } = await nock.back('get-movieSearch-2.json');
+      const { nockDone } = await nock.back('get-movieSearch-2.json', {
+        afterRecord: removeSecretsFromRecords,
+      });
       nock.enableNetConnect(/(localhost|127\.0\.0\.1)/); // nock disables external requests, this enables localhost connections
 
       const response = await request(app).get(
@@ -85,7 +102,9 @@ describe('Externtest', () => {
 
   describe('Testing actorSearch Route', () => {
     it('Should return an Array of Actors', async () => {
-      const { nockDone } = await nock.back('get-actorSearch-1.json');
+      const { nockDone } = await nock.back('get-actorSearch-1.json', {
+        afterRecord: removeSecretsFromRecords,
+      });
       nock.enableNetConnect(/(localhost|127\.0\.0\.1)/); // nock disables external requests, this enables localhost connections
 
       const response = await request(app).get('/extern/search/actor/Daniel');
@@ -97,7 +116,9 @@ describe('Externtest', () => {
       nockDone();
     });
     it('Should not fill the movies array of the actors', async () => {
-      const { nockDone } = await nock.back('get-actorSearch-2.json');
+      const { nockDone } = await nock.back('get-actorSearch-2.json', {
+        afterRecord: removeSecretsFromRecords,
+      });
       nock.enableNetConnect(/(localhost|127\.0\.0\.1)/); // nock disables external requests, this enables localhost connections
 
       const response = await request(app).get('/extern/search/actor/Daniel');
@@ -110,7 +131,9 @@ describe('Externtest', () => {
 
   describe('Testing getActorsToMovie Route', () => {
     it('Should return an array of Actors', async () => {
-      const { nockDone } = await nock.back('get-getActorsToMovie-1.json');
+      const { nockDone } = await nock.back('get-getActorsToMovie-1.json', {
+        afterRecord: removeSecretsFromRecords,
+      });
       nock.enableNetConnect(/(localhost|127\.0\.0\.1)/); // nock disables external requests, this enables localhost connections
 
       const response = await request(app).get('/extern/actor/movie/436270');
@@ -124,7 +147,9 @@ describe('Externtest', () => {
     });
 
     it("Should return 500 if the movie ID doesn't exist", async () => {
-      const { nockDone } = await nock.back('get-getActorsToMovie-2.json');
+      const { nockDone } = await nock.back('get-getActorsToMovie-2.json', {
+        afterRecord: removeSecretsFromRecords,
+      });
       nock.enableNetConnect(/(localhost|127\.0\.0\.1)/); // nock disables external requests, this enables localhost connections
 
       const response = await request(app).get('/extern/actor/movie/xxxx');
@@ -135,7 +160,9 @@ describe('Externtest', () => {
 
   describe('Testing getMoviesToActor Route', () => {
     it('Should return an Array of Movies', async () => {
-      const { nockDone } = await nock.back('get-getMoviesToActor-1.json');
+      const { nockDone } = await nock.back('get-getMoviesToActor-1.json', {
+        afterRecord: removeSecretsFromRecords,
+      });
       nock.enableNetConnect(/(localhost|127\.0\.0\.1)/); // nock disables external requests, this enables localhost connections
 
       const response = await request(app).get('/extern/movies/actor/8784');
@@ -150,7 +177,9 @@ describe('Externtest', () => {
     }, 25_000);
 
     it('Should fill the genres array but not the actors array', async () => {
-      const { nockDone } = await nock.back('get-getMoviesToActor-2.json');
+      const { nockDone } = await nock.back('get-getMoviesToActor-2.json', {
+        afterRecord: removeSecretsFromRecords,
+      });
       nock.enableNetConnect(/(localhost|127\.0\.0\.1)/); // nock disables external requests, this enables localhost connections
 
       const response = await request(app).get('/extern/movies/actor/8784');
@@ -162,7 +191,9 @@ describe('Externtest', () => {
     }, 10_000);
 
     it("Should return 500 if the actors doesn't exist", async () => {
-      const { nockDone } = await nock.back('get-getMoviesToActor-3.json');
+      const { nockDone } = await nock.back('get-getMoviesToActor-3.json', {
+        afterRecord: removeSecretsFromRecords,
+      });
       nock.enableNetConnect(/(localhost|127\.0\.0\.1)/); // nock disables external requests, this enables localhost connections
 
       const response = await request(app).get('/extern/movies/actor/xxxxx');
@@ -173,7 +204,9 @@ describe('Externtest', () => {
 
   describe('Testing userRecommendations Route', () => {
     it('Should return an Array of Movies', async () => {
-      const { nockDone } = await nock.back('get-userRecommendations-1.json');
+      const { nockDone } = await nock.back('get-userRecommendations-1.json', {
+        afterRecord: removeSecretsFromRecords,
+      });
       nock.enableNetConnect(/(localhost|127\.0\.0\.1)/); // nock disables external requests, this enables localhost connections
 
       // 436270 is Black Adam
@@ -229,7 +262,9 @@ describe('Externtest', () => {
     });
 
     it("Should return 404 if the User doesn't exist", async () => {
-      const { nockDone } = await nock.back('get-userRecommendations-2.json');
+      const { nockDone } = await nock.back('get-userRecommendations-2.json', {
+        afterRecord: removeSecretsFromRecords,
+      });
       nock.enableNetConnect(/(localhost|127\.0\.0\.1)/); // nock disables external requests, this enables localhost connections
 
       // 436270 is Black Adam
@@ -241,7 +276,9 @@ describe('Externtest', () => {
     });
 
     it('Should return 500 if the param is not a number', async () => {
-      const { nockDone } = await nock.back('get-userRecommendations-3.json');
+      const { nockDone } = await nock.back('get-userRecommendations-3.json', {
+        afterRecord: removeSecretsFromRecords,
+      });
       nock.enableNetConnect(/(localhost|127\.0\.0\.1)/); // nock disables external requests, this enables localhost connections
 
       // 436270 is Black Adam
@@ -255,7 +292,9 @@ describe('Externtest', () => {
 
   describe('Testing movieRecommendations', () => {
     it('Should return an array of Movies', async () => {
-      const { nockDone } = await nock.back('get-movieRecommendations-1.json');
+      const { nockDone } = await nock.back('get-movieRecommendations-1.json', {
+        afterRecord: removeSecretsFromRecords,
+      });
       nock.enableNetConnect(/(localhost|127\.0\.0\.1)/); // nock disables external requests, this enables localhost connections
 
       // 436270 is Black Adam
@@ -275,7 +314,9 @@ describe('Externtest', () => {
     });
 
     it("Should return 500 if the movie doesn't exist", async () => {
-      const { nockDone } = await nock.back('get-movieRecommendations-2.json');
+      const { nockDone } = await nock.back('get-movieRecommendations-2.json', {
+        afterRecord: removeSecretsFromRecords,
+      });
       nock.enableNetConnect(/(localhost|127\.0\.0\.1)/); // nock disables external requests, this enables localhost connections
 
       // 436270 is Black Adam
@@ -287,7 +328,9 @@ describe('Externtest', () => {
     });
 
     it('Should return 500 if the param is not a number', async () => {
-      const { nockDone } = await nock.back('get-movieRecommendations-3.json');
+      const { nockDone } = await nock.back('get-movieRecommendations-3.json', {
+        afterRecord: removeSecretsFromRecords,
+      });
       nock.enableNetConnect(/(localhost|127\.0\.0\.1)/); // nock disables external requests, this enables localhost connections
 
       // 436270 is Black Adam
@@ -301,7 +344,9 @@ describe('Externtest', () => {
 
   describe('Testing getPopular Route', () => {
     it('Should return an array of Movies', async () => {
-      const { nockDone } = await nock.back('get-getPopular-1.json');
+      const { nockDone } = await nock.back('get-getPopular-1.json', {
+        afterRecord: removeSecretsFromRecords,
+      });
       nock.enableNetConnect(/(localhost|127\.0\.0\.1)/); // nock disables external requests, this enables localhost connections
 
       const response = await request(app).get('/extern/popular?page=1');
@@ -316,7 +361,9 @@ describe('Externtest', () => {
     });
 
     it('Should fill genres but not actors', async () => {
-      const { nockDone } = await nock.back('get-getPopular-2.json');
+      const { nockDone } = await nock.back('get-getPopular-2.json', {
+        afterRecord: removeSecretsFromRecords,
+      });
       nock.enableNetConnect(/(localhost|127\.0\.0\.1)/); // nock disables external requests, this enables localhost connections
 
       const response = await request(app).get('/extern/popular?page=1');
@@ -330,7 +377,9 @@ describe('Externtest', () => {
 
   describe('Testing getAllGenres', () => {
     it('Should return an array of Genres', async () => {
-      const { nockDone } = await nock.back('get-getAllGenres-1.json');
+      const { nockDone } = await nock.back('get-getAllGenres-1.json', {
+        afterRecord: removeSecretsFromRecords,
+      });
       nock.enableNetConnect(/(localhost|127\.0\.0\.1)/); // nock disables external requests, this enables localhost connections
 
       const response = await request(app).get('/extern/genres');
@@ -345,7 +394,9 @@ describe('Externtest', () => {
 
   describe('Testing getMoviesToGenre Route', () => {
     it('Should return an array of Movies', async () => {
-      const { nockDone } = await nock.back('get-getMoviesToGenre-1.json');
+      const { nockDone } = await nock.back('get-getMoviesToGenre-1.json', {
+        afterRecord: removeSecretsFromRecords,
+      });
       nock.enableNetConnect(/(localhost|127\.0\.0\.1)/); // nock disables external requests, this enables localhost connections
 
       const response = await request(app).get('/extern/movie/genre/28?page=1');
@@ -360,7 +411,9 @@ describe('Externtest', () => {
     });
 
     it('Should fill the genres array but not actors', async () => {
-      const { nockDone } = await nock.back('get-getMoviesToGenre-2.json');
+      const { nockDone } = await nock.back('get-getMoviesToGenre-2.json', {
+        afterRecord: removeSecretsFromRecords,
+      });
       nock.enableNetConnect(/(localhost|127\.0\.0\.1)/); // nock disables external requests, this enables localhost connections
 
       const response = await request(app).get('/extern/movie/genre/28?page=1');
@@ -372,7 +425,9 @@ describe('Externtest', () => {
     });
 
     it('Should return 500 if the param is not a number', async () => {
-      const { nockDone } = await nock.back('get-getMoviesToGenre-3.json');
+      const { nockDone } = await nock.back('get-getMoviesToGenre-3.json', {
+        afterRecord: removeSecretsFromRecords,
+      });
       nock.enableNetConnect(/(localhost|127\.0\.0\.1)/); // nock disables external requests, this enables localhost connections
 
       const response = await request(app).get('/extern/movie/genre/xxx?page=1');
@@ -381,7 +436,9 @@ describe('Externtest', () => {
     });
 
     it("Should return 500 if the genre doesn't exist", async () => {
-      const { nockDone } = await nock.back('get-getMoviesToGenre-4.json');
+      const { nockDone } = await nock.back('get-getMoviesToGenre-4.json', {
+        afterRecord: removeSecretsFromRecords,
+      });
       nock.enableNetConnect(/(localhost|127\.0\.0\.1)/); // nock disables external requests, this enables localhost connections
 
       const response = await request(app).get(
@@ -394,7 +451,9 @@ describe('Externtest', () => {
 
   describe('Testing the hatespeech API', () => {
     it('should return false if profanity was detected', async () => {
-      const { nockDone } = await nock.back('get-hatespeech-1.json');
+      const { nockDone } = await nock.back('get-hatespeech-1.json', {
+        afterRecord: removeSecretsFromRecords,
+      });
       nock.enableNetConnect(/(localhost|127\.0\.0\.1)/); // nock disables external requests, this enables localhost connections
 
       const response = await request(app).get('/extern/hatespeech?text=FUCK');
@@ -403,7 +462,9 @@ describe('Externtest', () => {
       nockDone();
     });
     it('should return false if no profanity was detected', async () => {
-      const { nockDone } = await nock.back('get-hatespeech-2.json');
+      const { nockDone } = await nock.back('get-hatespeech-2.json', {
+        afterRecord: removeSecretsFromRecords,
+      });
       nock.enableNetConnect(/(localhost|127\.0\.0\.1)/); // nock disables external requests, this enables localhost connections
 
       const response = await request(app).get('/extern/hatespeech?text=HELLO');
