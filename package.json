@@ -1,8 +1,6 @@
 {
   "name": "fwe-movienator3000",
   "version": "1.0.0",
-  "dependencies": {
-  },
   "prettier": {
     "singleQuote": true,
     "endOfLine": "lf"

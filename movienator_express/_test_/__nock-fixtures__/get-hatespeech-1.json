@@ -8,7 +8,7 @@
         "response": true,
         "rawHeaders": [
             "Date",
-            "Sat, 28 Jan 2023 11:08:55 GMT",
+            "Tue, 31 Jan 2023 13:31:40 GMT",
             "Content-Type",
             "text/plain; charset=UTF-8",
             "Content-Length",
@@ -16,7 +16,7 @@
             "Connection",
             "keep-alive",
             "X-Cloud-Trace-Context",
-            "480c7ffaf957f896681c56c46f5f457f",
+            "3d0f51570bef18670c80cde399020844",
             "Access-Control-Allow-Origin",
             "*",
             "Server",
@@ -29,7 +29,7 @@
         "responseIsBinary": false
     },
     {
-        "scope": "http://127.0.0.1:44843",
+        "scope": "http://127.0.0.1:39725",
         "method": "GET",
         "path": "/extern/hatespeech?text=FUCK",
         "body": "",
@@ -49,7 +49,7 @@
             "ETag",
             "W/\"d-AZMLZIkhLL6zV6brmxWwd5pv3rs\"",
             "Date",
-            "Sat, 28 Jan 2023 11:08:54 GMT",
+            "Tue, 31 Jan 2023 13:31:38 GMT",
             "Connection",
             "close"
         ],

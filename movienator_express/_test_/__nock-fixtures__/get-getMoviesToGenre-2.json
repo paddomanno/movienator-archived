@@ -2,7 +2,7 @@
     {
         "scope": "https://api.themoviedb.org:443",
         "method": "GET",
-        "path": "/3/discover/movie?with_genres=28&api_key=***REMOVED***&page=1&trophies=true",
+        "path": "/3/discover/movie?with_genres=28&api_key=MOVIE_API_KEY&page=1&trophies=true",
         "body": "",
         "status": 200,
         "response": {
@@ -23,17 +23,17 @@
                     "original_language": "en",
                     "original_title": "Puss in Boots: The Last Wish",
                     "overview": "Puss in Boots discovers that his passion for adventure has taken its toll: He has burned through eight of his nine lives, leaving him with only one life left. Puss sets out on an epic journey to find the mythical Last Wish and restore his nine lives.",
-                    "popularity": 6258.089,
+                    "popularity": 6178.562,
                     "poster_path": "/kuf6dutpsT0vSVehic3EZIqkOBt.jpg",
                     "release_date": "2022-12-07",
                     "title": "Puss in Boots: The Last Wish",
                     "video": false,
                     "vote_average": 8.6,
-                    "vote_count": 2746
+                    "vote_count": 2983
                 },
                 {
                     "adult": false,
-                    "backdrop_path": "/s16H6tpK2utvwDtzZ8Qy4qm5Emw.jpg",
+                    "backdrop_path": "/evaFLqtswezLosllRZtJNMiO1UR.jpg",
                     "genre_ids": [
                         878,
                         12,
@@ -43,13 +43,33 @@
                     "original_language": "en",
                     "original_title": "Avatar: The Way of Water",
                     "overview": "Set more than a decade after the events of the first film, learn the story of the Sully family (Jake, Neytiri, and their kids), the trouble that follows them, the lengths they go to keep each other safe, the battles they fight to stay alive, and the tragedies they endure.",
-                    "popularity": 2398.043,
+                    "popularity": 2463.327,
                     "poster_path": "/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg",
                     "release_date": "2022-12-14",
                     "title": "Avatar: The Way of Water",
                     "video": false,
                     "vote_average": 7.7,
-                    "vote_count": 4723
+                    "vote_count": 4859
+                },
+                {
+                    "adult": false,
+                    "backdrop_path": "/qHdPNd1cUaSNYLLNgt1Pv3LVd0T.jpg",
+                    "genre_ids": [
+                        878,
+                        28,
+                        12
+                    ],
+                    "id": 843794,
+                    "original_language": "ko",
+                    "original_title": "정이",
+                    "overview": "On an uninhabitable 22nd-century Earth, the outcome of a civil war hinges on cloning the brain of an elite soldier to create a robot mercenary.",
+                    "popularity": 2746.505,
+                    "poster_path": "/z2nfRxZCGFgAnVhb9pZO87TyTX5.jpg",
+                    "release_date": "2023-01-20",
+                    "title": "JUNG_E",
+                    "video": false,
+                    "vote_average": 6.1,
+                    "vote_count": 176
                 },
                 {
                     "adult": false,
@@ -63,13 +83,32 @@
                     "original_language": "es",
                     "original_title": "The Enforcer",
                     "overview": "A noir thriller set in Miami, the film follows an enforcer who discovers his femme fatale boss has branched out into cyber sex trafficking, putting a young runaway he’s befriended at risk. He sacrifices everything to save the young girl from the deadly organization he’s spent his life building.",
-                    "popularity": 2066.413,
+                    "popularity": 1474.092,
                     "poster_path": "/72V1r1G8S87ELagVxjqAUdChMCt.jpg",
                     "release_date": "2022-09-22",
                     "title": "The Enforcer",
                     "video": false,
-                    "vote_average": 7.3,
-                    "vote_count": 113
+                    "vote_average": 7.4,
+                    "vote_count": 121
+                },
+                {
+                    "adult": false,
+                    "backdrop_path": "/vLPSvAt1CnfmDCeqG3zkFh0s6S4.jpg",
+                    "genre_ids": [
+                        10752,
+                        28
+                    ],
+                    "id": 542196,
+                    "original_language": "en",
+                    "original_title": "Wolf Hound",
+                    "overview": "Inspired by the real-life German special operations unit KG 200 that shot down, repaired, and flew Allied aircraft as Trojan horses, \"Wolf Hound\" takes place in 1944 German-occupied France and follows the daring exploits of Jewish-American fighter pilot Captain David Holden. Ambushed behind enemy lines, Holden must rescue a captured B-17 Flying Fortress crew, evade a ruthless enemy stalking him at every turn, and foil a plot that could completely alter the outcome of World War II.",
+                    "popularity": 1320.067,
+                    "poster_path": "/6sMnY4fEVAfdadhANhGnNckxsmx.jpg",
+                    "release_date": "2022-06-03",
+                    "title": "Wolf Hound",
+                    "video": false,
+                    "vote_average": 6.8,
+                    "vote_count": 23
                 },
                 {
                     "adult": false,
@@ -84,96 +123,13 @@
                     "original_language": "en",
                     "original_title": "Violent Night",
                     "overview": "When a team of mercenaries breaks into a wealthy family compound on Christmas Eve, taking everyone inside hostage, the team isn’t prepared for a surprise combatant: Santa Claus is on the grounds, and he’s about to show why this Nick is no saint.",
-                    "popularity": 1535.484,
+                    "popularity": 1286.369,
                     "poster_path": "/1XSYOP0JjjyMz1irihvWywro82r.jpg",
                     "release_date": "2022-11-30",
                     "title": "Violent Night",
                     "video": false,
                     "vote_average": 7.7,
-                    "vote_count": 1049
-                },
-                {
-                    "adult": false,
-                    "backdrop_path": "/53BC9F2tpZnsGno2cLhzvGprDYS.jpg",
-                    "genre_ids": [
-                        14,
-                        28,
-                        12,
-                        53
-                    ],
-                    "id": 736526,
-                    "original_language": "no",
-                    "original_title": "Troll",
-                    "overview": "Deep inside the mountain of Dovre, something gigantic awakens after being trapped for a thousand years. Destroying everything in its path, the creature is fast approaching the capital of Norway. But how do you stop something you thought only existed in Norwegian folklore?",
-                    "popularity": 1461.586,
-                    "poster_path": "/9z4jRr43JdtU66P0iy8h18OyLql.jpg",
-                    "release_date": "2022-12-01",
-                    "title": "Troll",
-                    "video": false,
-                    "vote_average": 6.7,
-                    "vote_count": 1102
-                },
-                {
-                    "adult": false,
-                    "backdrop_path": "/bQXAqRx2Fgc46uCVWgoPz5L5Dtr.jpg",
-                    "genre_ids": [
-                        14,
-                        28,
-                        878
-                    ],
-                    "id": 436270,
-                    "original_language": "en",
-                    "original_title": "Black Adam",
-                    "overview": "Nearly 5,000 years after he was bestowed with the almighty powers of the Egyptian gods—and imprisoned just as quickly—Black Adam is freed from his earthly tomb, ready to unleash his unique form of justice on the modern world.",
-                    "popularity": 1253.485,
-                    "poster_path": "/pFlaoHTZeyNkG83vxsAJiGzfSsa.jpg",
-                    "release_date": "2022-10-19",
-                    "title": "Black Adam",
-                    "video": false,
-                    "vote_average": 7.2,
-                    "vote_count": 3913
-                },
-                {
-                    "adult": false,
-                    "backdrop_path": "/yYrvN5WFeGYjJnRzhY0QXuo4Isw.jpg",
-                    "genre_ids": [
-                        28,
-                        12,
-                        878
-                    ],
-                    "id": 505642,
-                    "original_language": "en",
-                    "original_title": "Black Panther: Wakanda Forever",
-                    "overview": "Queen Ramonda, Shuri, M’Baku, Okoye and the Dora Milaje fight to protect their nation from intervening world powers in the wake of King T’Challa’s death. As the Wakandans strive to embrace their next chapter, the heroes must band together with the help of War Dog Nakia and Everett Ross and forge a new path for the kingdom of Wakanda.",
-                    "popularity": 1166.462,
-                    "poster_path": "/sv1xJUazXeYqALzczSZ3O6nkH75.jpg",
-                    "release_date": "2022-11-09",
-                    "title": "Black Panther: Wakanda Forever",
-                    "video": false,
-                    "vote_average": 7.5,
-                    "vote_count": 1731
-                },
-                {
-                    "adult": false,
-                    "backdrop_path": "/rodjjIJ8oh9nuBp86PhojcYHTEN.jpg",
-                    "genre_ids": [
-                        28,
-                        9648,
-                        53,
-                        80,
-                        18
-                    ],
-                    "id": 740952,
-                    "original_language": "en",
-                    "original_title": "Savage Salvation",
-                    "overview": "Newly engaged Shelby John and Ruby Red want a fresh start after their struggles with addiction, but when Shelby discovers his beloved Ruby dead on their porch, he embarks on a vengeful killing spree of the dealers who supplied her. Armed with nothing but adrenaline and a nail gun, Shelby begins to unleash chaos on the town’s criminal underbelly, as he hunt’s down crime lord Coyote. Sheriff Church must race against the clock to put an end to Shelby's vigilante justice before the entire town descends into a bloodbath.",
-                    "popularity": 1064.189,
-                    "poster_path": "/fJRt3mmZEvf8gQzoNLzjPtWpc9o.jpg",
-                    "release_date": "2022-12-02",
-                    "title": "Savage Salvation",
-                    "video": false,
-                    "vote_average": 6.6,
-                    "vote_count": 77
+                    "vote_count": 1077
                 },
                 {
                     "adult": false,
@@ -188,33 +144,94 @@
                     "original_language": "en",
                     "original_title": "Avatar",
                     "overview": "In the 22nd century, a paraplegic Marine is dispatched to the moon Pandora on a unique mission, but becomes torn between following orders and protecting an alien civilization.",
-                    "popularity": 1160.459,
+                    "popularity": 1169.165,
                     "poster_path": "/jRXYjXNq0Cs2TcJjLkki24MLp7u.jpg",
                     "release_date": "2009-12-15",
                     "title": "Avatar",
                     "video": false,
                     "vote_average": 7.6,
-                    "vote_count": 28057
+                    "vote_count": 28108
                 },
                 {
                     "adult": false,
-                    "backdrop_path": "/qHdPNd1cUaSNYLLNgt1Pv3LVd0T.jpg",
+                    "backdrop_path": "/bQXAqRx2Fgc46uCVWgoPz5L5Dtr.jpg",
                     "genre_ids": [
-                        878,
+                        14,
                         28,
-                        12
+                        878
                     ],
-                    "id": 843794,
-                    "original_language": "ko",
-                    "original_title": "정이",
-                    "overview": "On an uninhabitable 22nd-century Earth, the outcome of a civil war hinges on cloning the brain of an elite soldier to create a robot mercenary.",
-                    "popularity": 1063.961,
-                    "poster_path": "/z2nfRxZCGFgAnVhb9pZO87TyTX5.jpg",
-                    "release_date": "2023-01-20",
-                    "title": "JUNG_E",
+                    "id": 436270,
+                    "original_language": "en",
+                    "original_title": "Black Adam",
+                    "overview": "Nearly 5,000 years after he was bestowed with the almighty powers of the Egyptian gods—and imprisoned just as quickly—Black Adam is freed from his earthly tomb, ready to unleash his unique form of justice on the modern world.",
+                    "popularity": 1245.39,
+                    "poster_path": "/pFlaoHTZeyNkG83vxsAJiGzfSsa.jpg",
+                    "release_date": "2022-10-19",
+                    "title": "Black Adam",
                     "video": false,
-                    "vote_average": 6,
-                    "vote_count": 149
+                    "vote_average": 7.2,
+                    "vote_count": 3964
+                },
+                {
+                    "adult": false,
+                    "backdrop_path": "/yYrvN5WFeGYjJnRzhY0QXuo4Isw.jpg",
+                    "genre_ids": [
+                        28,
+                        12,
+                        878
+                    ],
+                    "id": 505642,
+                    "original_language": "en",
+                    "original_title": "Black Panther: Wakanda Forever",
+                    "overview": "Queen Ramonda, Shuri, M’Baku, Okoye and the Dora Milaje fight to protect their nation from intervening world powers in the wake of King T’Challa’s death. As the Wakandans strive to embrace their next chapter, the heroes must band together with the help of War Dog Nakia and Everett Ross and forge a new path for the kingdom of Wakanda.",
+                    "popularity": 1424.022,
+                    "poster_path": "/sv1xJUazXeYqALzczSZ3O6nkH75.jpg",
+                    "release_date": "2022-11-09",
+                    "title": "Black Panther: Wakanda Forever",
+                    "video": false,
+                    "vote_average": 7.5,
+                    "vote_count": 1773
+                },
+                {
+                    "adult": false,
+                    "backdrop_path": "/96SADhPnkXnVN3KaRKsDeBovLcm.jpg",
+                    "genre_ids": [
+                        28,
+                        14,
+                        10770
+                    ],
+                    "id": 877703,
+                    "original_language": "en",
+                    "original_title": "Teen Wolf: The Movie",
+                    "overview": "The wolves are howling once again, as a terrifying ancient evil emerges in Beacon Hills. Scott McCall, no longer a teenager yet still an Alpha, must gather new allies and reunite trusted friends to fight back against this powerful and deadly enemy.",
+                    "popularity": 1422.331,
+                    "poster_path": "/wAkpPm3wcHRqZl8XjUI3Y2chYq2.jpg",
+                    "release_date": "2023-01-18",
+                    "title": "Teen Wolf: The Movie",
+                    "video": false,
+                    "vote_average": 8.5,
+                    "vote_count": 214
+                },
+                {
+                    "adult": false,
+                    "backdrop_path": "/53BC9F2tpZnsGno2cLhzvGprDYS.jpg",
+                    "genre_ids": [
+                        14,
+                        28,
+                        12,
+                        53
+                    ],
+                    "id": 736526,
+                    "original_language": "no",
+                    "original_title": "Troll",
+                    "overview": "Deep inside the mountain of Dovre, something gigantic awakens after being trapped for a thousand years. Destroying everything in its path, the creature is fast approaching the capital of Norway. But how do you stop something you thought only existed in Norwegian folklore?",
+                    "popularity": 1190.823,
+                    "poster_path": "/9z4jRr43JdtU66P0iy8h18OyLql.jpg",
+                    "release_date": "2022-12-01",
+                    "title": "Troll",
+                    "video": false,
+                    "vote_average": 6.7,
+                    "vote_count": 1118
                 },
                 {
                     "adult": false,
@@ -228,13 +245,34 @@
                     "original_language": "id",
                     "original_title": "The Big 4",
                     "overview": "A by-the-book female detective teams up with four down-on-their-luck assassins to investigate her father's murder.",
-                    "popularity": 995.081,
+                    "popularity": 878.879,
                     "poster_path": "/jrw684BhFJZ9Jac6KJda3hSQkxt.jpg",
                     "release_date": "2022-12-19",
                     "title": "The Big 4",
                     "video": false,
-                    "vote_average": 7.3,
-                    "vote_count": 112
+                    "vote_average": 7.2,
+                    "vote_count": 115
+                },
+                {
+                    "adult": false,
+                    "backdrop_path": "/rodjjIJ8oh9nuBp86PhojcYHTEN.jpg",
+                    "genre_ids": [
+                        28,
+                        9648,
+                        53,
+                        80
+                    ],
+                    "id": 740952,
+                    "original_language": "en",
+                    "original_title": "Savage Salvation",
+                    "overview": "Newly engaged Shelby John and Ruby Red want a fresh start after their struggles with addiction, but when Shelby discovers his beloved Ruby dead on their porch, he embarks on a vengeful killing spree of the dealers who supplied her. Armed with nothing but adrenaline and a nail gun, Shelby begins to unleash chaos on the town’s criminal underbelly, as he hunt’s down crime lord Coyote. Sheriff Church must race against the clock to put an end to Shelby's vigilante justice before the entire town descends into a bloodbath.",
+                    "popularity": 807.848,
+                    "poster_path": "/fJRt3mmZEvf8gQzoNLzjPtWpc9o.jpg",
+                    "release_date": "2022-12-02",
+                    "title": "Savage Salvation",
+                    "video": false,
+                    "vote_average": 6.7,
+                    "vote_count": 83
                 },
                 {
                     "adult": false,
@@ -248,13 +286,13 @@
                     "original_language": "en",
                     "original_title": "The Woman King",
                     "overview": "The story of the Agojie, the all-female unit of warriors who protected the African Kingdom of Dahomey in the 1800s with skills and a fierceness unlike anything the world has ever seen, and General Nanisca as she trains the next generation of recruits and readies them for battle against an enemy determined to destroy their way of life.",
-                    "popularity": 958.683,
+                    "popularity": 763.358,
                     "poster_path": "/438QXt1E3WJWb3PqNniK0tAE5c1.jpg",
                     "release_date": "2022-09-16",
                     "title": "The Woman King",
                     "video": false,
                     "vote_average": 7.9,
-                    "vote_count": 1141
+                    "vote_count": 1164
                 },
                 {
                     "adult": false,
@@ -268,52 +306,13 @@
                     "original_language": "it",
                     "original_title": "Il mio nome è vendetta",
                     "overview": "After old enemies kill his family, a former mafia enforcer and his feisty daughter flee to Milan, where they hide out while plotting their revenge.",
-                    "popularity": 793.659,
+                    "popularity": 738.139,
                     "poster_path": "/7l3war94J4tRyWUiLAGokr3ViF2.jpg",
                     "release_date": "2022-11-30",
                     "title": "My Name Is Vendetta",
                     "video": false,
                     "vote_average": 6.9,
-                    "vote_count": 344
-                },
-                {
-                    "adult": false,
-                    "backdrop_path": "/mYQSbZdGX0JJb49NLO04UA0iFEU.jpg",
-                    "genre_ids": [
-                        28,
-                        35,
-                        80
-                    ],
-                    "id": 1015963,
-                    "original_language": "en",
-                    "original_title": "High Heat",
-                    "overview": "When the local mafia shows up to burn down her restaurant, Ana, a chef with a meticulous past, defends her turf and proves her knife skills both in and out of the kitchen.",
-                    "popularity": 788.791,
-                    "poster_path": "/mmD0NVdhiRiCu64YKem5GK5PSfy.jpg",
-                    "release_date": "2022-12-16",
-                    "title": "High Heat",
-                    "video": false,
-                    "vote_average": 5.9,
-                    "vote_count": 35
-                },
-                {
-                    "adult": false,
-                    "backdrop_path": "/vLPSvAt1CnfmDCeqG3zkFh0s6S4.jpg",
-                    "genre_ids": [
-                        10752,
-                        28
-                    ],
-                    "id": 542196,
-                    "original_language": "en",
-                    "original_title": "Wolf Hound",
-                    "overview": "Inspired by the real-life German special operations unit KG 200 that shot down, repaired, and flew Allied aircraft as Trojan horses, \"Wolf Hound\" takes place in 1944 German-occupied France and follows the daring exploits of Jewish-American fighter pilot Captain David Holden. Ambushed behind enemy lines, Holden must rescue a captured B-17 Flying Fortress crew, evade a ruthless enemy stalking him at every turn, and foil a plot that could completely alter the outcome of World War II.",
-                    "popularity": 1097.928,
-                    "poster_path": "/6sMnY4fEVAfdadhANhGnNckxsmx.jpg",
-                    "release_date": "2022-06-03",
-                    "title": "Wolf Hound",
-                    "video": false,
-                    "vote_average": 6.8,
-                    "vote_count": 21
+                    "vote_count": 351
                 },
                 {
                     "adult": false,
@@ -326,13 +325,13 @@
                     "original_language": "en",
                     "original_title": "Detective Knight: Rogue",
                     "overview": "As Los Angeles prepares for Halloween, mask-wearing armed robbers critically wound detective James Knight’s partner in a shootout following a heist. With Knight in hot pursuit, the bandits flee L.A. for New York, where the detective’s dark past collides with his present case and threatens to tear his world apart…unless redemption can claim Knight first.",
-                    "popularity": 742.705,
+                    "popularity": 640.393,
                     "poster_path": "/2wj5iUJ2B5AQ1lFctJgUrHHsp9B.jpg",
                     "release_date": "2022-10-21",
                     "title": "Detective Knight: Rogue",
                     "video": false,
-                    "vote_average": 6.8,
-                    "vote_count": 57
+                    "vote_average": 6.9,
+                    "vote_count": 62
                 },
                 {
                     "adult": false,
@@ -347,33 +346,52 @@
                     "original_language": "en",
                     "original_title": "R.I.P.D. 2: Rise of the Damned",
                     "overview": "When Sheriff Roy Pulsipher finds himself in the afterlife, he joins a special police force and returns to Earth to save humanity from the undead.",
-                    "popularity": 604.434,
+                    "popularity": 593.429,
                     "poster_path": "/g4yJTzMtOBUTAR2Qnmj8TYIcFVq.jpg",
                     "release_date": "2022-11-15",
                     "title": "R.I.P.D. 2: Rise of the Damned",
                     "video": false,
                     "vote_average": 6.6,
-                    "vote_count": 346
+                    "vote_count": 350
                 },
                 {
                     "adult": false,
-                    "backdrop_path": "/90ZZIoWQLLEXSVm0ik3eEQBinul.jpg",
+                    "backdrop_path": "/chLZrgbUomn48GDYaq7HzVYLZbg.jpg",
                     "genre_ids": [
                         28,
-                        27,
-                        53
+                        18
                     ],
-                    "id": 988233,
-                    "original_language": "en",
-                    "original_title": "Hex",
-                    "overview": "Following a mysterious disappearance on a jump, a group of skydivers experiences paranormal occurrences that leave them fighting for their lives.",
-                    "popularity": 564.313,
-                    "poster_path": "/xFJHb43ZAnnuiDztxZYsmyopweb.jpg",
-                    "release_date": "2022-11-01",
-                    "title": "Hex",
+                    "id": 39456,
+                    "original_language": "it",
+                    "original_title": "Femmine in fuga",
+                    "overview": "The young, pretty and shy Angela Duvall is jailed for murder in some Latin American country. In the prison she gets brutally \"initiated\" by the other inmates. The nice, honest and handsome prison doctor believe she's innocent and tries to help her out.",
+                    "popularity": 581.039,
+                    "poster_path": "/bpQ5YAg9IwXpnlkjTZxWSj1P8Jj.jpg",
+                    "release_date": "1984-05-10",
+                    "title": "Women in Fury",
                     "video": false,
                     "vote_average": 6,
-                    "vote_count": 32
+                    "vote_count": 25
+                },
+                {
+                    "adult": false,
+                    "backdrop_path": "/maxRhndtC4BJABvqRPvYNu69CHA.jpg",
+                    "genre_ids": [
+                        36,
+                        28,
+                        18
+                    ],
+                    "id": 551271,
+                    "original_language": "en",
+                    "original_title": "Medieval",
+                    "overview": "The story of 14th century Czech icon and warlord Jan Zizka who defeated armies of the Teutonic Order and the Holy Roman Empire.",
+                    "popularity": 533.957,
+                    "poster_path": "/eeUNWsdoiOijOZAMaWFDA5Pb1n8.jpg",
+                    "release_date": "2022-09-08",
+                    "title": "Medieval",
+                    "video": false,
+                    "vote_average": 7.2,
+                    "vote_count": 313
                 },
                 {
                     "adult": false,
@@ -387,66 +405,45 @@
                     "original_language": "uk",
                     "original_title": "Снайпер. Білий ворон",
                     "overview": "Mykola is an eccentric pacifist who wants to be useful to humanity. When the war begins at Donbass, Mykola’s naive world is collapsing as the militants kill his pregnant wife and burn his home to the ground. Recovered, he makes a cardinal decision and gets enlisted in a sniper company. Having met his wife’s killers, he emotionally breaks down and arranges “sniper terror” for the enemy. He’s saved from a senseless death by his instructor who himself gets mortally wounded. The death of a friend leaves a “scar” and Mykola is ready to sacrifice his life.",
-                    "popularity": 581.833,
+                    "popularity": 550.002,
                     "poster_path": "/lZOODJzwuQo0etJJyBBZJOSdZcW.jpg",
                     "release_date": "2022-05-03",
                     "title": "Sniper: The White Raven",
                     "video": false,
                     "vote_average": 7.7,
-                    "vote_count": 251
-                },
-                {
-                    "adult": false,
-                    "backdrop_path": "/chLZrgbUomn48GDYaq7HzVYLZbg.jpg",
-                    "genre_ids": [
-                        28,
-                        18
-                    ],
-                    "id": 39456,
-                    "original_language": "it",
-                    "original_title": "Femmine in fuga",
-                    "overview": "The young, pretty and shy Angela Duvall is jailed for murder in some Latin American country. In the prison she gets brutally \"initiated\" by the other inmates. The nice, honest and handsome prison doctor believe she's innocent and tries to help her out.",
-                    "popularity": 581.612,
-                    "poster_path": "/7g3IrtxAnqPIa8OJZBcrDGgDJGu.jpg",
-                    "release_date": "1984-05-10",
-                    "title": "Women in Fury",
-                    "video": false,
-                    "vote_average": 5.8,
-                    "vote_count": 22
+                    "vote_count": 255
                 }
             ],
-            "total_pages": 1773,
-            "total_results": 35456
+            "total_pages": 1777,
+            "total_results": 35524
         },
         "rawHeaders": [
             "Content-Type",
             "application/json;charset=utf-8",
             "Content-Length",
-            "12618",
+            "12711",
             "Connection",
             "keep-alive",
-            "Date",
-            "Sat, 28 Jan 2023 11:08:53 GMT",
             "Server",
             "openresty",
-            "ETag",
-            "85b3a8eaba8899b4a8a7113b6f4213fe",
+            "Date",
+            "Tue, 31 Jan 2023 13:31:39 GMT",
             "Cache-Control",
             "public, max-age=600",
+            "ETag",
+            "ff08065ec422f87d052e2480d7475511",
             "Vary",
-            "Accept-Encoding,Accept-Encoding",
+            "Accept-Encoding",
             "X-Cache",
             "Hit from cloudfront",
             "Via",
-            "1.1 78720628b37ebf3e33c42dc098252ee8.cloudfront.net (CloudFront)",
+            "1.1 e60c6ee10489538b535a3fc65e54d028.cloudfront.net (CloudFront)",
             "X-Amz-Cf-Pop",
-            "FRA56-P7",
+            "DUS51-P2",
             "Alt-Svc",
             "h3=\":443\"; ma=86400",
             "X-Amz-Cf-Id",
-            "mtkqDKg8aE7CdYi_HQYzLASN2h-RElm656jdTaSd7iDhj8hYz15qEQ==",
-            "Age",
-            "1",
+            "w0qQwT3r6OQ2krmZTgmt3fEmlqJxRbJ7pazQIWBNcFAYbAz5RG3FNQ==",
             "Vary",
             "Origin"
         ],
@@ -455,7 +452,7 @@
     {
         "scope": "https://api.themoviedb.org:443",
         "method": "GET",
-        "path": "/3/movie/315162?api_key=***REMOVED***&trophies=true",
+        "path": "/3/movie/315162?api_key=MOVIE_API_KEY&trophies=true",
         "body": "",
         "status": 200,
         "response": {
@@ -500,7 +497,7 @@
             "original_language": "en",
             "original_title": "Puss in Boots: The Last Wish",
             "overview": "Puss in Boots discovers that his passion for adventure has taken its toll: He has burned through eight of his nine lives, leaving him with only one life left. Puss sets out on an epic journey to find the mythical Last Wish and restore his nine lives.",
-            "popularity": 6258.089,
+            "popularity": 6178.562,
             "poster_path": "/kuf6dutpsT0vSVehic3EZIqkOBt.jpg",
             "production_companies": [
                 {
@@ -523,7 +520,7 @@
                 }
             ],
             "release_date": "2022-12-07",
-            "revenue": 303158970,
+            "revenue": 335725795,
             "runtime": 103,
             "spoken_languages": [
                 {
@@ -541,8 +538,8 @@
             "tagline": "Say hola to his little friends.",
             "title": "Puss in Boots: The Last Wish",
             "video": false,
-            "vote_average": 8.585,
-            "vote_count": 2760
+            "vote_average": 8.571,
+            "vote_count": 2991
         },
         "rawHeaders": [
             "Content-Type",
@@ -552,7 +549,7 @@
             "Connection",
             "keep-alive",
             "Date",
-            "Sat, 28 Jan 2023 09:29:12 GMT",
+            "Tue, 31 Jan 2023 11:55:12 GMT",
             "Server",
             "openresty",
             "Cache-Control",
@@ -562,25 +559,25 @@
             "X-Memc-Key",
             "c0e3c244c2e4f69356b22ad0ac5fe3e733ad4904",
             "X-Memc-Age",
-            "4608",
+            "14257",
             "X-Memc-Expires",
-            "11112",
+            "2803",
             "ETag",
-            "W/\"87981c78995f06b78772ed7c85afdb4b\"",
+            "W/\"31ab5b34e5075e6efe7ad8de080d866c\"",
             "Vary",
             "Accept-Encoding,Accept-Encoding,Accept-Encoding",
             "X-Cache",
             "Hit from cloudfront",
             "Via",
-            "1.1 78720628b37ebf3e33c42dc098252ee8.cloudfront.net (CloudFront)",
+            "1.1 e60c6ee10489538b535a3fc65e54d028.cloudfront.net (CloudFront)",
             "X-Amz-Cf-Pop",
-            "FRA56-P7",
+            "DUS51-P2",
             "Alt-Svc",
             "h3=\":443\"; ma=86400",
             "X-Amz-Cf-Id",
-            "lEnnG5fzfNbebw4Qhz6hj7Q0EaE8bg9Jree2Kg8Ku8f8gftKUDraJQ==",
+            "j-mDGsPR0s1vY8dLsthM-I8gHyZecOTR-IvEatA4qUuB3RFcDUDbsA==",
             "Age",
-            "5982",
+            "5787",
             "Vary",
             "Origin"
         ],
@@ -589,12 +586,12 @@
     {
         "scope": "https://api.themoviedb.org:443",
         "method": "GET",
-        "path": "/3/movie/76600?api_key=***REMOVED***&trophies=true",
+        "path": "/3/movie/76600?api_key=MOVIE_API_KEY&trophies=true",
         "body": "",
         "status": 200,
         "response": {
             "adult": false,
-            "backdrop_path": "/s16H6tpK2utvwDtzZ8Qy4qm5Emw.jpg",
+            "backdrop_path": "/evaFLqtswezLosllRZtJNMiO1UR.jpg",
             "belongs_to_collection": {
                 "id": 87096,
                 "name": "Avatar Collection",
@@ -622,7 +619,7 @@
             "original_language": "en",
             "original_title": "Avatar: The Way of Water",
             "overview": "Set more than a decade after the events of the first film, learn the story of the Sully family (Jake, Neytiri, and their kids), the trouble that follows them, the lengths they go to keep each other safe, the battles they fight to stay alive, and the tragedies they endure.",
-            "popularity": 2398.043,
+            "popularity": 2463.327,
             "poster_path": "/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg",
             "production_companies": [
                 {
@@ -645,7 +642,7 @@
                 }
             ],
             "release_date": "2022-12-14",
-            "revenue": 2024000000,
+            "revenue": 2116000000,
             "runtime": 192,
             "spoken_languages": [
                 {
@@ -658,18 +655,18 @@
             "tagline": "Return to Pandora.",
             "title": "Avatar: The Way of Water",
             "video": false,
-            "vote_average": 7.74,
-            "vote_count": 4732
+            "vote_average": 7.746,
+            "vote_count": 4866
         },
         "rawHeaders": [
             "Content-Type",
             "application/json;charset=utf-8",
             "Content-Length",
-            "1491",
+            "1492",
             "Connection",
             "keep-alive",
             "Date",
-            "Sat, 28 Jan 2023 09:29:12 GMT",
+            "Tue, 31 Jan 2023 11:55:12 GMT",
             "Server",
             "openresty",
             "Cache-Control",
@@ -679,25 +676,25 @@
             "X-Memc-Key",
             "850da33d66c8fc95dd6128c0d0cdf630a6899743",
             "X-Memc-Age",
-            "2028",
+            "12520",
             "X-Memc-Expires",
-            "14051",
+            "3240",
             "ETag",
-            "W/\"7db73abc8a8cdc65ab104d0b5e7e04ef\"",
+            "W/\"8d6876b06bb766ff4649ae5669bf8182\"",
             "Vary",
             "Accept-Encoding,Accept-Encoding,Accept-Encoding",
             "X-Cache",
             "Hit from cloudfront",
             "Via",
-            "1.1 78720628b37ebf3e33c42dc098252ee8.cloudfront.net (CloudFront)",
+            "1.1 e60c6ee10489538b535a3fc65e54d028.cloudfront.net (CloudFront)",
             "X-Amz-Cf-Pop",
-            "FRA56-P7",
+            "DUS51-P2",
             "Alt-Svc",
             "h3=\":443\"; ma=86400",
             "X-Amz-Cf-Id",
-            "vbA3hX6J0n1k3gqYnTObPSYPrysc1dU0yOc6myMYE7XfUpJ8sQ2-TA==",
+            "0RqeHrB8s5FPbR_zqQ0ALgLj7mpDsPpw_vvAFMb_tpzdnhJh6-XJAQ==",
             "Age",
-            "5982",
+            "5787",
             "Vary",
             "Origin"
         ],
@@ -706,7 +703,113 @@
     {
         "scope": "https://api.themoviedb.org:443",
         "method": "GET",
-        "path": "/3/movie/846433?api_key=***REMOVED***&trophies=true",
+        "path": "/3/movie/843794?api_key=MOVIE_API_KEY&trophies=true",
+        "body": "",
+        "status": 200,
+        "response": {
+            "adult": false,
+            "backdrop_path": "/qHdPNd1cUaSNYLLNgt1Pv3LVd0T.jpg",
+            "belongs_to_collection": null,
+            "budget": 0,
+            "genres": [
+                {
+                    "id": 878,
+                    "name": "Science Fiction"
+                },
+                {
+                    "id": 28,
+                    "name": "Action"
+                },
+                {
+                    "id": 12,
+                    "name": "Adventure"
+                }
+            ],
+            "homepage": "https://www.netflix.com/title/81465109",
+            "id": 843794,
+            "imdb_id": "tt22352848",
+            "original_language": "ko",
+            "original_title": "정이",
+            "overview": "On an uninhabitable 22nd-century Earth, the outcome of a civil war hinges on cloning the brain of an elite soldier to create a robot mercenary.",
+            "popularity": 2746.505,
+            "poster_path": "/z2nfRxZCGFgAnVhb9pZO87TyTX5.jpg",
+            "production_companies": [
+                {
+                    "id": 127541,
+                    "logo_path": "/Aq35mXuZv7lhPm8a60YKRaB9Vek.png",
+                    "name": "Climax Studios",
+                    "origin_country": "KR"
+                }
+            ],
+            "production_countries": [
+                {
+                    "iso_3166_1": "KR",
+                    "name": "South Korea"
+                }
+            ],
+            "release_date": "2023-01-20",
+            "revenue": 0,
+            "runtime": 98,
+            "spoken_languages": [
+                {
+                    "english_name": "Korean",
+                    "iso_639_1": "ko",
+                    "name": "한국어/조선말"
+                }
+            ],
+            "status": "Released",
+            "tagline": "AI Combat Warrior Will be Unleashed.",
+            "title": "JUNG_E",
+            "video": false,
+            "vote_average": 6.1,
+            "vote_count": 179
+        },
+        "rawHeaders": [
+            "Content-Type",
+            "application/json;charset=utf-8",
+            "Content-Length",
+            "1054",
+            "Connection",
+            "keep-alive",
+            "Date",
+            "Tue, 31 Jan 2023 11:55:12 GMT",
+            "Server",
+            "openresty",
+            "Cache-Control",
+            "public, max-age=28800",
+            "X-Memc",
+            "HIT",
+            "X-Memc-Key",
+            "4db9189ed19f3785504b94d9045d67961260f233",
+            "X-Memc-Age",
+            "13924",
+            "X-Memc-Expires",
+            "3369",
+            "ETag",
+            "W/\"b540eb2928a0d32169d5739328903eda\"",
+            "Vary",
+            "Accept-Encoding,Accept-Encoding,Accept-Encoding",
+            "X-Cache",
+            "Hit from cloudfront",
+            "Via",
+            "1.1 e60c6ee10489538b535a3fc65e54d028.cloudfront.net (CloudFront)",
+            "X-Amz-Cf-Pop",
+            "DUS51-P2",
+            "Alt-Svc",
+            "h3=\":443\"; ma=86400",
+            "X-Amz-Cf-Id",
+            "QQbUtkrqA-mk5SZLLnMsPA13HcoVHBygH_ch8A3ZEZTjaFL7zbdwzA==",
+            "Age",
+            "5787",
+            "Vary",
+            "Origin"
+        ],
+        "responseIsBinary": false
+    },
+    {
+        "scope": "https://api.themoviedb.org:443",
+        "method": "GET",
+        "path": "/3/movie/846433?api_key=MOVIE_API_KEY&trophies=true",
         "body": "",
         "status": 200,
         "response": {
@@ -734,7 +837,7 @@
             "original_language": "es",
             "original_title": "The Enforcer",
             "overview": "A noir thriller set in Miami, the film follows an enforcer who discovers his femme fatale boss has branched out into cyber sex trafficking, putting a young runaway he’s befriended at risk. He sacrifices everything to save the young girl from the deadly organization he’s spent his life building.",
-            "popularity": 2066.413,
+            "popularity": 1474.092,
             "poster_path": "/72V1r1G8S87ELagVxjqAUdChMCt.jpg",
             "production_companies": [
                 {
@@ -776,8 +879,8 @@
             "tagline": "Some guardians aren't angels.",
             "title": "The Enforcer",
             "video": false,
-            "vote_average": 7.335,
-            "vote_count": 115
+            "vote_average": 7.332,
+            "vote_count": 122
         },
         "rawHeaders": [
             "Content-Type",
@@ -787,7 +890,7 @@
             "Connection",
             "keep-alive",
             "Date",
-            "Sat, 28 Jan 2023 09:29:12 GMT",
+            "Tue, 31 Jan 2023 11:55:13 GMT",
             "Server",
             "openresty",
             "Cache-Control",
@@ -797,25 +900,25 @@
             "X-Memc-Key",
             "2c92d0ccecccfe153dadb525e0343e4eff6d939f",
             "X-Memc-Age",
-            "914",
+            "8028",
             "X-Memc-Expires",
-            "14660",
+            "9692",
             "ETag",
-            "W/\"db00a8fc2a70394df1d8291ac222f61d\"",
+            "W/\"ca67cb864ab1ff654266ac785628ba86\"",
             "Vary",
             "Accept-Encoding,Accept-Encoding,Accept-Encoding",
             "X-Cache",
             "Hit from cloudfront",
             "Via",
-            "1.1 78720628b37ebf3e33c42dc098252ee8.cloudfront.net (CloudFront)",
+            "1.1 e60c6ee10489538b535a3fc65e54d028.cloudfront.net (CloudFront)",
             "X-Amz-Cf-Pop",
-            "FRA56-P7",
+            "DUS51-P2",
             "Alt-Svc",
             "h3=\":443\"; ma=86400",
             "X-Amz-Cf-Id",
-            "rFWcHTPGgY8KOGEwjfYmYeBAFoD4L2V-eRtp0m_P3UTozwPPQ_D-bQ==",
+            "zzKo1h491raMVsjQvuqOL7pcdad8kXlxpEDANKj-5F_E4DUs5-pQKA==",
             "Age",
-            "5982",
+            "5786",
             "Vary",
             "Origin"
         ],
@@ -824,7 +927,114 @@
     {
         "scope": "https://api.themoviedb.org:443",
         "method": "GET",
-        "path": "/3/movie/899112?api_key=***REMOVED***&trophies=true",
+        "path": "/3/movie/542196?api_key=MOVIE_API_KEY&trophies=true",
+        "body": "",
+        "status": 200,
+        "response": {
+            "adult": false,
+            "backdrop_path": "/vLPSvAt1CnfmDCeqG3zkFh0s6S4.jpg",
+            "belongs_to_collection": null,
+            "budget": 0,
+            "genres": [
+                {
+                    "id": 10752,
+                    "name": "War"
+                },
+                {
+                    "id": 28,
+                    "name": "Action"
+                }
+            ],
+            "homepage": "",
+            "id": 542196,
+            "imdb_id": "tt7319486",
+            "original_language": "en",
+            "original_title": "Wolf Hound",
+            "overview": "Inspired by the real-life German special operations unit KG 200 that shot down, repaired, and flew Allied aircraft as Trojan horses, \"Wolf Hound\" takes place in 1944 German-occupied France and follows the daring exploits of Jewish-American fighter pilot Captain David Holden. Ambushed behind enemy lines, Holden must rescue a captured B-17 Flying Fortress crew, evade a ruthless enemy stalking him at every turn, and foil a plot that could completely alter the outcome of World War II.",
+            "popularity": 1320.067,
+            "poster_path": "/6sMnY4fEVAfdadhANhGnNckxsmx.jpg",
+            "production_companies": [
+                {
+                    "id": 107694,
+                    "logo_path": null,
+                    "name": "TMU Pictures",
+                    "origin_country": ""
+                }
+            ],
+            "production_countries": [
+                {
+                    "iso_3166_1": "US",
+                    "name": "United States of America"
+                }
+            ],
+            "release_date": "2022-06-03",
+            "revenue": 0,
+            "runtime": 127,
+            "spoken_languages": [
+                {
+                    "english_name": "English",
+                    "iso_639_1": "en",
+                    "name": "English"
+                },
+                {
+                    "english_name": "German",
+                    "iso_639_1": "de",
+                    "name": "Deutsch"
+                }
+            ],
+            "status": "Released",
+            "tagline": "In our darkest hour, a hero will rise.",
+            "title": "Wolf Hound",
+            "video": false,
+            "vote_average": 6.761,
+            "vote_count": 23
+        },
+        "rawHeaders": [
+            "Content-Type",
+            "application/json;charset=utf-8",
+            "Content-Length",
+            "1360",
+            "Connection",
+            "keep-alive",
+            "Date",
+            "Tue, 31 Jan 2023 11:55:13 GMT",
+            "Server",
+            "openresty",
+            "Cache-Control",
+            "public, max-age=28800",
+            "X-Memc",
+            "HIT",
+            "X-Memc-Key",
+            "229d9538d87f7c65c22ab9225231f1b338ddf973",
+            "X-Memc-Age",
+            "14345",
+            "X-Memc-Expires",
+            "580",
+            "ETag",
+            "W/\"4ca6531f5315938e2f7e54298aa06b89\"",
+            "Vary",
+            "Accept-Encoding,Accept-Encoding,Accept-Encoding",
+            "X-Cache",
+            "Hit from cloudfront",
+            "Via",
+            "1.1 e60c6ee10489538b535a3fc65e54d028.cloudfront.net (CloudFront)",
+            "X-Amz-Cf-Pop",
+            "DUS51-P2",
+            "Alt-Svc",
+            "h3=\":443\"; ma=86400",
+            "X-Amz-Cf-Id",
+            "q2Yp-WDmQHDWBjbNzEwgoBPVSWXsZDNNmSwJLUTuB69h4EQdgagOGA==",
+            "Age",
+            "5786",
+            "Vary",
+            "Origin"
+        ],
+        "responseIsBinary": false
+    },
+    {
+        "scope": "https://api.themoviedb.org:443",
+        "method": "GET",
+        "path": "/3/movie/899112?api_key=MOVIE_API_KEY&trophies=true",
         "body": "",
         "status": 200,
         "response": {
@@ -861,7 +1071,7 @@
             "original_language": "en",
             "original_title": "Violent Night",
             "overview": "When a team of mercenaries breaks into a wealthy family compound on Christmas Eve, taking everyone inside hostage, the team isn’t prepared for a surprise combatant: Santa Claus is on the grounds, and he’s about to show why this Nick is no saint.",
-            "popularity": 1535.484,
+            "popularity": 1286.369,
             "poster_path": "/1XSYOP0JjjyMz1irihvWywro82r.jpg",
             "production_companies": [
                 {
@@ -897,8 +1107,8 @@
             "tagline": "You better watch out.",
             "title": "Violent Night",
             "video": false,
-            "vote_average": 7.693,
-            "vote_count": 1052
+            "vote_average": 7.701,
+            "vote_count": 1077
         },
         "rawHeaders": [
             "Content-Type",
@@ -908,7 +1118,7 @@
             "Connection",
             "keep-alive",
             "Date",
-            "Sat, 28 Jan 2023 09:29:12 GMT",
+            "Tue, 31 Jan 2023 11:55:13 GMT",
             "Server",
             "openresty",
             "Cache-Control",
@@ -918,25 +1128,25 @@
             "X-Memc-Key",
             "d8f05c3b7492825ce9bdbef253b9d2ae92fbf2e9",
             "X-Memc-Age",
-            "5120",
+            "1847",
             "X-Memc-Expires",
-            "9683",
+            "12918",
             "ETag",
-            "W/\"61649dffa635ccb14a79b9bc15ae3e53\"",
+            "W/\"70ebf913cd1e89ba2b10021185fc6383\"",
             "Vary",
             "Accept-Encoding,Accept-Encoding,Accept-Encoding",
             "X-Cache",
             "Hit from cloudfront",
             "Via",
-            "1.1 78720628b37ebf3e33c42dc098252ee8.cloudfront.net (CloudFront)",
+            "1.1 e60c6ee10489538b535a3fc65e54d028.cloudfront.net (CloudFront)",
             "X-Amz-Cf-Pop",
-            "FRA56-P7",
+            "DUS51-P2",
             "Alt-Svc",
             "h3=\":443\"; ma=86400",
             "X-Amz-Cf-Id",
-            "o-JZWl3DQvoY3I1xLZsIco2q92NoZfP7ynlXrSnmOJAHBEvECb0njQ==",
+            "ExTTBkIrWt3SxhfMF9DiuemIz0WwUj-9Q49p1AHJX_KDJ-7B3ciRbQ==",
             "Age",
-            "5981",
+            "5786",
             "Vary",
             "Origin"
         ],
@@ -945,19 +1155,20 @@
     {
         "scope": "https://api.themoviedb.org:443",
         "method": "GET",
-        "path": "/3/movie/736526?api_key=***REMOVED***&trophies=true",
+        "path": "/3/movie/19995?api_key=MOVIE_API_KEY&trophies=true",
         "body": "",
         "status": 200,
         "response": {
             "adult": false,
-            "backdrop_path": "/53BC9F2tpZnsGno2cLhzvGprDYS.jpg",
-            "belongs_to_collection": null,
-            "budget": 0,
+            "backdrop_path": "/8I37NtDffNV7AZlDa7uDvvqhovU.jpg",
+            "belongs_to_collection": {
+                "id": 87096,
+                "name": "Avatar Collection",
+                "poster_path": "/uO2yU3QiGHvVp0L5e5IatTVRkYk.jpg",
+                "backdrop_path": "/iaEsDbQPE45hQU2EGiNjXD2KWuF.jpg"
+            },
+            "budget": 237000000,
             "genres": [
-                {
-                    "id": 14,
-                    "name": "Fantasy"
-                },
                 {
                     "id": 28,
                     "name": "Action"
@@ -967,35 +1178,61 @@
                     "name": "Adventure"
                 },
                 {
-                    "id": 53,
-                    "name": "Thriller"
+                    "id": 14,
+                    "name": "Fantasy"
+                },
+                {
+                    "id": 878,
+                    "name": "Science Fiction"
                 }
             ],
-            "homepage": "https://www.netflix.com/title/81245455/",
-            "id": 736526,
-            "imdb_id": "tt11116912",
-            "original_language": "no",
-            "original_title": "Troll",
-            "overview": "Deep inside the mountain of Dovre, something gigantic awakens after being trapped for a thousand years. Destroying everything in its path, the creature is fast approaching the capital of Norway. But how do you stop something you thought only existed in Norwegian folklore?",
-            "popularity": 1461.586,
-            "poster_path": "/9z4jRr43JdtU66P0iy8h18OyLql.jpg",
+            "homepage": "https://www.avatar.com/movies/avatar",
+            "id": 19995,
+            "imdb_id": "tt0499549",
+            "original_language": "en",
+            "original_title": "Avatar",
+            "overview": "In the 22nd century, a paraplegic Marine is dispatched to the moon Pandora on a unique mission, but becomes torn between following orders and protecting an alien civilization.",
+            "popularity": 1169.165,
+            "poster_path": "/jRXYjXNq0Cs2TcJjLkki24MLp7u.jpg",
             "production_companies": [
                 {
-                    "id": 108394,
-                    "logo_path": "/d4k0i3TpLTxiJ4ZtOYftE5vL91Z.png",
-                    "name": "Motion Blur",
-                    "origin_country": "NO"
+                    "id": 25,
+                    "logo_path": "/qZCc1lty5FzX30aOCVRBLzaVmcp.png",
+                    "name": "20th Century Fox",
+                    "origin_country": "US"
+                },
+                {
+                    "id": 290,
+                    "logo_path": "/Q8mw2AOQQc8Qg0uNwLWq86DVZv.png",
+                    "name": "Ingenious Media",
+                    "origin_country": "GB"
+                },
+                {
+                    "id": 444,
+                    "logo_path": null,
+                    "name": "Dune Entertainment",
+                    "origin_country": "US"
+                },
+                {
+                    "id": 574,
+                    "logo_path": "/iB6GjNVHs5hOqcEYt2rcjBqIjki.png",
+                    "name": "Lightstorm Entertainment",
+                    "origin_country": "US"
                 }
             ],
             "production_countries": [
                 {
-                    "iso_3166_1": "NO",
-                    "name": "Norway"
+                    "iso_3166_1": "US",
+                    "name": "United States of America"
+                },
+                {
+                    "iso_3166_1": "GB",
+                    "name": "United Kingdom"
                 }
             ],
-            "release_date": "2022-12-01",
-            "revenue": 0,
-            "runtime": 104,
+            "release_date": "2009-12-15",
+            "revenue": 2920357254,
+            "runtime": 162,
             "spoken_languages": [
                 {
                     "english_name": "English",
@@ -1003,27 +1240,27 @@
                     "name": "English"
                 },
                 {
-                    "english_name": "Norwegian",
-                    "iso_639_1": "no",
-                    "name": "Norsk"
+                    "english_name": "Spanish",
+                    "iso_639_1": "es",
+                    "name": "Español"
                 }
             ],
             "status": "Released",
-            "tagline": "Mountains will move.",
-            "title": "Troll",
+            "tagline": "Enter the world of Pandora.",
+            "title": "Avatar",
             "video": false,
-            "vote_average": 6.74,
-            "vote_count": 1102
+            "vote_average": 7.566,
+            "vote_count": 28118
         },
         "rawHeaders": [
             "Content-Type",
             "application/json;charset=utf-8",
             "Content-Length",
-            "1230",
+            "1659",
             "Connection",
             "keep-alive",
             "Date",
-            "Sat, 28 Jan 2023 09:29:13 GMT",
+            "Tue, 31 Jan 2023 11:55:13 GMT",
             "Server",
             "openresty",
             "Cache-Control",
@@ -1031,27 +1268,27 @@
             "X-Memc",
             "HIT",
             "X-Memc-Key",
-            "3168daea2f57648726a41f45ff3c5485293801a6",
+            "a43677e53a3a8b6919b5919a7fb28d196ebf8cdf",
             "X-Memc-Age",
-            "9728",
+            "11711",
             "X-Memc-Expires",
-            "5932",
+            "4047",
             "ETag",
-            "W/\"8a6bfd1680e1502b966ac3038ab091e6\"",
+            "W/\"34587c89ff0548545cd1c2090dfa7595\"",
             "Vary",
             "Accept-Encoding,Accept-Encoding,Accept-Encoding",
             "X-Cache",
             "Hit from cloudfront",
             "Via",
-            "1.1 78720628b37ebf3e33c42dc098252ee8.cloudfront.net (CloudFront)",
+            "1.1 e60c6ee10489538b535a3fc65e54d028.cloudfront.net (CloudFront)",
             "X-Amz-Cf-Pop",
-            "FRA56-P7",
+            "DUS51-P2",
             "Alt-Svc",
             "h3=\":443\"; ma=86400",
             "X-Amz-Cf-Id",
-            "1f4adrPw9UfzzUbOVBBneVOLpm5kLuacvlpXh1q4_NdyoW76PdR9OA==",
+            "n0QHAODAybcNYeaEUtJR-60k4DWclij5wogtQuOIUXcH3JxNN-Ap5A==",
             "Age",
-            "5981",
+            "5786",
             "Vary",
             "Origin"
         ],
@@ -1060,7 +1297,7 @@
     {
         "scope": "https://api.themoviedb.org:443",
         "method": "GET",
-        "path": "/3/movie/436270?api_key=***REMOVED***&trophies=true",
+        "path": "/3/movie/436270?api_key=MOVIE_API_KEY&trophies=true",
         "body": "",
         "status": 200,
         "response": {
@@ -1093,7 +1330,7 @@
             "original_language": "en",
             "original_title": "Black Adam",
             "overview": "Nearly 5,000 years after he was bestowed with the almighty powers of the Egyptian gods—and imprisoned just as quickly—Black Adam is freed from his earthly tomb, ready to unleash his unique form of justice on the modern world.",
-            "popularity": 1253.485,
+            "popularity": 1245.39,
             "poster_path": "/pFlaoHTZeyNkG83vxsAJiGzfSsa.jpg",
             "production_companies": [
                 {
@@ -1141,18 +1378,18 @@
             "tagline": "The world needed a hero. It got Black Adam.",
             "title": "Black Adam",
             "video": false,
-            "vote_average": 7.215,
-            "vote_count": 3917
+            "vote_average": 7.212,
+            "vote_count": 3967
         },
         "rawHeaders": [
             "Content-Type",
             "application/json;charset=utf-8",
             "Content-Length",
-            "1597",
+            "1596",
             "Connection",
             "keep-alive",
             "Date",
-            "Sat, 28 Jan 2023 09:29:13 GMT",
+            "Tue, 31 Jan 2023 11:55:13 GMT",
             "Server",
             "openresty",
             "Cache-Control",
@@ -1162,25 +1399,25 @@
             "X-Memc-Key",
             "589a647fdf302a5b42ea93ae01d789af5d927a30",
             "X-Memc-Age",
-            "5047",
+            "5592",
             "X-Memc-Expires",
-            "10613",
+            "8966",
             "ETag",
-            "W/\"9aed5f5e46453034ebb128ea31d36e08\"",
+            "W/\"347b08e6ae1c3d1d431588fd24775b32\"",
             "Vary",
             "Accept-Encoding,Accept-Encoding,Accept-Encoding",
             "X-Cache",
             "Hit from cloudfront",
             "Via",
-            "1.1 78720628b37ebf3e33c42dc098252ee8.cloudfront.net (CloudFront)",
+            "1.1 e60c6ee10489538b535a3fc65e54d028.cloudfront.net (CloudFront)",
             "X-Amz-Cf-Pop",
-            "FRA56-P7",
+            "DUS51-P2",
             "Alt-Svc",
             "h3=\":443\"; ma=86400",
             "X-Amz-Cf-Id",
-            "H-pGh4pBqPhfpdReZObRLYMqQngsAOcDszdd36euFLiM8Fc1htGpWw==",
+            "Jy4ltdTKYRi4yiUV2XvMiCVFGPoH-hkHbCJcjN2Zzx6p6uTNvaZUFQ==",
             "Age",
-            "5981",
+            "5786",
             "Vary",
             "Origin"
         ],
@@ -1189,7 +1426,7 @@
     {
         "scope": "https://api.themoviedb.org:443",
         "method": "GET",
-        "path": "/3/movie/505642?api_key=***REMOVED***&trophies=true",
+        "path": "/3/movie/505642?api_key=MOVIE_API_KEY&trophies=true",
         "body": "",
         "status": 200,
         "response": {
@@ -1222,7 +1459,7 @@
             "original_language": "en",
             "original_title": "Black Panther: Wakanda Forever",
             "overview": "Queen Ramonda, Shuri, M’Baku, Okoye and the Dora Milaje fight to protect their nation from intervening world powers in the wake of King T’Challa’s death. As the Wakandans strive to embrace their next chapter, the heroes must band together with the help of War Dog Nakia and Everett Ross and forge a new path for the kingdom of Wakanda.",
-            "popularity": 1166.462,
+            "popularity": 1424.022,
             "poster_path": "/sv1xJUazXeYqALzczSZ3O6nkH75.jpg",
             "production_companies": [
                 {
@@ -1272,18 +1509,18 @@
             "tagline": "Forever.",
             "title": "Black Panther: Wakanda Forever",
             "video": false,
-            "vote_average": 7.49,
-            "vote_count": 1733
+            "vote_average": 7.5,
+            "vote_count": 1817
         },
         "rawHeaders": [
             "Content-Type",
             "application/json;charset=utf-8",
             "Content-Length",
-            "1673",
+            "1672",
             "Connection",
             "keep-alive",
             "Date",
-            "Sat, 28 Jan 2023 09:29:12 GMT",
+            "Tue, 31 Jan 2023 11:55:08 GMT",
             "Server",
             "openresty",
             "Cache-Control",
@@ -1293,25 +1530,25 @@
             "X-Memc-Key",
             "4767bd5f904037623bd24da77d61562a4cb1f855",
             "X-Memc-Age",
-            "13069",
+            "4866",
             "X-Memc-Expires",
-            "1431",
+            "10033",
             "ETag",
-            "W/\"6be826a968e860ed8c8d136a889882cb\"",
+            "W/\"f90d1e7199a426c8a685cbd0c708425f\"",
             "Vary",
             "Accept-Encoding,Accept-Encoding,Accept-Encoding",
             "X-Cache",
             "Hit from cloudfront",
             "Via",
-            "1.1 78720628b37ebf3e33c42dc098252ee8.cloudfront.net (CloudFront)",
+            "1.1 e60c6ee10489538b535a3fc65e54d028.cloudfront.net (CloudFront)",
             "X-Amz-Cf-Pop",
-            "FRA56-P7",
+            "DUS51-P2",
             "Alt-Svc",
             "h3=\":443\"; ma=86400",
             "X-Amz-Cf-Id",
-            "jOpxiwmqMl9_0Y25ZkAzFOlJz9NuSpB81Ye04MALbdl3PRbR5YCF2Q==",
+            "c_Aa4OGNPAxXFOHrsjlXBcWwks4Lw0MArsrN8ofPFOwWhdODep2eug==",
             "Age",
-            "5982",
+            "5790",
             "Vary",
             "Origin"
         ],
@@ -1320,7 +1557,357 @@
     {
         "scope": "https://api.themoviedb.org:443",
         "method": "GET",
-        "path": "/3/movie/740952?api_key=***REMOVED***&trophies=true",
+        "path": "/3/movie/877703?api_key=MOVIE_API_KEY&trophies=true",
+        "body": "",
+        "status": 200,
+        "response": {
+            "adult": false,
+            "backdrop_path": "/96SADhPnkXnVN3KaRKsDeBovLcm.jpg",
+            "belongs_to_collection": null,
+            "budget": 0,
+            "genres": [
+                {
+                    "id": 28,
+                    "name": "Action"
+                },
+                {
+                    "id": 14,
+                    "name": "Fantasy"
+                },
+                {
+                    "id": 10770,
+                    "name": "TV Movie"
+                }
+            ],
+            "homepage": "https://www.paramountplus.com/movies/video/lrvk9FiYs_320OdwKvgl7jMsgua2CFNF/",
+            "id": 877703,
+            "imdb_id": "tt15486810",
+            "original_language": "en",
+            "original_title": "Teen Wolf: The Movie",
+            "overview": "The wolves are howling once again, as a terrifying ancient evil emerges in Beacon Hills. Scott McCall, no longer a teenager yet still an Alpha, must gather new allies and reunite trusted friends to fight back against this powerful and deadly enemy.",
+            "popularity": 1422.331,
+            "poster_path": "/wAkpPm3wcHRqZl8XjUI3Y2chYq2.jpg",
+            "production_companies": [
+                {
+                    "id": 2230,
+                    "logo_path": "/8UHPNZnCf2gfHs9DrSvJMa8t7Ry.png",
+                    "name": "MGM Television",
+                    "origin_country": "US"
+                },
+                {
+                    "id": 2365,
+                    "logo_path": null,
+                    "name": "Capital Arts Entertainment",
+                    "origin_country": "US"
+                },
+                {
+                    "id": 6329,
+                    "logo_path": "/4lZJiVHPClma8YB9hXodraFXSwi.png",
+                    "name": "MTV Entertainment Studios",
+                    "origin_country": "US"
+                },
+                {
+                    "id": 191954,
+                    "logo_path": null,
+                    "name": "First Cause",
+                    "origin_country": ""
+                }
+            ],
+            "production_countries": [
+                {
+                    "iso_3166_1": "US",
+                    "name": "United States of America"
+                }
+            ],
+            "release_date": "2023-01-18",
+            "revenue": 0,
+            "runtime": 140,
+            "spoken_languages": [
+                {
+                    "english_name": "English",
+                    "iso_639_1": "en",
+                    "name": "English"
+                },
+                {
+                    "english_name": "Japanese",
+                    "iso_639_1": "ja",
+                    "name": "日本語"
+                }
+            ],
+            "status": "Released",
+            "tagline": "The pack is back.",
+            "title": "Teen Wolf: The Movie",
+            "video": false,
+            "vote_average": 8.47,
+            "vote_count": 219
+        },
+        "rawHeaders": [
+            "Content-Type",
+            "application/json;charset=utf-8",
+            "Content-Length",
+            "1540",
+            "Connection",
+            "keep-alive",
+            "Date",
+            "Tue, 31 Jan 2023 11:55:13 GMT",
+            "Server",
+            "openresty",
+            "Cache-Control",
+            "public, max-age=28800",
+            "X-Memc",
+            "HIT",
+            "X-Memc-Key",
+            "e80ea694230b9806dfb0ea468c2f13136cabc794",
+            "X-Memc-Age",
+            "9698",
+            "X-Memc-Expires",
+            "6361",
+            "ETag",
+            "W/\"bebaf1f77cdca27dfe49e7a07c8abd2f\"",
+            "Vary",
+            "Accept-Encoding,Accept-Encoding,Accept-Encoding",
+            "X-Cache",
+            "Hit from cloudfront",
+            "Via",
+            "1.1 e60c6ee10489538b535a3fc65e54d028.cloudfront.net (CloudFront)",
+            "X-Amz-Cf-Pop",
+            "DUS51-P2",
+            "Alt-Svc",
+            "h3=\":443\"; ma=86400",
+            "X-Amz-Cf-Id",
+            "VMcogFPJqBl6wqnNC7AviHZOl90a0cuK6ahykKoF3AjbuVkd4gR5iA==",
+            "Age",
+            "5786",
+            "Vary",
+            "Origin"
+        ],
+        "responseIsBinary": false
+    },
+    {
+        "scope": "https://api.themoviedb.org:443",
+        "method": "GET",
+        "path": "/3/movie/736526?api_key=MOVIE_API_KEY&trophies=true",
+        "body": "",
+        "status": 200,
+        "response": {
+            "adult": false,
+            "backdrop_path": "/53BC9F2tpZnsGno2cLhzvGprDYS.jpg",
+            "belongs_to_collection": null,
+            "budget": 0,
+            "genres": [
+                {
+                    "id": 14,
+                    "name": "Fantasy"
+                },
+                {
+                    "id": 28,
+                    "name": "Action"
+                },
+                {
+                    "id": 12,
+                    "name": "Adventure"
+                },
+                {
+                    "id": 53,
+                    "name": "Thriller"
+                }
+            ],
+            "homepage": "https://www.netflix.com/title/81245455/",
+            "id": 736526,
+            "imdb_id": "tt11116912",
+            "original_language": "no",
+            "original_title": "Troll",
+            "overview": "Deep inside the mountain of Dovre, something gigantic awakens after being trapped for a thousand years. Destroying everything in its path, the creature is fast approaching the capital of Norway. But how do you stop something you thought only existed in Norwegian folklore?",
+            "popularity": 1190.823,
+            "poster_path": "/9z4jRr43JdtU66P0iy8h18OyLql.jpg",
+            "production_companies": [
+                {
+                    "id": 108394,
+                    "logo_path": "/d4k0i3TpLTxiJ4ZtOYftE5vL91Z.png",
+                    "name": "Motion Blur",
+                    "origin_country": "NO"
+                }
+            ],
+            "production_countries": [
+                {
+                    "iso_3166_1": "NO",
+                    "name": "Norway"
+                }
+            ],
+            "release_date": "2022-12-01",
+            "revenue": 0,
+            "runtime": 104,
+            "spoken_languages": [
+                {
+                    "english_name": "English",
+                    "iso_639_1": "en",
+                    "name": "English"
+                },
+                {
+                    "english_name": "Norwegian",
+                    "iso_639_1": "no",
+                    "name": "Norsk"
+                }
+            ],
+            "status": "Released",
+            "tagline": "Mountains will move.",
+            "title": "Troll",
+            "video": false,
+            "vote_average": 6.749,
+            "vote_count": 1118
+        },
+        "rawHeaders": [
+            "Content-Type",
+            "application/json;charset=utf-8",
+            "Content-Length",
+            "1231",
+            "Connection",
+            "keep-alive",
+            "Date",
+            "Tue, 31 Jan 2023 11:55:13 GMT",
+            "Server",
+            "openresty",
+            "Cache-Control",
+            "public, max-age=28800",
+            "X-Memc",
+            "HIT",
+            "X-Memc-Key",
+            "3168daea2f57648726a41f45ff3c5485293801a6",
+            "X-Memc-Age",
+            "15965",
+            "X-Memc-Expires",
+            "1957",
+            "ETag",
+            "W/\"c34b5311186e24278f0ccf9fab80f86f\"",
+            "Vary",
+            "Accept-Encoding,Accept-Encoding,Accept-Encoding",
+            "X-Cache",
+            "Hit from cloudfront",
+            "Via",
+            "1.1 e60c6ee10489538b535a3fc65e54d028.cloudfront.net (CloudFront)",
+            "X-Amz-Cf-Pop",
+            "DUS51-P2",
+            "Alt-Svc",
+            "h3=\":443\"; ma=86400",
+            "X-Amz-Cf-Id",
+            "Ig_-ChdJ2tDcRJfv_03NxmEFcsGEeR_fFeSXvo7M_mKyiUHHx-AnQw==",
+            "Age",
+            "5786",
+            "Vary",
+            "Origin"
+        ],
+        "responseIsBinary": false
+    },
+    {
+        "scope": "https://api.themoviedb.org:443",
+        "method": "GET",
+        "path": "/3/movie/683328?api_key=MOVIE_API_KEY&trophies=true",
+        "body": "",
+        "status": 200,
+        "response": {
+            "adult": false,
+            "backdrop_path": "/ecaB1LUoQE1ylZJVF5KLRTkewt8.jpg",
+            "belongs_to_collection": null,
+            "budget": 0,
+            "genres": [
+                {
+                    "id": 28,
+                    "name": "Action"
+                },
+                {
+                    "id": 35,
+                    "name": "Comedy"
+                },
+                {
+                    "id": 80,
+                    "name": "Crime"
+                }
+            ],
+            "homepage": "https://www.netflix.com/title/81344253",
+            "id": 683328,
+            "imdb_id": "tt15528292",
+            "original_language": "id",
+            "original_title": "The Big 4",
+            "overview": "A by-the-book female detective teams up with four down-on-their-luck assassins to investigate her father's murder.",
+            "popularity": 878.879,
+            "poster_path": "/jrw684BhFJZ9Jac6KJda3hSQkxt.jpg",
+            "production_companies": [
+                {
+                    "id": 138594,
+                    "logo_path": null,
+                    "name": "Frontier Pictures",
+                    "origin_country": "ID"
+                }
+            ],
+            "production_countries": [
+                {
+                    "iso_3166_1": "ID",
+                    "name": "Indonesia"
+                }
+            ],
+            "release_date": "2022-12-19",
+            "revenue": 0,
+            "runtime": 141,
+            "spoken_languages": [
+                {
+                    "english_name": "Indonesian",
+                    "iso_639_1": "id",
+                    "name": "Bahasa indonesia"
+                }
+            ],
+            "status": "Released",
+            "tagline": "",
+            "title": "The Big 4",
+            "video": false,
+            "vote_average": 7.248,
+            "vote_count": 115
+        },
+        "rawHeaders": [
+            "Content-Type",
+            "application/json;charset=utf-8",
+            "Content-Length",
+            "955",
+            "Connection",
+            "keep-alive",
+            "Date",
+            "Tue, 31 Jan 2023 11:55:14 GMT",
+            "Server",
+            "openresty",
+            "Cache-Control",
+            "public, max-age=28800",
+            "X-Memc",
+            "HIT",
+            "X-Memc-Key",
+            "9d1db2ca07a931c4ab495204d40c63dbbcc4c616",
+            "X-Memc-Age",
+            "11626",
+            "X-Memc-Expires",
+            "2931",
+            "ETag",
+            "W/\"b4cc7a91a135fbd851f4c96bd5d4784d\"",
+            "Vary",
+            "Accept-Encoding,Accept-Encoding,Accept-Encoding",
+            "X-Cache",
+            "Hit from cloudfront",
+            "Via",
+            "1.1 e60c6ee10489538b535a3fc65e54d028.cloudfront.net (CloudFront)",
+            "X-Amz-Cf-Pop",
+            "DUS51-P2",
+            "Alt-Svc",
+            "h3=\":443\"; ma=86400",
+            "X-Amz-Cf-Id",
+            "veNXoVHTYM64LmNPN54-84Exx-kPOci-RRdIEaGzQZXZIoZMTDtUAQ==",
+            "Age",
+            "5785",
+            "Vary",
+            "Origin"
+        ],
+        "responseIsBinary": false
+    },
+    {
+        "scope": "https://api.themoviedb.org:443",
+        "method": "GET",
+        "path": "/3/movie/740952?api_key=MOVIE_API_KEY&trophies=true",
         "body": "",
         "status": 200,
         "response": {
@@ -1344,10 +1931,6 @@
                 {
                     "id": 80,
                     "name": "Crime"
-                },
-                {
-                    "id": 18,
-                    "name": "Drama"
                 }
             ],
             "homepage": "https://theavenue.film/movies/savage-salvation",
@@ -1356,7 +1939,7 @@
             "original_language": "en",
             "original_title": "Savage Salvation",
             "overview": "Newly engaged Shelby John and Ruby Red want a fresh start after their struggles with addiction, but when Shelby discovers his beloved Ruby dead on their porch, he embarks on a vengeful killing spree of the dealers who supplied her. Armed with nothing but adrenaline and a nail gun, Shelby begins to unleash chaos on the town’s criminal underbelly, as he hunt’s down crime lord Coyote. Sheriff Church must race against the clock to put an end to Shelby's vigilante justice before the entire town descends into a bloodbath.",
-            "popularity": 1064.189,
+            "popularity": 807.848,
             "poster_path": "/fJRt3mmZEvf8gQzoNLzjPtWpc9o.jpg",
             "production_companies": [
                 {
@@ -1452,18 +2035,18 @@
             "tagline": "Payback is dirty.",
             "title": "Savage Salvation",
             "video": false,
-            "vote_average": 6.6,
-            "vote_count": 77
+            "vote_average": 6.659,
+            "vote_count": 85
         },
         "rawHeaders": [
             "Content-Type",
             "application/json;charset=utf-8",
             "Content-Length",
-            "2630",
+            "2606",
             "Connection",
             "keep-alive",
             "Date",
-            "Sat, 28 Jan 2023 09:29:13 GMT",
+            "Tue, 31 Jan 2023 11:55:15 GMT",
             "Server",
             "openresty",
             "Cache-Control",
@@ -1473,25 +2056,25 @@
             "X-Memc-Key",
             "f7bc4dc7eb794853a82304a6adeb4aaabc4d4ecf",
             "X-Memc-Age",
-            "4346",
+            "13735",
             "X-Memc-Expires",
-            "10102",
+            "3489",
             "ETag",
-            "W/\"033b73a71999b315c8475232470db3cf\"",
+            "W/\"1eacebd00109d060decc333dace31cba\"",
             "Vary",
             "Accept-Encoding,Accept-Encoding,Accept-Encoding",
             "X-Cache",
             "Hit from cloudfront",
             "Via",
-            "1.1 78720628b37ebf3e33c42dc098252ee8.cloudfront.net (CloudFront)",
+            "1.1 e60c6ee10489538b535a3fc65e54d028.cloudfront.net (CloudFront)",
             "X-Amz-Cf-Pop",
-            "FRA56-P7",
+            "DUS51-P2",
             "Alt-Svc",
             "h3=\":443\"; ma=86400",
             "X-Amz-Cf-Id",
-            "F861z3SW-0UXqPzvSfs78PU4kfqNvaKGvHtuM1oo5gOljUMbi7euOA==",
+            "aW3QS3G_rwrzRE8FYqPMWy2Bz4iW0oHqAGRLPpJ7kxP5z1uo453K1Q==",
             "Age",
-            "5981",
+            "5784",
             "Vary",
             "Origin"
         ],
@@ -1500,361 +2083,7 @@
     {
         "scope": "https://api.themoviedb.org:443",
         "method": "GET",
-        "path": "/3/movie/19995?api_key=***REMOVED***&trophies=true",
-        "body": "",
-        "status": 200,
-        "response": {
-            "adult": false,
-            "backdrop_path": "/8I37NtDffNV7AZlDa7uDvvqhovU.jpg",
-            "belongs_to_collection": {
-                "id": 87096,
-                "name": "Avatar Collection",
-                "poster_path": "/uO2yU3QiGHvVp0L5e5IatTVRkYk.jpg",
-                "backdrop_path": "/iaEsDbQPE45hQU2EGiNjXD2KWuF.jpg"
-            },
-            "budget": 237000000,
-            "genres": [
-                {
-                    "id": 28,
-                    "name": "Action"
-                },
-                {
-                    "id": 12,
-                    "name": "Adventure"
-                },
-                {
-                    "id": 14,
-                    "name": "Fantasy"
-                },
-                {
-                    "id": 878,
-                    "name": "Science Fiction"
-                }
-            ],
-            "homepage": "https://www.avatar.com/movies/avatar",
-            "id": 19995,
-            "imdb_id": "tt0499549",
-            "original_language": "en",
-            "original_title": "Avatar",
-            "overview": "In the 22nd century, a paraplegic Marine is dispatched to the moon Pandora on a unique mission, but becomes torn between following orders and protecting an alien civilization.",
-            "popularity": 1160.459,
-            "poster_path": "/jRXYjXNq0Cs2TcJjLkki24MLp7u.jpg",
-            "production_companies": [
-                {
-                    "id": 25,
-                    "logo_path": "/qZCc1lty5FzX30aOCVRBLzaVmcp.png",
-                    "name": "20th Century Fox",
-                    "origin_country": "US"
-                },
-                {
-                    "id": 290,
-                    "logo_path": "/Q8mw2AOQQc8Qg0uNwLWq86DVZv.png",
-                    "name": "Ingenious Media",
-                    "origin_country": "GB"
-                },
-                {
-                    "id": 444,
-                    "logo_path": null,
-                    "name": "Dune Entertainment",
-                    "origin_country": "US"
-                },
-                {
-                    "id": 574,
-                    "logo_path": "/iB6GjNVHs5hOqcEYt2rcjBqIjki.png",
-                    "name": "Lightstorm Entertainment",
-                    "origin_country": "US"
-                }
-            ],
-            "production_countries": [
-                {
-                    "iso_3166_1": "US",
-                    "name": "United States of America"
-                },
-                {
-                    "iso_3166_1": "GB",
-                    "name": "United Kingdom"
-                }
-            ],
-            "release_date": "2009-12-15",
-            "revenue": 2920357254,
-            "runtime": 162,
-            "spoken_languages": [
-                {
-                    "english_name": "English",
-                    "iso_639_1": "en",
-                    "name": "English"
-                },
-                {
-                    "english_name": "Spanish",
-                    "iso_639_1": "es",
-                    "name": "Español"
-                }
-            ],
-            "status": "Released",
-            "tagline": "Enter the world of Pandora.",
-            "title": "Avatar",
-            "video": false,
-            "vote_average": 7.565,
-            "vote_count": 28062
-        },
-        "rawHeaders": [
-            "Content-Type",
-            "application/json;charset=utf-8",
-            "Content-Length",
-            "1659",
-            "Connection",
-            "keep-alive",
-            "Date",
-            "Sat, 28 Jan 2023 09:29:13 GMT",
-            "Server",
-            "openresty",
-            "Cache-Control",
-            "public, max-age=28800",
-            "X-Memc",
-            "HIT",
-            "X-Memc-Key",
-            "a43677e53a3a8b6919b5919a7fb28d196ebf8cdf",
-            "X-Memc-Age",
-            "4613",
-            "X-Memc-Expires",
-            "10123",
-            "ETag",
-            "W/\"f6bbb0c0157b26630caaa270874e5d01\"",
-            "Vary",
-            "Accept-Encoding,Accept-Encoding,Accept-Encoding",
-            "X-Cache",
-            "Hit from cloudfront",
-            "Via",
-            "1.1 78720628b37ebf3e33c42dc098252ee8.cloudfront.net (CloudFront)",
-            "X-Amz-Cf-Pop",
-            "FRA56-P7",
-            "Alt-Svc",
-            "h3=\":443\"; ma=86400",
-            "X-Amz-Cf-Id",
-            "GKdQ-XN6j93mHGu0p9D5TIXLBjaxKsiBlldneDxENTPiULsA3LpH7Q==",
-            "Age",
-            "5981",
-            "Vary",
-            "Origin"
-        ],
-        "responseIsBinary": false
-    },
-    {
-        "scope": "https://api.themoviedb.org:443",
-        "method": "GET",
-        "path": "/3/movie/843794?api_key=***REMOVED***&trophies=true",
-        "body": "",
-        "status": 200,
-        "response": {
-            "adult": false,
-            "backdrop_path": "/qHdPNd1cUaSNYLLNgt1Pv3LVd0T.jpg",
-            "belongs_to_collection": null,
-            "budget": 0,
-            "genres": [
-                {
-                    "id": 878,
-                    "name": "Science Fiction"
-                },
-                {
-                    "id": 28,
-                    "name": "Action"
-                },
-                {
-                    "id": 12,
-                    "name": "Adventure"
-                }
-            ],
-            "homepage": "https://www.netflix.com/title/81465109",
-            "id": 843794,
-            "imdb_id": "tt22352848",
-            "original_language": "ko",
-            "original_title": "정이",
-            "overview": "On an uninhabitable 22nd-century Earth, the outcome of a civil war hinges on cloning the brain of an elite soldier to create a robot mercenary.",
-            "popularity": 1063.961,
-            "poster_path": "/z2nfRxZCGFgAnVhb9pZO87TyTX5.jpg",
-            "production_companies": [
-                {
-                    "id": 127541,
-                    "logo_path": "/Aq35mXuZv7lhPm8a60YKRaB9Vek.png",
-                    "name": "Climax Studios",
-                    "origin_country": "KR"
-                }
-            ],
-            "production_countries": [
-                {
-                    "iso_3166_1": "KR",
-                    "name": "South Korea"
-                }
-            ],
-            "release_date": "2023-01-20",
-            "revenue": 0,
-            "runtime": 98,
-            "spoken_languages": [
-                {
-                    "english_name": "Korean",
-                    "iso_639_1": "ko",
-                    "name": "한국어/조선말"
-                }
-            ],
-            "status": "Released",
-            "tagline": "AI Combat Warrior Will be Unleashed.",
-            "title": "JUNG_E",
-            "video": false,
-            "vote_average": 6,
-            "vote_count": 150
-        },
-        "rawHeaders": [
-            "Content-Type",
-            "application/json;charset=utf-8",
-            "Content-Length",
-            "1054",
-            "Connection",
-            "keep-alive",
-            "Date",
-            "Sat, 28 Jan 2023 09:29:13 GMT",
-            "Server",
-            "openresty",
-            "Cache-Control",
-            "public, max-age=28800",
-            "X-Memc",
-            "HIT",
-            "X-Memc-Key",
-            "4db9189ed19f3785504b94d9045d67961260f233",
-            "X-Memc-Age",
-            "5510",
-            "X-Memc-Expires",
-            "11237",
-            "ETag",
-            "W/\"4e40259636e80f57d409294d74c96086\"",
-            "Vary",
-            "Accept-Encoding,Accept-Encoding,Accept-Encoding",
-            "X-Cache",
-            "Hit from cloudfront",
-            "Via",
-            "1.1 78720628b37ebf3e33c42dc098252ee8.cloudfront.net (CloudFront)",
-            "X-Amz-Cf-Pop",
-            "FRA56-P7",
-            "Alt-Svc",
-            "h3=\":443\"; ma=86400",
-            "X-Amz-Cf-Id",
-            "S2BA4j0ZDh4IZo42K5ykgRkinZAmtS8pfeYxRtOTpSErLdXnxnXR8A==",
-            "Age",
-            "5981",
-            "Vary",
-            "Origin"
-        ],
-        "responseIsBinary": false
-    },
-    {
-        "scope": "https://api.themoviedb.org:443",
-        "method": "GET",
-        "path": "/3/movie/683328?api_key=***REMOVED***&trophies=true",
-        "body": "",
-        "status": 200,
-        "response": {
-            "adult": false,
-            "backdrop_path": "/ecaB1LUoQE1ylZJVF5KLRTkewt8.jpg",
-            "belongs_to_collection": null,
-            "budget": 0,
-            "genres": [
-                {
-                    "id": 28,
-                    "name": "Action"
-                },
-                {
-                    "id": 35,
-                    "name": "Comedy"
-                },
-                {
-                    "id": 80,
-                    "name": "Crime"
-                }
-            ],
-            "homepage": "https://www.netflix.com/title/81344253",
-            "id": 683328,
-            "imdb_id": "tt15528292",
-            "original_language": "id",
-            "original_title": "The Big 4",
-            "overview": "A by-the-book female detective teams up with four down-on-their-luck assassins to investigate her father's murder.",
-            "popularity": 995.081,
-            "poster_path": "/jrw684BhFJZ9Jac6KJda3hSQkxt.jpg",
-            "production_companies": [
-                {
-                    "id": 138594,
-                    "logo_path": null,
-                    "name": "Frontier Pictures",
-                    "origin_country": "ID"
-                }
-            ],
-            "production_countries": [
-                {
-                    "iso_3166_1": "ID",
-                    "name": "Indonesia"
-                }
-            ],
-            "release_date": "2022-12-19",
-            "revenue": 0,
-            "runtime": 141,
-            "spoken_languages": [
-                {
-                    "english_name": "Indonesian",
-                    "iso_639_1": "id",
-                    "name": "Bahasa indonesia"
-                }
-            ],
-            "status": "Released",
-            "tagline": "",
-            "title": "The Big 4",
-            "video": false,
-            "vote_average": 7.259,
-            "vote_count": 112
-        },
-        "rawHeaders": [
-            "Content-Type",
-            "application/json;charset=utf-8",
-            "Content-Length",
-            "955",
-            "Connection",
-            "keep-alive",
-            "Date",
-            "Sat, 28 Jan 2023 09:29:13 GMT",
-            "Server",
-            "openresty",
-            "Cache-Control",
-            "public, max-age=28800",
-            "X-Memc",
-            "HIT",
-            "X-Memc-Key",
-            "9d1db2ca07a931c4ab495204d40c63dbbcc4c616",
-            "X-Memc-Age",
-            "9368",
-            "X-Memc-Expires",
-            "7975",
-            "ETag",
-            "W/\"ddc745440e3b3b86d9d7ecb1f41d1498\"",
-            "Vary",
-            "Accept-Encoding,Accept-Encoding,Accept-Encoding",
-            "X-Cache",
-            "Hit from cloudfront",
-            "Via",
-            "1.1 78720628b37ebf3e33c42dc098252ee8.cloudfront.net (CloudFront)",
-            "X-Amz-Cf-Pop",
-            "FRA56-P7",
-            "Alt-Svc",
-            "h3=\":443\"; ma=86400",
-            "X-Amz-Cf-Id",
-            "9g9imlzzxFQtyZyvBNUCl7HcWAbmbXZ1PhtuAjECA8AQi0SwObZa4A==",
-            "Age",
-            "5981",
-            "Vary",
-            "Origin"
-        ],
-        "responseIsBinary": false
-    },
-    {
-        "scope": "https://api.themoviedb.org:443",
-        "method": "GET",
-        "path": "/3/movie/724495?api_key=***REMOVED***&trophies=true",
+        "path": "/3/movie/724495?api_key=MOVIE_API_KEY&trophies=true",
         "body": "",
         "status": 200,
         "response": {
@@ -1882,7 +2111,7 @@
             "original_language": "en",
             "original_title": "The Woman King",
             "overview": "The story of the Agojie, the all-female unit of warriors who protected the African Kingdom of Dahomey in the 1800s with skills and a fierceness unlike anything the world has ever seen, and General Nanisca as she trains the next generation of recruits and readies them for battle against an enemy determined to destroy their way of life.",
-            "popularity": 958.683,
+            "popularity": 763.358,
             "poster_path": "/438QXt1E3WJWb3PqNniK0tAE5c1.jpg",
             "production_companies": [
                 {
@@ -1925,32 +2154,32 @@
             "runtime": 135,
             "spoken_languages": [
                 {
-                    "english_name": "Portuguese",
-                    "iso_639_1": "pt",
-                    "name": "Português"
-                },
-                {
                     "english_name": "English",
                     "iso_639_1": "en",
                     "name": "English"
+                },
+                {
+                    "english_name": "Portuguese",
+                    "iso_639_1": "pt",
+                    "name": "Português"
                 }
             ],
             "status": "Released",
             "tagline": "Her reign begins.",
             "title": "The Woman King",
             "video": false,
-            "vote_average": 7.872,
-            "vote_count": 1144
+            "vote_average": 7.86,
+            "vote_count": 1166
         },
         "rawHeaders": [
             "Content-Type",
             "application/json;charset=utf-8",
             "Content-Length",
-            "1643",
+            "1642",
             "Connection",
             "keep-alive",
             "Date",
-            "Sat, 28 Jan 2023 09:29:13 GMT",
+            "Tue, 31 Jan 2023 11:55:15 GMT",
             "Server",
             "openresty",
             "Cache-Control",
@@ -1960,25 +2189,25 @@
             "X-Memc-Key",
             "acef018de985569ef6678beb741e0b8982bfbf74",
             "X-Memc-Age",
-            "2786",
+            "11537",
             "X-Memc-Expires",
-            "11767",
+            "5748",
             "ETag",
-            "W/\"a66afb560900a47c5bd21b5075df5cf4\"",
+            "W/\"11109b2e7cd820574deaca2aeb8b3afc\"",
             "Vary",
             "Accept-Encoding,Accept-Encoding,Accept-Encoding",
             "X-Cache",
             "Hit from cloudfront",
             "Via",
-            "1.1 78720628b37ebf3e33c42dc098252ee8.cloudfront.net (CloudFront)",
+            "1.1 e60c6ee10489538b535a3fc65e54d028.cloudfront.net (CloudFront)",
             "X-Amz-Cf-Pop",
-            "FRA56-P7",
+            "DUS51-P2",
             "Alt-Svc",
             "h3=\":443\"; ma=86400",
             "X-Amz-Cf-Id",
-            "z6faWraXZ7b84CAPorLoatJoth-_CB4aCyIM5fIM3sgfRd6XnhRY-Q==",
+            "XkE26jQbrB4_euXYRlSNzD9kqTK0-RSl1FbOipqW2FXzENI6cQSQMg==",
             "Age",
-            "5981",
+            "5784",
             "Vary",
             "Origin"
         ],
@@ -1987,7 +2216,7 @@
     {
         "scope": "https://api.themoviedb.org:443",
         "method": "GET",
-        "path": "/3/movie/873126?api_key=***REMOVED***&trophies=true",
+        "path": "/3/movie/873126?api_key=MOVIE_API_KEY&trophies=true",
         "body": "",
         "status": 200,
         "response": {
@@ -2015,7 +2244,7 @@
             "original_language": "it",
             "original_title": "Il mio nome è vendetta",
             "overview": "After old enemies kill his family, a former mafia enforcer and his feisty daughter flee to Milan, where they hide out while plotting their revenge.",
-            "popularity": 793.659,
+            "popularity": 738.139,
             "poster_path": "/7l3war94J4tRyWUiLAGokr3ViF2.jpg",
             "production_companies": [
                 {
@@ -2045,8 +2274,8 @@
             "tagline": "",
             "title": "My Name Is Vendetta",
             "video": false,
-            "vote_average": 6.879,
-            "vote_count": 344
+            "vote_average": 6.886,
+            "vote_count": 351
         },
         "rawHeaders": [
             "Content-Type",
@@ -2056,7 +2285,7 @@
             "Connection",
             "keep-alive",
             "Date",
-            "Sat, 28 Jan 2023 09:39:13 GMT",
+            "Tue, 31 Jan 2023 11:55:15 GMT",
             "Server",
             "openresty",
             "Cache-Control",
@@ -2066,25 +2295,25 @@
             "X-Memc-Key",
             "8df838663c19b2b08a1e6371711c6ccd3eeb986f",
             "X-Memc-Age",
-            "12263",
+            "15936",
             "X-Memc-Expires",
-            "4187",
+            "1138",
             "ETag",
-            "W/\"b0742ef99355b0761cde0aedb5be345c\"",
+            "W/\"912b2fbd7b10c74b0c257049b205d6ee\"",
             "Vary",
             "Accept-Encoding,Accept-Encoding,Accept-Encoding",
             "X-Cache",
             "Hit from cloudfront",
             "Via",
-            "1.1 78720628b37ebf3e33c42dc098252ee8.cloudfront.net (CloudFront)",
+            "1.1 e60c6ee10489538b535a3fc65e54d028.cloudfront.net (CloudFront)",
             "X-Amz-Cf-Pop",
-            "FRA56-P7",
+            "DUS51-P2",
             "Alt-Svc",
             "h3=\":443\"; ma=86400",
             "X-Amz-Cf-Id",
-            "gxvi1Of0SOnDJ2CTwg0yGOBbN2HI7dKa4uEw7dsYPHche-jw-PKitw==",
+            "rXz7OdbfGI7zE4sqfwIfn6eBbhLTZr4RF8GlSCCiRh-vlMAhARR_UA==",
             "Age",
-            "5381",
+            "5784",
             "Vary",
             "Origin"
         ],
@@ -2093,232 +2322,7 @@
     {
         "scope": "https://api.themoviedb.org:443",
         "method": "GET",
-        "path": "/3/movie/1015963?api_key=***REMOVED***&trophies=true",
-        "body": "",
-        "status": 200,
-        "response": {
-            "adult": false,
-            "backdrop_path": "/mYQSbZdGX0JJb49NLO04UA0iFEU.jpg",
-            "belongs_to_collection": null,
-            "budget": 0,
-            "genres": [
-                {
-                    "id": 28,
-                    "name": "Action"
-                },
-                {
-                    "id": 35,
-                    "name": "Comedy"
-                },
-                {
-                    "id": 80,
-                    "name": "Crime"
-                }
-            ],
-            "homepage": "",
-            "id": 1015963,
-            "imdb_id": "tt15721088",
-            "original_language": "en",
-            "original_title": "High Heat",
-            "overview": "When the local mafia shows up to burn down her restaurant, Ana, a chef with a meticulous past, defends her turf and proves her knife skills both in and out of the kitchen.",
-            "popularity": 788.791,
-            "poster_path": "/mmD0NVdhiRiCu64YKem5GK5PSfy.jpg",
-            "production_companies": [
-                {
-                    "id": 121204,
-                    "logo_path": "/vbtvY4IxgUZk713rkmoTO4MHIac.png",
-                    "name": "BondIt Media Capital",
-                    "origin_country": "US"
-                },
-                {
-                    "id": 130900,
-                    "logo_path": null,
-                    "name": "Buffalo 8 Productions",
-                    "origin_country": "US"
-                },
-                {
-                    "id": 142122,
-                    "logo_path": "/oqZHKDB4izafodDDD9BABNNq7VN.png",
-                    "name": "Lucky 13 Productions",
-                    "origin_country": "US"
-                }
-            ],
-            "production_countries": [
-                {
-                    "iso_3166_1": "US",
-                    "name": "United States of America"
-                }
-            ],
-            "release_date": "2022-12-16",
-            "revenue": 0,
-            "runtime": 84,
-            "spoken_languages": [
-                {
-                    "english_name": "English",
-                    "iso_639_1": "en",
-                    "name": "English"
-                }
-            ],
-            "status": "Released",
-            "tagline": "",
-            "title": "High Heat",
-            "video": false,
-            "vote_average": 5.871,
-            "vote_count": 35
-        },
-        "rawHeaders": [
-            "Content-Type",
-            "application/json;charset=utf-8",
-            "Content-Length",
-            "1206",
-            "Connection",
-            "keep-alive",
-            "Date",
-            "Sat, 28 Jan 2023 09:39:13 GMT",
-            "Server",
-            "openresty",
-            "Cache-Control",
-            "public, max-age=28800",
-            "X-Memc",
-            "HIT",
-            "X-Memc-Key",
-            "52b0d9538cb0f606fdc51ff83147a35b6755c7cc",
-            "X-Memc-Age",
-            "11892",
-            "X-Memc-Expires",
-            "2591",
-            "ETag",
-            "W/\"04e5b1fe212770d60ff68287228ec9ed\"",
-            "Vary",
-            "Accept-Encoding,Accept-Encoding,Accept-Encoding",
-            "X-Cache",
-            "Hit from cloudfront",
-            "Via",
-            "1.1 78720628b37ebf3e33c42dc098252ee8.cloudfront.net (CloudFront)",
-            "X-Amz-Cf-Pop",
-            "FRA56-P7",
-            "Alt-Svc",
-            "h3=\":443\"; ma=86400",
-            "X-Amz-Cf-Id",
-            "51SXYYgu2yhXiVdg6dWPJLjdNY8zar9U2RLo9T2tBDr7RBdgcl5tiA==",
-            "Age",
-            "5381",
-            "Vary",
-            "Origin"
-        ],
-        "responseIsBinary": false
-    },
-    {
-        "scope": "https://api.themoviedb.org:443",
-        "method": "GET",
-        "path": "/3/movie/542196?api_key=***REMOVED***&trophies=true",
-        "body": "",
-        "status": 200,
-        "response": {
-            "adult": false,
-            "backdrop_path": "/vLPSvAt1CnfmDCeqG3zkFh0s6S4.jpg",
-            "belongs_to_collection": null,
-            "budget": 0,
-            "genres": [
-                {
-                    "id": 10752,
-                    "name": "War"
-                },
-                {
-                    "id": 28,
-                    "name": "Action"
-                }
-            ],
-            "homepage": "",
-            "id": 542196,
-            "imdb_id": "tt7319486",
-            "original_language": "en",
-            "original_title": "Wolf Hound",
-            "overview": "Inspired by the real-life German special operations unit KG 200 that shot down, repaired, and flew Allied aircraft as Trojan horses, \"Wolf Hound\" takes place in 1944 German-occupied France and follows the daring exploits of Jewish-American fighter pilot Captain David Holden. Ambushed behind enemy lines, Holden must rescue a captured B-17 Flying Fortress crew, evade a ruthless enemy stalking him at every turn, and foil a plot that could completely alter the outcome of World War II.",
-            "popularity": 1097.928,
-            "poster_path": "/6sMnY4fEVAfdadhANhGnNckxsmx.jpg",
-            "production_companies": [
-                {
-                    "id": 107694,
-                    "logo_path": null,
-                    "name": "TMU Pictures",
-                    "origin_country": ""
-                }
-            ],
-            "production_countries": [
-                {
-                    "iso_3166_1": "US",
-                    "name": "United States of America"
-                }
-            ],
-            "release_date": "2022-06-03",
-            "revenue": 0,
-            "runtime": 127,
-            "spoken_languages": [
-                {
-                    "english_name": "English",
-                    "iso_639_1": "en",
-                    "name": "English"
-                },
-                {
-                    "english_name": "German",
-                    "iso_639_1": "de",
-                    "name": "Deutsch"
-                }
-            ],
-            "status": "Released",
-            "tagline": "In our darkest hour, a hero will rise.",
-            "title": "Wolf Hound",
-            "video": false,
-            "vote_average": 6.8,
-            "vote_count": 21
-        },
-        "rawHeaders": [
-            "Content-Type",
-            "application/json;charset=utf-8",
-            "Content-Length",
-            "1358",
-            "Connection",
-            "keep-alive",
-            "Date",
-            "Sat, 28 Jan 2023 09:39:13 GMT",
-            "Server",
-            "openresty",
-            "Cache-Control",
-            "public, max-age=28800",
-            "X-Memc",
-            "HIT",
-            "X-Memc-Key",
-            "229d9538d87f7c65c22ab9225231f1b338ddf973",
-            "X-Memc-Age",
-            "2577",
-            "X-Memc-Expires",
-            "14552",
-            "ETag",
-            "W/\"49256c1afea5e827936efbd2e4a83ab2\"",
-            "Vary",
-            "Accept-Encoding,Accept-Encoding,Accept-Encoding",
-            "X-Cache",
-            "Hit from cloudfront",
-            "Via",
-            "1.1 78720628b37ebf3e33c42dc098252ee8.cloudfront.net (CloudFront)",
-            "X-Amz-Cf-Pop",
-            "FRA56-P7",
-            "Alt-Svc",
-            "h3=\":443\"; ma=86400",
-            "X-Amz-Cf-Id",
-            "rmNoeieECHo49_DP002YSaVuo_Veao8n1npUADo1rYXnQtiAhoX-oA==",
-            "Age",
-            "5381",
-            "Vary",
-            "Origin"
-        ],
-        "responseIsBinary": false
-    },
-    {
-        "scope": "https://api.themoviedb.org:443",
-        "method": "GET",
-        "path": "/3/movie/1024546?api_key=***REMOVED***&trophies=true",
+        "path": "/3/movie/1024546?api_key=MOVIE_API_KEY&trophies=true",
         "body": "",
         "status": 200,
         "response": {
@@ -2347,7 +2351,7 @@
             "original_language": "en",
             "original_title": "Detective Knight: Rogue",
             "overview": "As Los Angeles prepares for Halloween, mask-wearing armed robbers critically wound detective James Knight’s partner in a shootout following a heist. With Knight in hot pursuit, the bandits flee L.A. for New York, where the detective’s dark past collides with his present case and threatens to tear his world apart…unless redemption can claim Knight first.",
-            "popularity": 742.705,
+            "popularity": 640.393,
             "poster_path": "/2wj5iUJ2B5AQ1lFctJgUrHHsp9B.jpg",
             "production_companies": [
                 {
@@ -2389,18 +2393,18 @@
             "tagline": "",
             "title": "Detective Knight: Rogue",
             "video": false,
-            "vote_average": 6.8,
-            "vote_count": 57
+            "vote_average": 6.927,
+            "vote_count": 62
         },
         "rawHeaders": [
             "Content-Type",
             "application/json;charset=utf-8",
             "Content-Length",
-            "1603",
+            "1605",
             "Connection",
             "keep-alive",
             "Date",
-            "Sat, 28 Jan 2023 09:39:13 GMT",
+            "Tue, 31 Jan 2023 11:55:15 GMT",
             "Server",
             "openresty",
             "Cache-Control",
@@ -2410,25 +2414,25 @@
             "X-Memc-Key",
             "0b857855ff9a337ecf88da67d62621dd0b989797",
             "X-Memc-Age",
-            "11510",
+            "12379",
             "X-Memc-Expires",
-            "6428",
+            "3983",
             "ETag",
-            "W/\"7ed81e97d4f2f09b2c7de06aef6fae20\"",
+            "W/\"e969ad2a8963b6129ae435a38ace41be\"",
             "Vary",
             "Accept-Encoding,Accept-Encoding,Accept-Encoding",
             "X-Cache",
             "Hit from cloudfront",
             "Via",
-            "1.1 78720628b37ebf3e33c42dc098252ee8.cloudfront.net (CloudFront)",
+            "1.1 e60c6ee10489538b535a3fc65e54d028.cloudfront.net (CloudFront)",
             "X-Amz-Cf-Pop",
-            "FRA56-P7",
+            "DUS51-P2",
             "Alt-Svc",
             "h3=\":443\"; ma=86400",
             "X-Amz-Cf-Id",
-            "C_QdN0KLUQa0HENAeJ718IA4MNESy1U0n1oQyHaZv7Jni3rTJKQK_w==",
+            "8PMBkhEQZCDyxdw-kxCsZHWiUchRZp9ZWqXUIW_vD76BAILJaQ-jcQ==",
             "Age",
-            "5381",
+            "5784",
             "Vary",
             "Origin"
         ],
@@ -2437,7 +2441,7 @@
     {
         "scope": "https://api.themoviedb.org:443",
         "method": "GET",
-        "path": "/3/movie/1013860?api_key=***REMOVED***&trophies=true",
+        "path": "/3/movie/1013860?api_key=MOVIE_API_KEY&trophies=true",
         "body": "",
         "status": 200,
         "response": {
@@ -2474,7 +2478,7 @@
             "original_language": "en",
             "original_title": "R.I.P.D. 2: Rise of the Damned",
             "overview": "When Sheriff Roy Pulsipher finds himself in the afterlife, he joins a special police force and returns to Earth to save humanity from the undead.",
-            "popularity": 604.434,
+            "popularity": 593.429,
             "poster_path": "/g4yJTzMtOBUTAR2Qnmj8TYIcFVq.jpg",
             "production_companies": [
                 {
@@ -2504,8 +2508,8 @@
             "tagline": "Meet the new law of the Afterlife.",
             "title": "R.I.P.D. 2: Rise of the Damned",
             "video": false,
-            "vote_average": 6.591,
-            "vote_count": 346
+            "vote_average": 6.577,
+            "vote_count": 350
         },
         "rawHeaders": [
             "Content-Type",
@@ -2515,7 +2519,7 @@
             "Connection",
             "keep-alive",
             "Date",
-            "Sat, 28 Jan 2023 09:39:13 GMT",
+            "Tue, 31 Jan 2023 11:55:16 GMT",
             "Server",
             "openresty",
             "Cache-Control",
@@ -2525,25 +2529,25 @@
             "X-Memc-Key",
             "7a7e83b3dce753963bd658d5f3fa49fb2e8fb4a4",
             "X-Memc-Age",
-            "4273",
+            "11600",
             "X-Memc-Expires",
-            "13009",
+            "3896",
             "ETag",
-            "W/\"8bc031b3cc5bdc4cf9f10bccc030238f\"",
+            "W/\"f000c8f76c2e55531ceb666c7d6bbefe\"",
             "Vary",
             "Accept-Encoding,Accept-Encoding,Accept-Encoding",
             "X-Cache",
             "Hit from cloudfront",
             "Via",
-            "1.1 78720628b37ebf3e33c42dc098252ee8.cloudfront.net (CloudFront)",
+            "1.1 e60c6ee10489538b535a3fc65e54d028.cloudfront.net (CloudFront)",
             "X-Amz-Cf-Pop",
-            "FRA56-P7",
+            "DUS51-P2",
             "Alt-Svc",
             "h3=\":443\"; ma=86400",
             "X-Amz-Cf-Id",
-            "XskOZR4YcK66GjZiJClDdnEWvWVB8saIzsyur71Vo7sNbTl89i7l1w==",
+            "SacX5hs-I7SzXwqcSwmcJYa57WRwCrpklVoZBuNsiHk24Y_i8cyDqQ==",
             "Age",
-            "5381",
+            "5783",
             "Vary",
             "Origin"
         ],
@@ -2552,12 +2556,12 @@
     {
         "scope": "https://api.themoviedb.org:443",
         "method": "GET",
-        "path": "/3/movie/988233?api_key=***REMOVED***&trophies=true",
+        "path": "/3/movie/39456?api_key=MOVIE_API_KEY&trophies=true",
         "body": "",
         "status": 200,
         "response": {
             "adult": false,
-            "backdrop_path": "/90ZZIoWQLLEXSVm0ik3eEQBinul.jpg",
+            "backdrop_path": "/chLZrgbUomn48GDYaq7HzVYLZbg.jpg",
             "belongs_to_collection": null,
             "budget": 0,
             "genres": [
@@ -2566,62 +2570,68 @@
                     "name": "Action"
                 },
                 {
-                    "id": 27,
-                    "name": "Horror"
-                },
-                {
-                    "id": 53,
-                    "name": "Thriller"
+                    "id": 18,
+                    "name": "Drama"
                 }
             ],
             "homepage": "",
-            "id": 988233,
-            "imdb_id": "tt6969338",
-            "original_language": "en",
-            "original_title": "Hex",
-            "overview": "Following a mysterious disappearance on a jump, a group of skydivers experiences paranormal occurrences that leave them fighting for their lives.",
-            "popularity": 564.313,
-            "poster_path": "/xFJHb43ZAnnuiDztxZYsmyopweb.jpg",
+            "id": 39456,
+            "imdb_id": "tt0089134",
+            "original_language": "it",
+            "original_title": "Femmine in fuga",
+            "overview": "The young, pretty and shy Angela Duvall is jailed for murder in some Latin American country. In the prison she gets brutally \"initiated\" by the other inmates. The nice, honest and handsome prison doctor believe she's innocent and tries to help her out.",
+            "popularity": 581.039,
+            "poster_path": "/bpQ5YAg9IwXpnlkjTZxWSj1P8Jj.jpg",
             "production_companies": [
                 {
-                    "id": 177201,
+                    "id": 44165,
                     "logo_path": null,
-                    "name": "Hex Movie",
-                    "origin_country": ""
+                    "name": "RPA Cinematografica",
+                    "origin_country": "IT"
+                },
+                {
+                    "id": 51299,
+                    "logo_path": null,
+                    "name": "Brasil Produções Cinematográficas",
+                    "origin_country": "BR"
                 }
             ],
             "production_countries": [
                 {
-                    "iso_3166_1": "US",
-                    "name": "United States of America"
+                    "iso_3166_1": "BR",
+                    "name": "Brazil"
+                },
+                {
+                    "iso_3166_1": "IT",
+                    "name": "Italy"
                 }
             ],
-            "release_date": "2022-11-01",
+            "release_date": "1984-05-10",
             "revenue": 0,
-            "runtime": 88,
+            "runtime": 90,
             "spoken_languages": [
                 {
-                    "english_name": "English",
-                    "iso_639_1": "en",
-                    "name": "English"
+                    "english_name": "Italian",
+                    "iso_639_1": "it",
+                    "name": "Italiano"
                 }
             ],
             "status": "Released",
-            "tagline": "Jump. Pull. Pray. Die.",
-            "title": "Hex",
+            "tagline": "The Brazilian Jungle's Wildest Creatures!",
+            "title": "Women in Fury",
             "video": false,
-            "vote_average": 6.047,
-            "vote_count": 32
+            "vote_average": 6,
+            "vote_count": 25
         },
         "rawHeaders": [
             "Content-Type",
             "application/json;charset=utf-8",
             "Content-Length",
-            "951",
+            "1196",
             "Connection",
             "keep-alive",
             "Date",
-            "Sat, 28 Jan 2023 09:39:14 GMT",
+            "Tue, 31 Jan 2023 11:55:16 GMT",
             "Server",
             "openresty",
             "Cache-Control",
@@ -2629,27 +2639,27 @@
             "X-Memc",
             "HIT",
             "X-Memc-Key",
-            "90f1f7a30e88abc710fb98e853e181c28c8a91e5",
+            "9026ea0dd71cc35d3dc0c9a422f19312bac6f0b7",
             "X-Memc-Age",
-            "1686",
+            "11443",
             "X-Memc-Expires",
-            "13388",
+            "5238",
             "ETag",
-            "W/\"bf9fbf75df60c3259e4caac8335f538d\"",
+            "W/\"c27ebb71d01553ce7631d9932d0429d3\"",
             "Vary",
             "Accept-Encoding,Accept-Encoding,Accept-Encoding",
             "X-Cache",
             "Hit from cloudfront",
             "Via",
-            "1.1 78720628b37ebf3e33c42dc098252ee8.cloudfront.net (CloudFront)",
+            "1.1 e60c6ee10489538b535a3fc65e54d028.cloudfront.net (CloudFront)",
             "X-Amz-Cf-Pop",
-            "FRA56-P7",
+            "DUS51-P2",
             "Alt-Svc",
             "h3=\":443\"; ma=86400",
             "X-Amz-Cf-Id",
-            "215TVNQL9l0fd4EC3vNBKvLeekuzaFcm6JawY29GsCBUnsaNpgqnMw==",
+            "00KPXqk-l3O6jAThk3_DJYHbXt8t8sPpc-C-S_ecK3Vf_fsPnhh_TQ==",
             "Age",
-            "5380",
+            "5783",
             "Vary",
             "Origin"
         ],
@@ -2658,7 +2668,124 @@
     {
         "scope": "https://api.themoviedb.org:443",
         "method": "GET",
-        "path": "/3/movie/966220?api_key=***REMOVED***&trophies=true",
+        "path": "/3/movie/551271?api_key=MOVIE_API_KEY&trophies=true",
+        "body": "",
+        "status": 200,
+        "response": {
+            "adult": false,
+            "backdrop_path": "/maxRhndtC4BJABvqRPvYNu69CHA.jpg",
+            "belongs_to_collection": null,
+            "budget": 23000000,
+            "genres": [
+                {
+                    "id": 36,
+                    "name": "History"
+                },
+                {
+                    "id": 28,
+                    "name": "Action"
+                },
+                {
+                    "id": 18,
+                    "name": "Drama"
+                }
+            ],
+            "homepage": "https://theavenue.film/movies/medieval",
+            "id": 551271,
+            "imdb_id": "tt8883486",
+            "original_language": "en",
+            "original_title": "Medieval",
+            "overview": "The story of 14th century Czech icon and warlord Jan Zizka who defeated armies of the Teutonic Order and the Holy Roman Empire.",
+            "popularity": 533.957,
+            "poster_path": "/eeUNWsdoiOijOZAMaWFDA5Pb1n8.jpg",
+            "production_companies": [
+                {
+                    "id": 39488,
+                    "logo_path": null,
+                    "name": "Three Brothers Production",
+                    "origin_country": "CZ"
+                },
+                {
+                    "id": 55956,
+                    "logo_path": null,
+                    "name": "JBJ Film",
+                    "origin_country": "CZ"
+                }
+            ],
+            "production_countries": [
+                {
+                    "iso_3166_1": "CZ",
+                    "name": "Czech Republic"
+                }
+            ],
+            "release_date": "2022-09-08",
+            "revenue": 4311284,
+            "runtime": 126,
+            "spoken_languages": [
+                {
+                    "english_name": "English",
+                    "iso_639_1": "en",
+                    "name": "English"
+                },
+                {
+                    "english_name": "Czech",
+                    "iso_639_1": "cs",
+                    "name": "Český"
+                }
+            ],
+            "status": "Released",
+            "tagline": "For honor. For justice. For freedom.",
+            "title": "Medieval",
+            "video": false,
+            "vote_average": 7.2,
+            "vote_count": 313
+        },
+        "rawHeaders": [
+            "Content-Type",
+            "application/json;charset=utf-8",
+            "Content-Length",
+            "1142",
+            "Connection",
+            "keep-alive",
+            "Date",
+            "Tue, 31 Jan 2023 11:55:16 GMT",
+            "Server",
+            "openresty",
+            "Cache-Control",
+            "public, max-age=28800",
+            "X-Memc",
+            "HIT",
+            "X-Memc-Key",
+            "f8f08ff5c29caac255b2638eea39f9b793b9a408",
+            "X-Memc-Age",
+            "6933",
+            "X-Memc-Expires",
+            "9039",
+            "ETag",
+            "W/\"f319783eabe454941ec419e9854efdf5\"",
+            "Vary",
+            "Accept-Encoding,Accept-Encoding,Accept-Encoding",
+            "X-Cache",
+            "Hit from cloudfront",
+            "Via",
+            "1.1 e60c6ee10489538b535a3fc65e54d028.cloudfront.net (CloudFront)",
+            "X-Amz-Cf-Pop",
+            "DUS51-P2",
+            "Alt-Svc",
+            "h3=\":443\"; ma=86400",
+            "X-Amz-Cf-Id",
+            "f6QYvrdbfQQBmkRWsBeAjm4gxx5BnXC_6EWR66IFcXkC3du8GZkDIA==",
+            "Age",
+            "5783",
+            "Vary",
+            "Origin"
+        ],
+        "responseIsBinary": false
+    },
+    {
+        "scope": "https://api.themoviedb.org:443",
+        "method": "GET",
+        "path": "/3/movie/966220?api_key=MOVIE_API_KEY&trophies=true",
         "body": "",
         "status": 200,
         "response": {
@@ -2686,7 +2813,7 @@
             "original_language": "uk",
             "original_title": "Снайпер. Білий ворон",
             "overview": "Mykola is an eccentric pacifist who wants to be useful to humanity. When the war begins at Donbass, Mykola’s naive world is collapsing as the militants kill his pregnant wife and burn his home to the ground. Recovered, he makes a cardinal decision and gets enlisted in a sniper company. Having met his wife’s killers, he emotionally breaks down and arranges “sniper terror” for the enemy. He’s saved from a senseless death by his instructor who himself gets mortally wounded. The death of a friend leaves a “scar” and Mykola is ready to sacrifice his life.",
-            "popularity": 581.833,
+            "popularity": 550.002,
             "poster_path": "/lZOODJzwuQo0etJJyBBZJOSdZcW.jpg",
             "production_companies": [
                 {
@@ -2721,8 +2848,8 @@
             "tagline": "On the battlefield, one bullet can change everything.",
             "title": "Sniper: The White Raven",
             "video": false,
-            "vote_average": 7.733,
-            "vote_count": 251
+            "vote_average": 7.722,
+            "vote_count": 255
         },
         "rawHeaders": [
             "Content-Type",
@@ -2732,7 +2859,7 @@
             "Connection",
             "keep-alive",
             "Date",
-            "Sat, 28 Jan 2023 09:39:14 GMT",
+            "Tue, 31 Jan 2023 11:55:16 GMT",
             "Server",
             "openresty",
             "Cache-Control",
@@ -2742,144 +2869,32 @@
             "X-Memc-Key",
             "c25398de3663c84da115797dd43bb8ce1bdef92c",
             "X-Memc-Age",
-            "5277",
+            "8860",
             "X-Memc-Expires",
-            "11924",
+            "9036",
             "ETag",
-            "W/\"3f29f30c429a93dfbb7454b970fdd1e0\"",
+            "W/\"b50be9db4e2200e8e22ddb7e6e587a83\"",
             "Vary",
             "Accept-Encoding,Accept-Encoding,Accept-Encoding",
             "X-Cache",
             "Hit from cloudfront",
             "Via",
-            "1.1 78720628b37ebf3e33c42dc098252ee8.cloudfront.net (CloudFront)",
+            "1.1 e60c6ee10489538b535a3fc65e54d028.cloudfront.net (CloudFront)",
             "X-Amz-Cf-Pop",
-            "FRA56-P7",
+            "DUS51-P2",
             "Alt-Svc",
             "h3=\":443\"; ma=86400",
             "X-Amz-Cf-Id",
-            "4YQjhBQmKlLa1uRC_Fp0Xj7BPN6B0vzAp-K-tmwKUgoJduYcj8ivlw==",
+            "xgtf1fCoUv_73n3oZrjBTxlhtqalNUnmEGpGruXdtpP__3rEpHe3ug==",
             "Age",
-            "5380",
+            "5783",
             "Vary",
             "Origin"
         ],
         "responseIsBinary": false
     },
     {
-        "scope": "https://api.themoviedb.org:443",
-        "method": "GET",
-        "path": "/3/movie/39456?api_key=***REMOVED***&trophies=true",
-        "body": "",
-        "status": 200,
-        "response": {
-            "adult": false,
-            "backdrop_path": "/chLZrgbUomn48GDYaq7HzVYLZbg.jpg",
-            "belongs_to_collection": null,
-            "budget": 0,
-            "genres": [
-                {
-                    "id": 28,
-                    "name": "Action"
-                },
-                {
-                    "id": 18,
-                    "name": "Drama"
-                }
-            ],
-            "homepage": "",
-            "id": 39456,
-            "imdb_id": "tt0089134",
-            "original_language": "it",
-            "original_title": "Femmine in fuga",
-            "overview": "The young, pretty and shy Angela Duvall is jailed for murder in some Latin American country. In the prison she gets brutally \"initiated\" by the other inmates. The nice, honest and handsome prison doctor believe she's innocent and tries to help her out.",
-            "popularity": 581.612,
-            "poster_path": "/7g3IrtxAnqPIa8OJZBcrDGgDJGu.jpg",
-            "production_companies": [
-                {
-                    "id": 44165,
-                    "logo_path": null,
-                    "name": "R.P.A. Cinematografica",
-                    "origin_country": "IT"
-                },
-                {
-                    "id": 51299,
-                    "logo_path": null,
-                    "name": "Brasil Produções Cinematográficas",
-                    "origin_country": "BR"
-                }
-            ],
-            "production_countries": [
-                {
-                    "iso_3166_1": "BR",
-                    "name": "Brazil"
-                },
-                {
-                    "iso_3166_1": "IT",
-                    "name": "Italy"
-                }
-            ],
-            "release_date": "1984-05-10",
-            "revenue": 0,
-            "runtime": 90,
-            "spoken_languages": [
-                {
-                    "english_name": "Italian",
-                    "iso_639_1": "it",
-                    "name": "Italiano"
-                }
-            ],
-            "status": "Released",
-            "tagline": "The Brazilian Jungle's Wildest Creatures!",
-            "title": "Women in Fury",
-            "video": false,
-            "vote_average": 5.8,
-            "vote_count": 22
-        },
-        "rawHeaders": [
-            "Content-Type",
-            "application/json;charset=utf-8",
-            "Content-Length",
-            "1199",
-            "Connection",
-            "keep-alive",
-            "Date",
-            "Sat, 28 Jan 2023 09:39:14 GMT",
-            "Server",
-            "openresty",
-            "Cache-Control",
-            "public, max-age=28800",
-            "X-Memc",
-            "HIT",
-            "X-Memc-Key",
-            "9026ea0dd71cc35d3dc0c9a422f19312bac6f0b7",
-            "X-Memc-Age",
-            "3624",
-            "X-Memc-Expires",
-            "12842",
-            "ETag",
-            "W/\"dca815781f159afd1429b8669119be83\"",
-            "Vary",
-            "Accept-Encoding,Accept-Encoding,Accept-Encoding",
-            "X-Cache",
-            "Hit from cloudfront",
-            "Via",
-            "1.1 78720628b37ebf3e33c42dc098252ee8.cloudfront.net (CloudFront)",
-            "X-Amz-Cf-Pop",
-            "FRA56-P7",
-            "Alt-Svc",
-            "h3=\":443\"; ma=86400",
-            "X-Amz-Cf-Id",
-            "nnDCpAmZr_RtV4d4_1AK3PoqV5Arp1layf7dawavlq4G2Lj4XbJ0SQ==",
-            "Age",
-            "5380",
-            "Vary",
-            "Origin"
-        ],
-        "responseIsBinary": false
-    },
-    {
-        "scope": "http://127.0.0.1:41945",
+        "scope": "http://127.0.0.1:41689",
         "method": "GET",
         "path": "/extern/movie/genre/28?page=1",
         "body": "",
@@ -2951,6 +2966,32 @@
                     ]
                 },
                 {
+                    "movieId": 843794,
+                    "title": "정이",
+                    "overview": "On an uninhabitable 22nd-century Earth, the outcome of a civil war hinges on cloning the brain of an elite soldier to create a robot mercenary.",
+                    "releaseDate": "2023-01-20T00:00:00.000Z",
+                    "lengthMinutes": 98,
+                    "adultContent": false,
+                    "imagePath": "/z2nfRxZCGFgAnVhb9pZO87TyTX5.jpg",
+                    "videoPath": "null",
+                    "actors": [],
+                    "reviews": [],
+                    "genres": [
+                        {
+                            "genreId": 878,
+                            "genreName": "Science Fiction"
+                        },
+                        {
+                            "genreId": 28,
+                            "genreName": "Action"
+                        },
+                        {
+                            "genreId": 12,
+                            "genreName": "Adventure"
+                        }
+                    ]
+                },
+                {
                     "movieId": 846433,
                     "title": "The Enforcer",
                     "overview": "A noir thriller set in Miami, the film follows an enforcer who discovers his femme fatale boss has branched out into cyber sex trafficking, putting a young runaway he’s befriended at risk. He sacrifices everything to save the young girl from the deadly organization he’s spent his life building.",
@@ -2973,6 +3014,28 @@
                         {
                             "genreId": 18,
                             "genreName": "Drama"
+                        }
+                    ]
+                },
+                {
+                    "movieId": 542196,
+                    "title": "Wolf Hound",
+                    "overview": "Inspired by the real-life German special operations unit KG 200 that shot down, repaired, and flew Allied aircraft as Trojan horses, \"Wolf Hound\" takes place in 1944 German-occupied France and follows the daring exploits of Jewish-American fighter pilot Captain David Holden. Ambushed behind enemy lines, Holden must rescue a captured B-17 Flying Fortress crew, evade a ruthless enemy stalking him at every turn, and foil a plot that could completely alter the outcome of World War II.",
+                    "releaseDate": "2022-06-03T00:00:00.000Z",
+                    "lengthMinutes": 127,
+                    "adultContent": false,
+                    "imagePath": "/6sMnY4fEVAfdadhANhGnNckxsmx.jpg",
+                    "videoPath": "null",
+                    "actors": [],
+                    "reviews": [],
+                    "genres": [
+                        {
+                            "genreId": 10752,
+                            "genreName": "War"
+                        },
+                        {
+                            "genreId": 28,
+                            "genreName": "Action"
                         }
                     ]
                 },
@@ -3007,21 +3070,17 @@
                     ]
                 },
                 {
-                    "movieId": 736526,
-                    "title": "Troll",
-                    "overview": "Deep inside the mountain of Dovre, something gigantic awakens after being trapped for a thousand years. Destroying everything in its path, the creature is fast approaching the capital of Norway. But how do you stop something you thought only existed in Norwegian folklore?",
-                    "releaseDate": "2022-12-01T00:00:00.000Z",
-                    "lengthMinutes": 104,
+                    "movieId": 19995,
+                    "title": "Avatar",
+                    "overview": "In the 22nd century, a paraplegic Marine is dispatched to the moon Pandora on a unique mission, but becomes torn between following orders and protecting an alien civilization.",
+                    "releaseDate": "2009-12-15T00:00:00.000Z",
+                    "lengthMinutes": 162,
                     "adultContent": false,
-                    "imagePath": "/9z4jRr43JdtU66P0iy8h18OyLql.jpg",
+                    "imagePath": "/jRXYjXNq0Cs2TcJjLkki24MLp7u.jpg",
                     "videoPath": "null",
                     "actors": [],
                     "reviews": [],
                     "genres": [
-                        {
-                            "genreId": 14,
-                            "genreName": "Fantasy"
-                        },
                         {
                             "genreId": 28,
                             "genreName": "Action"
@@ -3031,8 +3090,12 @@
                             "genreName": "Adventure"
                         },
                         {
-                            "genreId": 53,
-                            "genreName": "Thriller"
+                            "genreId": 14,
+                            "genreName": "Fantasy"
+                        },
+                        {
+                            "genreId": 878,
+                            "genreName": "Science Fiction"
                         }
                     ]
                 },
@@ -3089,13 +3152,13 @@
                     ]
                 },
                 {
-                    "movieId": 740952,
-                    "title": "Savage Salvation",
-                    "overview": "Newly engaged Shelby John and Ruby Red want a fresh start after their struggles with addiction, but when Shelby discovers his beloved Ruby dead on their porch, he embarks on a vengeful killing spree of the dealers who supplied her. Armed with nothing but adrenaline and a nail gun, Shelby begins to unleash chaos on the town’s criminal underbelly, as he hunt’s down crime lord Coyote. Sheriff Church must race against the clock to put an end to Shelby's vigilante justice before the entire town descends into a bloodbath.",
-                    "releaseDate": "2022-12-02T00:00:00.000Z",
-                    "lengthMinutes": 101,
+                    "movieId": 877703,
+                    "title": "Teen Wolf: The Movie",
+                    "overview": "The wolves are howling once again, as a terrifying ancient evil emerges in Beacon Hills. Scott McCall, no longer a teenager yet still an Alpha, must gather new allies and reunite trusted friends to fight back against this powerful and deadly enemy.",
+                    "releaseDate": "2023-01-18T00:00:00.000Z",
+                    "lengthMinutes": 140,
                     "adultContent": false,
-                    "imagePath": "/fJRt3mmZEvf8gQzoNLzjPtWpc9o.jpg",
+                    "imagePath": "/wAkpPm3wcHRqZl8XjUI3Y2chYq2.jpg",
                     "videoPath": "null",
                     "actors": [],
                     "reviews": [],
@@ -3103,70 +3166,32 @@
                         {
                             "genreId": 28,
                             "genreName": "Action"
-                        },
-                        {
-                            "genreId": 9648,
-                            "genreName": "Mystery"
-                        },
-                        {
-                            "genreId": 53,
-                            "genreName": "Thriller"
-                        },
-                        {
-                            "genreId": 80,
-                            "genreName": "Crime"
-                        },
-                        {
-                            "genreId": 18,
-                            "genreName": "Drama"
-                        }
-                    ]
-                },
-                {
-                    "movieId": 19995,
-                    "title": "Avatar",
-                    "overview": "In the 22nd century, a paraplegic Marine is dispatched to the moon Pandora on a unique mission, but becomes torn between following orders and protecting an alien civilization.",
-                    "releaseDate": "2009-12-15T00:00:00.000Z",
-                    "lengthMinutes": 162,
-                    "adultContent": false,
-                    "imagePath": "/jRXYjXNq0Cs2TcJjLkki24MLp7u.jpg",
-                    "videoPath": "null",
-                    "actors": [],
-                    "reviews": [],
-                    "genres": [
-                        {
-                            "genreId": 28,
-                            "genreName": "Action"
-                        },
-                        {
-                            "genreId": 12,
-                            "genreName": "Adventure"
                         },
                         {
                             "genreId": 14,
                             "genreName": "Fantasy"
                         },
                         {
-                            "genreId": 878,
-                            "genreName": "Science Fiction"
+                            "genreId": 10770,
+                            "genreName": "TV Movie"
                         }
                     ]
                 },
                 {
-                    "movieId": 843794,
-                    "title": "정이",
-                    "overview": "On an uninhabitable 22nd-century Earth, the outcome of a civil war hinges on cloning the brain of an elite soldier to create a robot mercenary.",
-                    "releaseDate": "2023-01-20T00:00:00.000Z",
-                    "lengthMinutes": 98,
+                    "movieId": 736526,
+                    "title": "Troll",
+                    "overview": "Deep inside the mountain of Dovre, something gigantic awakens after being trapped for a thousand years. Destroying everything in its path, the creature is fast approaching the capital of Norway. But how do you stop something you thought only existed in Norwegian folklore?",
+                    "releaseDate": "2022-12-01T00:00:00.000Z",
+                    "lengthMinutes": 104,
                     "adultContent": false,
-                    "imagePath": "/z2nfRxZCGFgAnVhb9pZO87TyTX5.jpg",
+                    "imagePath": "/9z4jRr43JdtU66P0iy8h18OyLql.jpg",
                     "videoPath": "null",
                     "actors": [],
                     "reviews": [],
                     "genres": [
                         {
-                            "genreId": 878,
-                            "genreName": "Science Fiction"
+                            "genreId": 14,
+                            "genreName": "Fantasy"
                         },
                         {
                             "genreId": 28,
@@ -3175,6 +3200,10 @@
                         {
                             "genreId": 12,
                             "genreName": "Adventure"
+                        },
+                        {
+                            "genreId": 53,
+                            "genreName": "Thriller"
                         }
                     ]
                 },
@@ -3197,6 +3226,36 @@
                         {
                             "genreId": 35,
                             "genreName": "Comedy"
+                        },
+                        {
+                            "genreId": 80,
+                            "genreName": "Crime"
+                        }
+                    ]
+                },
+                {
+                    "movieId": 740952,
+                    "title": "Savage Salvation",
+                    "overview": "Newly engaged Shelby John and Ruby Red want a fresh start after their struggles with addiction, but when Shelby discovers his beloved Ruby dead on their porch, he embarks on a vengeful killing spree of the dealers who supplied her. Armed with nothing but adrenaline and a nail gun, Shelby begins to unleash chaos on the town’s criminal underbelly, as he hunt’s down crime lord Coyote. Sheriff Church must race against the clock to put an end to Shelby's vigilante justice before the entire town descends into a bloodbath.",
+                    "releaseDate": "2022-12-02T00:00:00.000Z",
+                    "lengthMinutes": 101,
+                    "adultContent": false,
+                    "imagePath": "/fJRt3mmZEvf8gQzoNLzjPtWpc9o.jpg",
+                    "videoPath": "null",
+                    "actors": [],
+                    "reviews": [],
+                    "genres": [
+                        {
+                            "genreId": 28,
+                            "genreName": "Action"
+                        },
+                        {
+                            "genreId": 9648,
+                            "genreName": "Mystery"
+                        },
+                        {
+                            "genreId": 53,
+                            "genreName": "Thriller"
                         },
                         {
                             "genreId": 80,
@@ -3257,54 +3316,6 @@
                     ]
                 },
                 {
-                    "movieId": 1015963,
-                    "title": "High Heat",
-                    "overview": "When the local mafia shows up to burn down her restaurant, Ana, a chef with a meticulous past, defends her turf and proves her knife skills both in and out of the kitchen.",
-                    "releaseDate": "2022-12-16T00:00:00.000Z",
-                    "lengthMinutes": 84,
-                    "adultContent": false,
-                    "imagePath": "/mmD0NVdhiRiCu64YKem5GK5PSfy.jpg",
-                    "videoPath": "null",
-                    "actors": [],
-                    "reviews": [],
-                    "genres": [
-                        {
-                            "genreId": 28,
-                            "genreName": "Action"
-                        },
-                        {
-                            "genreId": 35,
-                            "genreName": "Comedy"
-                        },
-                        {
-                            "genreId": 80,
-                            "genreName": "Crime"
-                        }
-                    ]
-                },
-                {
-                    "movieId": 542196,
-                    "title": "Wolf Hound",
-                    "overview": "Inspired by the real-life German special operations unit KG 200 that shot down, repaired, and flew Allied aircraft as Trojan horses, \"Wolf Hound\" takes place in 1944 German-occupied France and follows the daring exploits of Jewish-American fighter pilot Captain David Holden. Ambushed behind enemy lines, Holden must rescue a captured B-17 Flying Fortress crew, evade a ruthless enemy stalking him at every turn, and foil a plot that could completely alter the outcome of World War II.",
-                    "releaseDate": "2022-06-03T00:00:00.000Z",
-                    "lengthMinutes": 127,
-                    "adultContent": false,
-                    "imagePath": "/6sMnY4fEVAfdadhANhGnNckxsmx.jpg",
-                    "videoPath": "null",
-                    "actors": [],
-                    "reviews": [],
-                    "genres": [
-                        {
-                            "genreId": 10752,
-                            "genreName": "War"
-                        },
-                        {
-                            "genreId": 28,
-                            "genreName": "Action"
-                        }
-                    ]
-                },
-                {
                     "movieId": 1024546,
                     "title": "Detective Knight: Rogue",
                     "overview": "As Los Angeles prepares for Halloween, mask-wearing armed robbers critically wound detective James Knight’s partner in a shootout following a heist. With Knight in hot pursuit, the bandits flee L.A. for New York, where the detective’s dark past collides with his present case and threatens to tear his world apart…unless redemption can claim Knight first.",
@@ -3357,13 +3368,13 @@
                     ]
                 },
                 {
-                    "movieId": 988233,
-                    "title": "Hex",
-                    "overview": "Following a mysterious disappearance on a jump, a group of skydivers experiences paranormal occurrences that leave them fighting for their lives.",
-                    "releaseDate": "2022-11-01T00:00:00.000Z",
-                    "lengthMinutes": 88,
+                    "movieId": 39456,
+                    "title": "Femmine in fuga",
+                    "overview": "The young, pretty and shy Angela Duvall is jailed for murder in some Latin American country. In the prison she gets brutally \"initiated\" by the other inmates. The nice, honest and handsome prison doctor believe she's innocent and tries to help her out.",
+                    "releaseDate": "1984-05-10T00:00:00.000Z",
+                    "lengthMinutes": 90,
                     "adultContent": false,
-                    "imagePath": "/xFJHb43ZAnnuiDztxZYsmyopweb.jpg",
+                    "imagePath": "/bpQ5YAg9IwXpnlkjTZxWSj1P8Jj.jpg",
                     "videoPath": "null",
                     "actors": [],
                     "reviews": [],
@@ -3373,12 +3384,34 @@
                             "genreName": "Action"
                         },
                         {
-                            "genreId": 27,
-                            "genreName": "Horror"
+                            "genreId": 18,
+                            "genreName": "Drama"
+                        }
+                    ]
+                },
+                {
+                    "movieId": 551271,
+                    "title": "Medieval",
+                    "overview": "The story of 14th century Czech icon and warlord Jan Zizka who defeated armies of the Teutonic Order and the Holy Roman Empire.",
+                    "releaseDate": "2022-09-08T00:00:00.000Z",
+                    "lengthMinutes": 126,
+                    "adultContent": false,
+                    "imagePath": "/eeUNWsdoiOijOZAMaWFDA5Pb1n8.jpg",
+                    "videoPath": "null",
+                    "actors": [],
+                    "reviews": [],
+                    "genres": [
+                        {
+                            "genreId": 36,
+                            "genreName": "History"
                         },
                         {
-                            "genreId": 53,
-                            "genreName": "Thriller"
+                            "genreId": 28,
+                            "genreName": "Action"
+                        },
+                        {
+                            "genreId": 18,
+                            "genreName": "Drama"
                         }
                     ]
                 },
@@ -3407,28 +3440,6 @@
                             "genreName": "Drama"
                         }
                     ]
-                },
-                {
-                    "movieId": 39456,
-                    "title": "Femmine in fuga",
-                    "overview": "The young, pretty and shy Angela Duvall is jailed for murder in some Latin American country. In the prison she gets brutally \"initiated\" by the other inmates. The nice, honest and handsome prison doctor believe she's innocent and tries to help her out.",
-                    "releaseDate": "1984-05-10T00:00:00.000Z",
-                    "lengthMinutes": 90,
-                    "adultContent": false,
-                    "imagePath": "/7g3IrtxAnqPIa8OJZBcrDGgDJGu.jpg",
-                    "videoPath": "null",
-                    "actors": [],
-                    "reviews": [],
-                    "genres": [
-                        {
-                            "genreId": 28,
-                            "genreName": "Action"
-                        },
-                        {
-                            "genreId": 18,
-                            "genreName": "Drama"
-                        }
-                    ]
                 }
             ]
         },
@@ -3440,11 +3451,11 @@
             "Content-Type",
             "application/json; charset=utf-8",
             "Content-Length",
-            "12831",
+            "12877",
             "ETag",
-            "W/\"321f-edNz506FchUOj0pIWsgPpUYH/Qc\"",
+            "W/\"324d-tlqRDXugjTSYBmYc1Piic4OzSKc\"",
             "Date",
-            "Sat, 28 Jan 2023 11:08:53 GMT",
+            "Tue, 31 Jan 2023 13:31:37 GMT",
             "Connection",
             "close"
         ],
