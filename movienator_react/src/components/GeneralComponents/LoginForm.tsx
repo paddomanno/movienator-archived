@@ -92,7 +92,7 @@ export default function LoginForm() {
           sx={{ width: '50%' }}
           id={'password-input'}
           name={'password'}
-          label={'password'}
+          label={'Password'}
           type={'password'}
           value={formValues.password}
           onChange={handleInputChange}
