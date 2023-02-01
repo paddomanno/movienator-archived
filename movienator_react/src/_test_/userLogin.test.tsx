@@ -1,13 +1,13 @@
 import {
+  fireEvent,
   render,
   screen,
-  waitForElementToBeRemoved,
+  // waitForElementToBeRemoved,
 } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+// import userEvent from '@testing-library/user-event';
 // import mockFetch from './mocks/mockFetch';
-import HomePage from '../pages/HomePage';
+// import HomePage from '../pages/HomePage';
 import '@testing-library/jest-dom';
-import LoginPage from '../pages/LoginPage';
 import { BrowserRouter } from 'react-router-dom';
 import LoginForm from '../components/GeneralComponents/LoginForm';
 
@@ -44,6 +44,21 @@ describe('test login page', () => {
     // expect(screen.getByRole('img')).toBeInTheDocument();
   });
 
+  test('writes into input field Username and Password', async () => {
+    render(
+      <BrowserRouter>
+        <LoginForm />
+      </BrowserRouter>
+    );
+
+    const inputName = screen.getByLabelText('Username') as HTMLInputElement;
+    fireEvent.change(inputName, { target: { value: 'MyUser123' } });
+    expect(inputName.value).toBe('MyUser123');
+
+    const inputPwd = screen.getByLabelText('Password') as HTMLInputElement;
+    fireEvent.change(inputPwd, { target: { value: 'root' } });
+    expect(inputPwd.value).toBe('root');
+  });
   // test('should be able to search and display dog image results', async () => {
   //   render(<App />);
 
