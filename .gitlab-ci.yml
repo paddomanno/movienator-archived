@@ -1,8 +1,8 @@
 variables:
-  MYSQL_ROOT_PASSWORD: "root"
-  MYSQL_DATABASE: "movienator-database-test"
-  MYSQL_USER: "public"
-  MYSQL_PASSWORD: "public"
+  MYSQL_ROOT_PASSWORD: 'root'
+  MYSQL_DATABASE: 'movienator-database-test'
+  MYSQL_USER: 'public'
+  MYSQL_PASSWORD: 'public'
   MYSQL_HOST: mysql
   HATESPEECH_API_KEY: $hateSpeech_API_Key
   MOVIE_API_KEY: $movie_API_Key
@@ -29,7 +29,7 @@ frontend-tests:
   before_script:
     - cd movienator_react
   script:
-    - npm run install-temp
+    - npm run install-test
   after_script:
     - echo 'finished reactTest'
 

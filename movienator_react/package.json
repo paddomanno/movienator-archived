@@ -28,9 +28,10 @@
   },
   "scripts": {
     "start": "WATCHPACK_POLLING=true react-scripts start",
+    "test-watch": "jest --watchAll --forceExit",
     "test": "jest --forceExit",
     "install-start": "npm install && npm start",
-    "install-temp": "npm install && npm test",
+    "install-test": "npm install && npm test",
     "install-lint": "npm install && eslint --ignore-path .gitignore . --ext .ts --ext .tsx",
     "startlocal": "react-scripts start",
     "build": "react-scripts build",

@@ -53,7 +53,7 @@ services:
       CHOKIDAR_USEPOLLING: 'true'
     depends_on:
       - movienator-express-test
-    command: npm run install-temp
+    command: npm run install-test
 
 networks:
   movienator_network:
