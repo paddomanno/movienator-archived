@@ -59,6 +59,40 @@ describe('test login page', () => {
     fireEvent.change(inputPwd, { target: { value: 'root' } });
     expect(inputPwd.value).toBe('root');
   });
+
+  test('shows orange input fields when not filled after login button clicked', () => {
+    render(
+      <BrowserRouter>
+        <LoginForm />
+      </BrowserRouter>
+    );
+    const buttonLogin = screen.getByRole('button', { name: 'Login' });
+    fireEvent.click(buttonLogin);
+
+    const inputName = screen.getByLabelText('Username') as HTMLInputElement;
+    expect(inputName.style.backgroundColor).toBe('orange');
+    const inputPwd = screen.getByLabelText('Password') as HTMLInputElement;
+    expect(inputPwd.style.backgroundColor).toBe('orange');
+  });
+
+  test('navigation to signup Page', async () => {
+    // testet noch nichts...
+    render(
+      <BrowserRouter>
+        <LoginForm />
+      </BrowserRouter>
+    );
+
+    const button = screen.getByRole('button', {
+      name: "I don't have an account",
+    });
+    fireEvent.click(button); // navigation to SignUpPage.tsx
+
+    // const newScreen = await screen.findByText('Register a new Account'); // Heading in SignupForm.tsx
+    // expect(newScreen).toBeOnTheScreen();
+    screen.debug();
+  });
+
   // test('should be able to search and display dog image results', async () => {
   //   render(<App />);
 
