@@ -29,7 +29,11 @@ export default function OtherProfileDetails({
 
   useEffect(() => {
     if (viewedUser) {
-      setIsFollowing(viewedUser.followers.includes(loggedInUser));
+      setIsFollowing(
+        viewedUser.followers.findIndex(
+          (follower) => follower.userId === loggedInUser.userId
+        ) >= 0
+      );
     }
   }, [viewedUser, loggedInUser]);
 
