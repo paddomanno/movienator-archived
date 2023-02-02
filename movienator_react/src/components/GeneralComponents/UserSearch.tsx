@@ -50,7 +50,6 @@ export default function UserSearch() {
           <Stack direction={'column'} spacing={1}>
             <Typography variant="h5">Get to know other Movienators!</Typography>
             <Paper
-              component="form"
               sx={{
                 p: '2px 4px',
                 display: 'flex',
@@ -58,12 +57,18 @@ export default function UserSearch() {
                 width: 400,
               }}
             >
-              <InputBase
-                sx={{ ml: 1, flex: 1 }}
-                placeholder="Search User"
-                value={searchWord}
-                onChange={handleChange}
-              />
+              <form
+                noValidate
+                autoComplete="off"
+                onSubmit={(e) => e.preventDefault()}
+              >
+                <InputBase
+                  sx={{ ml: 1, flex: 1 }}
+                  placeholder="Search User"
+                  value={searchWord}
+                  onChange={handleChange}
+                />
+              </form>
             </Paper>
           </Stack>
           <OwnProfileUsersLists title={''} users={users} />
