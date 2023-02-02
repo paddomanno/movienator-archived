@@ -1,97 +1,172 @@
-import {
-  fireEvent,
-  render,
-  screen,
-  // waitForElementToBeRemoved,
-} from '@testing-library/react';
-// import userEvent from '@testing-library/user-event';
-// import mockFetch from './mocks/mockFetch';
-// import HomePage from '../pages/HomePage';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
+
 import { BrowserRouter } from 'react-router-dom';
-import LoginForm from '../components/GeneralComponents/LoginForm';
+import LoginPage from '../pages/LoginPage';
+import React from 'react';
+import { getOneUserToUserId } from '../services/UserService';
+import { User } from '../types/User';
 
-beforeEach(() => {
-  // jest.spyOn(window, 'fetch').mockImplementation(mockFetch);
-});
+jest.mock('../services/UserService');
 
-afterEach(() => {
-  // jest.restoreAllMocks();
-});
+const mockNavigate = jest.fn();
+jest.mock('react-router-dom', () => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ...(jest.requireActual('react-router-dom') as any),
+  useNavigate: () => mockNavigate,
+}));
+
+const mockSetCookie = jest.fn();
+jest.mock('react-cookie', () => ({
+  useCookies: jest.fn(() => [{}, mockSetCookie]),
+}));
+
 describe('test login page', () => {
   test('renders the login page', async () => {
     render(
       <BrowserRouter>
-        <LoginForm />
+        <LoginPage />
       </BrowserRouter>
     );
 
-    //expect------selector-------------------------------matcher----------------------------
+    // expect(selector).matcher();
     expect(screen.getByRole('heading')).toHaveTextContent(
       'Sign into your Account'
     );
-    expect(screen.getByLabelText('Username')).toBeInTheDocument();
-    expect(screen.getByLabelText('Password')).toBeInTheDocument();
+    expect(screen.getByLabelText(/username/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Login' })).toBeInTheDocument();
     expect(
       screen.getByRole('button', { name: "I don't have an account" })
     ).toBeInTheDocument();
-    // expect(screen.getByRole('combobox')).toHaveDisplayValue('Select a breed');
-    // expect(
-    //   await screen.findByRole('option', { name: 'husky' })
-    // ).toBeInTheDocument();
-    // expect(screen.getByRole('button', { name: 'Search' })).toBeDisabled();
-    // expect(screen.getByRole('img')).toBeInTheDocument();
   });
 
   test('writes into input field Username and Password', async () => {
+    // arrange
     render(
       <BrowserRouter>
-        <LoginForm />
+        <LoginPage />
       </BrowserRouter>
     );
 
-    const inputName = screen.getByLabelText('Username') as HTMLInputElement;
+    // act
+    const inputName = screen.getByLabelText(/username/i) as HTMLInputElement;
+    const inputPwd = screen.getByLabelText(/password/i) as HTMLInputElement;
     fireEvent.change(inputName, { target: { value: 'MyUser123' } });
-    expect(inputName.value).toBe('MyUser123');
-
-    const inputPwd = screen.getByLabelText('Password') as HTMLInputElement;
     fireEvent.change(inputPwd, { target: { value: 'root' } });
+
+    // assert
+    expect(inputName.value).toBe('MyUser123');
     expect(inputPwd.value).toBe('root');
   });
 
   test('shows orange input fields when not filled after login button clicked', () => {
+    // arrange
     render(
       <BrowserRouter>
-        <LoginForm />
+        <LoginPage />
       </BrowserRouter>
     );
-    const buttonLogin = screen.getByRole('button', { name: 'Login' });
+
+    // act
+    const buttonLogin = screen.getByRole(/button/i, { name: 'Login' });
     fireEvent.click(buttonLogin);
 
-    const inputName = screen.getByLabelText('Username') as HTMLInputElement;
+    // assert
+    const inputName = screen.getByLabelText(/username/i) as HTMLInputElement;
+    const inputPwd = screen.getByLabelText(/password/i) as HTMLInputElement;
     expect(inputName.style.backgroundColor).toBe('orange');
-    const inputPwd = screen.getByLabelText('Password') as HTMLInputElement;
     expect(inputPwd.style.backgroundColor).toBe('orange');
   });
 
-  test('navigation to signup Page', async () => {
-    // testet noch nichts...
+  test('Login form submits correctly, sets cookies and navigates to HomePage', async () => {
+    const fakeUserDetails = {
+      userId: 123,
+      userName: 'fakeUser',
+      password: 'fakePass',
+    };
+
+    const fakeUserFull: User = {
+      userId: fakeUserDetails.userId,
+      firstName: '',
+      lastName: '',
+      userName: fakeUserDetails.userName,
+      password: fakeUserDetails.password,
+      comment: '',
+      birthday: new Date(),
+      profileImage: null,
+      reviews: [],
+      following: [],
+      followers: [],
+      watchlist: [],
+    };
+    (getOneUserToUserId as jest.Mock).mockResolvedValue(fakeUserFull);
+
+    // arrange
     render(
       <BrowserRouter>
-        <LoginForm />
+        <LoginPage />
       </BrowserRouter>
     );
 
-    const button = screen.getByRole('button', {
-      name: "I don't have an account",
+    // act
+    act(() => {
+      fireEvent.change(screen.getByLabelText(/username/i), {
+        target: { value: fakeUserDetails.userName },
+      });
+      fireEvent.change(screen.getByLabelText(/password/i), {
+        target: { value: fakeUserDetails.password },
+      });
     });
-    fireEvent.click(button); // navigation to SignUpPage.tsx
 
-    // const newScreen = await screen.findByText('Register a new Account'); // Heading in SignupForm.tsx
-    // expect(newScreen).toBeOnTheScreen();
-    screen.debug();
+    console.log('## CLICKING LOGIN');
+    await act(async () => {
+      fireEvent.click(screen.getByText('Login'));
+    });
+    console.log((getOneUserToUserId as jest.Mock).mock.calls);
+
+    // assert
+    expect(getOneUserToUserId as jest.Mock).toHaveBeenCalledWith(
+      fakeUserDetails.userName
+    );
+    expect(mockSetCookie).toHaveBeenCalledWith(
+      'userName',
+      fakeUserDetails.userName,
+      {
+        path: '/',
+      }
+    );
+    expect(mockSetCookie).toHaveBeenCalledWith(
+      'userId',
+      fakeUserDetails.userId,
+      {
+        path: '/',
+      }
+    );
+    expect(mockNavigate).toHaveBeenCalledWith('/home');
   });
+
+  // test('navigation to signup Page', async () => {
+  //   // testet noch nichts...
+  //   // arrange
+  //   const loginMock = jest.fn();
+  //   render(
+  //     <BrowserRouter>
+  //       <LoginPage />
+  //     </BrowserRouter>
+  //   );
+
+  //   // act
+  //   const button = screen.getByRole('button', {
+  //     name: "I don't have an account",
+  //   });
+  //   fireEvent.click(button); // navigation to SignUpPage.tsx
+
+  //   // assert
+  //   // const newScreen = await screen.findByText('Register a new Account'); // Heading in SignupForm.tsx
+  //   // expect(newScreen).toBeOnTheScreen();
+  //   // screen.debug();
+  // });
 
   // test('should be able to search and display dog image results', async () => {
   //   render(<App />);
