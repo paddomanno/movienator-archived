@@ -10,7 +10,7 @@ export default function ActorCardSmall({ actor }: SingleActorProps) {
   return (
     <IconButton onClick={manageClick}>
       <Paper
-        elevation={6}
+        elevation={0}
         variant={'outlined'}
         sx={{
           minWidth: 100,

@@ -19,6 +19,7 @@ import {
   updateUserImageToImageIdAndUserId,
 } from '../../services/ProfileImageService';
 import { AlertColor } from '@mui/material/Alert';
+import moment from 'moment';
 
 type UserAttributes = {
   firstName: string;
@@ -154,6 +155,7 @@ export default function OwnProfileEditProfileModal({
           ).then(() => {
             showMessage('Changes Saved', 'success');
             reloadHandler();
+            setOpen(false);
           });
         });
       });
@@ -163,6 +165,7 @@ export default function OwnProfileEditProfileModal({
           setActivateToggle(false);
           showMessage('Changes Saved', 'success');
           reloadHandler();
+          setOpen(false);
         });
       });
     }
@@ -269,11 +272,12 @@ export default function OwnProfileEditProfileModal({
                 InputLabelProps={{ shrink: true, required: true }}
                 type={'date'}
                 defaultValue={
-                  new Date(defaultData.birthday).getFullYear() +
-                  '-' +
-                  new Date(defaultData.birthday).getMonth() +
-                  '-' +
-                  new Date(defaultData.birthday).getDate()
+                  // new Date(defaultData.birthday).getFullYear() +
+                  // '-' +
+                  // new Date(defaultData.birthday).getMonth() +
+                  // '-' +
+                  // new Date(defaultData.birthday).getDate()
+                  moment(defaultData.birthday).format('YYYY-MM-DD')
                 }
                 // InputProps={{
                 //   inputProps: { min: '', max: currentDateString },
