@@ -31,7 +31,6 @@ export default function CustomizedSnackbars({
     event?: React.SyntheticEvent | Event,
     reason?: string
   ) => {
-    console.log('2:OPEN:' + open + 'ACTI: ' + activated);
     if (reason === 'clickaway') {
       return;
     }

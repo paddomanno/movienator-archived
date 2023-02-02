@@ -1,5 +1,5 @@
 import { Review } from '../types/Review';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 const baseUrl = 'http://localhost:8080/review';
 export async function getAllReviews(): Promise<Review[]> {
@@ -32,13 +32,21 @@ export async function getOneReviewToUserIdAndMovieId(
   userId: number,
   movieId: number
 ): Promise<Review | null> {
+  if (!userId || !movieId) {
+    return null;
+  }
   let resReview: Review | null = null;
   try {
     const response = await axios.get(baseUrl + `/one/${movieId}/${userId}`);
     if (response.status === 200) {
       resReview = response.data.data as Review;
     }
-  } catch (e) {
+  } catch (error) {
+    const e = error as AxiosError;
+    if (e.response && e.response.status === 404) {
+      // Review not found, which is expected behavior
+      return null;
+    }
     console.log('Error fetching Reviews: ' + e);
   }
   return resReview;
