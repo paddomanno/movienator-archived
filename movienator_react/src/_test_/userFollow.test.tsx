@@ -59,7 +59,6 @@ jest.mock('react-router-dom', () => ({
   useParams: () => ({
     userId: fakeViewedUser.userId,
   }),
-  useRouteMatch: () => ({ url: '/company/company-id1/team/team-id1' }),
   useNavigate: () => mockNavigate,
 }));
 
@@ -147,7 +146,6 @@ describe('test follow another user', () => {
         fakeViewedUser.userId
       );
       expect(screen.getByText('You')).toBeInTheDocument();
-      screen.debug();
     });
   });
 });
