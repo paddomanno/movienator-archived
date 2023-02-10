@@ -40,6 +40,14 @@ export default function OneMoviePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (movie) {
+      document.title = movie.title;
+    } else {
+      document.title = 'Movie Page ';
+    }
+  }, [movie]);
+
   async function fetchData() {
     if (typeof movieId !== 'string') {
       return;

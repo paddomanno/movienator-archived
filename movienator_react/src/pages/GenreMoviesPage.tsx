@@ -36,6 +36,14 @@ export default function GenreMoviesPage() {
   }, [genreId]);
 
   useEffect(() => {
+    if (genre) {
+      document.title = genre.genreName + ' Movies';
+    } else {
+      document.title = 'Genre Movies';
+    }
+  }, [genre]);
+
+  useEffect(() => {
     setMovies(null);
     if (typeof genreId == 'string') {
       getMoviesToGenreId(parseInt(genreId), page).then((movies) => {

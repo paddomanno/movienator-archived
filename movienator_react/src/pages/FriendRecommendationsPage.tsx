@@ -18,6 +18,7 @@ export default function FriendRecommendationsPage() {
       navigate('/login');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    document.title = 'Recommendations by your friends';
   }, []);
 
   useEffect(() => {

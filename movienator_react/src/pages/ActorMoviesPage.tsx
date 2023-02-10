@@ -33,6 +33,14 @@ export default function ActorMoviesPage() {
     }
   }, [actorId]);
 
+  useEffect(() => {
+    if (actor) {
+      document.title = actor.name + ' Movies';
+    } else {
+      document.title = 'Actors Movies';
+    }
+  }, [actor]);
+
   return (
     <div>
       {movies != null && actor != null ? (

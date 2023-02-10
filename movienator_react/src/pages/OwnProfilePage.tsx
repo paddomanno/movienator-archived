@@ -26,6 +26,7 @@ export default function OwnProfilePage() {
       navigate('/login');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    document.title = 'Your Profile';
   }, []);
 
   useEffect(() => {

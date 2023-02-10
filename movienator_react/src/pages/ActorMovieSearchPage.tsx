@@ -38,6 +38,7 @@ export default function ActorMovieSearchPage() {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    document.title = "Results for '" + searchWord + "'";
   }, [searchWord]);
 
   function toHomePage() {

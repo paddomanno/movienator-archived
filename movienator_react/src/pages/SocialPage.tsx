@@ -23,6 +23,7 @@ export default function SocialPage() {
       navigate('/login');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    document.title = 'Get Social!';
   }, []);
 
   useEffect(() => {
