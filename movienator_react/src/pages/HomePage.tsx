@@ -30,8 +30,8 @@ export default function HomePage() {
     if (!cookies.userName) {
       navigate('/login');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     document.title = 'Movienator3000';
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

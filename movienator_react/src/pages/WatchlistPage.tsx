@@ -17,8 +17,8 @@ export default function WatchlistPage() {
     if (!cookies.userName) {
       navigate('/login');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     document.title = 'Your Watchlist';
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

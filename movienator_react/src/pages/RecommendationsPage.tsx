@@ -17,8 +17,8 @@ export default function RecommendationsPage() {
     if (!cookies.userName) {
       navigate('/login');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     document.title = 'Your Recommendations';
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

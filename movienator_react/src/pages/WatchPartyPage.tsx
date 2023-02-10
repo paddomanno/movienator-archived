@@ -37,8 +37,8 @@ export default function WatchPartyPage() {
     if (!cookies.userName) {
       navigate('/login');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     document.title = 'Plan Your Watchparty!';
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

@@ -37,8 +37,8 @@ export default function ActorMovieSearchPage() {
         setMovies(res);
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     document.title = "Results for '" + searchWord + "'";
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchWord]);
 
   function toHomePage() {
