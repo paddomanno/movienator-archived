@@ -119,11 +119,9 @@ describe('test login page', () => {
       });
     });
 
-    console.log('## CLICKING LOGIN');
     await act(async () => {
       fireEvent.click(screen.getByText('Login'));
     });
-    console.log((getOneUserToUserId as jest.Mock).mock.calls);
 
     // assert
     expect(getOneUserToUserId as jest.Mock).toHaveBeenCalledWith(
@@ -145,53 +143,4 @@ describe('test login page', () => {
     );
     expect(mockNavigate).toHaveBeenCalledWith('/home');
   });
-
-  // test('navigation to signup Page', async () => {
-  //   // testet noch nichts...
-  //   // arrange
-  //   const loginMock = jest.fn();
-  //   render(
-  //     <BrowserRouter>
-  //       <LoginPage />
-  //     </BrowserRouter>
-  //   );
-
-  //   // act
-  //   const button = screen.getByRole('button', {
-  //     name: "I don't have an account",
-  //   });
-  //   fireEvent.click(button); // navigation to SignUpPage.tsx
-
-  //   // assert
-  //   // const newScreen = await screen.findByText('Register a new Account'); // Heading in SignupForm.tsx
-  //   // expect(newScreen).toBeOnTheScreen();
-  //   // screen.debug();
-  // });
-
-  // test('should be able to search and display dog image results', async () => {
-  //   render(<App />);
-
-  //   //Simulate selecting an option and verifying its value
-  //   const select = screen.getByRole('combobox');
-  //   expect(
-  //     await screen.findByRole('option', { name: 'cattledog' })
-  //   ).toBeInTheDocument();
-  //   userEvent.selectOptions(select, 'cattledog');
-  //   expect(select).toHaveValue('cattledog');
-
-  //   //Initiate the search request
-  //   const searchBtn = screen.getByRole('button', { name: 'Search' });
-  //   expect(searchBtn).not.toBeDisabled();
-  //   userEvent.click(searchBtn);
-
-  //   //Loading state displays and gets removed once results are displayed
-  //   await waitForElementToBeRemoved(() => screen.queryByText(/Loading/i));
-
-  //   //Verify image display and results count
-  //   const dogImages = screen.getAllByRole('img');
-  //   expect(dogImages).toHaveLength(2);
-  //   expect(screen.getByText(/2 Results/i)).toBeInTheDocument();
-  //   expect(dogImages[0]).toHaveAccessibleName('cattledog 1 of 2');
-  //   expect(dogImages[1]).toHaveAccessibleName('cattledog 2 of 2');
-  // });
 });
