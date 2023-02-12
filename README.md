@@ -101,3 +101,16 @@ Zusätzlich werden über '/extern' die externen APIs angesprochen.
 Innerhalb der einzelnen Grund-Routen wird grundsätzlich mit GET '/all' auf alle Einträge der abgefragten Entität zugegriffen. Mit GET '/one/:id' wird auf einen Eintrag mit der angegebenen ID zugegriffen. 
 
 Abhängig von der Entität gibt es noch individuelle Routen, welche mit den Entitäten zusammenhängende Daten abfragen. So liefert GET '/user/:id' beispielsweise alle Nutzer zurück, die den per ID angegebenen Film bewertet haben. POST '/' auf der entsprechenden Grund-Route erstellt jeweils einen neuen Eintrag einer Entität. PUT '/' auf einer Grund-Route updated einen bestehenden Eintrag, indem der passende Eintrag über die im Body angegebene ID ermittelt wird. DELETE '/:id' auf einer Grund-Route löscht den Eintrag zur angegebenen ID.
+
+
+
+## Demo Videos:
+- Signup + Login: https://youtu.be/2lC9AMw3_c0
+- Film suchen und Review schreiben: https://youtu.be/fucNrFRRyQg
+- User suchen, folgen und Empfehlung schicken: https://youtu.be/7QbGN7lV_NA
+- Watchparty planen: https://youtu.be/DUeZxY6-i8g
+- Film über Actor suchen: https://youtu.be/b7wvicAhyF8
+- Film zu Watchlist adden und Watchlist öffnen: https://youtu.be/o6YLcqMJKIU 
+- Freund eines Freunden finden und folgen: https://youtu.be/pqyHA_v4mfc
+- Reviews eines Freundes anschauen: https://youtu.be/OISjFmMdSxc
+- Eigenes Profil öffnen und bearbeiten: https://youtu.be/Gu74c3J4eJc
