@@ -87,3 +87,17 @@ So können wir sicherstellen, dass der Code in unserem Repository zu jedem Zeitp
 Um die wichtigsten Funktionalitäten unserer Anwendung zu präsentieren, haben wir einige Videos aufgenommen.
 
 ## API-Dokumentation
+
+Entsprechend der Entitäten unserer Anwendung gibt es folgende Grund-Routen: 
+- '/actor' 
+- '/movie' 
+- '/profileImage' 
+- '/review' 
+- '/user' 
+- '/genre' 
+- '/recommendation' 
+- '/watchProvider' 
+Zusätzlich werden über '/extern' die externen APIs angesprochen. 
+Innerhalb der einzelnen Grund-Routen wird grundsätzlich mit GET '/all' auf alle Einträge der abgefragten Entität zugegriffen. Mit GET '/one/:id' wird auf einen Eintrag mit der angegebenen ID zugegriffen. 
+
+Abhängig von der Entität gibt es noch individuelle Routen, welche mit den Entitäten zusammenhängende Daten abfragen. So liefert GET '/user/:id' beispielsweise alle Nutzer zurück, die den per ID angegebenen Film bewertet haben. POST '/' auf der entsprechenden Grund-Route erstellt jeweils einen neuen Eintrag einer Entität. PUT '/' auf einer Grund-Route updated einen bestehenden Eintrag, indem der passende Eintrag über die im Body angegebene ID ermittelt wird. DELETE '/:id' auf einer Grund-Route löscht den Eintrag zur angegebenen ID.
