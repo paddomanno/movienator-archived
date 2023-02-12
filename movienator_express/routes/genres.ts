@@ -22,7 +22,7 @@ genresRouter.get('/all', async (req, res) => {
     res.status(500).json();
   }
 });
-
+//Returns the favorite genre of a specified user
 genresRouter.get('/favorite/:uId', async (req, res) => {
   try {
     if (isNaN(+req.params.uId)) {

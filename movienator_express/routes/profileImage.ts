@@ -159,7 +159,7 @@ profileImageRouter.put('/image/:uId/:pId', async (req, res) => {
   }
 });
 
-//Sets the Profile Image of that user
+//Deletes the Profile Image of that user
 profileImageRouter.delete('/image/:uId', async (req, res) => {
   try {
     const requestedUser = await User.findOne({
