@@ -25,6 +25,7 @@ export default function OwnProfilePage() {
     if (!cookies.userName) {
       navigate('/login');
     }
+    document.title = 'Your Profile';
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

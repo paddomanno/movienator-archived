@@ -17,6 +17,7 @@ export default function WatchlistPage() {
     if (!cookies.userName) {
       navigate('/login');
     }
+    document.title = 'Your Watchlist';
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

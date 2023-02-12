@@ -26,7 +26,6 @@ import {
 } from '../services/ReviewService';
 import { Movie } from '../types/Movie';
 import { User } from '../types/User';
-import WatchlistPage from '../pages/WatchlistPage';
 import { createMovie } from '../services/MovieService';
 const fakeLoggedInUser: User = {
   userName: 'fakeName',

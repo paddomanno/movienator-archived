@@ -38,6 +38,7 @@ services:
       - '3306:3306'
     volumes:
       - dbdata:/var/lib/mysql
+      - ./movienator_mysql/sqlDump.sql:/docker-entrypoint-initdb.d/1.sql
     networks:
       - movienator_network
 

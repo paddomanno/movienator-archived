@@ -101,6 +101,14 @@ export default function OtherProfilePage() {
   );
 
   useEffect(() => {
+    if (viewedUser) {
+      document.title = viewedUser?.userName + "'s Profile";
+    } else {
+      document.title = 'Profile Page';
+    }
+  }, [viewedUser]);
+
+  useEffect(() => {
     // get logged-in user from cookies
     getOneUserToUserId(cookies.userName).then((user) => {
       setLoggedInUser(user);

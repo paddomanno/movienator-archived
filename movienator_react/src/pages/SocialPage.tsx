@@ -22,6 +22,7 @@ export default function SocialPage() {
     if (!cookies.userName) {
       navigate('/login');
     }
+    document.title = 'Get Social!';
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

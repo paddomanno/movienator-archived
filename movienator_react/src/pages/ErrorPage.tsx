@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Link, useRouteError } from 'react-router-dom';
 
 /**
@@ -9,6 +10,10 @@ export default function ErrorPage() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const error: any = useRouteError();
   console.error(error);
+
+  useEffect(() => {
+    document.title = 'Error';
+  }, []);
 
   return (
     <div id="error-page">

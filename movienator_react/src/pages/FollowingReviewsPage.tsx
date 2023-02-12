@@ -16,6 +16,7 @@ export default function FollowingReviewsPage() {
     if (!cookies.userName) {
       navigate('/login');
     }
+    document.title = 'Your Friends Reviews';
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

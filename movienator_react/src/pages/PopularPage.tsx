@@ -17,6 +17,7 @@ export default function PopularPage() {
     if (!cookies.userName) {
       navigate('/login');
     }
+    document.title = 'Most Popular Movies';
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
