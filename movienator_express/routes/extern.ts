@@ -153,7 +153,7 @@ externRouter.get('/search/movie/:word', async (req, res) => {
   try {
     const query: string =
       BASE_URL +
-      '/search/movie/?' +
+      '/search/movie?' +
       `api_key=${API_KEY}` +
       `&query=${req.params.word}`;
     const page: number = parseInt(req.query.page.toString());
