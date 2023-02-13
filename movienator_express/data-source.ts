@@ -30,5 +30,6 @@ export const AppDataSource = new DataSource({
     WatchProvider,
   ],
   synchronize: true,
-  logging: false,
+  logging: true,
+  charset: 'UTF8_GENERAL_CI',
 });

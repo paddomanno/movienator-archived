@@ -20,7 +20,7 @@ SET time_zone = "+00:00";
 --
 -- Datenbank: `movienator-database`
 --
-CREATE DATABASE IF NOT EXISTS `movienator-database` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+CREATE DATABASE IF NOT EXISTS `movienator-database` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE `movienator-database`;
 
 -- --------------------------------------------------------
@@ -33,7 +33,7 @@ CREATE TABLE `actor` (
   `actorId` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `imagePath` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Daten für Tabelle `actor`
@@ -314,7 +314,7 @@ INSERT INTO `actor` (`actorId`, `name`, `imagePath`) VALUES
 CREATE TABLE `genre` (
   `genreId` int(11) NOT NULL,
   `genreName` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Daten für Tabelle `genre`
@@ -354,7 +354,7 @@ CREATE TABLE `movie` (
   `adultContent` tinyint(4) NOT NULL,
   `imagePath` varchar(255) DEFAULT NULL,
   `videoPath` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Daten für Tabelle `movie`
@@ -404,7 +404,7 @@ INSERT INTO `movie` (`movieId`, `title`, `overview`, `releaseDate`, `lengthMinut
 CREATE TABLE `movie_actors_actor` (
   `movieMovieId` int(11) NOT NULL,
   `actorActorId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Daten für Tabelle `movie_actors_actor`
@@ -685,7 +685,7 @@ INSERT INTO `movie_actors_actor` (`movieMovieId`, `actorActorId`) VALUES
 CREATE TABLE `movie_genres_genre` (
   `movieMovieId` int(11) NOT NULL,
   `genreGenreId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Daten für Tabelle `movie_genres_genre`
@@ -803,7 +803,7 @@ INSERT INTO `movie_genres_genre` (`movieMovieId`, `genreGenreId`) VALUES
 CREATE TABLE `movie_watch_providers_watch_provider` (
   `movieMovieId` int(11) NOT NULL,
   `watchProviderProviderId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -814,7 +814,7 @@ CREATE TABLE `movie_watch_providers_watch_provider` (
 CREATE TABLE `profile_image` (
   `ressourceLink` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Daten für Tabelle `profile_image`
@@ -838,7 +838,7 @@ CREATE TABLE `recommendation` (
   `sendingUserUserId` int(11) NOT NULL,
   `receivingUserUserId` int(11) NOT NULL,
   `recommendedMovieMovieId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Daten für Tabelle `recommendation`
@@ -872,7 +872,7 @@ CREATE TABLE `review` (
   `lastUpdated` datetime NOT NULL,
   `title` varchar(100) NOT NULL,
   `content` varchar(4096) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Daten für Tabelle `review`
@@ -911,7 +911,7 @@ CREATE TABLE `user` (
   `comment` varchar(1024) NOT NULL DEFAULT '',
   `birthday` datetime NOT NULL,
   `profileImageRessourceLink` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Daten für Tabelle `user`
@@ -932,7 +932,7 @@ INSERT INTO `user` (`userId`, `firstName`, `lastName`, `userName`, `password`, `
 CREATE TABLE `user_following_user` (
   `userUserId_1` int(11) NOT NULL,
   `userUserId_2` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Daten für Tabelle `user_following_user`
@@ -957,7 +957,7 @@ INSERT INTO `user_following_user` (`userUserId_1`, `userUserId_2`) VALUES
 CREATE TABLE `user_watchlist_movie` (
   `userUserId` int(11) NOT NULL,
   `movieMovieId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Daten für Tabelle `user_watchlist_movie`
@@ -995,7 +995,7 @@ INSERT INTO `user_watchlist_movie` (`userUserId`, `movieMovieId`) VALUES
 CREATE TABLE `watch_provider` (
   `providerId` int(11) NOT NULL,
   `providerName` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Indizes der exportierten Tabellen

@@ -34,6 +34,7 @@ services:
       MYSQL_DATABASE: movienator-database
       MYSQL_USER: public
       MYSQL_PASSWORD: public
+      LANG: C.UTF-8
     ports:
       - '3306:3306'
     volumes:
@@ -41,6 +42,7 @@ services:
       - ./movienator_mysql/sqlDump.sql:/docker-entrypoint-initdb.d/1.sql
     networks:
       - movienator_network
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
 
   phpadmin:
     build:
