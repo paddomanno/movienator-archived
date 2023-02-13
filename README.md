@@ -63,7 +63,7 @@ Nach dem Starten ist die Homepage der Anwendung unter [http:/localhost:3000/home
 
 ## Datenstruktur
 
-Die finale, von unserer Datenbank verwaltete Datenstruktur ist in diesem UML-Diagramm dagestellt.
+Die finale, von unserer Datenbank verwaltete Datenstruktur ist in diesem UML-Diagramm dargestellt.
 ![UML-Diagramm](db-schema-11-2-23.PNG)
 
 ## Angebundene Externe APIs
