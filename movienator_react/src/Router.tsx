@@ -19,6 +19,7 @@ import SocialPage from './pages/SocialPage';
 import FriendRecommendationsPage from './pages/FriendRecommendationsPage';
 import WatchPartyPage from './pages/WatchPartyPage';
 import ActorMovieSearchPage from './pages/ActorMovieSearchPage';
+import { Navigate } from 'react-router-dom';
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
     element: <RootPage />,
     errorElement: <ErrorPage />,
     children: [
+      {
+        index: true, // <-- match on parent, i.e. "/"
+        element: <Navigate to="/home" replace />, // <-- redirect
+      },
       {
         path: '/login',
         element: <LoginPage />,
