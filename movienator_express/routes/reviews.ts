@@ -230,11 +230,6 @@ reviewRouter.get('/user/following/:id/:time', async (req, res) => {
         []
       );
       const filteredReviews = reviews.filter((rev: Review) => {
-        console.log(
-          `Comparing ${rev.lastUpdated.valueOf()} < ${timestamp}: ${
-            rev.lastUpdated.valueOf() >= timestamp
-          }`
-        );
         return rev.lastUpdated.valueOf() >= timestamp;
       });
       filteredReviews.sort(
