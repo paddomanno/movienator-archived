@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "tsc-watch --onSuccess \"node dist/start\"",
     "test": "dotenv -v MOVIE_API_KEY=MOVIE_API_KEY -v HATESPEECH_API_KEY=HATESPEECH_API_KEY -- jest --forceExit --runInBand --silent",
-    "test-local": "dotenv -v DB_HOST=localhost -v MOVIE_API_KEY=MOVIE_API_KEY -v HATESPEECH_API_KEY=HATESPEECH_API_KEY -- jest --forceExit --runInBand --silent",
+    "test-local": "dotenv -v DB_HOST=localhost -v MOVIE_API_KEY=MOVIE_API_KEY -v HATESPEECH_API_KEY=HATESPEECH_API_KEY -- jest --forceExit --runInBand --verbose",
+    "test-record": "dotenv -e ../.env -v DB_HOST=localhost -v NOCK_RECORDING=true -- jest _test_/extern.test.ts --forceExit --runInBand --verbose",
     "install-test": "npm install && npm run test",
     "install-test-local": "npm install && npm run test-local",
     "install-start": "npm install && npm run dev",

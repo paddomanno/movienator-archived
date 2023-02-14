@@ -20,7 +20,11 @@ import path from 'path';
 beforeAll(async () => {
   await TestDatabaseManager.getInstance().connectTestDatabase();
   nock.back.fixtures = path.join(__dirname, '__nock-fixtures__');
-  nock.back.setMode('record'); // change to 'record' or 'update' when writing new tests or API changes, see https://github.com/nock/nock#modes
+  if (process.env['NOCK_RECORDING']) {
+    nock.back.setMode('record'); // change to 'record' or 'update' when writing new tests or API changes, see https://github.com/nock/nock#modes
+  } else {
+    nock.back.setMode('lockdown');
+  }
 }, 10_000);
 
 afterAll(async () => {
