@@ -4,6 +4,7 @@ variables:
   MYSQL_USER: 'public'
   MYSQL_PASSWORD: 'public'
   MYSQL_HOST: mysql
+  DB_HOST: mysql
   HATESPEECH_API_KEY: $hateSpeech_API_Key
   MOVIE_API_KEY: $movie_API_Key
   DB_PASSWORD: $DB_password
