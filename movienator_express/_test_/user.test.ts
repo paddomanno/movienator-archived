@@ -112,27 +112,6 @@ async function createTestData() {
   await newUser1.save();
    */
 
-  //Gewünschter zustand:
-  // 1 is following 2 and followed by 2
-  // 2 is following 3,1 and followed by 3,1
-  // 3 is following 2 and followed by 2
-
-  let controlUser = await User.findOne({
-    where: { userId: 1 },
-    relations: { following: true, followers: true, watchlist: true },
-  });
-  console.log(controlUser);
-  controlUser = await User.findOne({
-    where: { userId: 2 },
-    relations: { following: true, followers: true, watchlist: true },
-  });
-  console.log(controlUser);
-  controlUser = await User.findOne({
-    where: { userId: 3 },
-    relations: { following: true, followers: true, watchlist: true },
-  });
-  console.log(controlUser);
-
   //Maggus reviews the Testmovie
   const newReview1 = Review.create({
     reviewMovieMovieId: 1,
