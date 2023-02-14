@@ -19,6 +19,9 @@ soll es einen Weg geben einen anstehenden Filmabend mit seinen Freunden zu plane
 
 ## Starten der Anwendung
 
+    git clone https://code.fbi.h-da.de/stkehass/fwe-movienator3000.git
+    cd FWE-Movienator3000
+
 Die Anwendung lässt sich jeweils in verschiedenen Modi über eine einzelne Docker-Compose Datei starten.
 
 - `DEV` zur lokalen Entwicklung. Es wird eine lokale Datenbank erstellt und beim ersten Starten mit Beispieldaten befüllt.
@@ -86,6 +89,39 @@ Mit einem kostenlosen Konto ist auch diese API ohne Einschränkungen nutzbar.
 Der Testing-Tech-Stack ist oben schon beschrieben. Im Backend ist jede Route ausführlich und auf jeden eventuellen Fehler getestet. Im Frontend haben wir uns aus Zeitgründen auf eine handvoll repräsentativer Tests beschränkt,
 die demonstrieren, auf welchem Weg ein React Frontend getestet werden kann.
 Sowohl im Backend als auch im Frontend nutzen wir ESlint zur statischen Quellcode-Analyse.
+
+### Tests starten (Docker)
+
+Der einfachste Weg die Tests manuell zu starten ist über die oben beschrieben Docker-Compose Datei:
+
+    cd FWE-Movienator3000
+    docker-compose -f .\docker-compose-test.yml up
+
+### Tests starten (manuell)
+
+Alternativ oder bei Problemen mit Docker können die Tests selbstverständlich auch einzeln ausgeführt werden:
+
+Backend-Tests:
+
+    cd FWE-Movienator3000
+    docker-compose -f .\docker-compose-test.yml up -d mysql
+    cd movienator_express
+    npm run install-test-local
+
+Backend-Linter:
+
+    cd movienator_express
+    npm run install-lint
+
+Frontend-Tests:
+
+    cd movienator_react
+    npm run install-test
+
+Frontend-Linter:
+
+    cd movienator_react
+    npm run install-lint
 
 ### Gitlab CI-Pipeline
 
