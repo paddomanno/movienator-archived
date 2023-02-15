@@ -14,7 +14,6 @@ import {
   searchUsersByUserNameQuery,
 } from '../../services/UserService';
 import NewRecommendationUsersList from './NewRecommendationUsersList';
-import CustomizedSnackbars from '../GeneralComponents/FeedbackSnackbar';
 import { AlertColor } from '@mui/material/Alert';
 import { postOrUpdateRecommendation } from '../../services/RecommendationService';
 import { useCookies } from 'react-cookie';

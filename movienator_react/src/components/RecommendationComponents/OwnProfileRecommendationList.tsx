@@ -21,7 +21,7 @@ export default function OwnProfileRecommendationList({
             <Grid2
               maxWidth={'33%'}
               minWidth={'33%'}
-              key={`${rec.sendingUserUserId}.${rec.recommendedMovieMovieId}`}
+              key={`${rec.sendingUserUserId}.${rec.receivingUserUserId}.${rec.recommendedMovieMovieId}`}
             >
               <RecommendationView
                 rec={rec}

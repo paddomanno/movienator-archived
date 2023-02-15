@@ -23,8 +23,6 @@ export default function OwnProfileDetails({ user, reloadHandler }: props) {
   //To handle the hate speech reminder snackbar
   const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
 
-  const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms)); // eher nicht die beste Lösung https://timmousk.com/blog/typescript-sleep/
-
   const url = 'http://localhost:3000/user/' + user.userId; // movienator3000.com/
 
   const copyUrl = async () => {
