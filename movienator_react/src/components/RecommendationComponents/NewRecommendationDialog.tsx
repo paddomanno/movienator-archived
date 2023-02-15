@@ -22,6 +22,7 @@ import { CreateRecommendationDTO } from '../../types/Recommendation';
 import { Movie } from '../../types/Movie';
 import { getContainsHateSpeech } from '../../services/ExternService';
 import { createMovie } from '../../services/MovieService';
+import FeedbackSnackbar from '../GeneralComponents/FeedbackSnackbar';
 
 type props = {
   open: boolean;
@@ -36,16 +37,14 @@ export default function NewRecommendationDialog({
   const [forUserId, setForUserId] = useState<number>(-1);
   const [curMessage, setCurMessage] = useState<string>('');
   const [users, setUsers] = useState<User[]>([]);
-  const [showSnackBar, setShowSnackBar] = useState<boolean>(false);
-  const [snackBarMessage, setSnackBarMessage] = useState<string>('');
-  const [severity, setSeverity] = useState<AlertColor>('warning');
   const [cookies] = useCookies(['userId']);
-  const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms)); // eher nicht die beste Lösung https://timmousk.com/blog/typescript-sleep/
-  const showMessage = async () => {
-    setShowSnackBar(true);
-    await sleep(1000);
-    setShowSnackBar(false);
-  };
+
+  //To handle the hate speech reminder snackbar
+  const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
+  const [feedbackMessage, setFeedbackMessage] = useState('');
+  const [feedbackColor, setFeedbackColor] = useState<AlertColor>('info');
+
+  const MAX_MSG_LENGTH = 2000;
 
   useEffect(() => {
     if (cookies.userId) {
@@ -58,15 +57,15 @@ export default function NewRecommendationDialog({
 
   function handleSubmit() {
     if (forUserId === -1) {
-      setSnackBarMessage('Pick a user');
-      setSeverity('warning');
-      showMessage();
+      setFeedbackMessage('Pick a user');
+      setFeedbackColor('warning');
+      setSnackbarOpen(true);
       return;
     }
-    if (curMessage.length > 1999) {
-      setSnackBarMessage('Message to long');
-      setSeverity('error');
-      showMessage();
+    if (curMessage.length > MAX_MSG_LENGTH) {
+      setFeedbackMessage(`Text is too long (max ${MAX_MSG_LENGTH} characters)`);
+      setFeedbackColor('error');
+      setSnackbarOpen(true);
       return;
     }
     const rec: CreateRecommendationDTO = {
@@ -77,27 +76,27 @@ export default function NewRecommendationDialog({
     };
     getContainsHateSpeech(curMessage).then((response) => {
       if (response) {
-        setSnackBarMessage('Profanity detected');
-        setSeverity('error');
-        showMessage();
+        setFeedbackMessage('Profanity detected');
+        setFeedbackColor('error');
+        setSnackbarOpen(true);
       } else {
         createMovie(movie).then((resMovie) => {
           if (resMovie) {
             postOrUpdateRecommendation(rec).then((res) => {
               if (!res) {
-                setSnackBarMessage('Error Saving Recommendation');
-                setSeverity('error');
-                showMessage();
+                setFeedbackMessage('Error saving recommendation');
+                setFeedbackColor('error');
+                setSnackbarOpen(true);
               } else {
-                setSnackBarMessage('Recommendation sent');
-                setSeverity('success');
-                showMessage();
+                setFeedbackMessage('Recommendation sent');
+                setFeedbackColor('success');
+                setSnackbarOpen(true);
                 setForUserId(-1);
                 setOpen(false);
               }
             });
           } else {
-            console.log('Error saving Movie');
+            console.log('Error saving movie');
           }
         });
       }
@@ -190,10 +189,11 @@ export default function NewRecommendationDialog({
           </DialogActions>
         </DialogContent>
       </Dialog>
-      <CustomizedSnackbars
-        activated={showSnackBar}
-        message={snackBarMessage}
-        severity={severity}
+      <FeedbackSnackbar
+        isOpen={snackbarOpen}
+        setOpen={setSnackbarOpen}
+        message={feedbackMessage}
+        severity={feedbackColor}
       />
     </>
   );

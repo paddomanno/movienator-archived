@@ -48,14 +48,17 @@ export default function OwnProfileEditProfileModal({
     image: user.profileImage?.ressourceLink,
   };
 
+  const MAX_COMMENT_LENGTH = 3000;
+
   const [userAttributes, setUserAttributes] =
     useState<UserAttributes>(defaultData);
   const [oldData, setOldData] = useState<UserAttributes>(defaultData);
+  const [open, setOpen] = useState<boolean>(false);
 
-  const [activateToggle, setActivateToggle] = useState<boolean>(false);
-  const [message, setMessage] = useState<string>('');
-  const [severity, setSeverity] = useState<AlertColor>('success');
-  const [open, setOpen] = React.useState(false);
+  //To handle the hate speech reminder snackbar
+  const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
+  const [feedbackMessage, setFeedbackMessage] = useState('');
+  const [feedbackColor, setFeedbackColor] = useState<AlertColor>('info');
 
   const handleOpen = () => {
     setOpen(true);
@@ -104,7 +107,7 @@ export default function OwnProfileEditProfileModal({
       userAttributes.userName !== '' &&
       userAttributes.password !== ''
     ) {
-      if (userAttributes.comment.length < 3000) {
+      if (userAttributes.comment.length < MAX_COMMENT_LENGTH) {
         update();
       } else {
         handleErrorTextToLong();
@@ -113,15 +116,6 @@ export default function OwnProfileEditProfileModal({
       handleErrorFieldsEmpty();
     }
   }
-
-  const showMessage = async (msg: string, severity: AlertColor) => {
-    setMessage(msg);
-    setSeverity(severity);
-    setActivateToggle(true);
-    await sleep(1000);
-    setActivateToggle(false);
-  };
-  const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
   function update() {
     if (!user || !user.userId) {
@@ -153,19 +147,20 @@ export default function OwnProfileEditProfileModal({
             newImage.ressourceLink,
             newUser.userId
           ).then(() => {
-            showMessage('Changes Saved', 'success');
+            setFeedbackMessage('Changes saved');
+            setFeedbackColor('success');
+            setSnackbarOpen(true);
             reloadHandler();
-            setOpen(false);
           });
         });
       });
     } else {
       updateUser(newUser).then(() => {
         deleteUserImageToUserId(newUser.userId).then(() => {
-          setActivateToggle(false);
-          showMessage('Changes Saved', 'success');
+          setFeedbackMessage('Changes saved');
+          setFeedbackColor('success');
+          setSnackbarOpen(true);
           reloadHandler();
-          setOpen(false);
         });
       });
     }
@@ -182,7 +177,11 @@ export default function OwnProfileEditProfileModal({
       document.getElementById(`comment-input`);
     if (textField != null) {
       textField.style.backgroundColor = 'orange';
-      showMessage('Text is to long', 'warning');
+      setFeedbackMessage(
+        `Text is too long (max ${MAX_COMMENT_LENGTH} characters)`
+      );
+      setFeedbackColor('warning');
+      setSnackbarOpen(true);
     }
   }
 
@@ -197,7 +196,9 @@ export default function OwnProfileEditProfileModal({
         }
       }
     });
-    showMessage('Fill out all fields', 'warning');
+    setFeedbackMessage('Please fill out all fields');
+    setFeedbackColor('warning');
+    setSnackbarOpen(true);
   }
 
   const style = {
@@ -365,9 +366,10 @@ export default function OwnProfileEditProfileModal({
         </Box>
       </Modal>
       <FeedbackSnackbar
-        activated={activateToggle}
-        message={message}
-        severity={severity}
+        isOpen={snackbarOpen}
+        setOpen={setSnackbarOpen}
+        message={feedbackMessage}
+        severity={feedbackColor}
       />
     </>
   );

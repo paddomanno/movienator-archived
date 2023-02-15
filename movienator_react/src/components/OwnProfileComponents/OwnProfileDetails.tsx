@@ -20,7 +20,8 @@ type props = {
 };
 export default function OwnProfileDetails({ user, reloadHandler }: props) {
   const SIZE_PROFILEIMAGE = 300;
-  const [activated, setActivated] = useState<boolean>(false);
+  //To handle the hate speech reminder snackbar
+  const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
 
   const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms)); // eher nicht die beste Lösung https://timmousk.com/blog/typescript-sleep/
 
@@ -28,9 +29,7 @@ export default function OwnProfileDetails({ user, reloadHandler }: props) {
 
   const copyUrl = async () => {
     await navigator.clipboard.writeText(url); // https://www.kindacode.com/article/react-copy-to-clipboard-when-click-a-button-link/
-    setActivated(true);
-    await sleep(1000);
-    setActivated(false);
+    setSnackbarOpen(true);
   };
 
   return (
@@ -96,7 +95,8 @@ export default function OwnProfileDetails({ user, reloadHandler }: props) {
         </Stack>
       </CardContent>
       <FeedbackSnackbar
-        activated={activated}
+        isOpen={snackbarOpen}
+        setOpen={setSnackbarOpen}
         message={'Copied the link successfully!'}
         severity={'success'}
       />
