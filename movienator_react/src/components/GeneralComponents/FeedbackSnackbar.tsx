@@ -11,22 +11,16 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 export default function CustomizedSnackbars({
-  activated,
+  isOpen,
+  setOpen,
   message,
   severity,
 }: {
-  activated: boolean;
+  isOpen: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   message: string;
   severity: AlertColor;
 }) {
-  const [open, setOpen] = React.useState(false);
-
-  React.useEffect(() => {
-    if (activated === true) {
-      setOpen(true);
-    }
-  }, [activated]);
-
   const handleClose = (
     event?: React.SyntheticEvent | Event,
     reason?: string
@@ -39,7 +33,7 @@ export default function CustomizedSnackbars({
 
   return (
     <Stack spacing={2} sx={{ width: '100%' }}>
-      <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
+      <Snackbar open={isOpen} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
           {message}
         </Alert>

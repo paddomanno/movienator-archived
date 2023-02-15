@@ -41,10 +41,12 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
   const [editing, setEditing] = useState<boolean>(true);
   const [cookies] = useCookies(['userName', 'userId']);
   const [oldData, setOldData] = useState<InputData>(defaultData);
+
   //To handle the hate speech reminder snackbar
-  const [activateToggle, setActivateToggle] = useState<boolean>(false);
+  const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
   const [feedbackMessage, setFeedbackMessage] = useState('');
   const [feedbackColor, setFeedbackColor] = useState<AlertColor>('info');
+
   const hateSpeechErrorMessage = 'Reviews are not allowed to contain profanity';
   const hateSpeechAlertColor: AlertColor = 'warning';
   const generalErrorMessage = 'Error saving review';
@@ -108,19 +110,12 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
     setEditing(false);
   }
 
-  const showMessage = async () => {
-    setActivateToggle(true);
-    await sleep(1000);
-    setActivateToggle(false);
-  };
-  const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-
   function postReviewToBackend(newReview: Review) {
     createReview(newReview).then((r) => {
       if (!r) {
         setFeedbackMessage(generalErrorMessage);
         setFeedbackColor(generalAlertColor);
-        showMessage();
+        setSnackbarOpen(true);
       } else {
         setReview(newReview);
         setEditing(false);
@@ -160,7 +155,7 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
       if (containsHatespeech) {
         setFeedbackMessage(hateSpeechErrorMessage);
         setFeedbackColor(hateSpeechAlertColor);
-        showMessage();
+        setSnackbarOpen(true);
         // console.log('Review not created/updated due to profanity');
       } else {
         createMovie(movie).then((res) => {
@@ -185,7 +180,7 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
       // console.log('Error saving review');
       setFeedbackMessage(generalErrorMessage);
       setFeedbackColor(generalAlertColor);
-      showMessage();
+      setSnackbarOpen(true);
     }
   }
 
@@ -343,7 +338,8 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
         </Stack>
       </CardContent>
       <FeedbackSnackbar
-        activated={activateToggle}
+        isOpen={snackbarOpen}
+        setOpen={setSnackbarOpen}
         message={feedbackMessage}
         severity={feedbackColor}
       />

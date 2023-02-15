@@ -1,5 +1,5 @@
 import { NullableUser, User } from '../types/User';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 const baseUrl = 'http://localhost:8080/user';
 export async function getAllUsers(): Promise<User[]> {
@@ -17,26 +17,25 @@ export async function getAllUsers(): Promise<User[]> {
 
 export async function getOneUserToUserId(
   userIdentifier: number | string
-): Promise<User | null> {
-  let resUser: User | null = null;
+): Promise<User> {
   try {
     if (isNaN(+userIdentifier)) {
       const response = await axios.get(
         baseUrl + `/one/username/${userIdentifier}`
       );
-      if (response.status === 200) {
-        resUser = response.data.data as User;
-      }
+      return response.data.data as User;
     } else {
       const response = await axios.get(baseUrl + `/one/id/${userIdentifier}`);
-      if (response.status === 200) {
-        resUser = response.data.data as User;
-      }
+      return response.data.data as User;
     }
-  } catch (e) {
-    console.log('Error fetching User: ' + e);
+  } catch (err) {
+    if (err instanceof AxiosError && err.response?.status === 404) {
+      throw new Error('Invalid username or password');
+    } else {
+      console.error('Error fetching User: ', err);
+      throw new Error('Something went wrong. Please try again later.');
+    }
   }
-  return resUser;
 }
 export async function searchUsersByUserNameQuery(
   word: string

@@ -1,8 +1,15 @@
-import { Button, Stack, TextField, Typography } from '@mui/material';
+import {
+  AlertColor,
+  Button,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material';
 import React, { useState } from 'react';
 import { getOneUserToUserId } from '../../services/UserService';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import FeedbackSnackbar from './FeedbackSnackbar';
 
 type InputValues = {
   userName: string;
@@ -17,6 +24,12 @@ export default function LoginForm() {
   const [formValues, setFormValues] = useState<InputValues>(defaultValues);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [cookies, setCookie] = useCookies(['userName', 'userId']);
+
+  //To handle the hate speech reminder snackbar
+  const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
+  const [feedbackMessage, setFeedbackMessage] = useState('');
+  const [feedbackColor, setFeedbackColor] = useState<AlertColor>('info');
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
     if (value !== '') {
@@ -36,8 +49,8 @@ export default function LoginForm() {
   function handleLoginClick(e: React.MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
     if (formValues.password !== '' && formValues.userName !== '') {
-      getOneUserToUserId(formValues.userName).then((user) => {
-        if (user != null) {
+      getOneUserToUserId(formValues.userName)
+        .then((user) => {
           if (user.password === formValues.password) {
             setCookie('userName', user.userName, { path: '/' });
             setCookie('userId', user.userId, { path: '/' });
@@ -49,14 +62,17 @@ export default function LoginForm() {
               textField.style.backgroundColor = 'red';
             }
           }
-        } else {
+        })
+        .catch((err) => {
           const textField: HTMLElement | null =
             document.getElementById(`userName-input`);
           if (textField != null) {
             textField.style.backgroundColor = 'red';
           }
-        }
-      });
+          setFeedbackMessage(err.message);
+          setFeedbackColor('warning');
+          setSnackbarOpen(true);
+        });
     } else {
       (Object.keys(formValues) as (keyof InputValues)[]).forEach((key) => {
         if (formValues[key] === '') {
@@ -104,6 +120,12 @@ export default function LoginForm() {
           I don&apos;t have an account
         </Button>
       </Stack>
+      <FeedbackSnackbar
+        isOpen={snackbarOpen}
+        setOpen={setSnackbarOpen}
+        message={feedbackMessage}
+        severity={feedbackColor}
+      />
     </>
   );
 }
