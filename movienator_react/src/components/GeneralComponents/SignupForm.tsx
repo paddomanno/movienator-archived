@@ -1,8 +1,15 @@
 import React, { useState } from 'react';
-import { Button, Stack, TextField, Typography } from '@mui/material';
+import {
+  AlertColor,
+  Button,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { getOneUserToUserId, createUser } from '../../services/UserService';
 import { NullableUser } from '../../types/User';
+import FeedbackSnackbar from './FeedbackSnackbar';
 
 type InputValues = {
   firstName: string;
@@ -24,6 +31,11 @@ export default function SignupForm() {
     birthday: '',
   };
   const [formValues, setFormValues] = useState<InputValues>(defaultValues);
+
+  //To handle the hate speech reminder snackbar
+  const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
+  const [feedbackMessage, setFeedbackMessage] = useState('');
+  const [feedbackColor, setFeedbackColor] = useState<AlertColor>('info');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
@@ -52,8 +64,18 @@ export default function SignupForm() {
       formValues.birthday !== ''
     ) {
       getOneUserToUserId(formValues.userName).then((user) => {
-        if (user == null) {
-          console.log('Found no user with this username');
+        if (user !== null) {
+          // username already taken
+          const textField: HTMLElement | null =
+            document.getElementById(`userName-input`);
+          if (textField != null) {
+            textField.style.backgroundColor = 'red';
+          }
+          setFeedbackMessage('Username already taken');
+          setFeedbackColor('warning');
+          setSnackbarOpen(true);
+        } else {
+          // username not taken yet
           if (formValues.password === formValues.repeatPassword) {
             const newUser: NullableUser = {
               userId: null,
@@ -83,12 +105,6 @@ export default function SignupForm() {
               textField.style.backgroundColor = 'red';
             }
           }
-        } else {
-          const textField: HTMLElement | null =
-            document.getElementById(`userName-input`);
-          if (textField != null) {
-            textField.style.backgroundColor = 'red';
-          }
         }
       });
       //Safe user
@@ -105,7 +121,6 @@ export default function SignupForm() {
         }
       });
     }
-    console.log(formValues);
   }
 
   return (
@@ -172,6 +187,12 @@ export default function SignupForm() {
           Register
         </Button>
       </Stack>
+      <FeedbackSnackbar
+        isOpen={snackbarOpen}
+        setOpen={setSnackbarOpen}
+        message={feedbackMessage}
+        severity={feedbackColor}
+      />
     </>
   );
 }

@@ -51,26 +51,33 @@ export default function LoginForm() {
     if (formValues.password !== '' && formValues.userName !== '') {
       getOneUserToUserId(formValues.userName)
         .then((user) => {
-          if (user.password === formValues.password) {
-            setCookie('userName', user.userName, { path: '/' });
-            setCookie('userId', user.userId, { path: '/' });
-            navigate('/home');
-          } else {
+          if (user === null) {
             const textField: HTMLElement | null =
-              document.getElementById(`password-input`);
+              document.getElementById(`userName-input`);
             if (textField != null) {
               textField.style.backgroundColor = 'red';
+            }
+            setFeedbackMessage('Invalid username or password');
+            setFeedbackColor('warning');
+            setSnackbarOpen(true);
+          } else {
+            // user found, now check password
+            if (user.password === formValues.password) {
+              setCookie('userName', user.userName, { path: '/' });
+              setCookie('userId', user.userId, { path: '/' });
+              navigate('/home');
+            } else {
+              const textField: HTMLElement | null =
+                document.getElementById(`password-input`);
+              if (textField != null) {
+                textField.style.backgroundColor = 'red';
+              }
             }
           }
         })
         .catch((err) => {
-          const textField: HTMLElement | null =
-            document.getElementById(`userName-input`);
-          if (textField != null) {
-            textField.style.backgroundColor = 'red';
-          }
           setFeedbackMessage(err.message);
-          setFeedbackColor('warning');
+          setFeedbackColor('error');
           setSnackbarOpen(true);
         });
     } else {

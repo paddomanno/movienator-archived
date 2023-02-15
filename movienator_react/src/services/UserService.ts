@@ -17,7 +17,7 @@ export async function getAllUsers(): Promise<User[]> {
 
 export async function getOneUserToUserId(
   userIdentifier: number | string
-): Promise<User> {
+): Promise<User | null> {
   try {
     if (isNaN(+userIdentifier)) {
       const response = await axios.get(
@@ -30,7 +30,7 @@ export async function getOneUserToUserId(
     }
   } catch (err) {
     if (err instanceof AxiosError && err.response?.status === 404) {
-      throw new Error('Invalid username or password');
+      return null;
     } else {
       console.error('Error fetching User: ', err);
       throw new Error('Something went wrong. Please try again later.');
