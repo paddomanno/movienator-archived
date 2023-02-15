@@ -95,7 +95,7 @@ export async function getFollowingToUserIdThatReviewedMovieId(
 export async function getFollowingToUserIdWithMovieIdOnWatchlist(
   userId: number,
   movieId: number
-): Promise<User[]> {
+): Promise<User[] | null> {
   let resArray: User[] = [];
   try {
     const response = await axios.get(
@@ -104,8 +104,13 @@ export async function getFollowingToUserIdWithMovieIdOnWatchlist(
     if (response.status === 200) {
       resArray = response.data.data as User[];
     }
-  } catch (e) {
-    console.log('Error fetching Users: ' + e);
+  } catch (err) {
+    if (err instanceof AxiosError && err.response?.status === 404) {
+      return null;
+    } else {
+      console.error('Error fetching User: ', err);
+      throw new Error('Something went wrong. Please try again later.');
+    }
   }
   return resArray;
 }
