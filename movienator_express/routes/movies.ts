@@ -135,7 +135,7 @@ movieRouter.get('/watchlist/:uId', async (req, res) => {
         'watchlist.watchProviders',
       ],
     });
-    if (user != null) {
+    if (!user) {
       return res.status(404).json();
     }
     const userWatchlist: Movie[] = user.watchlist;
