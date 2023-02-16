@@ -15,7 +15,7 @@ const BASE_URL = 'https://api.themoviedb.org/3';
 /**
  * These routes should not communicate with our local database at all.
  * They should just receive the Data from the external API and put it into
- * Our own datatypes to return (again, without saving the data to the database)
+ * our own datatypes to return (again, without saving the data to the database)
  */
 
 async function getImageToActor(actorId: number): Promise<string | null> {
@@ -38,12 +38,14 @@ async function getImageToActor(actorId: number): Promise<string | null> {
   return resString;
 }
 
+/**
+ * Returns the first YouTube video id for the given movie
+ */
 async function getVideoToMovie(movieId: number): Promise<string> {
   let resKey = 'null';
   try {
     const query: string =
       BASE_URL + `/movie/${movieId}/videos?` + `api_key=${API_KEY}`;
-    //console.log(query)
     const response = await axios.get(query, {
       headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
       params: { trophies: true },
@@ -75,43 +77,50 @@ async function getMoviesToIds(
   getVideos = false
 ): Promise<Movie[]> {
   const resMovies: Movie[] = [];
+  // for each movie
   for (const id of ids) {
+    // get the full movie object
     const query: string = BASE_URL + `/movie/${id}?` + `api_key=${API_KEY}`;
     const response = await axios.get(query, {
       headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
       params: { trophies: true },
     });
-    if (response.status == 200) {
-      const genres: Genre[] = [];
-      response.data.genres.forEach((genre) => {
-        const oneGenre: Genre = new Genre();
-        oneGenre.genreId = genre.id;
-        oneGenre.genreName = genre.name;
-        genres.push(oneGenre);
-      });
-      const oneMovie: Movie = new Movie();
-      oneMovie.movieId = response.data.id;
-      oneMovie.title = response.data.original_title;
-      oneMovie.overview = response.data.overview;
-      if (response.data.release_date) {
-        oneMovie.releaseDate = new Date(response.data.release_date);
-      } else {
-        oneMovie.releaseDate = new Date(0);
-      }
-      oneMovie.lengthMinutes = response.data.runtime;
-      oneMovie.adultContent = response.data.adult;
-      oneMovie.imagePath = response.data.poster_path;
-      if (getVideos) {
-        oneMovie.videoPath = await getVideoToMovie(response.data.id);
-      } else {
-        oneMovie.videoPath = 'null';
-      }
-      oneMovie.actors = [];
-      oneMovie.reviews = [];
-      oneMovie.genres = genres;
-      if (resMovies.length < maxAmount) {
-        resMovies.push(oneMovie);
-      }
+    if (response.status !== 200) {
+      continue;
+    }
+
+    // fill our own genres array
+    const genres: Genre[] = [];
+    response.data.genres.forEach((genre) => {
+      const oneGenre: Genre = new Genre();
+      oneGenre.genreId = genre.id;
+      oneGenre.genreName = genre.name;
+      genres.push(oneGenre);
+    });
+
+    // fill our own movie object
+    const oneMovie: Movie = new Movie();
+    oneMovie.movieId = response.data.id;
+    oneMovie.title = response.data.original_title;
+    oneMovie.overview = response.data.overview;
+    if (response.data.release_date) {
+      oneMovie.releaseDate = new Date(response.data.release_date);
+    } else {
+      oneMovie.releaseDate = new Date(0);
+    }
+    oneMovie.lengthMinutes = response.data.runtime;
+    oneMovie.adultContent = response.data.adult;
+    oneMovie.imagePath = response.data.poster_path;
+    if (getVideos) {
+      oneMovie.videoPath = await getVideoToMovie(response.data.id);
+    } else {
+      oneMovie.videoPath = 'null';
+    }
+    oneMovie.actors = [];
+    oneMovie.reviews = [];
+    oneMovie.genres = genres;
+    if (resMovies.length < maxAmount) {
+      resMovies.push(oneMovie);
     }
   }
   return resMovies;
@@ -144,11 +153,13 @@ async function getMoviesToQuery(
   return await getMoviesToIds(movieIds, maxAmount);
 }
 
-//Returns a list of movies that fit this search word
-//The actors array is NOT filled
-//The genre array IS filled
-//The watchProviders array is NOT filles
-//see search/movies
+/**
+ * Returns a list of movies that fit this search word
+ * The actors array is NOT filled
+ * The genre array IS filled
+ * The watchProviders array is NOT filles
+ * see search/movies
+ */
 externRouter.get('/search/movie/:word', async (req, res) => {
   try {
     const query: string =
@@ -158,12 +169,12 @@ externRouter.get('/search/movie/:word', async (req, res) => {
       `&query=${req.params.word}`;
     const page: number = parseInt(req.query.page.toString());
     const resMovies: Movie[] = await getMoviesToQuery(query, 50, page);
-    res.status(200).json({
+    return res.status(200).json({
       data: resMovies,
     });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -189,14 +200,16 @@ externRouter.get('/actor/movie/:id', async (req, res) => {
         }
       });
     }
-    res.status(200).json({
+    return res.status(200).json({
       data: resActors,
     });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
+
+//Get a single actor by id
 externRouter.get('/actor/:id', async (req, res) => {
   try {
     const resActor: Actor = new Actor();
@@ -210,12 +223,12 @@ externRouter.get('/actor/:id', async (req, res) => {
       resActor.name = actor.data.name;
       resActor.actorId = actor.data.id;
     }
-    res.status(200).json({
+    return res.status(200).json({
       data: resActor,
     });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -251,15 +264,16 @@ externRouter.get('/search/actor/:name', async (req, res) => {
       }
       resActors.sort((a, b) => a.name.localeCompare(b.name));
     }
-    res.status(200).json({
+    return res.status(200).json({
       data: resActors,
     });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
+//Get a single movie by id
 externRouter.get('/movie/one/:id', async (req, res) => {
   try {
     const resMovies: Movie[] = await getMoviesToIds(
@@ -267,12 +281,12 @@ externRouter.get('/movie/one/:id', async (req, res) => {
       30,
       true
     );
-    res.status(200).json({
+    return res.status(200).json({
       data: resMovies[0],
     });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -304,12 +318,12 @@ externRouter.get('/movies/actor/:id', async (req, res) => {
         (a, b) => b.releaseDate.getTime() - a.releaseDate.getTime()
       );
     }
-    res.status(200).json({
+    return res.status(200).json({
       data: resMovies,
     });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -331,7 +345,7 @@ externRouter.get('/user/:uId/recommendations', async (req, res) => {
     });
 
     if (user === null) {
-      res.status(404).json();
+      return res.status(404).json();
     }
 
     //Get top-rated reviews of that user
@@ -341,7 +355,7 @@ externRouter.get('/user/:uId/recommendations', async (req, res) => {
     reviews.sort((a, b) => b.rating - a.rating);
     const reviewedMovieIds = reviews.map((review) => review.reviewMovieMovieId);
 
-    //Get recommendations for the top-rated movies of that user
+    //Get recommendations for each of the top-rated movies of that user
     const recommendedMovieIds: number[] = [];
 
     for (let i = 0; i < reviews.length; i++) {
@@ -359,27 +373,29 @@ externRouter.get('/user/:uId/recommendations', async (req, res) => {
         params: { trophies: true },
       });
 
-      if (res.status == 200) {
-        const thisMovieRecommendations = res.data.results;
+      if (res.status !== 200) {
+        continue;
+      }
 
-        //Collect Movie ids from the first MAX_REC_PER_REVIEW recommendations
-        let recsPerReviewCounter = 0;
-        for (let x = 0; x < thisMovieRecommendations.length; x++) {
-          if (recsPerReviewCounter >= MAX_REC_PER_REVIEW) {
-            break;
-          }
+      const thisMovieRecommendations = res.data.results;
 
-          //only add movie as recommendation if the movie has not yet been reviewed by the user
-          const thisRecommendedMovie = thisMovieRecommendations[x];
-          if (
-            reviewedMovieIds.includes(thisRecommendedMovie.id) ||
-            recommendedMovieIds.includes(thisRecommendedMovie.id)
-          ) {
-            continue;
-          } else {
-            recommendedMovieIds.push(thisRecommendedMovie.id);
-            recsPerReviewCounter++;
-          }
+      //Collect Movie ids from the first n=MAX_REC_PER_REVIEW recommendations
+      let recsPerReviewCounter = 0;
+      for (let x = 0; x < thisMovieRecommendations.length; x++) {
+        if (recsPerReviewCounter >= MAX_REC_PER_REVIEW) {
+          break;
+        }
+
+        //only add movie as recommendation if the movie has not yet been reviewed by the user
+        const thisRecommendedMovie = thisMovieRecommendations[x];
+        if (
+          reviewedMovieIds.includes(thisRecommendedMovie.id) ||
+          recommendedMovieIds.includes(thisRecommendedMovie.id)
+        ) {
+          continue;
+        } else {
+          recommendedMovieIds.push(thisRecommendedMovie.id);
+          recsPerReviewCounter++;
         }
       }
     }
@@ -389,16 +405,16 @@ externRouter.get('/user/:uId/recommendations', async (req, res) => {
       recommendedMovieIds,
       MAX_DIF_REVIEWS * MAX_REC_PER_REVIEW
     );
-    res.status(200).json({
+    return res.status(200).json({
       data: resMovies,
     });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
-//Returns a list of recommendations for a movie
+//Returns a list of recommendations for a single movie
 //The actors array is NOT filled
 //The genre array IS filled
 externRouter.get('/movie/:mId/recommendations', async (req, res) => {
@@ -420,12 +436,12 @@ externRouter.get('/movie/:mId/recommendations', async (req, res) => {
       });
       resMovies = await getMoviesToIds(movieIds, 20);
     }
-    res.status(200).json({
+    return res.status(200).json({
       data: resMovies,
     });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -439,12 +455,12 @@ externRouter.get('/popular', async (req, res) => {
     const query: string = BASE_URL + '/movie/popular?' + `api_key=${API_KEY}`;
     const page: number = parseInt(req.query.page.toString());
     const resMovies = await getMoviesToQuery(query, 50, page);
-    res.status(200).json({
+    return res.status(200).json({
       data: resMovies,
     });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -453,31 +469,36 @@ externRouter.get('/popular', async (req, res) => {
 externRouter.get('/genres', async (req, res) => {
   try {
     const resGenres: Genre[] = [];
+
     const query: string =
       BASE_URL + `/genre/movie/list?` + `api_key=${API_KEY}`;
+
     const genreRes = await axios.get(query, {
       headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
       params: { trophies: true },
     });
-    if (genreRes.status == 200) {
-      genreRes.data.genres.forEach((genre) => {
-        const newGen: Genre = new Genre();
-        newGen.genreId = genre.id;
-        newGen.genreName = genre.name;
-        resGenres.push(newGen);
-      });
-      res.status(200).json({
-        data: resGenres,
-      });
-    } else {
-      res.status(500).json();
+
+    if (genreRes.status !== 200) {
+      return res.status(500).json();
     }
+
+    genreRes.data.genres.forEach((genre) => {
+      const newGen: Genre = new Genre();
+      newGen.genreId = genre.id;
+      newGen.genreName = genre.name;
+      resGenres.push(newGen);
+    });
+
+    return res.status(200).json({
+      data: resGenres,
+    });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
+//Get movies from a genre by genre id
 externRouter.get('/movie/genre/:id', async (req, res) => {
   try {
     if (isNaN(+req.params.id)) {
@@ -491,18 +512,19 @@ externRouter.get('/movie/genre/:id', async (req, res) => {
     const page: number = parseInt(req.query.page.toString());
     const resMovies = await getMoviesToQuery(query, 50, page);
     if (resMovies.length == 0) {
-      res.status(404).json();
+      return res.status(404).json();
     } else {
-      res.status(200).json({
+      return res.status(200).json({
         data: resMovies,
       });
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
+//Get a single genre by its id
 externRouter.get('/genre/:id', async (req, res) => {
   try {
     if (isNaN(+req.params.id)) {
@@ -525,18 +547,18 @@ externRouter.get('/genre/:id', async (req, res) => {
         }
       });
       if (resGenre != null) {
-        res.status(200).json({
+        return res.status(200).json({
           data: resGenre,
         });
       } else {
-        res.status(500).json();
+        return res.status(500).json();
       }
     } else {
-      res.status(500).json();
+      return res.status(500).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -561,15 +583,15 @@ externRouter.get('/watchProviders', async (req, res) => {
         newWP.providerName = provider.provider_name;
         resProviders.push(newWP);
       });
-      res.status(200).json({
+      return res.status(200).json({
         data: resProviders,
       });
     } else {
-      res.status(500).json();
+      return res.status(500).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -599,18 +621,19 @@ externRouter.get('/watchProviders/movie/:id/:country', async (req, res) => {
         newWP.providerName = provider.provider_name;
         resultProviders.push(newWP);
       });
-      res.status(200).json({
+      return res.status(200).json({
         data: { country: country, providers: resultProviders },
       });
     } else {
-      res.status(500).json();
+      return res.status(500).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
+//Return the results of a hatespeech check on a given text
 externRouter.get('/hateSpeech', async (req, res) => {
   try {
     const response = await axios({
@@ -623,14 +646,14 @@ externRouter.get('/hateSpeech', async (req, res) => {
       },
     });
     if (response.status == 200) {
-      res.status(200).json({
+      return res.status(200).json({
         data: response.data as boolean,
       });
     } else {
-      res.status(500).json();
+      return res.status(500).json();
     }
   } catch (e) {
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 

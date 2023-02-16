@@ -18,14 +18,14 @@ userRouter.get('/all', async (req, res) => {
     });
     if (allUsers) {
       allUsers.sort((a, b) => a.lastName.localeCompare(b.lastName));
-      res.status(200).json({
+      return res.status(200).json({
         data: allUsers,
       });
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (e) {
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -45,14 +45,14 @@ userRouter.get('/one/id/:id', async (req, res) => {
       ],
     });
     if (resultUser) {
-      res.status(200).json({
+      return res.status(200).json({
         data: resultUser,
       });
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (e) {
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -72,14 +72,14 @@ userRouter.get('/one/username/:username', async (req, res) => {
       ],
     });
     if (resultUser) {
-      res.status(200).json({
+      return res.status(200).json({
         data: resultUser,
       });
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (e) {
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -96,34 +96,28 @@ userRouter.get('/username/:word', async (req, res) => {
       },
     });
 
-    if (allUsers) {
-      const query: string = req.params.word;
-      // allUsers.forEach((currentUser) => {
-      //   //If the query is a substring of the current users username
-      //   if (currentUser.userName.toLowerCase().includes(query.toLowerCase())) {
-      //     matchingUsers.push(currentUser);
-      //   }
-      // });
-
-      // define fuse for fuzzy search
-      const fuseOptions = {
-        keys: ['firstName', 'lastName', 'userName'],
-      };
-      const fuse = new Fuse<User>(allUsers, fuseOptions);
-
-      // filter users
-      const matchingUsers: User[] = fuse
-        .search(query)
-        .map((result: Fuse.FuseResult<User>) => result.item);
-
-      res.status(200).json({
-        data: matchingUsers,
-      });
-    } else {
-      res.status(404).json();
+    if (!allUsers) {
+      return res.status(404).json();
     }
+
+    const query: string = req.params.word;
+
+    // define fuse for fuzzy search
+    const fuseOptions = {
+      keys: ['firstName', 'lastName', 'userName'],
+    };
+    const fuse = new Fuse<User>(allUsers, fuseOptions);
+
+    // filter users
+    const matchingUsers: User[] = fuse
+      .search(query)
+      .map((result: Fuse.FuseResult<User>) => result.item);
+
+    return res.status(200).json({
+      data: matchingUsers,
+    });
   } catch (e) {
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -142,14 +136,14 @@ userRouter.get('/followers/:id', async (req, res) => {
       ],
     });
     if (requestedUser) {
-      res.status(200).json({
+      return res.status(200).json({
         data: requestedUser.followers,
       });
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (e) {
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -168,14 +162,14 @@ userRouter.get('/following/:id', async (req, res) => {
       ],
     });
     if (requestedUser) {
-      res.status(200).json({
+      return res.status(200).json({
         data: requestedUser.following,
       });
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (e) {
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -197,26 +191,27 @@ userRouter.get('/followingMutual/:uId', async (req, res) => {
         'followers.profileImage',
       ],
     });
-    if (requestedUser != null) {
-      const resUsers: User[] = [];
-      requestedUser.followers.forEach((user) => {
-        if (
-          requestedUser.following.some((userB) => {
-            return user.userId == userB.userId;
-          })
-        ) {
-          resUsers.push(user);
-        }
-      });
-      res.status(200).json({
-        data: resUsers,
-      });
-    } else {
-      res.status(404).json();
+    if (!requestedUser) {
+      return res.status(404).json();
     }
+    // collect all users who are followers of the user
+    // and who also follow them back
+    const resUsers: User[] = [];
+    requestedUser.followers.forEach((user) => {
+      if (
+        requestedUser.following.some((userB) => {
+          return user.userId == userB.userId;
+        })
+      ) {
+        resUsers.push(user);
+      }
+    });
+    return res.status(200).json({
+      data: resUsers,
+    });
   } catch (e) {
     console.log(e);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -239,24 +234,23 @@ userRouter.get('/following/:id/rated/:mId', async (req, res) => {
       where: { movieId: parseInt(req.params.mId) },
     });
 
-    if (resultUser && resultMovie) {
-      const matchingUsers: User[] = [];
-      //Iterate over all users the requested user is following
-      resultUser.following.forEach((currentUser) => {
-        //Iterate over all reviews of the current user
-        currentUser.reviews.forEach((currentReview) => {
-          if (currentReview.review_movie.movieId === resultMovie.movieId)
-            matchingUsers.push(currentUser);
-        });
-      });
-      res.status(200).json({
-        data: matchingUsers,
-      });
-    } else {
-      res.status(404).json();
+    if (!resultUser || !resultMovie) {
+      return res.status(404).json();
     }
+    const matchingUsers: User[] = [];
+    // collect all users that the user is following
+    // and who also reviewed the given movie
+    resultUser.following.forEach((currentUser) => {
+      currentUser.reviews.forEach((currentReview) => {
+        if (currentReview.review_movie.movieId === resultMovie.movieId)
+          matchingUsers.push(currentUser);
+      });
+    });
+    return res.status(200).json({
+      data: matchingUsers,
+    });
   } catch (e) {
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -278,24 +272,23 @@ userRouter.get('/following/:id/watchlist/:mId', async (req, res) => {
       where: { movieId: parseInt(req.params.mId) },
     });
 
-    if (resultUser && resultMovie) {
-      const matchingUsers: User[] = [];
-      //Iterate over all users the requested user is following
-      resultUser.following.forEach((currentUser) => {
-        //Iterate over all reviews of the current user
-        currentUser.watchlist.forEach((oneMovie) => {
-          if (oneMovie.movieId === resultMovie.movieId)
-            matchingUsers.push(currentUser);
-        });
-      });
-      res.status(200).json({
-        data: matchingUsers,
-      });
-    } else {
-      res.status(404).json();
+    if (!resultUser || !resultMovie) {
+      return res.status(404).json();
     }
+    const matchingUsers: User[] = [];
+    // collect all users that the user is following
+    // and who also have the given movie on their watchlist
+    resultUser.following.forEach((currentUser) => {
+      currentUser.watchlist.forEach((oneMovie) => {
+        if (oneMovie.movieId === resultMovie.movieId)
+          matchingUsers.push(currentUser);
+      });
+    });
+    return res.status(200).json({
+      data: matchingUsers,
+    });
   } catch (e) {
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -304,15 +297,15 @@ userRouter.post('/', async (req, res) => {
   try {
     if (req.body.userId == null) {
       const newUser: User = await User.save(req.body);
-      res.status(201).json({
+      return res.status(201).json({
         data: newUser,
       });
     } else {
-      res.status(500).json();
+      return res.status(500).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -333,13 +326,13 @@ userRouter.post('/follow/:aId/:bId', async (req, res) => {
       }
       userA.following.push(userB);
       await userA.save();
-      res.status(201).json();
+      return res.status(201).json();
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -359,13 +352,13 @@ userRouter.post('/watchlist/:uId/:mId', async (req, res) => {
       }
       requestedUser.watchlist.push(requestedMovie);
       await requestedUser.save();
-      res.status(201).json();
+      return res.status(201).json();
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -377,28 +370,27 @@ userRouter.put('/', async (req, res) => {
       where: { userId: updatedUser.userId },
       relations: {},
     });
-    if (requestedUser) {
-      Object.keys(updatedUser).forEach((key) => {
-        if (
-          key != 'userId' &&
-          key != 'reviews' &&
-          key != 'following' &&
-          key != 'followers' &&
-          key != 'watchlist'
-        ) {
-          requestedUser[key] = req.body[key];
-        }
-      });
-      await requestedUser.save();
-
-      res.status(201).json({
-        data: requestedUser,
-      });
-    } else {
-      res.status(404).json();
+    if (!requestedUser) {
+      return res.status(404).json();
     }
+    Object.keys(updatedUser).forEach((key) => {
+      if (
+        key != 'userId' &&
+        key != 'reviews' &&
+        key != 'following' &&
+        key != 'followers' &&
+        key != 'watchlist'
+      ) {
+        requestedUser[key] = req.body[key];
+      }
+    });
+    await requestedUser.save();
+
+    return res.status(201).json({
+      data: requestedUser,
+    });
   } catch (er) {
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -411,12 +403,12 @@ userRouter.delete('/:id', async (req, res) => {
     });
     if (requestedUser) {
       await requestedUser.remove();
-      res.status(204).json();
+      return res.status(204).json();
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (er) {
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -436,15 +428,15 @@ userRouter.delete('/follow/:aId/:bId', async (req, res) => {
         return user.userId != userB.userId;
       });
       await userA.save();
-      res.status(204).json({
+      return res.status(204).json({
         data: userA,
       });
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -463,13 +455,13 @@ userRouter.delete('/watchlist/:uId/:mId', async (req, res) => {
         return movie.movieId != requestedMovie.movieId;
       });
       await requestedUser.save();
-      res.status(204).json();
+      return res.status(204).json();
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 

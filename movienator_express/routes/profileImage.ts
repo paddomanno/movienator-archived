@@ -12,15 +12,15 @@ profileImageRouter.get('/all', async (req, res) => {
     });
     if (allProfileImages) {
       allProfileImages.sort((a, b) => a.name.localeCompare(b.name));
-      res.status(200).json({
+      return res.status(200).json({
         data: allProfileImages,
       });
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -32,15 +32,15 @@ profileImageRouter.get('/ref/:ref', async (req, res) => {
       relations: { users: true },
     });
     if (oneProfileImage) {
-      res.status(200).json({
+      return res.status(200).json({
         data: oneProfileImage,
       });
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -53,15 +53,15 @@ profileImageRouter.get('/user/:id', async (req, res) => {
     });
 
     if (requestedUser) {
-      res.status(200).json({
+      return res.status(200).json({
         data: requestedUser.profileImage,
       });
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -77,15 +77,15 @@ profileImageRouter.post('/', async (req, res) => {
     }
     await ProfileImage.save(newProfileImage);
     if (newProfileImage) {
-      res.status(201).json({
+      return res.status(201).json({
         data: newProfileImage,
       });
     } else {
-      res.status(500).json();
+      return res.status(500).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -96,25 +96,23 @@ profileImageRouter.put('/', async (req, res) => {
     const requestedProfileImage: ProfileImage = await ProfileImage.findOne({
       where: { ressourceLink: updatedProfileImage.ressourceLink },
     });
-    if (requestedProfileImage) {
-      // TODO: primary key can be updated here (if we ever want to change the link), right?
-      // Kevin - können mal probieren. Bin mir nicht sicher ob typeOrm das mag
-      Object.keys(updatedProfileImage).forEach((key) => {
-        if (key != 'users') {
-          requestedProfileImage[key] = req.body[key];
-        }
-      });
-      await requestedProfileImage.save();
-
-      res.status(201).json({
-        data: requestedProfileImage,
-      });
-    } else {
-      res.status(404).json();
+    if (!requestedProfileImage) {
+      return res.status(404).json();
     }
+
+    Object.keys(updatedProfileImage).forEach((key) => {
+      if (key != 'users' && key != 'ressourceLink') {
+        requestedProfileImage[key] = req.body[key];
+      }
+    });
+    await requestedProfileImage.save();
+
+    return res.status(201).json({
+      data: requestedProfileImage,
+    });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -126,13 +124,13 @@ profileImageRouter.delete('/:ref', async (req, res) => {
     });
     if (requestedProfileImage) {
       await requestedProfileImage.remove();
-      res.status(204).json();
+      return res.status(204).json();
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -149,13 +147,13 @@ profileImageRouter.put('/image/:uId/:pId', async (req, res) => {
     if (requestedUser && requestedImage) {
       requestedUser.profileImage = requestedImage;
       await requestedUser.save();
-      res.status(201).json();
+      return res.status(201).json();
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -169,13 +167,13 @@ profileImageRouter.delete('/image/:uId', async (req, res) => {
     if (requestedUser) {
       requestedUser.profileImage = null;
       await requestedUser.save();
-      res.status(204).json();
+      return res.status(204).json();
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 export default profileImageRouter;

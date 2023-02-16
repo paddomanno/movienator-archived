@@ -6,6 +6,9 @@ import expressRecommendation from 'express';
 const recommendationRouter = expressRecommendation.Router();
 
 //Get a single recommendation
+//sent by user with id aId
+//sent to user with id bId
+//recommending movie with id mId
 recommendationRouter.get('/one/:aId/:bId/:mId', async (req, res) => {
   try {
     if (
@@ -30,15 +33,15 @@ recommendationRouter.get('/one/:aId/:bId/:mId', async (req, res) => {
       ],
     });
     if (singleRecommendation != null) {
-      res.status(200).json({
+      return res.status(200).json({
         data: singleRecommendation,
       });
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -61,16 +64,16 @@ recommendationRouter.get('/for/:Id', async (req, res) => {
     resRecommendations.sort((a, b) =>
       a.recommendedMovie.title.localeCompare(b.recommendedMovie.title)
     );
-    res.status(200).json({
+    return res.status(200).json({
       data: resRecommendations,
     });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
-//Get all recommendations from a user
+//Get all recommendations sent by a user
 recommendationRouter.get('/from/:Id', async (req, res) => {
   try {
     if (isNaN(+req.params.Id)) {
@@ -89,12 +92,12 @@ recommendationRouter.get('/from/:Id', async (req, res) => {
     resRecommendations.sort((a, b) =>
       a.recommendedMovie.title.localeCompare(b.recommendedMovie.title)
     );
-    res.status(200).json({
+    return res.status(200).json({
       data: resRecommendations,
     });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -120,12 +123,12 @@ recommendationRouter.get('/forMovie/:uId/:mId', async (req, res) => {
     resRecommendations.sort((a, b) =>
       a.recommendedMovie.title.localeCompare(b.recommendedMovie.title)
     );
-    res.status(200).json({
+    return res.status(200).json({
       data: resRecommendations,
     });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -141,10 +144,13 @@ recommendationRouter.post('/', async (req, res) => {
       },
     });
     if (oldRec != null) {
+      // This movie was already recommended to that user by that user
+      // so just update the message text
       oldRec.message = newRecommendation.message;
       await oldRec.save();
-      res.status(201).json();
+      return res.status(201).json();
     } else {
+      // Check if users and movie exist
       const userA: User = await User.findOne({
         where: { userId: newRecommendation.receivingUserUserId },
       });
@@ -154,16 +160,16 @@ recommendationRouter.post('/', async (req, res) => {
       const movie: Movie = await Movie.findOne({
         where: { movieId: newRecommendation.recommendedMovieMovieId },
       });
-      if (userA != null && userB != null && movie != null) {
+      if (userA && userB && movie) {
         await Recommendation.save(newRecommendation);
-        res.status(201).json();
+        return res.status(201).json();
       } else {
-        res.status(404).json();
+        return res.status(404).json();
       }
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -181,13 +187,13 @@ recommendationRouter.put('/', async (req, res) => {
     if (resRecommendation != null) {
       resRecommendation.message = updateRecommendation.message;
       await resRecommendation.save();
-      res.status(201).json();
+      return res.status(201).json();
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -210,13 +216,13 @@ recommendationRouter.delete('/:aId/:bId/:mId', async (req, res) => {
     });
     if (singleRecommendation != null) {
       await singleRecommendation.remove();
-      res.status(204).json();
+      return res.status(204).json();
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 

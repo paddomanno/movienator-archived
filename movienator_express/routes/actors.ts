@@ -12,15 +12,15 @@ actorRouter.get('/all', async (req, res) => {
     });
     if (allActors) {
       allActors.sort((a, b) => a.name.localeCompare(b.name));
-      res.status(200).json({
+      return res.status(200).json({
         data: allActors,
       });
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -32,15 +32,15 @@ actorRouter.get('/one/:id', async (req, res) => {
       relations: { movies: true },
     });
     if (requestedActor) {
-      res.status(200).json({
+      return res.status(200).json({
         data: requestedActor,
       });
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -55,21 +55,20 @@ actorRouter.get('/movie/:id', async (req, res) => {
     if (movie) {
       const allActorsFromMovie: Actor[] = movie.actors;
       allActorsFromMovie.sort((a, b) => a.name.localeCompare(b.name));
-      res.status(200).json({
+      return res.status(200).json({
         data: allActorsFromMovie,
       });
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
 //Updates the actor sent in the body
 //Make sure to NOT update the primary keys or relations
-// TODO: 'We shouldnt use this' ??
 actorRouter.put('/', async (req, res) => {
   try {
     const updatedActor: Actor = req.body as Actor;
@@ -84,15 +83,15 @@ actorRouter.put('/', async (req, res) => {
       });
       await requestedActor.save();
 
-      res.status(201).json({
+      return res.status(201).json({
         data: requestedActor,
       });
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -104,13 +103,13 @@ actorRouter.delete('/:id', async (req, res) => {
     });
     if (requestedActor) {
       await requestedActor.remove();
-      res.status(204).json();
+      return res.status(204).json();
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 

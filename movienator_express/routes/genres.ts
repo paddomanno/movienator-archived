@@ -14,14 +14,15 @@ genresRouter.get('/all', async (req, res) => {
     if (allGenres) {
       allGenres.sort((a, b) => a.genreName.localeCompare(b.genreName));
     }
-    res.status(200).json({
+    return res.status(200).json({
       data: allGenres,
     });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
+
 //Returns the favorite genre of a specified user
 genresRouter.get('/favorite/:uId', async (req, res) => {
   try {
@@ -33,34 +34,39 @@ genresRouter.get('/favorite/:uId', async (req, res) => {
       relations: ['review_movie', 'review_movie.genres'],
     });
     if (allReviews.length === 0) {
-      res.status(404).json();
-    } else {
-      const scoreMap = new Map<number, number>();
-      const genreMap = new Map<number, Genre>();
-      allReviews.forEach((review) => {
-        review.review_movie.genres.forEach((genre) => {
-          if (!genreMap.has(genre.genreId)) {
-            genreMap.set(genre.genreId, genre);
-          }
-          if (!scoreMap.has(genre.genreId)) {
-            scoreMap.set(genre.genreId, 0);
-          }
-          scoreMap.set(
-            genre.genreId,
-            scoreMap.get(genre.genreId) - 2 + review.rating
-          );
-        });
-      });
-      const resGenre: number = Array.from(scoreMap.entries()).reduce((a, b) =>
-        a[1] < b[1] ? b : a
-      )[0];
-      res.status(200).json({
-        data: genreMap.get(resGenre),
-      });
+      return res.status(404).json();
     }
+
+    // Give a score to each genre
+    // based on every review written by the user
+    // and the rating they gave
+    const scoreMap = new Map<number, number>();
+    const genreMap = new Map<number, Genre>();
+    allReviews.forEach((review) => {
+      review.review_movie.genres.forEach((genre) => {
+        if (!genreMap.has(genre.genreId)) {
+          genreMap.set(genre.genreId, genre);
+        }
+        if (!scoreMap.has(genre.genreId)) {
+          scoreMap.set(genre.genreId, 0);
+        }
+        scoreMap.set(
+          genre.genreId,
+          scoreMap.get(genre.genreId) - 2 + review.rating
+        );
+      });
+    });
+
+    // Get the genre with the highest score
+    const resGenre: number = Array.from(scoreMap.entries()).reduce((a, b) =>
+      a[1] < b[1] ? b : a
+    )[0];
+    return res.status(200).json({
+      data: genreMap.get(resGenre),
+    });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 

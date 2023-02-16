@@ -5,8 +5,6 @@ import User from '../entity/user';
 import expressReview from 'express';
 const reviewRouter = expressReview.Router();
 
-//TODO Routing implementieren
-
 //Returns all reviews from the database, ordered by the last Updated value
 reviewRouter.get('/all', async (req, res) => {
   try {
@@ -15,15 +13,15 @@ reviewRouter.get('/all', async (req, res) => {
     });
     if (allReviews) {
       allReviews.sort((a, b) => Number(b.lastUpdated) - Number(a.lastUpdated));
-      res.status(200).json({
+      return res.status(200).json({
         data: allReviews,
       });
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -39,19 +37,19 @@ reviewRouter.get('/one/:mId/:uId', async (req, res) => {
     });
 
     if (requestedReview) {
-      res.status(200).json({
+      return res.status(200).json({
         data: requestedReview,
       });
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
-//Gets all reviews to that movie, ordered by the last Updated value
+//Gets all reviews to that movie, ordered by the last updated value
 reviewRouter.get('/movie/:id', async (req, res) => {
   try {
     const requestedMovie = await Movie.findOne({
@@ -64,23 +62,22 @@ reviewRouter.get('/movie/:id', async (req, res) => {
       ],
     });
 
-    if (requestedMovie) {
-      const reviews = requestedMovie.reviews.sort(
-        (a, b) => Number(b.lastUpdated) - Number(a.lastUpdated)
-      );
-      res.status(200).json({
-        data: reviews,
-      });
-    } else {
-      res.status(404).json();
+    if (!requestedMovie) {
+      return res.status(404).json();
     }
+    const reviews = requestedMovie.reviews.sort(
+      (a, b) => Number(b.lastUpdated) - Number(a.lastUpdated)
+    );
+    return res.status(200).json({
+      data: reviews,
+    });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
-//Gets all reviews done by that user, ordered by the last Updated value
+//Gets all reviews done by that user, ordered by the last updated value
 reviewRouter.get('/user/own/:id', async (req, res) => {
   try {
     const requestedUser = await User.findOne({
@@ -92,19 +89,18 @@ reviewRouter.get('/user/own/:id', async (req, res) => {
         'reviews.review_user.profileImage',
       ],
     });
-    if (requestedUser) {
-      const reviews = requestedUser.reviews.sort(
-        (a, b) => Number(b.lastUpdated) - Number(a.lastUpdated)
-      );
-      res.status(200).json({
-        data: reviews,
-      });
-    } else {
-      res.status(404).json();
+    if (!requestedUser) {
+      return res.status(404).json();
     }
+    const reviews = requestedUser.reviews.sort(
+      (a, b) => Number(b.lastUpdated) - Number(a.lastUpdated)
+    );
+    return res.status(200).json({
+      data: reviews,
+    });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -121,21 +117,20 @@ reviewRouter.get('/user/following/:id', async (req, res) => {
         'following.reviews.review_movie',
       ],
     });
-    if (requestedUser) {
-      const reviews = requestedUser.following.reduce(
-        (reviews, followedUser) => [...reviews, ...followedUser.reviews],
-        []
-      );
-      reviews.sort((a, b) => Number(b.lastUpdated) - Number(a.lastUpdated));
-      res.status(200).json({
-        data: reviews,
-      });
-    } else {
-      res.status(404).json();
+    if (!requestedUser) {
+      return res.status(404).json();
     }
+    const reviews = requestedUser.following.reduce(
+      (reviews, followedUser) => [...reviews, ...followedUser.reviews],
+      []
+    );
+    reviews.sort((a, b) => Number(b.lastUpdated) - Number(a.lastUpdated));
+    return res.status(200).json({
+      data: reviews,
+    });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -152,24 +147,23 @@ reviewRouter.get('/user/following/:uId/review/:mId', async (req, res) => {
         'following.reviews.review_movie',
       ],
     });
-    if (requestedUser) {
-      let reviews: Review[] = requestedUser.following.reduce(
-        (reviews, followedUser) => [...reviews, ...followedUser.reviews],
-        []
-      );
-      reviews = reviews.filter((review) => {
-        return review.review_movie.movieId == parseInt(req.params.mId);
-      });
-      reviews.sort((a, b) => Number(b.lastUpdated) - Number(a.lastUpdated));
-      res.status(200).json({
-        data: reviews,
-      });
-    } else {
-      res.status(404).json();
+    if (!requestedUser) {
+      return res.status(404).json();
     }
+    let reviews: Review[] = requestedUser.following.reduce(
+      (reviews, followedUser) => [...reviews, ...followedUser.reviews],
+      []
+    );
+    reviews = reviews.filter((review) => {
+      return review.review_movie.movieId == parseInt(req.params.mId);
+    });
+    reviews.sort((a, b) => Number(b.lastUpdated) - Number(a.lastUpdated));
+    return res.status(200).json({
+      data: reviews,
+    });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 //Gets Reviews to a movie from people the user is NOT following
@@ -179,30 +173,29 @@ reviewRouter.get('/user/notFollowing/:uId/review/:mId', async (req, res) => {
       where: { userId: parseInt(req.params.uId) },
       relations: { following: true },
     });
-    if (requestedUser) {
-      const allReviewsToMovie: Review[] = await Review.find({
-        where: { reviewMovieMovieId: parseInt(req.params.mId) },
-        relations: ['review_movie', 'review_user', 'review_user.profileImage'],
-      });
-      let resReviews: Review[] = [];
-      resReviews = allReviewsToMovie.filter((review) => {
-        return !requestedUser.following.some((user) => {
-          return (
-            user.userId === review.reviewUserUserId ||
-            requestedUser.userId === review.reviewUserUserId
-          );
-        });
-      });
-      resReviews.sort((a, b) => Number(b.lastUpdated) - Number(a.lastUpdated));
-      res.status(200).json({
-        data: resReviews,
-      });
-    } else {
-      res.status(404).json();
+    if (!requestedUser) {
+      return res.status(404).json();
     }
+    const allReviewsToMovie: Review[] = await Review.find({
+      where: { reviewMovieMovieId: parseInt(req.params.mId) },
+      relations: ['review_movie', 'review_user', 'review_user.profileImage'],
+    });
+    let resReviews: Review[] = [];
+    resReviews = allReviewsToMovie.filter((review) => {
+      return !requestedUser.following.some((user) => {
+        return (
+          user.userId === review.reviewUserUserId ||
+          requestedUser.userId === review.reviewUserUserId
+        );
+      });
+    });
+    resReviews.sort((a, b) => Number(b.lastUpdated) - Number(a.lastUpdated));
+    return res.status(200).json({
+      data: resReviews,
+    });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -224,26 +217,25 @@ reviewRouter.get('/user/following/:id/:time', async (req, res) => {
         'following.reviews.review_movie',
       ],
     });
-    if (requestedUser) {
-      const reviews = requestedUser.following.reduce(
-        (reviews, followedUser) => [...reviews, ...followedUser.reviews],
-        []
-      );
-      const filteredReviews = reviews.filter((rev: Review) => {
-        return rev.lastUpdated.valueOf() >= timestamp;
-      });
-      filteredReviews.sort(
-        (a, b) => b.lastUpdated.getTime() - a.lastUpdated.getTime()
-      );
-      res.status(200).json({
-        data: filteredReviews,
-      });
-    } else {
-      res.status(404).json();
+    if (!requestedUser) {
+      return res.status(404).json();
     }
+    const reviews = requestedUser.following.reduce(
+      (reviews, followedUser) => [...reviews, ...followedUser.reviews],
+      []
+    );
+    const filteredReviews = reviews.filter((rev: Review) => {
+      return rev.lastUpdated.valueOf() >= timestamp;
+    });
+    filteredReviews.sort(
+      (a, b) => b.lastUpdated.getTime() - a.lastUpdated.getTime()
+    );
+    return res.status(200).json({
+      data: filteredReviews,
+    });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -257,27 +249,26 @@ reviewRouter.get('/time/:time', async (req, res) => {
     const allReviews: Review[] = await Review.find({
       relations: ['review_movie', 'review_user', 'review_user.profileImage'],
     });
-    if (allReviews) {
-      const filteredReviews = allReviews.filter((rev: Review) => {
-        console.log(
-          `Comparing ${rev.lastUpdated.getTime()} < ${timestamp.getTime()}: ${
-            rev.lastUpdated.getTime() >= timestamp.getTime()
-          }`
-        );
-        return rev.lastUpdated.getTime() >= timestamp.getTime();
-      });
-      filteredReviews.sort(
-        (a, b) => b.lastUpdated.getTime() - a.lastUpdated.getTime()
-      );
-      res.status(200).json({
-        data: filteredReviews,
-      });
-    } else {
-      res.status(404).json();
+    if (!allReviews) {
+      return res.status(404).json();
     }
+    const filteredReviews = allReviews.filter((rev: Review) => {
+      console.log(
+        `Comparing ${rev.lastUpdated.getTime()} < ${timestamp.getTime()}: ${
+          rev.lastUpdated.getTime() >= timestamp.getTime()
+        }`
+      );
+      return rev.lastUpdated.getTime() >= timestamp.getTime();
+    });
+    filteredReviews.sort(
+      (a, b) => b.lastUpdated.getTime() - a.lastUpdated.getTime()
+    );
+    return res.status(200).json({
+      data: filteredReviews,
+    });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -295,24 +286,23 @@ reviewRouter.post('/', async (req, res) => {
       where: { movieId: newReview.reviewMovieMovieId },
     });
 
-    if (userForReview && movieForReview) {
-      await Review.save(newReview);
-      newReview = await Review.findOne({
-        where: {
-          reviewMovieMovieId: newReview.reviewMovieMovieId,
-          reviewUserUserId: newReview.reviewUserUserId,
-        },
-        relations: { review_movie: true, review_user: true },
-      });
-      res.status(201).json({
-        data: newReview,
-      });
-    } else {
-      res.status(404).json();
+    if (!userForReview || !movieForReview) {
+      return res.status(404).json();
     }
+    await Review.save(newReview);
+    newReview = await Review.findOne({
+      where: {
+        reviewMovieMovieId: newReview.reviewMovieMovieId,
+        reviewUserUserId: newReview.reviewUserUserId,
+      },
+      relations: { review_movie: true, review_user: true },
+    });
+    return res.status(201).json({
+      data: newReview,
+    });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -328,29 +318,28 @@ reviewRouter.put('/', async (req, res) => {
         reviewUserUserId: updatedReview.reviewUserUserId,
       },
     });
-    if (requestedReview) {
-      // requestedReview.lastUpdated = new Date()
-      Object.keys(updatedReview).forEach((key) => {
-        if (
-          key != 'reviewMovieMovieId' &&
-          key != 'reviewUserUserId' &&
-          key != 'review_user' &&
-          key != 'review_movie'
-        ) {
-          requestedReview[key] = req.body[key];
-        }
-      });
-      await requestedReview.save();
-
-      res.status(201).json({
-        data: requestedReview,
-      });
-    } else {
-      res.status(404).json();
+    if (!requestedReview) {
+      return res.status(404).json();
     }
+    // requestedReview.lastUpdated = new Date()
+    Object.keys(updatedReview).forEach((key) => {
+      if (
+        key != 'reviewMovieMovieId' &&
+        key != 'reviewUserUserId' &&
+        key != 'review_user' &&
+        key != 'review_movie'
+      ) {
+        requestedReview[key] = req.body[key];
+      }
+    });
+    await requestedReview.save();
+
+    return res.status(201).json({
+      data: requestedReview,
+    });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -365,13 +354,13 @@ reviewRouter.delete('/:uId/:mId', async (req, res) => {
     });
     if (requestedReview) {
       await requestedReview.remove();
-      res.status(204).json();
+      return res.status(204).json();
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 

@@ -20,12 +20,12 @@ movieRouter.get('/all', async (req, res) => {
       },
     });
     allMovies.sort((a, b) => a.title.localeCompare(b.title));
-    res.status(200).json({
+    return res.status(200).json({
       data: allMovies,
     });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -45,15 +45,15 @@ movieRouter.get('/one/:id', async (req, res) => {
       },
     });
     if (oneMovie) {
-      res.status(200).json({
+      return res.status(200).json({
         data: oneMovie,
       });
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -71,15 +71,15 @@ movieRouter.get('/actor/:id', async (req, res) => {
     if (actor != null) {
       const actorMovies: Movie[] = actor.movies;
       actorMovies.sort((a, b) => a.title.localeCompare(b.title));
-      res.status(200).json({
+      return res.status(200).json({
         data: actorMovies,
       });
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -101,21 +101,21 @@ movieRouter.get('/user/:id', async (req, res) => {
       ],
     });
 
-    if (user != null) {
-      const userMovies: Movie[] = [];
-      user.reviews.forEach((review) => {
-        userMovies.push(review.review_movie);
-      });
-      userMovies.sort((a, b) => a.title.localeCompare(b.title));
-      res.status(200).json({
-        data: userMovies,
-      });
-    } else {
-      res.status(404).json();
+    if (user == null) {
+      return res.status(404).json();
     }
+
+    const userMovies: Movie[] = [];
+    user.reviews.forEach((review) => {
+      userMovies.push(review.review_movie);
+    });
+    userMovies.sort((a, b) => a.title.localeCompare(b.title));
+    return res.status(200).json({
+      data: userMovies,
+    });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -136,17 +136,16 @@ movieRouter.get('/watchlist/:uId', async (req, res) => {
       ],
     });
     if (user != null) {
-      const userWatchlist: Movie[] = user.watchlist;
-      userWatchlist.sort((a, b) => a.title.localeCompare(b.title));
-      res.status(200).json({
-        data: userWatchlist,
-      });
-    } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
+    const userWatchlist: Movie[] = user.watchlist;
+    userWatchlist.sort((a, b) => a.title.localeCompare(b.title));
+    return res.status(200).json({
+      data: userWatchlist,
+    });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -169,12 +168,12 @@ movieRouter.get('/time/min/:min', async (req, res) => {
       },
     });
     movies.sort((a, b) => a.title.localeCompare(b.title));
-    res.status(200).json({
+    return res.status(200).json({
       data: movies,
     });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -197,12 +196,12 @@ movieRouter.get('/time/max/:max', async (req, res) => {
       },
     });
     movies.sort((a, b) => a.title.localeCompare(b.title));
-    res.status(200).json({
+    return res.status(200).json({
       data: movies,
     });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -230,12 +229,12 @@ movieRouter.get('/date/:min/:max', async (req, res) => {
       },
     });
     movies.sort((a, b) => a.title.localeCompare(b.title));
-    res.status(200).json({
+    return res.status(200).json({
       data: movies,
     });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -252,12 +251,12 @@ movieRouter.get('/name/:word', async (req, res) => {
       },
     });
     movies.sort((a, b) => a.title.localeCompare(b.title));
-    res.status(200).json({
+    return res.status(200).json({
       data: movies,
     });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -285,12 +284,12 @@ movieRouter.get('/rating/:min', async (req, res) => {
       return sumReviews / numReviews > parseInt(req.params.min);
     });
     minMovies.sort((a, b) => a.title.localeCompare(b.title));
-    res.status(200).json({
+    return res.status(200).json({
       data: minMovies,
     });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -300,6 +299,7 @@ movieRouter.get('/genre/:genre', async (req, res) => {
   try {
     let genre: Genre;
     if (isNaN(+req.params.genre)) {
+      // Get movies by genre name
       genre = await Genre.findOne({
         where: { genreName: req.params.genre },
         relations: [
@@ -310,6 +310,7 @@ movieRouter.get('/genre/:genre', async (req, res) => {
         ],
       });
     } else {
+      // Get movies by genre id
       genre = await Genre.findOne({
         where: { genreId: parseInt(req.params.genre) },
         relations: [
@@ -321,17 +322,18 @@ movieRouter.get('/genre/:genre', async (req, res) => {
       });
     }
     if (genre) {
+      // Return the movies
       const movies: Movie[] = genre.movies;
       movies.sort((a, b) => a.title.localeCompare(b.title));
-      res.status(200).json({
+      return res.status(200).json({
         data: movies,
       });
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -365,15 +367,15 @@ movieRouter.get('/mutual/watchlist/:aId/:bId', async (req, res) => {
       const resMovies = userA.watchlist.filter((movieA) =>
         userB.watchlist.some((movieB) => movieB.movieId == movieA.movieId)
       );
-      res.status(200).json({
+      return res.status(200).json({
         data: resMovies,
       });
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -389,42 +391,41 @@ movieRouter.get('/mutual/review/:aId/:bId', async (req, res) => {
     const userB = await User.findOne({
       where: { userId: parseInt(req.params.bId) },
     });
-    if (userA && userB) {
-      const userAReviews = await Review.find({
-        where: { reviewUserUserId: userA.userId },
-        relations: [
-          'review_movie',
-          'review_movie.genres',
-          'review_movie.actors',
-          'review_movie.reviews',
-          'review_movie.watchProviders',
-        ],
-      });
-      const userBReviews = await Review.find({
-        where: { reviewUserUserId: userB.userId },
-        relations: [
-          'review_movie',
-          'review_movie.genres',
-          'review_movie.actors',
-          'review_movie.reviews',
-          'review_movie.watchProviders',
-        ],
-      });
-      const resReviews = userAReviews.filter((reviewA) =>
-        userBReviews.some(
-          (reviewB) => reviewB.reviewMovieMovieId == reviewA.reviewMovieMovieId
-        )
-      );
-      const resMovies = resReviews.map((review) => review.review_movie);
-      res.status(200).json({
-        data: resMovies,
-      });
-    } else {
-      res.status(404).json();
+    if (!userA || !userB) {
+      return res.status(404).json();
     }
+    const userAReviews = await Review.find({
+      where: { reviewUserUserId: userA.userId },
+      relations: [
+        'review_movie',
+        'review_movie.genres',
+        'review_movie.actors',
+        'review_movie.reviews',
+        'review_movie.watchProviders',
+      ],
+    });
+    const userBReviews = await Review.find({
+      where: { reviewUserUserId: userB.userId },
+      relations: [
+        'review_movie',
+        'review_movie.genres',
+        'review_movie.actors',
+        'review_movie.reviews',
+        'review_movie.watchProviders',
+      ],
+    });
+    const resReviews = userAReviews.filter((reviewA) =>
+      userBReviews.some(
+        (reviewB) => reviewB.reviewMovieMovieId == reviewA.reviewMovieMovieId
+      )
+    );
+    const resMovies = resReviews.map((review) => review.review_movie);
+    return res.status(200).json({
+      data: resMovies,
+    });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -451,17 +452,16 @@ movieRouter.post('/', async (req, res?) => {
         watchProviders: true,
       },
     });
-    res.status(201).json({
+    return res.status(201).json({
       data: newMovie,
     });
   } catch (er) {
-    //console.log(er)
-    res.status(500).json();
+    console.log(er);
+    return res.status(500).json();
   }
 });
 
 //Update the movie in the body
-//Make sure to NOT update the primary keys or relations
 //We shouldn't really use this
 movieRouter.put('/', async (req, res?) => {
   try {
@@ -469,32 +469,34 @@ movieRouter.put('/', async (req, res?) => {
     let movie: Movie = await Movie.findOne({
       where: { movieId: movieBody.movieId },
     });
-    if (movie) {
-      Object.keys(movie).forEach((key) => {
-        if (
-          key != 'movieId' &&
-          key != 'reviews' &&
-          key != 'actors' &&
-          key != 'genres' &&
-          key != 'watchProviders'
-        ) {
-          movie[key] = movieBody[key];
-        }
-      });
-      await movie.save();
-      movie = await Movie.findOne({
-        where: { movieId: movie.movieId },
-        relations: { actors: true, reviews: true },
-      });
-      res.status(201).json({
-        data: movie,
-      });
-    } else {
-      res.status(404).json();
+    if (!movie) {
+      return res.status(404).json();
     }
+    // update movie keys, except for primary keys or relations
+    Object.keys(movie).forEach((key) => {
+      if (
+        key != 'movieId' &&
+        key != 'reviews' &&
+        key != 'actors' &&
+        key != 'genres' &&
+        key != 'watchProviders'
+      ) {
+        movie[key] = movieBody[key];
+      }
+    });
+    await movie.save();
+
+    // return the updated movie object
+    movie = await Movie.findOne({
+      where: { movieId: movie.movieId },
+      relations: { actors: true, reviews: true },
+    });
+    return res.status(201).json({
+      data: movie,
+    });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -506,13 +508,13 @@ movieRouter.delete('/:id', async (req, res?) => {
     });
     if (movie) {
       await movie.remove();
-      res.status(204).json();
+      return res.status(204).json();
     } else {
-      res.status(404).json();
+      return res.status(404).json();
     }
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 

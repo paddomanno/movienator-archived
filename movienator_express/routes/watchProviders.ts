@@ -16,12 +16,12 @@ watchProviderRoutes.get('/all', async (req, res) => {
         a.providerName.localeCompare(b.providerName)
       );
     }
-    res.status(200).json({
+    return res.status(200).json({
       data: allWatchProviders,
     });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
@@ -35,21 +35,18 @@ watchProviderRoutes.get('/movie/:mID', async (req, res) => {
       where: { movieId: parseInt(req.params.mID) },
       relations: { watchProviders: true },
     });
-    if (oneMovie) {
-      const movieProviders: WatchProvider[] = oneMovie.watchProviders;
-      movieProviders.sort((a, b) =>
-        a.providerName.localeCompare(b.providerName)
-      );
-
-      res.status(200).json({
-        data: movieProviders,
-      });
-    } else {
-      res.status(404).json();
+    if (!oneMovie) {
+      return res.status(404).json();
     }
+    const movieProviders: WatchProvider[] = oneMovie.watchProviders;
+    movieProviders.sort((a, b) => a.providerName.localeCompare(b.providerName));
+
+    return res.status(200).json({
+      data: movieProviders,
+    });
   } catch (er) {
     console.log(er);
-    res.status(500).json();
+    return res.status(500).json();
   }
 });
 
