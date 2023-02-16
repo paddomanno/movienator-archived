@@ -7,15 +7,17 @@ import React from 'react';
 import { getOneUserToUserId } from '../services/UserService';
 import { User } from '../types/User';
 
+// mock all the backend calls
 jest.mock('../services/UserService');
 
+// mock the 'navigate' function to test calls made to it
 const mockNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ...(jest.requireActual('react-router-dom') as any),
+  ...jest.requireActual('react-router-dom'),
   useNavigate: () => mockNavigate,
 }));
 
+// mock the 'setCookie' function to test calls made to it
 const mockSetCookie = jest.fn();
 jest.mock('react-cookie', () => ({
   useCookies: jest.fn(() => [{}, mockSetCookie]),
@@ -29,7 +31,7 @@ describe('test login page', () => {
       </BrowserRouter>
     );
 
-    // expect(selector).matcher();
+    // Format: expect(selector).matcher();
     expect(screen.getByRole('heading')).toHaveTextContent(
       'Sign into your Account'
     );
@@ -100,6 +102,7 @@ describe('test login page', () => {
       followers: [],
       watchlist: [],
     };
+    // mock backend call with implementation
     (getOneUserToUserId as jest.Mock).mockResolvedValue(fakeUserFull);
 
     // arrange

@@ -46,41 +46,12 @@ export default function LoginForm() {
     });
   };
 
-  function handleLoginClick(e: React.MouseEvent<HTMLButtonElement>): void {
+  async function handleLoginClick(
+    e: React.MouseEvent<HTMLButtonElement>
+  ): Promise<void> {
     e.preventDefault();
-    if (formValues.password !== '' && formValues.userName !== '') {
-      getOneUserToUserId(formValues.userName)
-        .then((user) => {
-          if (user === null) {
-            const textField: HTMLElement | null =
-              document.getElementById(`userName-input`);
-            if (textField != null) {
-              textField.style.backgroundColor = 'red';
-            }
-            setFeedbackMessage('Invalid username or password');
-            setFeedbackColor('warning');
-            setSnackbarOpen(true);
-          } else {
-            // user found, now check password
-            if (user.password === formValues.password) {
-              setCookie('userName', user.userName, { path: '/' });
-              setCookie('userId', user.userId, { path: '/' });
-              navigate('/home');
-            } else {
-              const textField: HTMLElement | null =
-                document.getElementById(`password-input`);
-              if (textField != null) {
-                textField.style.backgroundColor = 'red';
-              }
-            }
-          }
-        })
-        .catch((err) => {
-          setFeedbackMessage(err.message);
-          setFeedbackColor('error');
-          setSnackbarOpen(true);
-        });
-    } else {
+    if (formValues.password === '' || formValues.userName === '') {
+      // mark empty fields with color
       (Object.keys(formValues) as (keyof InputValues)[]).forEach((key) => {
         if (formValues[key] === '') {
           const textField: HTMLElement | null = document.getElementById(
@@ -91,8 +62,62 @@ export default function LoginForm() {
           }
         }
       });
+      return;
+    }
+
+    // check login credentials
+    try {
+      const user = await getOneUserToUserId(formValues.userName);
+      if (user === null) {
+        // user not found
+        // this does the same as wrong password on purpose
+        const textFieldPassw: HTMLElement | null =
+          document.getElementById(`password-input`);
+        if (textFieldPassw != null) {
+          textFieldPassw.style.backgroundColor = 'red';
+        }
+        const textFieldUser: HTMLElement | null =
+          document.getElementById(`userName-input`);
+        if (textFieldUser != null) {
+          textFieldUser.style.backgroundColor = 'red';
+        }
+        setFeedbackMessage('Invalid username or password');
+        setFeedbackColor('warning');
+        setSnackbarOpen(true);
+        return;
+      }
+      // user found, now check password
+      if (user.password === formValues.password) {
+        setCookie('userName', user.userName, { path: '/' });
+        setCookie('userId', user.userId, { path: '/' });
+        navigate('/home');
+      } else {
+        // wrong password
+        // this does the same as user not found on purpose
+        const textFieldPassw: HTMLElement | null =
+          document.getElementById(`password-input`);
+        if (textFieldPassw != null) {
+          textFieldPassw.style.backgroundColor = 'red';
+        }
+        const textFieldUser: HTMLElement | null =
+          document.getElementById(`userName-input`);
+        if (textFieldUser != null) {
+          textFieldUser.style.backgroundColor = 'red';
+        }
+        setFeedbackMessage('Invalid username or password');
+        setFeedbackColor('warning');
+        setSnackbarOpen(true);
+      }
+    } catch (err: unknown) {
+      if (!(err instanceof Error)) {
+        throw err;
+      }
+      setFeedbackMessage(err.message);
+      setFeedbackColor('error');
+      setSnackbarOpen(true);
     }
   }
+
   function handleSignupClick(e: React.MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
     navigate('/signup');

@@ -1,6 +1,6 @@
 //Route: movienator3000.com/recommendations
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import {
   Card,
@@ -38,25 +38,30 @@ export default function WatchPartyPage() {
       navigate('/login');
     }
     document.title = 'Plan Your Watchparty!';
+    loadUserData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    getOneUserToUserId(cookies.userName).then((user) => {
-      if (!user) {
-        navigate('/login');
-        return;
-      }
-      setUser(user);
-      setUsersInSearch(user.following);
-      if (!usersInGroup.includes(user)) addUserToGroup(user);
+  const loadUserData = useCallback(async () => {
+    const user = await getOneUserToUserId(cookies.userName);
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    setUser(user);
+    setUsersInSearch(user.following);
+    if (!usersInGroup.includes(user)) {
+      addUserToGroup(user);
+    }
 
-      const fuseOptions = {
-        keys: ['firstName', 'lastName', 'userName'],
-      };
-      const fuse = new Fuse<User>(user.following, fuseOptions);
-      setFuse(fuse);
-    });
+    // init fuse for fuzzy search when searching users
+    const fuseOptions = {
+      keys: ['firstName', 'lastName', 'userName'],
+    };
+    const fuse = new Fuse<User>(user.following, fuseOptions);
+    setFuse(fuse);
+
+    // get results once for only the logged in user
     setLoading(true);
     handleSubmit().then(() => {
       setLoading(false);
@@ -72,15 +77,19 @@ export default function WatchPartyPage() {
 
   useEffect(() => {
     if (searchWord !== '' && fuse) {
-      // filter users
+      // filter users when searchword changes
       const searchResults = fuse
         .search(searchWord)
         .map((result: Fuse.FuseResult<User>) => result.item);
       setUsersInSearch(searchResults);
-    } else {
-      // show all users the logged in user is following
-      if (user && user.following) setUsersInSearch(user.following);
+      return;
     }
+
+    // when no searchword is given, show all users the logged in user is following
+    if (user && user.following) {
+      setUsersInSearch(user.following);
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchWord, user]);
 
@@ -107,7 +116,6 @@ export default function WatchPartyPage() {
   }
 
   useEffect(() => {
-    //console.log(usersInGroup);
     setLoading(true);
     handleSubmit().then(() => {
       setLoading(false);
@@ -120,21 +128,16 @@ export default function WatchPartyPage() {
 
     // using recommendation service
     const res = await getRecommendationForUserList(usersInGroup);
+    if (!res) {
+      throw new Error('Error getting watch party movie recommendations');
+    }
     res.forEach((movie) => {
       if (movie) {
         newRecommendedMovies.push(movie);
       }
     });
-
-    //console.log(newRecommendedMovies);
-
     newRecommendedMovies.sort((a, b) => b.score - a.score);
-
-    if (newRecommendedMovies) {
-      setRecommendedMovies(newRecommendedMovies);
-    } else {
-      throw new Error('Error getting watch party movie recommendations');
-    }
+    setRecommendedMovies(newRecommendedMovies);
   }
 
   return (

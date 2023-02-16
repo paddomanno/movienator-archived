@@ -54,7 +54,7 @@ export default function NewRecommendationDialog({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function handleSubmit() {
+  async function handleSubmit() {
     if (forUserId === -1) {
       setFeedbackMessage('Pick a user');
       setFeedbackColor('warning');
@@ -73,33 +73,40 @@ export default function NewRecommendationDialog({
       receivingUserUserId: forUserId,
       message: curMessage,
     };
-    getContainsHateSpeech(curMessage).then((response) => {
-      if (response) {
-        setFeedbackMessage('Profanity detected');
-        setFeedbackColor('error');
-        setSnackbarOpen(true);
-      } else {
-        createMovie(movie).then((resMovie) => {
-          if (resMovie) {
-            postOrUpdateRecommendation(rec).then((res) => {
-              if (!res) {
-                setFeedbackMessage('Error saving recommendation');
-                setFeedbackColor('error');
-                setSnackbarOpen(true);
-              } else {
-                setFeedbackMessage('Recommendation sent');
-                setFeedbackColor('success');
-                setSnackbarOpen(true);
-                setForUserId(-1);
-                setOpen(false);
-              }
-            });
-          } else {
-            console.log('Error saving movie');
-          }
-        });
-      }
-    });
+
+    // check for hatespeech
+    const response = await getContainsHateSpeech(curMessage);
+    if (response) {
+      setFeedbackMessage('Profanity detected');
+      setFeedbackColor('error');
+      setSnackbarOpen(true);
+      return;
+    }
+
+    // save movie to db
+    const resMovie = await createMovie(movie);
+    if (!resMovie) {
+      setFeedbackMessage('Error sending recommendation');
+      setFeedbackColor('error');
+      setSnackbarOpen(true);
+      return;
+    }
+
+    // save recommendation to db
+    const res = await postOrUpdateRecommendation(rec);
+    if (!res) {
+      setFeedbackMessage('Error sending recommendation');
+      setFeedbackColor('error');
+      setSnackbarOpen(true);
+      return;
+    }
+
+    // success
+    setFeedbackMessage('Recommendation sent');
+    setFeedbackColor('success');
+    setSnackbarOpen(true);
+    setForUserId(-1);
+    setOpen(false);
   }
 
   function handleCancel() {
@@ -110,17 +117,21 @@ export default function NewRecommendationDialog({
   function handleSearchChange(e: React.ChangeEvent<HTMLInputElement>): void {
     e.preventDefault();
     const { value } = e.target;
-    if (value != '') {
-      searchUsersByUserNameQuery(value).then((users) => {
-        setUsers(users);
-      });
-    } else {
+
+    // when search field is empty, show all possible mutual users
+    if (value === '') {
       if (cookies.userId) {
         getFollowingOfUserIdInFollowers(cookies.userId).then((mutualUsers) => {
           setUsers(mutualUsers);
         });
       }
+      return;
     }
+
+    // filter user list
+    searchUsersByUserNameQuery(value).then((users) => {
+      setUsers(users);
+    });
   }
 
   function handleMessageChange(e: React.ChangeEvent<HTMLInputElement>): void {

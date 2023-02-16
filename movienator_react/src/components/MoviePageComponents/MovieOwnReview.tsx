@@ -52,8 +52,10 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
   const generalErrorMessage = 'Error saving review';
   const generalAlertColor: AlertColor = 'error';
 
+  const MAX_COMMENT_LENGTH = 3000;
+
   useEffect(() => {
-    // checking if a review already exists
+    // query db for already existing review
     getOneReviewToUserIdAndMovieId(
       cookies.userId as number,
       movie.movieId
@@ -111,8 +113,8 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
   }
 
   function postReviewToBackend(newReview: Review) {
-    createReview(newReview).then((r) => {
-      if (!r) {
+    createReview(newReview).then((result) => {
+      if (!result) {
         setFeedbackMessage(generalErrorMessage);
         setFeedbackColor(generalAlertColor);
         setSnackbarOpen(true);
@@ -124,9 +126,11 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
   }
 
   function updateReviewToBackend(newReview: Review) {
-    updateReview(newReview).then((r) => {
-      if (!r) {
-        console.log('Error updating review');
+    updateReview(newReview).then((result) => {
+      if (!result) {
+        setFeedbackMessage('Error updating review');
+        setFeedbackColor(generalAlertColor);
+        setSnackbarOpen(true);
       } else {
         setReview(review);
         setEditing(false);
@@ -145,39 +149,36 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
       review_user: null,
       review_movie: null,
     };
-    // console.log('getting hatespeech results');
+    // getting hatespeech results
     try {
       const containsHatespeech = await getContainsHateSpeech(
         newReview.title + ' ' + newReview.content
       );
-      // console.log('Response of Detection: ' + containsHatespeech);
 
       if (containsHatespeech) {
         setFeedbackMessage(hateSpeechErrorMessage);
         setFeedbackColor(hateSpeechAlertColor);
         setSnackbarOpen(true);
-        // console.log('Review not created/updated due to profanity');
+        return;
+      }
+
+      // save movie to db
+      const result = await createMovie(movie);
+      if (!result) {
+        throw 'Error saving movie';
+      }
+
+      // checking if review exists already
+      const existingReview = await getOneReviewToUserIdAndMovieId(
+        newReview.reviewUserUserId,
+        newReview.reviewMovieMovieId
+      );
+      if (!existingReview) {
+        postReviewToBackend(newReview);
       } else {
-        createMovie(movie).then((res) => {
-          // console.log('checking if review exists');
-          if (res) {
-            getOneReviewToUserIdAndMovieId(
-              newReview.reviewUserUserId,
-              newReview.reviewMovieMovieId
-            ).then((revRes) => {
-              if (revRes == null) {
-                postReviewToBackend(newReview);
-              } else {
-                updateReviewToBackend(newReview);
-              }
-            });
-          } else {
-            // console.log('Error saving movie');
-          }
-        });
+        updateReviewToBackend(newReview);
       }
     } catch (error) {
-      // console.log('Error saving review');
       setFeedbackMessage(generalErrorMessage);
       setFeedbackColor(generalAlertColor);
       setSnackbarOpen(true);
@@ -207,15 +208,17 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
 
   function saveEdit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    if (inputData.title !== '' && inputData.comment !== '') {
-      if (inputData.comment.length < 3000) {
-        saveReview();
-      } else {
-        handleErrorTextToLong();
-      }
-    } else {
+    if (inputData.title === '' || inputData.comment === '') {
       handleErrorFieldsEmpty();
+      return;
     }
+
+    if (inputData.comment.length > MAX_COMMENT_LENGTH) {
+      handleErrorTextToLong();
+      return;
+    }
+
+    saveReview();
   }
 
   function delReview(e: React.MouseEvent<HTMLButtonElement>) {
@@ -224,11 +227,15 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
       movie.movieId,
       cookies.userId as number
     ).then((res) => {
-      if (res) {
-        setEditing(false);
-        setInputData(defaultData);
-        setReview(null);
+      if (!res) {
+        setFeedbackMessage('Error deleting review');
+        setFeedbackColor(generalAlertColor);
+        setSnackbarOpen(true);
+        return;
       }
+      setEditing(false);
+      setInputData(defaultData);
+      setReview(null);
     });
   }
 

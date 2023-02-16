@@ -17,4 +17,4 @@ export type User = {
   watchlist: Movie[];
 };
 
-export type NullableUser = Omit<User, 'userId'> & { userId: number | null };
+export type NullableUser = Omit<User, 'userId'> & { userId: number | null }; // used for creating a new user during signup

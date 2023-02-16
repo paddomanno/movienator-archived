@@ -80,22 +80,24 @@ export default function OtherProfilePage() {
   const loadUserData = useCallback(
     async (id: number) => {
       const user = await getOneUserToUserId(id);
-      setViewedUser(user);
-      if (user != null && user.userId != null) {
-        getAllReviewsToUserId(user.userId).then((reviews) => {
-          setUserReviews(reviews);
-        });
-        getMutualWatchlistToTwoUserIds(user.userId, cookies.userId).then(
-          (movies) => {
-            setMutualWatchlist(movies);
-          }
-        );
-        getMutualReviewedToTwoUserIds(user.userId, cookies.userId).then(
-          (movies) => {
-            setMutualReviewed(movies);
-          }
-        );
+      if (!user || !user.userId) {
+        return;
       }
+
+      setViewedUser(user);
+      getAllReviewsToUserId(user.userId).then((reviews) => {
+        setUserReviews(reviews);
+      });
+      getMutualWatchlistToTwoUserIds(user.userId, cookies.userId).then(
+        (movies) => {
+          setMutualWatchlist(movies);
+        }
+      );
+      getMutualReviewedToTwoUserIds(user.userId, cookies.userId).then(
+        (movies) => {
+          setMutualReviewed(movies);
+        }
+      );
     },
     [cookies.userId]
   );
@@ -114,13 +116,16 @@ export default function OtherProfilePage() {
       setLoggedInUser(user);
     });
 
+    if (!userId) {
+      return;
+    }
+
     if (userId === cookies.userId) {
       // forward to own profile page
       navigate('/profile', { replace: true });
     } else {
-      if (userId) {
-        loadUserData(parseInt(userId));
-      }
+      // get the viewed user's data
+      loadUserData(parseInt(userId));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);

@@ -53,63 +53,10 @@ export default function SignupForm() {
     });
   };
 
-  function handleSubmit(e: React.MouseEvent): void {
+  async function handleSubmit(e: React.MouseEvent): Promise<void> {
     e.preventDefault();
-    if (
-      formValues.firstName !== '' &&
-      formValues.lastName !== '' &&
-      formValues.userName !== '' &&
-      formValues.password !== '' &&
-      formValues.repeatPassword !== '' &&
-      formValues.birthday !== ''
-    ) {
-      getOneUserToUserId(formValues.userName).then((user) => {
-        if (user !== null) {
-          // username already taken
-          const textField: HTMLElement | null =
-            document.getElementById(`userName-input`);
-          if (textField != null) {
-            textField.style.backgroundColor = 'red';
-          }
-          setFeedbackMessage('Username already taken');
-          setFeedbackColor('warning');
-          setSnackbarOpen(true);
-        } else {
-          // username not taken yet
-          if (formValues.password === formValues.repeatPassword) {
-            const newUser: NullableUser = {
-              userId: null,
-              lastName: formValues.lastName,
-              firstName: formValues.firstName,
-              userName: formValues.userName,
-              password: formValues.password,
-              birthday: new Date(formValues.birthday),
-              comment: '',
-              profileImage: null,
-              watchlist: [],
-              followers: [],
-              following: [],
-              reviews: [],
-            };
-            createUser(newUser).then((result) => {
-              if (result) {
-                navigate('/login');
-              } else {
-                console.log('Error inserting User');
-              }
-            });
-          } else {
-            const textField: HTMLElement | null =
-              document.getElementById(`repeatPassword-input`);
-            if (textField != null) {
-              textField.style.backgroundColor = 'red';
-            }
-          }
-        }
-      });
-      //Safe user
-      //Redirect to login
-    } else {
+    // check for empty fields in the form
+    if (Object.values(formValues).some((value) => value === '')) {
       (Object.keys(formValues) as (keyof InputValues)[]).forEach((key) => {
         if (formValues[key] === '') {
           const textField: HTMLElement | null = document.getElementById(
@@ -120,6 +67,67 @@ export default function SignupForm() {
           }
         }
       });
+      return;
+    }
+
+    try {
+      const user = await getOneUserToUserId(formValues.userName);
+      if (user !== null) {
+        // username already taken
+        const textField: HTMLElement | null =
+          document.getElementById(`userName-input`);
+        if (textField != null) {
+          textField.style.backgroundColor = 'red';
+        }
+        setFeedbackMessage('Username already taken');
+        setFeedbackColor('warning');
+        setSnackbarOpen(true);
+        return;
+      }
+
+      // username not taken yet
+      if (formValues.password !== formValues.repeatPassword) {
+        // password and repeat password don't match
+        const textField: HTMLElement | null =
+          document.getElementById(`repeatPassword-input`);
+        if (textField != null) {
+          textField.style.backgroundColor = 'red';
+        }
+        setFeedbackMessage("Passwords don't match");
+        setFeedbackColor('warning');
+        setSnackbarOpen(true);
+        return;
+      }
+
+      // all good, create user
+      const newUser: NullableUser = {
+        userId: null,
+        lastName: formValues.lastName,
+        firstName: formValues.firstName,
+        userName: formValues.userName,
+        password: formValues.password,
+        birthday: new Date(formValues.birthday),
+        comment: '',
+        profileImage: null,
+        watchlist: [],
+        followers: [],
+        following: [],
+        reviews: [],
+      };
+      //Save user to db and redirect to login
+      const result = await createUser(newUser);
+      if (result) {
+        navigate('/login');
+      } else {
+        throw 'Error inserting User';
+      }
+    } catch (err: unknown) {
+      if (!(err instanceof Error)) {
+        throw err;
+      }
+      setFeedbackMessage(err.message);
+      setFeedbackColor('error');
+      setSnackbarOpen(true);
     }
   }
 

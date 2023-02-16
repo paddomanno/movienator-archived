@@ -55,11 +55,14 @@ const fakeMovie: Movie = {
   genres: [],
 };
 
+// mock all the backend calls
 jest.mock('../services/UserService');
 jest.mock('../services/MovieService');
 jest.mock('../services/ExternService');
 jest.mock('../services/ReviewService');
 
+// make 'params' equal to the fakeMovie id (for testing component pages where a movie id is required in the url)
+// also mock the 'navigate' function to test calls made to it
 const mockNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'), // use actual for all non-hook parts
@@ -69,6 +72,7 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => mockNavigate,
 }));
 
+// make 'cookies' always equal to the fakeLoggedInUser
 const mockSetCookie = jest.fn();
 jest.mock('react-cookie', () => ({
   useCookies: jest.fn(() => [
@@ -82,6 +86,7 @@ jest.mock('react-cookie', () => ({
 
 describe('test adding movie to watchlist', () => {
   test('should render movie page', async () => {
+    // mock backend calls with implementation if neccessary
     (getOneUserToUserId as jest.Mock).mockResolvedValue(fakeLoggedInUser);
     (getOneMovieToId as jest.Mock).mockResolvedValue(fakeMovie);
     (getActorsToMovie as jest.Mock).mockResolvedValue([]);
@@ -122,6 +127,7 @@ describe('test adding movie to watchlist', () => {
   });
 
   test('should add movie to watchlist on click', async () => {
+    // mock backend calls with implementation if neccessary
     (getOneUserToUserId as jest.Mock).mockResolvedValue(fakeLoggedInUser);
     (getOneMovieToId as jest.Mock).mockResolvedValue(fakeMovie);
     (getActorsToMovie as jest.Mock).mockResolvedValue([]);

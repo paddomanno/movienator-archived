@@ -22,7 +22,7 @@ export default function ActorMovieSearchBar({ initialSearchWord }: Props) {
     navigate('/search/actor/movie/' + searchWord);
   }
   function handlePress(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.keyCode == 13) {
+    if (e.key == 'Enter') {
       e.preventDefault();
       navigate('/search/actor/movie/' + searchWord);
     }

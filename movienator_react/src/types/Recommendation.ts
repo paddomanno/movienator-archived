@@ -14,8 +14,8 @@ export type Recommendation = {
 export type CreateRecommendationDTO = Omit<
   Recommendation,
   'sendingUser' | 'receivingUser' | 'recommendedMovie'
->;
+>; // for creating or updating recommendations, omits the nested relations
 
 type Score = { score: number };
 
-export type MovieWithScore = Score & Movie;
+export type MovieWithScore = Score & Movie; // used in watchparty ranking algorithm

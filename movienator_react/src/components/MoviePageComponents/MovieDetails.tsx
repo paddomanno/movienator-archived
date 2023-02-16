@@ -94,20 +94,22 @@ export default function MovieDetails({ movie }: SingleMovieProps) {
           setIsWatchlist(false);
         }
       });
-    } else {
-      createMovie(movie).then((movieRes) => {
-        if (movieRes) {
-          insertMovieIdOnWatchlistToUserId(
-            cookies.userId as number,
-            movie.movieId
-          ).then((res) => {
-            if (res) {
-              setIsWatchlist(true);
-            }
-          });
-        }
-      });
+      return;
     }
+
+    // save movie to db and add to watchlist
+    createMovie(movie).then((movieRes) => {
+      if (movieRes) {
+        insertMovieIdOnWatchlistToUserId(
+          cookies.userId as number,
+          movie.movieId
+        ).then((res) => {
+          if (res) {
+            setIsWatchlist(true);
+          }
+        });
+      }
+    });
   }
 
   function changeShowDialog(value: boolean) {

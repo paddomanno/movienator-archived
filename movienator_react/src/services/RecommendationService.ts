@@ -122,9 +122,16 @@ export async function getRecommendationForUserList(
   }
 }
 
+/**
+ * Given a list of users, this function will return a list of movies that
+ * our algorithm determines to be good recommendations for this group.
+ * For each user in the watch party group, collect movies based on their
+ * own watchlist, recommendations and favorite genre
+ * @param users users in this watch party group
+ * @returns list of movies we recommend
+ */
 async function calculateWatchPartyResults(users: User[]) {
   const watchPartyResult: MovieWithScore[] = [];
-  //Iterate trough all users of the watch party
   for (const currentUser of users) {
     //WATCHLIST
     const currentWatchList = await getWatchlistMoviesToUserId(
@@ -138,24 +145,29 @@ async function calculateWatchPartyResults(users: User[]) {
     );
     await addMoviesToResults(watchPartyResult, currentRecommendationList);
 
-    //REVIEWS
+    //FAVORITE GENRE
     const favoriteGenre = await getFavoriteGenreToUserId(
       currentUser.userId as number
     );
-    if (favoriteGenre != null) {
-      const thisGenreTopMovies = await getMoviesToGenreId(
-        favoriteGenre.genreId,
-        1
-      );
-      await addMoviesToResults(
-        watchPartyResult,
-        thisGenreTopMovies.slice(0, 10)
-      );
+    if (!favoriteGenre) {
+      continue;
     }
+    const thisGenreTopMovies = await getMoviesToGenreId(
+      favoriteGenre.genreId,
+      1
+    );
+    await addMoviesToResults(watchPartyResult, thisGenreTopMovies.slice(0, 10));
   }
   return watchPartyResult;
 }
 
+/**
+ * Given an array of movies, this function will add the movies to the results array,
+ * giving each movie a score based on a (simple) algorithm (currently the number of times
+ * this movie was going to be put into the results)
+ * @param watchPartyResult the resulting list of movies given to the watch party group
+ * @param listToAdd list of movies that should be given scores and added to the results
+ */
 async function addMoviesToResults(
   watchPartyResult: MovieWithScore[],
   listToAdd: Movie[]

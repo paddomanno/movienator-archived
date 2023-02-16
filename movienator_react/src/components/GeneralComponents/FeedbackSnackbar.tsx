@@ -10,6 +10,13 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
+/**
+ * @param isOpen controls if the snackbar should be visible
+ * @param setOpen callback function called when either the user closes the snackbar manually,
+ * or the snackbar closes on its own after some time via a synthetic event
+ * @param message text to be displayed in the snackbar
+ * @param severity color of the snackbar
+ */
 export default function CustomizedSnackbars({
   isOpen,
   setOpen,

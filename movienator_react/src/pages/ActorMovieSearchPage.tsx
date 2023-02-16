@@ -29,17 +29,21 @@ export default function ActorMovieSearchPage() {
     if (!cookies.userName) {
       navigate('/login');
     }
-    if (searchWord !== undefined) {
-      searchActorsByName(searchWord).then((res) => {
-        setActors(res);
-      });
-      getMoviesToName(searchWord, page).then((res) => {
-        setMovies(res);
-      });
-    }
-    document.title = "Results for '" + searchWord + "'";
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchWord]);
+  }, []);
+
+  useEffect(() => {
+    if (searchWord === undefined) {
+      return;
+    }
+    searchActorsByName(searchWord).then((res) => {
+      setActors(res);
+    });
+    getMoviesToName(searchWord, page).then((res) => {
+      setMovies(res);
+    });
+    document.title = "Results for '" + searchWord + "'";
+  }, [page, searchWord]);
 
   function toHomePage() {
     navigate('/home');

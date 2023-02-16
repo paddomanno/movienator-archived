@@ -20,11 +20,13 @@ export async function getOneUserToUserId(
 ): Promise<User | null> {
   try {
     if (isNaN(+userIdentifier)) {
+      // get user by name
       const response = await axios.get(
         baseUrl + `/one/username/${userIdentifier}`
       );
       return response.data.data as User;
     } else {
+      // get user by id
       const response = await axios.get(baseUrl + `/one/id/${userIdentifier}`);
       return response.data.data as User;
     }

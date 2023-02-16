@@ -29,6 +29,7 @@ type UserAttributes = {
   birthday: Date;
   comment: string;
   image: string | undefined;
+  [key: string]: string | Date | undefined; // index signature helps to maintain type safety by providing a more specific type for the properties accessed by string keys
 };
 type props = {
   user: User;
@@ -47,6 +48,8 @@ export default function OwnProfileEditProfileModal({
     comment: user.comment,
     image: user.profileImage?.ressourceLink,
   };
+
+  const requiredFields = ['firstName', 'lastName', 'userName', 'password'];
 
   const MAX_COMMENT_LENGTH = 3000;
 
@@ -101,23 +104,25 @@ export default function OwnProfileEditProfileModal({
 
   function saveEdit(e: React.MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
+    // check for empty required fields
     if (
-      userAttributes.firstName !== '' &&
-      userAttributes.lastName !== '' &&
-      userAttributes.userName !== '' &&
-      userAttributes.password !== ''
+      requiredFields.some((field): boolean => {
+        const value = userAttributes[field];
+        return typeof value === 'string' && value.trim() === '';
+      })
     ) {
-      if (userAttributes.comment.length < MAX_COMMENT_LENGTH) {
-        update();
-      } else {
-        handleErrorTextToLong();
-      }
-    } else {
       handleErrorFieldsEmpty();
+      return;
     }
+    // check comment length
+    if (userAttributes.comment.length > MAX_COMMENT_LENGTH) {
+      handleErrorTextToLong();
+      return;
+    }
+    processUpdate();
   }
 
-  function update() {
+  async function processUpdate() {
     if (!user || !user.userId) {
       return;
     }
@@ -135,34 +140,36 @@ export default function OwnProfileEditProfileModal({
       followers: user.followers,
       watchlist: user.watchlist,
     };
-    if (userAttributes.image !== undefined) {
-      const newImage: ProfileImage = {
-        name: userAttributes.image.toString(),
-        ressourceLink: userAttributes.image.toString(),
-        users: [],
-      };
-      createImage(newImage).then(() => {
-        updateUser(newUser).then(() => {
-          updateUserImageToImageIdAndUserId(
-            newImage.ressourceLink,
-            newUser.userId
-          ).then(() => {
-            setFeedbackMessage('Changes saved');
-            setFeedbackColor('success');
-            setSnackbarOpen(true);
-            reloadHandler();
-          });
-        });
-      });
-    } else {
-      updateUser(newUser).then(() => {
-        deleteUserImageToUserId(newUser.userId).then(() => {
-          setFeedbackMessage('Changes saved');
-          setFeedbackColor('success');
-          setSnackbarOpen(true);
-          reloadHandler();
-        });
-      });
+
+    try {
+      // update user in db and create/remove image as neccessary
+      if (userAttributes.image === undefined) {
+        await updateUser(newUser);
+        await deleteUserImageToUserId(newUser.userId);
+      } else {
+        const newImage: ProfileImage = {
+          name: userAttributes.image.toString(),
+          ressourceLink: userAttributes.image.toString(),
+          users: [],
+        };
+        await createImage(newImage);
+        await updateUser(newUser);
+        await updateUserImageToImageIdAndUserId(
+          newImage.ressourceLink,
+          newUser.userId
+        );
+      }
+      setFeedbackMessage('Changes saved');
+      setFeedbackColor('success');
+      setSnackbarOpen(true);
+      reloadHandler();
+      return;
+    } catch (error) {
+      setFeedbackMessage('Error saving changes');
+      setFeedbackColor('error');
+      setSnackbarOpen(true);
+      reloadHandler();
+      return;
     }
   }
 
@@ -272,17 +279,7 @@ export default function OwnProfileEditProfileModal({
                 label={'birthday'}
                 InputLabelProps={{ shrink: true, required: true }}
                 type={'date'}
-                defaultValue={
-                  // new Date(defaultData.birthday).getFullYear() +
-                  // '-' +
-                  // new Date(defaultData.birthday).getMonth() +
-                  // '-' +
-                  // new Date(defaultData.birthday).getDate()
-                  moment(defaultData.birthday).format('YYYY-MM-DD')
-                }
-                // InputProps={{
-                //   inputProps: { min: '', max: currentDateString },
-                // }}
+                defaultValue={moment(defaultData.birthday).format('YYYY-MM-DD')}
                 onChange={handleInputChange}
               />
               <TextField

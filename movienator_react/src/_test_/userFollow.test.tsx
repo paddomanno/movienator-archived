@@ -49,10 +49,13 @@ const fakeViewedUser: User = {
   watchlist: [],
 };
 
+// mock all the backend calls
 jest.mock('../services/UserService');
 jest.mock('../services/MovieService');
 jest.mock('../services/ReviewService');
 
+// make 'params' equal to fakeViewedUser.userId (for testing component pages where a viewedUser id is required in the url)
+// also mock the 'navigate' function to test calls made to it
 const mockNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'), // use actual for all non-hook parts
@@ -62,6 +65,7 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => mockNavigate,
 }));
 
+// make 'cookies' always equal to the fakeLoggedInUser
 const mockSetCookie = jest.fn();
 jest.mock('react-cookie', () => ({
   useCookies: jest.fn(() => [fakeLoggedInUser, mockSetCookie]),
@@ -69,6 +73,7 @@ jest.mock('react-cookie', () => ({
 
 describe('test follow another user', () => {
   test('renders the other user page', async () => {
+    // mock backend calls with implementation if neccessary
     (getOneUserToUserId as jest.Mock).mockImplementation((id) => {
       if (id === fakeLoggedInUser.userId || id === fakeLoggedInUser.userName) {
         return Promise.resolve(fakeLoggedInUser);
@@ -99,19 +104,13 @@ describe('test follow another user', () => {
   });
 
   test('clicking follow updates the user in backend', async () => {
-    // (getOneUserToUserId as jest.Mock).mockImplementation((id) => {
-    //   if (id === fakeLoggedInUser.userId || id === fakeLoggedInUser.userName) {
-    //     return Promise.resolve(fakeLoggedInUser);
-    //   } else {
-    //     return Promise.resolve(fakeViewedUser);
-    //   }
-    // });
-    (getOneUserToUserId as jest.Mock).mockResolvedValueOnce(fakeLoggedInUser);
-    (getOneUserToUserId as jest.Mock).mockResolvedValueOnce(fakeViewedUser);
+    // mock backend calls with implementation if neccessary
+    (getOneUserToUserId as jest.Mock).mockResolvedValueOnce(fakeLoggedInUser); // <-- the component expects this on the first call
+    (getOneUserToUserId as jest.Mock).mockResolvedValueOnce(fakeViewedUser); // <-- the component expects this on the second call
     (getOneUserToUserId as jest.Mock).mockResolvedValue({
       ...fakeViewedUser,
       followers: [fakeLoggedInUser],
-    });
+    }); // <-- the component expects this on the third call
     (getAllReviewsToUserId as jest.Mock).mockResolvedValue([]);
     (getMutualWatchlistToTwoUserIds as jest.Mock).mockResolvedValue([]);
     (getMutualReviewedToTwoUserIds as jest.Mock).mockResolvedValue([]);
@@ -131,7 +130,7 @@ describe('test follow another user', () => {
       expect(
         screen.getByRole('button', { name: /follow/i })
       ).toBeInTheDocument();
-    });
+    }); // only click the button once the ui is loaded
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: 'Follow' }));
     });
