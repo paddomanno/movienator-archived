@@ -35,6 +35,9 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
+    if (!cookies.userId) {
+      return;
+    }
     getWatchlistMoviesToUserId(cookies.userId as number).then((movies) => {
       setWatchlist(movies.slice(0, MAX_MOVIES_PER_LIST));
     });

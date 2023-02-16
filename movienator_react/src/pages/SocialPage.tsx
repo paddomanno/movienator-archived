@@ -27,6 +27,9 @@ export default function SocialPage() {
   }, []);
 
   useEffect(() => {
+    if (!cookies.userId) {
+      return;
+    }
     getAllReviewsOfFollowingToUserId(cookies.userId as number).then(
       (reviews) => {
         setReviews(reviews.slice(0, MAX_MOVIES_PER_LIST));
