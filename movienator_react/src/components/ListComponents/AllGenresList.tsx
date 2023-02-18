@@ -1,7 +1,6 @@
 import { Card, CardContent, Typography } from '@mui/material';
 import GenreCard from '../SingleItemComponents/GenreCard';
 import Grid2 from '@mui/material/Unstable_Grid2';
-import { grey } from '@mui/material/colors';
 import { GenreListProps } from '../../props/GenreProps';
 
 export default function AllGenresList({ genres }: GenreListProps) {

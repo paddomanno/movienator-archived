@@ -1,6 +1,5 @@
 import { MovieListProps } from '../../props/MovieProps';
 import { Card, CardContent, Stack, Typography } from '@mui/material';
-import { grey } from '@mui/material/colors';
 import MovieCard from '../SingleItemComponents/MovieCard';
 
 export default function OtherProfileMutualReviewed({ movies }: MovieListProps) {

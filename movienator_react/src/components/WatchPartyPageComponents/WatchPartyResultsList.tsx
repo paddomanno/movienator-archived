@@ -1,5 +1,4 @@
 import { Card, CardContent, Typography } from '@mui/material';
-import { grey } from '@mui/material/colors';
 import Grid2 from '@mui/material/Unstable_Grid2';
 import { MovieWithScore } from '../../types/Recommendation';
 import WatchPartyMovieCard from './WatchPartyMovieCard';

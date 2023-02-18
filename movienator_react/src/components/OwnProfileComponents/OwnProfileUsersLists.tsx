@@ -1,5 +1,4 @@
-import { Typography, Card, CardContent, Paper, Box } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { Typography, CardContent, Box } from '@mui/material';
 import { User } from '../../types/User';
 import UsersList from '../ListComponents/UsersList';
 

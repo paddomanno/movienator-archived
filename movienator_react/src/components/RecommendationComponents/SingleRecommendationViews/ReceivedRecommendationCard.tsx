@@ -12,7 +12,6 @@ import MovieCard from '../../SingleItemComponents/MovieCard';
 import OtherUserAvatar from '../../SingleItemComponents/OtherUserAvatar';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import React from 'react';
-import { grey } from '@mui/material/colors';
 
 type Props = {
   rec: Recommendation;

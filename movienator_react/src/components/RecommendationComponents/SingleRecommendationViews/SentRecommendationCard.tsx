@@ -6,7 +6,6 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { grey } from '@mui/material/colors';
 import React from 'react';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Recommendation } from '../../../types/Recommendation';

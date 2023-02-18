@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, Paper, Stack, Typography } from '@mui/material';
 import Grid2 from '@mui/material/Unstable_Grid2';
 import ReceivedRecommendationCard from '../components/RecommendationComponents/SingleRecommendationViews/ReceivedRecommendationCard';
-import { grey } from '@mui/material/colors';
 
 export default function FriendRecommendationsPage() {
   const navigate = useNavigate();

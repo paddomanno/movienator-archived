@@ -10,7 +10,6 @@ import React, { useEffect, useState } from 'react';
 import { Movie } from '../types/Movie';
 import { getMoviesToName } from '../services/ExternService';
 import { useNavigate, useParams } from 'react-router-dom';
-import { grey } from '@mui/material/colors';
 import HomeIcon from '@mui/icons-material/Home';
 import MoviesList from '../components/ListComponents/MoviesList';
 import ActorMovieSearchBar from '../components/GeneralComponents/ActorMovieSearchBar';

@@ -5,7 +5,6 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { grey } from '@mui/material/colors';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { Recommendation } from '../../types/Recommendation';
 import RecommendationView from './SingleRecommendationViews/RecommendationView';

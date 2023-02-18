@@ -1,5 +1,4 @@
 import { Card, CardContent, Typography } from '@mui/material';
-import { grey } from '@mui/material/colors';
 import UsersList from '../ListComponents/UsersList';
 import { UserListProps } from '../../props/UserProps';
 

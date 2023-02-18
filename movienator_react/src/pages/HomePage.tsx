@@ -3,14 +3,7 @@ import AllGenresList from '../components/ListComponents/AllGenresList';
 import React, { useEffect, useState } from 'react';
 import { Movie } from '../types/Movie';
 import { Genre } from '../types/Genre';
-import {
-  Box,
-  Card,
-  CardContent,
-  Paper,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import { getWatchlistMoviesToUserId } from '../services/MovieService';
 import {
   getAllGenres,

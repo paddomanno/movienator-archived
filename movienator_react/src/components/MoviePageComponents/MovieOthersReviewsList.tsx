@@ -1,5 +1,4 @@
 import { Card, CardContent, Typography } from '@mui/material';
-import { grey } from '@mui/material/colors';
 import ReviewCardDetailed from '../SingleItemComponents/ReviewCardDetailed';
 import { ReviewListProps } from '../../props/ReviewProps';
 import Grid2 from '@mui/material/Unstable_Grid2';

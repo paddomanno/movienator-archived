@@ -1,7 +1,6 @@
 //Figma: Detailansicht einer geschriebenen Review
 import { SingleReviewProps } from '../../../props/ReviewProps';
 import { Card, CardContent, Paper, Stack, Typography } from '@mui/material';
-import { grey } from '@mui/material/colors';
 import MovieCard from '../MovieCard';
 import UserCard from '../UserCard';
 import RatingStars from './RatingStars';

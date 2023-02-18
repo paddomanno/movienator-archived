@@ -98,7 +98,7 @@ export default function OneMoviePage() {
         </Stack>
       ) : (
         <>
-          <Typography>Error fetching movie details :/</Typography>
+          <Typography>Loading...</Typography>
         </>
       )}
     </Paper>

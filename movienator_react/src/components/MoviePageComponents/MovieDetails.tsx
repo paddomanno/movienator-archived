@@ -25,7 +25,6 @@ import {
   getWatchlistMoviesToUserId,
   createMovie,
 } from '../../services/MovieService';
-import { grey } from '@mui/material/colors';
 import ActorCardSmall from '../SingleItemComponents/ActorCardSmall';
 import { SingleMovieProps } from '../../props/MovieProps';
 import NewRecommendationDialog from '../RecommendationComponents/NewRecommendationDialog';

@@ -1,5 +1,4 @@
 import { Card, CardContent, Stack, Typography } from '@mui/material';
-import { grey } from '@mui/material/colors';
 import OtherUserAvatar from './OtherUserAvatar';
 import { useCookies } from 'react-cookie';
 import { User } from '../../types/User';

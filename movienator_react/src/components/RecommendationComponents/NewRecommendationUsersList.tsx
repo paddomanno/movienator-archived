@@ -6,7 +6,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { grey, orange } from '@mui/material/colors';
+import { orange } from '@mui/material/colors';
 import { User } from '../../types/User';
 import Grid2 from '@mui/material/Unstable_Grid2';
 import UserCard from '../SingleItemComponents/UserCard';

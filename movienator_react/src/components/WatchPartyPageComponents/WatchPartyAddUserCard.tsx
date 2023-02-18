@@ -5,11 +5,9 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { green, grey } from '@mui/material/colors';
 import { useCookies } from 'react-cookie';
 import { User } from '../../types/User';
 import OtherUserAvatar from '../SingleItemComponents/OtherUserAvatar';
-import { useTheme } from '@mui/material';
 
 type Props = {
   user: User;
@@ -22,7 +20,7 @@ export default function WatchPartyAddUserCard({
   selected,
 }: Props) {
   const [cookies] = useCookies(['userName', 'userId']);
-  const theme = useTheme();
+
   return (
     <IconButton
       onClick={() => {

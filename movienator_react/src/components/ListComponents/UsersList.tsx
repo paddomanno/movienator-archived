@@ -1,7 +1,7 @@
 import Grid2 from '@mui/material/Unstable_Grid2';
 import UserCard from '../SingleItemComponents/UserCard';
 import { UserListProps } from '../../props/UserProps';
-import { Paper, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
 
 function UsersList({ users }: UserListProps) {
   return (

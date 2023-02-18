@@ -5,7 +5,6 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { grey } from '@mui/material/colors';
 import { useCookies } from 'react-cookie';
 import { User } from '../../types/User';
 import OtherUserAvatar from '../SingleItemComponents/OtherUserAvatar';

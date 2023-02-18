@@ -7,7 +7,6 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { grey } from '@mui/material/colors';
 import { User } from '../../types/User';
 import { useEffect, useState } from 'react';
 

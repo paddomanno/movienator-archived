@@ -5,7 +5,6 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { grey } from '@mui/material/colors';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { Actor } from '../../types/Actor';
 import ActorCardLarge from '../SingleItemComponents/ActorCardLarge';

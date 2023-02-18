@@ -20,7 +20,6 @@ import {
 } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import { grey } from '@mui/material/colors';
 import { createMovie } from '../../services/MovieService';
 import { SingleMovieProps } from '../../props/MovieProps';
 import { getContainsHateSpeech } from '../../services/ExternService';

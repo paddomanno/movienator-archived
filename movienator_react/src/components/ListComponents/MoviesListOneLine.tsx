@@ -7,7 +7,6 @@ import {
   Typography,
 } from '@mui/material';
 import MovieCard from '../SingleItemComponents/MovieCard';
-import { grey } from '@mui/material/colors';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 type Props = {

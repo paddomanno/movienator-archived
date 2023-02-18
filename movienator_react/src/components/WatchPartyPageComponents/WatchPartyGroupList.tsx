@@ -1,7 +1,6 @@
 import Grid2 from '@mui/material/Unstable_Grid2';
 import WatchPartyGroupUserCard from './WatchPartyGroupUserCard';
 import { User } from '../../types/User';
-import { Paper } from '@mui/material';
 
 type Props = {
   users: User[];

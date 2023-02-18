@@ -1,7 +1,6 @@
 import { Movie } from '../../types/Movie';
 import { Card, CardContent, Typography } from '@mui/material';
 import MovieCard from '../SingleItemComponents/MovieCard';
-import { grey } from '@mui/material/colors';
 import Grid2 from '@mui/material/Unstable_Grid2';
 
 type Props = {
