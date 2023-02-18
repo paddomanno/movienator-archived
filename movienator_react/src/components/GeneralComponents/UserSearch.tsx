@@ -44,7 +44,7 @@ export default function UserSearch() {
   }, [searchWord]);
 
   return (
-    <Card sx={{ backgroundColor: grey.A200, minHeight: 200, maxHeight: 200 }}>
+    <Card sx={{ minHeight: 200, maxHeight: 200, padding: 2 }}>
       <CardContent>
         <Stack direction={'row'} spacing={1} alignItems={'stretch'}>
           <Stack direction={'column'} spacing={1}>
@@ -56,6 +56,7 @@ export default function UserSearch() {
                 alignItems: 'center',
                 width: 400,
               }}
+              elevation={3}
             >
               <form
                 noValidate

@@ -1,6 +1,6 @@
 import { Review } from '../../types/Review';
 import { grey } from '@mui/material/colors';
-import { Card, CardContent, Typography } from '@mui/material';
+import { Card, CardContent, Paper, Typography } from '@mui/material';
 import ReviewCardDetailed from '../SingleItemComponents/ReviewCardDetailed';
 import Grid2 from '@mui/material/Unstable_Grid2';
 
@@ -17,8 +17,8 @@ export default function ReviewListWithText({
   title,
 }: Props) {
   return (
-    <>
-      <Card sx={{ backgroundColor: grey.A200 }}>
+    <Paper>
+      <Card variant="outlined">
         <CardContent>
           <Typography>{title}</Typography>
           <Grid2 container spacing={1}>
@@ -38,6 +38,6 @@ export default function ReviewListWithText({
           </Grid2>
         </CardContent>
       </Card>
-    </>
+    </Paper>
   );
 }

@@ -15,7 +15,7 @@ export default function MovieCard({ movie }: SingleMovieProps) {
   }
   return (
     <IconButton onClick={manageClick}>
-      <Card sx={{ maxWidth: 150, minWidth: 150 }}>
+      <Card raised={true} sx={{ maxWidth: 150, minWidth: 150 }}>
         <CardMedia
           component="img"
           alt={movie.imagePath != null ? movie.title : 'No image available'}

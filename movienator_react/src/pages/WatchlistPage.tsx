@@ -4,7 +4,14 @@ import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { getWatchlistMoviesToUserId } from '../services/MovieService';
 import { Movie } from '../types/Movie';
-import { Button, Card, CardContent, Stack, Typography } from '@mui/material';
+import {
+  Button,
+  Card,
+  CardContent,
+  Paper,
+  Stack,
+  Typography,
+} from '@mui/material';
 import MoviesList from '../components/ListComponents/MoviesList';
 
 export default function WatchlistPage() {
@@ -54,13 +61,13 @@ export default function WatchlistPage() {
         </CardContent>
       </Card>
       {movies != null ? (
-        <>
+        <Paper>
           <MoviesList movies={movies} />
-        </>
+        </Paper>
       ) : (
-        <>
+        <Paper>
           <Typography>Loading...</Typography>
-        </>
+        </Paper>
       )}
       <Card>
         <CardContent>

@@ -20,6 +20,7 @@ import Fuse from 'fuse.js';
 import { getRecommendationForUserList } from '../services/RecommendationService';
 import { MovieWithScore } from '../types/Recommendation';
 import WatchPartyResultsList from '../components/WatchPartyPageComponents/WatchPartyResultsList';
+import Container from '@mui/material/Container/Container';
 export default function WatchPartyPage() {
   const navigate = useNavigate();
   const [recommendedMovies, setRecommendedMovies] = useState<
@@ -142,71 +143,65 @@ export default function WatchPartyPage() {
 
   return (
     <Stack direction={'column'} spacing={1}>
-      <Card>
-        <CardContent>
+      <Container>
+        <Stack direction={'column'} spacing={1}>
           <Typography variant="h4">Watch Party</Typography>
           <Typography variant="h5">
             Get movie recommendations for you and your friends
           </Typography>
-          <Grid direction="row" container spacing={1}>
+          <Grid direction="row" container spacing={2}>
             <Grid container item sm={6}>
-              <Card sx={{ width: '100%' }}>
-                <CardContent>
-                  <Typography>Your Group</Typography>
-                  <WatchPartyGroupList
-                    users={usersInGroup}
-                    onClickUser={onClickUser}
-                  />
-                  <Typography>{`${usersInGroup.length} users selected`}</Typography>
-                </CardContent>
-              </Card>
+              <Container sx={{ width: '100%' }}>
+                <Typography>Your Group</Typography>
+                <WatchPartyGroupList
+                  users={usersInGroup}
+                  onClickUser={onClickUser}
+                />
+                <Typography>{`${usersInGroup.length} users selected`}</Typography>
+              </Container>
             </Grid>
-            <Grid container item sm={6}>
-              <Card sx={{ width: '100%' }}>
-                <CardContent>
-                  <Typography>Choose from your friends</Typography>
-                  <Paper
-                    component="form"
-                    sx={{
-                      p: '2px 4px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      width: 400,
+            <Grid container item sm={6} spacing={2}>
+              <Container sx={{ width: '100%' }}>
+                <Typography>Choose from your friends</Typography>
+                <Paper
+                  component="form"
+                  sx={{
+                    p: '2px 4px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    width: 400,
+                  }}
+                >
+                  <InputBase
+                    sx={{ ml: 1, flex: 1 }}
+                    placeholder="Search User"
+                    value={searchWord}
+                    onChange={handleSearchChange}
+                    onKeyDown={(e) => {
+                      e.key === 'Enter' && e.preventDefault();
                     }}
-                  >
-                    <InputBase
-                      sx={{ ml: 1, flex: 1 }}
-                      placeholder="Search User"
-                      value={searchWord}
-                      onChange={handleSearchChange}
-                      onKeyDown={(e) => {
-                        e.key === 'Enter' && e.preventDefault();
-                      }}
+                  />
+                </Paper>
+                {user && user.following.length > 0 ? (
+                  usersInSearch.length != 0 ? (
+                    <WatchPartyAddUsersList
+                      users={usersInSearch}
+                      usersInGroup={usersInGroup}
+                      onClickUser={onClickUser}
                     />
-                  </Paper>
-                  {user && user.following.length > 0 ? (
-                    usersInSearch.length != 0 ? (
-                      <WatchPartyAddUsersList
-                        users={usersInSearch}
-                        usersInGroup={usersInGroup}
-                        onClickUser={onClickUser}
-                      />
-                    ) : (
-                      <Typography>No results :&lt;</Typography>
-                    )
                   ) : (
-                    <>
-                      <Typography>
-                        Follow other Movienators to select them here!
-                      </Typography>
-                    </>
-                  )}
-                </CardContent>
-              </Card>
+                    <Typography>No results :&lt;</Typography>
+                  )
+                ) : (
+                  <Typography>
+                    Follow other Movienators to select them here!
+                  </Typography>
+                )}
+              </Container>
             </Grid>
           </Grid>
-        </CardContent>
-      </Card>
+        </Stack>
+      </Container>
       {recommendedMovies && (
         <Card>
           <CardContent>

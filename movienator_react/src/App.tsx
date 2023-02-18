@@ -4,6 +4,8 @@ import React from 'react';
 import { RouterProvider } from 'react-router-dom';
 import { ColorModeContext } from './ColorModeContext';
 import router from './Router';
+import CssBaseline from '@mui/material/CssBaseline';
+import { pink, purple } from '@mui/material/colors';
 
 /*
 Creating the Router Provider from the exportet Route
@@ -24,6 +26,12 @@ function App() {
       createTheme({
         palette: {
           mode,
+          primary: {
+            main: purple[500],
+          },
+          secondary: {
+            main: pink[500],
+          },
         },
       }),
     [mode]
@@ -32,6 +40,7 @@ function App() {
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
+        <CssBaseline enableColorScheme />
         <RouterProvider router={router} />
       </ThemeProvider>
     </ColorModeContext.Provider>

@@ -7,7 +7,7 @@ import RatingStars from './RatingStars';
 
 export default function ReviewCardWithMovie({ review }: SingleReviewProps) {
   return (
-    <Card sx={{ backgroundColor: grey.A200 }}>
+    <Card variant="outlined">
       <CardContent>
         {review.review_movie != null && review.review_user != null ? (
           <Stack direction={'row'} id={'wholeCardStack'} spacing={2}>
@@ -44,7 +44,7 @@ export default function ReviewCardWithMovie({ review }: SingleReviewProps) {
             </Stack>
           </Stack>
         ) : (
-          <></>
+          <Paper></Paper>
         )}
       </CardContent>
     </Card>

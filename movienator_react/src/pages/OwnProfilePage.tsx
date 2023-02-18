@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
-import { Stack, Typography } from '@mui/material';
+import { Paper, Stack, Typography } from '@mui/material';
 import { User } from '../types/User';
 import { getOneUserToUserId } from '../services/UserService';
 import OwnProfileDetails from '../components/OwnProfileComponents/OwnProfileDetails';
@@ -57,7 +57,7 @@ export default function OwnProfilePage() {
   return (
     <Stack direction={'column'} spacing={1}>
       {user != null && userReviews != null && userRecs != null ? (
-        <>
+        <Paper>
           <OwnProfileDetails user={user} reloadHandler={reloadUser} />
           <Stack direction={'row'} spacing={1} justifyContent={'space-evenly'}>
             <OwnProfileUsersLists
@@ -76,7 +76,7 @@ export default function OwnProfilePage() {
             showUser={false}
             title={'Your Reviews'}
           />
-        </>
+        </Paper>
       ) : (
         <Typography>Loading...</Typography>
       )}

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { Avatar, IconButton } from '@mui/material';
+import { Avatar, IconButton, Paper } from '@mui/material';
 import React from 'react';
 import { User } from '../../types/User';
 
@@ -33,6 +33,6 @@ export default function OtherUserAvatar({ user, clickable }: Props) {
       {content}
     </IconButton>
   ) : (
-    <>{content}</>
+    <Paper>{content}</Paper>
   );
 }

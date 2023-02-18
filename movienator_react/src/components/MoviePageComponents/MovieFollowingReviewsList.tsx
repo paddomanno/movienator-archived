@@ -8,7 +8,7 @@ export default function MovieFollowingReviewsList({
   reviews,
 }: ReviewListProps) {
   return (
-    <Card sx={{ backgroundColor: grey.A200 }}>
+    <Card variant="outlined">
       <CardContent>
         <Typography>
           {reviews.length} of the Users you are following have reviewed this

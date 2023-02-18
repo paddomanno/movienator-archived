@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Movie } from '../types/Movie';
 import { getMoviesToActor, getOneActorToId } from '../services/ExternService';
-import { Typography } from '@mui/material';
+import { Typography, Paper } from '@mui/material';
 import { useCookies } from 'react-cookie';
 import { Actor } from '../types/Actor';
 import MoviesList from '../components/ListComponents/MoviesList';
@@ -42,17 +42,17 @@ export default function ActorMoviesPage() {
   }, [actor]);
 
   return (
-    <div>
+    <Paper>
       {movies != null && actor != null ? (
-        <>
+        <Paper>
           <Typography>Movies with {actor.name}</Typography>
           <MoviesList movies={movies} />
-        </>
+        </Paper>
       ) : (
-        <>
+        <Paper>
           <Typography>Loading...</Typography>
-        </>
+        </Paper>
       )}
-    </div>
+    </Paper>
   );
 }

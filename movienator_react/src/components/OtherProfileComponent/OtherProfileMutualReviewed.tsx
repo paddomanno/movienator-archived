@@ -5,7 +5,7 @@ import MovieCard from '../SingleItemComponents/MovieCard';
 
 export default function OtherProfileMutualReviewed({ movies }: MovieListProps) {
   return (
-    <Card sx={{ backgroundColor: grey.A200, flexGrow: 1 }}>
+    <Card sx={{ flexGrow: 1 }}>
       <CardContent>
         <Typography variant={'h5'}>Movies you have both reviewed: </Typography>
         <Stack direction={'row'} overflow={'auto'}>

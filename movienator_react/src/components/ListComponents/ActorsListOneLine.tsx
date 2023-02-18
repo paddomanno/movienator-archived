@@ -22,7 +22,7 @@ export default function ActorsListOneLine({
   handleClick,
 }: Props) {
   return (
-    <Card sx={{ backgroundColor: grey.A200 }}>
+    <Card variant="outlined">
       <CardContent>
         <Typography>{title}</Typography>
         {actors.length > 0 ? (
@@ -32,11 +32,7 @@ export default function ActorsListOneLine({
                 <ActorCardLarge actor={actor} key={actor.actorId} />
               ))}
             </Stack>
-            <IconButton
-              onClick={handleClick}
-              size={'large'}
-              sx={{ backgroundColor: grey.A400 }}
-            >
+            <IconButton onClick={handleClick} size={'large'} color="secondary">
               <ArrowForwardIcon sx={{ width: 100 }} />
             </IconButton>
           </Stack>

@@ -3,6 +3,7 @@ import {
   Button,
   Card,
   CardContent,
+  Paper,
   Stack,
   Typography,
 } from '@mui/material';
@@ -31,14 +32,11 @@ export default function OwnProfileDetails({ user, reloadHandler }: props) {
   };
 
   return (
-    <Card sx={{ backgroundColor: grey.A200 }}>
+    <Card variant="outlined">
       <CardContent>
         <Stack direction={'row'} spacing={1} justifyContent={'space-evenly'}>
-          <Card
-            sx={{ backgroundColor: grey.A200 }}
-            style={{ border: 'none', boxShadow: 'none' }}
-          >
-            <>
+          <Card sx={{}} style={{ border: 'none', boxShadow: 'none' }}>
+            <Paper>
               {user.profileImage != null ? (
                 <Avatar
                   sx={{ width: SIZE_PROFILEIMAGE, height: SIZE_PROFILEIMAGE }}
@@ -53,12 +51,9 @@ export default function OwnProfileDetails({ user, reloadHandler }: props) {
                   {user.lastName.at(0)}
                 </Avatar>
               )}
-            </>
+            </Paper>
           </Card>
-          <Card
-            sx={{ backgroundColor: grey.A200 }}
-            style={{ border: 'none', boxShadow: 'none' }}
-          >
+          <Card sx={{}} style={{ border: 'none', boxShadow: 'none' }}>
             <CardContent>
               <Typography variant="h5">{user.userName}</Typography>
               <Typography variant={'body1'}>
@@ -72,10 +67,7 @@ export default function OwnProfileDetails({ user, reloadHandler }: props) {
               <Typography variant={'body1'}>{user.comment}</Typography>
             </CardContent>
           </Card>
-          <Card
-            sx={{ backgroundColor: grey.A200 }}
-            style={{ border: 'none', boxShadow: 'none' }}
-          >
+          <Card sx={{}} style={{ border: 'none', boxShadow: 'none' }}>
             <Stack direction={'column'} spacing={1}>
               <OwnProfileEditProfileModal
                 user={user}

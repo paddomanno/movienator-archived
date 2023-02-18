@@ -30,6 +30,7 @@ export default function ActorMovieSearchBar({ initialSearchWord }: Props) {
 
   return (
     <Paper
+      color="secondary"
       component="form"
       sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
     >
@@ -39,6 +40,7 @@ export default function ActorMovieSearchBar({ initialSearchWord }: Props) {
         value={searchWord}
         onChange={handleChange}
         onKeyDown={handlePress}
+        color="primary"
       />
       <IconButton
         type="button"

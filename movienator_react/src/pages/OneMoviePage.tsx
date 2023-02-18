@@ -14,7 +14,7 @@ import {
 import { useCookies } from 'react-cookie';
 import MovieFollowingReviewsList from '../components/MoviePageComponents/MovieFollowingReviewsList';
 import MovieOthersReviewsList from '../components/MoviePageComponents/MovieOthersReviewsList';
-import { Stack } from '@mui/material';
+import { Paper, Stack } from '@mui/material';
 import MovieOnFollowerWatchlistList from '../components/MoviePageComponents/MovieOnFollowerWatchlistList';
 import MovieOwnReview from '../components/MoviePageComponents/MovieOwnReview';
 
@@ -81,7 +81,7 @@ export default function OneMoviePage() {
   }
 
   return (
-    <>
+    <Paper>
       {movie != null &&
       followingWatchlist != null &&
       followingReviews != null &&
@@ -96,8 +96,8 @@ export default function OneMoviePage() {
           <MovieOthersReviewsList reviews={otherReviews} />
         </Stack>
       ) : (
-        <></>
+        <Paper></Paper>
       )}
-    </>
+    </Paper>
   );
 }

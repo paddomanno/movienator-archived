@@ -3,7 +3,14 @@ import { useNavigate, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { Movie } from '../types/Movie';
 import { getMoviesToGenreId, getOneGenreToId } from '../services/ExternService';
-import { Button, Card, CardContent, Stack, Typography } from '@mui/material';
+import {
+  Button,
+  Card,
+  CardContent,
+  Paper,
+  Stack,
+  Typography,
+} from '@mui/material';
 import { Genre } from '../types/Genre';
 import { useCookies } from 'react-cookie';
 import MoviesList from '../components/ListComponents/MoviesList';
@@ -76,13 +83,13 @@ export default function GenreMoviesPage() {
         </CardContent>
       </Card>
       {movies != null ? (
-        <>
+        <Paper>
           <MoviesList title="" movies={movies} />
-        </>
+        </Paper>
       ) : (
-        <>
+        <Paper>
           <Typography>Loading...</Typography>
-        </>
+        </Paper>
       )}
       <Card>
         <CardContent>

@@ -33,7 +33,7 @@ export default function ReceivedRecommendationCard({ rec, reloadRecs }: Props) {
   }
 
   return (
-    <Card sx={{ minWidth: 400, maxWidth: 400, backgroundColor: grey['300'] }}>
+    <Card sx={{ minWidth: 400, maxWidth: 400 }}>
       <CardContent>
         <Stack direction={'row'}>
           <MovieCard movie={rec.recommendedMovie} />

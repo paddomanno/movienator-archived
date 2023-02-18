@@ -13,6 +13,7 @@ import {
   Card,
   CardContent,
   Divider,
+  Paper,
   Stack,
   TextField,
   Typography,
@@ -87,14 +88,6 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    if (value !== '') {
-      const textField: HTMLElement | null = document.getElementById(
-        `${name}-input`
-      );
-      if (textField != null) {
-        textField.style.backgroundColor = grey.A200;
-      }
-    }
     setInputData({
       ...inputData,
       [name]: value,
@@ -285,7 +278,7 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
           Delete Review
         </Button>
       ) : (
-        <></>
+        <Paper></Paper>
       )}
     </Stack>
   );
@@ -336,7 +329,7 @@ export default function MovieOwnReview({ movie }: SingleMovieProps) {
   );
 
   return (
-    <Card sx={{ backgroundColor: grey.A200, flexGrow: 1 }}>
+    <Card sx={{ flexGrow: 1 }}>
       <CardContent>
         <Stack direction={'row'} spacing={1}>
           {leftColumn}

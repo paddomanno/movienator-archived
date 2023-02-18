@@ -13,7 +13,7 @@ export default function OwnProfileRecommendationList({
   reloadRecs,
 }: Props) {
   return (
-    <Card sx={{ backgroundColor: grey.A200 }}>
+    <Card variant="outlined">
       <CardContent>
         <Typography>Movies you recommended</Typography>
         <Stack direction={'row'} spacing={1} overflow={'auto'}>

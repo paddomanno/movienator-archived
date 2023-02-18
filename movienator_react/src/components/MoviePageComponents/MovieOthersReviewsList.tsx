@@ -6,7 +6,7 @@ import Grid2 from '@mui/material/Unstable_Grid2';
 
 export default function MovieOthersReviewsList({ reviews }: ReviewListProps) {
   return (
-    <Card sx={{ backgroundColor: grey.A200 }}>
+    <Card variant="outlined">
       <CardContent>
         <Typography>
           {reviews.length} other Users have reviewed this movie:

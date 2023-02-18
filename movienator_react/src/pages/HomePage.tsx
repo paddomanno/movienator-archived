@@ -3,7 +3,14 @@ import AllGenresList from '../components/ListComponents/AllGenresList';
 import React, { useEffect, useState } from 'react';
 import { Movie } from '../types/Movie';
 import { Genre } from '../types/Genre';
-import { Card, CardContent, Stack, Typography } from '@mui/material';
+import {
+  Box,
+  Card,
+  CardContent,
+  Paper,
+  Stack,
+  Typography,
+} from '@mui/material';
 import { getWatchlistMoviesToUserId } from '../services/MovieService';
 import {
   getAllGenres,
@@ -12,7 +19,6 @@ import {
 } from '../services/ExternService';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
-import { grey } from '@mui/material/colors';
 import MoviesListOneLine from '../components/ListComponents/MoviesListOneLine';
 import ActorMovieSearchBar from '../components/GeneralComponents/ActorMovieSearchBar';
 
@@ -58,44 +64,30 @@ export default function HomePage() {
       popular == null ||
       recommendations == null ||
       genres == null ? (
-        <>
-          <Typography>Loading...</Typography>
-        </>
+        <Typography>Loading...</Typography>
       ) : (
-        <>
-          <Stack direction={'column'} spacing={1}>
-            <Card sx={{ backgroundColor: grey.A200 }}>
-              <CardContent>
-                <Stack
-                  direction={'row'}
-                  spacing={2}
-                  justifyContent={'space-around'}
-                >
-                  <ActorMovieSearchBar initialSearchWord={''} />
-                  {/* <MovieSearchBar initialSearchWord={''} />
-                  <ActorSearchBar initialSearchWord={''} /> */}
-                </Stack>
-              </CardContent>
-            </Card>
+        <Stack direction={'column'} spacing={1}>
+          <Box m="auto" marginTop={'1rem'}>
+            <ActorMovieSearchBar initialSearchWord={''} />
+          </Box>
 
-            <MoviesListOneLine
-              movies={watchlist}
-              title="Your Watchlist"
-              handleClick={() => navigate('/watchlist')}
-            />
-            <MoviesListOneLine
-              movies={popular}
-              title="Popular Movies"
-              handleClick={() => navigate('/popular')}
-            />
-            <MoviesListOneLine
-              movies={recommendations}
-              title="Recommendations For You"
-              handleClick={() => navigate('/recommendations')}
-            />
-            <AllGenresList genres={genres} />
-          </Stack>
-        </>
+          <MoviesListOneLine
+            movies={watchlist}
+            title="Your Watchlist"
+            handleClick={() => navigate('/watchlist')}
+          />
+          <MoviesListOneLine
+            movies={popular}
+            title="Popular Movies"
+            handleClick={() => navigate('/popular')}
+          />
+          <MoviesListOneLine
+            movies={recommendations}
+            title="Recommendations For You"
+            handleClick={() => navigate('/recommendations')}
+          />
+          <AllGenresList genres={genres} />
+        </Stack>
       )}
     </main>
   );

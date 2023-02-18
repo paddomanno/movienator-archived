@@ -20,6 +20,7 @@ export default function GenreCard({ genre }: SingleGenreProps) {
           maxWidth: 175,
           minWidth: 175,
         }}
+        raised={true}
       >
         <CardMedia
           component="img"

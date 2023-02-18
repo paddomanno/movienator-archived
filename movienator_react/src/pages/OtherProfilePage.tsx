@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useCookies } from 'react-cookie';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Stack, Typography } from '@mui/material';
+import { Paper, Stack, Typography } from '@mui/material';
 import { User } from '../types/User';
 import {
   getOneUserToUserId,
@@ -137,7 +137,7 @@ export default function OtherProfilePage() {
       userReviews != null &&
       mutualReviewed != null &&
       mutualWatchlist != null ? (
-        <>
+        <Paper>
           <OtherProfileDetails
             viewedUser={viewedUser}
             loggedInUser={loggedInUser}
@@ -164,7 +164,7 @@ export default function OtherProfilePage() {
             showUser={false}
             title={'Reviews from this user:'}
           />
-        </>
+        </Paper>
       ) : (
         <Typography>There is no user with this id</Typography>
       )}

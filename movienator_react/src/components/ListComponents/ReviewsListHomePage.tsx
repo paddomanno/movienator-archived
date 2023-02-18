@@ -19,7 +19,7 @@ export default function ReviewsListHomePage({ reviews }: ReviewListProps) {
   }
 
   return (
-    <Card sx={{ backgroundColor: grey.A200 }}>
+    <Card variant="outlined">
       <CardContent>
         <Typography>Your friends reviews</Typography>
         {reviews.length > 0 ? (
@@ -34,11 +34,7 @@ export default function ReviewsListHomePage({ reviews }: ReviewListProps) {
                 />
               ))}
             </Stack>
-            <IconButton
-              onClick={handleClick}
-              size={'large'}
-              sx={{ backgroundColor: grey.A400 }}
-            >
+            <IconButton onClick={handleClick} size={'large'} color="secondary">
               <ArrowForwardIcon sx={{ width: 100 }} />
             </IconButton>
           </Stack>

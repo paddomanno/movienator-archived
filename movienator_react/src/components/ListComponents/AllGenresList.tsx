@@ -6,7 +6,7 @@ import { GenreListProps } from '../../props/GenreProps';
 
 export default function AllGenresList({ genres }: GenreListProps) {
   return (
-    <Card sx={{ backgroundColor: grey.A200 }}>
+    <Card>
       <CardContent>
         <Typography variant={'subtitle1'}>Browse our Genres</Typography>
         <Grid2 container spacing={0}>

@@ -24,7 +24,6 @@ export default function WatchPartyGroupUserCard({ user, onClick }: Props) {
     >
       <Card
         sx={{
-          backgroundColor: grey.A100,
           minHeight: '5rem',
           minWidth: '8rem',
         }}

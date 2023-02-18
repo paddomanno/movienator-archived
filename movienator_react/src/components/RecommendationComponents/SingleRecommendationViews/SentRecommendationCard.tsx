@@ -34,7 +34,7 @@ export default function SentRecommendationCard({ rec, reloadRecs }: Props) {
   }
 
   return (
-    <Card sx={{ backgroundColor: grey.A200 }}>
+    <Card variant="outlined">
       <CardContent>
         <Stack direction={'column'} spacing={1}>
           <Stack direction={'row'} spacing={1} alignItems={'center'}>

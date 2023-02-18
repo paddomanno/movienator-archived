@@ -7,7 +7,7 @@ export default function OtherProfileMutualWatchlist({
   movies,
 }: MovieListProps) {
   return (
-    <Card sx={{ backgroundColor: grey.A200, flexGrow: 1 }}>
+    <Card sx={{ flexGrow: 1 }}>
       <CardContent>
         <Typography variant={'h5'}>
           Movies you have both on your Watchlist:{' '}

@@ -11,7 +11,7 @@ type Props = {
 
 export default function WatchPartyResultsList({ title, movies }: Props) {
   return (
-    <Card sx={{ backgroundColor: grey.A200 }}>
+    <Card variant="outlined">
       <CardContent>
         {title ?? <Typography>{title}</Typography>}
         {movies.length > 0 ? (

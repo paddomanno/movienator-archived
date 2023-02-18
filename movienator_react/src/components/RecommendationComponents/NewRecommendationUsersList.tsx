@@ -2,6 +2,7 @@ import {
   Card,
   CardContent,
   IconButton,
+  Paper,
   Stack,
   Typography,
 } from '@mui/material';
@@ -22,8 +23,8 @@ export default function NewRecommendationUsersList({
   handleChange,
 }: Props) {
   return (
-    <>
-      <Card sx={{ backgroundColor: grey.A200, flexGrow: 1 }}>
+    <Paper>
+      <Card sx={{ flexGrow: 1 }}>
         <CardContent>
           {users.length != 0 ? (
             <Stack spacing={1} direction={'row'} overflow={'auto'}>
@@ -48,6 +49,6 @@ export default function NewRecommendationUsersList({
           )}
         </CardContent>
       </Card>
-    </>
+    </Paper>
   );
 }

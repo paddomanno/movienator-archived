@@ -1,4 +1,11 @@
-import { Button, Card, CardContent, IconButton, Stack } from '@mui/material';
+import {
+  Button,
+  Card,
+  CardContent,
+  IconButton,
+  Paper,
+  Stack,
+} from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { Movie } from '../types/Movie';
 import { getMoviesToName } from '../services/ExternService';
@@ -40,9 +47,9 @@ export default function MovieSearchPage() {
     setPage(page + 1);
   }
   return (
-    <>
+    <Paper>
       <Stack spacing={1} direction={'column'}>
-        <Card sx={{ backgroundColor: grey.A200 }}>
+        <Card variant="outlined">
           <CardContent>
             <Stack spacing={1} direction={'row'}>
               <IconButton onClick={toHomePage}>
@@ -52,8 +59,8 @@ export default function MovieSearchPage() {
             </Stack>
           </CardContent>
         </Card>
-        {movies != null ? <MoviesList movies={movies} /> : <></>}
-        <Card sx={{ backgroundColor: grey.A200 }}>
+        {movies != null ? <MoviesList movies={movies} /> : <Paper></Paper>}
+        <Card variant="outlined">
           <CardContent>
             <Stack direction={'row'} spacing={2}>
               <Button
@@ -74,6 +81,6 @@ export default function MovieSearchPage() {
           </CardContent>
         </Card>
       </Stack>
-    </>
+    </Paper>
   );
 }

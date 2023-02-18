@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import EditIcon from '@mui/icons-material/Edit';
-import { Card, CardContent, IconButton, TextField } from '@mui/material';
+import { Card, CardContent, IconButton, Paper, TextField } from '@mui/material';
 import { Stack } from '@mui/system';
 import { useState } from 'react';
 import { User } from '../../types/User';
@@ -233,7 +233,7 @@ export default function OwnProfileEditProfileModal({
   };
 
   return (
-    <>
+    <Paper>
       <Button variant="outlined" startIcon={<EditIcon />} onClick={handleOpen}>
         Edit Profile
       </Button>
@@ -368,6 +368,6 @@ export default function OwnProfileEditProfileModal({
         message={feedbackMessage}
         severity={feedbackColor}
       />
-    </>
+    </Paper>
   );
 }

@@ -22,7 +22,7 @@ export default function MoviesListOneLine({
   handleClick,
 }: Props) {
   return (
-    <Card sx={{ backgroundColor: grey.A200 }}>
+    <Card>
       <CardContent>
         <Typography>{title}</Typography>
         {movies.length > 0 ? (
@@ -32,11 +32,7 @@ export default function MoviesListOneLine({
                 <MovieCard movie={movie} key={movie.movieId} />
               ))}
             </Stack>
-            <IconButton
-              onClick={handleClick}
-              size={'large'}
-              sx={{ backgroundColor: grey.A400 }}
-            >
+            <IconButton onClick={handleClick} size={'large'} color="secondary">
               <ArrowForwardIcon sx={{ width: 100 }} />
             </IconButton>
           </Stack>

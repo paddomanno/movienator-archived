@@ -5,6 +5,7 @@ import {
   CardContent,
   CardMedia,
   IconButton,
+  Paper,
   Stack,
   Typography,
 } from '@mui/material';
@@ -21,9 +22,9 @@ export default function ReviewCardShort({ review }: SingleReviewProps) {
   }
 
   const avatar = (
-    <>
+    <Paper>
       {review.review_user != null ? (
-        <>
+        <Paper>
           {review.review_user.profileImage?.ressourceLink !== undefined ? (
             <Avatar
               alt={review.review_user.userName}
@@ -36,15 +37,15 @@ export default function ReviewCardShort({ review }: SingleReviewProps) {
               {review.review_user.lastName.at(0)}
             </Avatar>
           )}
-        </>
+        </Paper>
       ) : (
-        <></>
+        <Paper></Paper>
       )}
-    </>
+    </Paper>
   );
 
   return (
-    <>
+    <Paper>
       <ReviewDetailsPopup
         review={review}
         open={showPopup}
@@ -57,7 +58,7 @@ export default function ReviewCardShort({ review }: SingleReviewProps) {
       >
         <Card sx={{ maxWidth: 200, minWidth: 200 }}>
           {review.review_movie != null && review.review_user != null ? (
-            <>
+            <Paper>
               <CardMedia
                 component="img"
                 alt={
@@ -84,15 +85,15 @@ export default function ReviewCardShort({ review }: SingleReviewProps) {
                   <RatingStars rating={review.rating} max={5} />
                 </Stack>
               </CardContent>
-            </>
+            </Paper>
           ) : (
-            <>
+            <Paper>
               <CardMedia />
               <CardContent />
-            </>
+            </Paper>
           )}
         </Card>
       </IconButton>
-    </>
+    </Paper>
   );
 }

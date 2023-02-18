@@ -1,6 +1,13 @@
 //Route: movienator3000.com/
 import { Outlet, useNavigate } from 'react-router-dom';
-import { Avatar, IconButton, Stack, Typography, useTheme } from '@mui/material';
+import {
+  Avatar,
+  IconButton,
+  Stack,
+  Typography,
+  useTheme,
+  Paper,
+} from '@mui/material';
 import { useCookies } from 'react-cookie';
 import LiveTvIcon from '@mui/icons-material/LiveTv';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -42,91 +49,97 @@ export default function RootPage() {
   }
 
   return (
-    <div>
-      <Stack direction={'row'} justifyContent={'space-between'}>
-        <Stack direction={'row'} spacing={1}>
-          <Typography variant={'h3'}>Movienator3000</Typography>
-          <IconButton
-            onClick={() => {
-              navigate('/home');
-            }}
-          >
-            <Stack direction={'row'} spacing={1}>
-              <Typography>Home</Typography>
-              <LiveTvIcon />
-            </Stack>
-          </IconButton>
-          <IconButton
-            onClick={() => {
-              navigate('/socialPage');
-            }}
-          >
-            <Stack direction={'row'} spacing={1}>
-              <Typography>Social</Typography>
-              <GroupsIcon />
-            </Stack>
-          </IconButton>
-          <IconButton
-            onClick={() => {
-              navigate('/watchparty');
-            }}
-          >
-            <Stack direction={'row'} spacing={1}>
-              <Typography>Watch Party</Typography>
-              <CakeOutlinedIcon />
-            </Stack>
-          </IconButton>
-        </Stack>
-        <Stack direction={'row'} spacing={1}>
-          <IconButton
-            sx={{ ml: 1 }}
-            onClick={colorMode.toggleColorMode}
-            color="inherit"
-          >
-            {theme.palette.mode === 'dark' ? (
-              <DarkModeIcon />
-            ) : (
-              <LightModeIcon />
-            )}
-          </IconButton>
-          {user != null ? (
-            <>
-              {user.profileImage != null ? (
-                <IconButton
-                  onClick={() => {
-                    navigate('/profile');
-                  }}
-                >
-                  <Avatar
-                    alt={user.userName}
-                    sx={{ width: SIZE_PROFILEIMAGE, height: SIZE_PROFILEIMAGE }}
-                    src={`${process.env.PUBLIC_URL}/Images/ProfileImages/${user.profileImage.ressourceLink}.png`}
-                  ></Avatar>
-                </IconButton>
+    <>
+      <Paper>
+        <Stack direction={'row'} justifyContent={'space-between'}>
+          <Stack direction={'row'} spacing={1}>
+            <Typography variant={'h3'}>Movienator3000</Typography>
+            <IconButton
+              color="primary"
+              onClick={() => {
+                navigate('/home');
+              }}
+            >
+              <Stack direction={'row'} spacing={1}>
+                <Typography>Home</Typography>
+                <LiveTvIcon />
+              </Stack>
+            </IconButton>
+            <IconButton
+              color="primary"
+              onClick={() => {
+                navigate('/socialPage');
+              }}
+            >
+              <Stack direction={'row'} spacing={1}>
+                <Typography>Social</Typography>
+                <GroupsIcon />
+              </Stack>
+            </IconButton>
+            <IconButton
+              color="primary"
+              onClick={() => {
+                navigate('/watchparty');
+              }}
+            >
+              <Stack direction={'row'} spacing={1}>
+                <Typography>Watch Party</Typography>
+                <CakeOutlinedIcon />
+              </Stack>
+            </IconButton>
+          </Stack>
+          <Stack direction={'row'} spacing={1}>
+            <IconButton
+              sx={{ ml: 1 }}
+              onClick={colorMode.toggleColorMode}
+              color="inherit"
+            >
+              {theme.palette.mode === 'dark' ? (
+                <DarkModeIcon />
               ) : (
-                <IconButton
-                  onClick={() => {
-                    navigate('/profile');
-                  }}
-                >
-                  <Avatar>
-                    {user.firstName.at(0)}
-                    {user.lastName.at(0)}
-                  </Avatar>
-                </IconButton>
+                <LightModeIcon />
               )}
-              <IconButton onClick={handleLogout}>
-                <LogoutIcon />
-              </IconButton>
-            </>
-          ) : (
-            <Typography>Please log in to use this website</Typography>
-          )}
+            </IconButton>
+            {user != null ? (
+              <>
+                {user.profileImage != null ? (
+                  <IconButton
+                    onClick={() => {
+                      navigate('/profile');
+                    }}
+                  >
+                    <Avatar
+                      alt={user.userName}
+                      sx={{
+                        width: SIZE_PROFILEIMAGE,
+                        height: SIZE_PROFILEIMAGE,
+                      }}
+                      src={`${process.env.PUBLIC_URL}/Images/ProfileImages/${user.profileImage.ressourceLink}.png`}
+                    ></Avatar>
+                  </IconButton>
+                ) : (
+                  <IconButton
+                    onClick={() => {
+                      navigate('/profile');
+                    }}
+                  >
+                    <Avatar>
+                      {user.firstName.at(0)}
+                      {user.lastName.at(0)}
+                    </Avatar>
+                  </IconButton>
+                )}
+                <IconButton onClick={handleLogout}>
+                  <LogoutIcon />
+                </IconButton>
+              </>
+            ) : (
+              <Typography>Please log in to use this website</Typography>
+            )}
+          </Stack>
         </Stack>
-      </Stack>
-      <div id="detail">
-        <Outlet />
-      </div>
-    </div>
+      </Paper>
+      <Outlet />
+    </>
   );
 }

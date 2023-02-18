@@ -16,6 +16,7 @@ import { Movie } from '../types/Movie';
 import ActorMovieSearchBar from '../components/GeneralComponents/ActorMovieSearchBar';
 import MoviesListOneLine from '../components/ListComponents/MoviesListOneLine';
 import ActorsListOneLine from '../components/ListComponents/ActorsListOneLine';
+import { Paper } from '@mui/material';
 
 export default function ActorMovieSearchPage() {
   const [actors, setActors] = useState<Actor[] | null>(null);
@@ -50,7 +51,7 @@ export default function ActorMovieSearchPage() {
   }
 
   return (
-    <>
+    <Paper>
       <Stack spacing={1} direction={'column'}>
         <Card>
           <CardContent>
@@ -72,13 +73,13 @@ export default function ActorMovieSearchPage() {
           <CardContent>
             <Grid2 container spacing={0}>
               {actors != null ? (
-                <>
+                <Paper>
                   <ActorsListOneLine
                     actors={actors}
                     title="Actors:"
                     handleClick={() => navigate('/search/actor/' + searchWord)}
                   />
-                </>
+                </Paper>
               ) : (
                 <Typography>No actors here</Typography>
               )}
@@ -88,19 +89,19 @@ export default function ActorMovieSearchPage() {
         <Card>
           <CardContent>
             {movies != null ? (
-              <>
+              <Paper>
                 <MoviesListOneLine
                   movies={movies}
                   title="Movies:"
                   handleClick={() => navigate('/search/movie/' + searchWord)}
                 />
-              </>
+              </Paper>
             ) : (
               <Typography>No movies here</Typography>
             )}
           </CardContent>
         </Card>
       </Stack>
-    </>
+    </Paper>
   );
 }

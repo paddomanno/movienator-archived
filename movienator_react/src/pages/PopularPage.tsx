@@ -3,7 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { Movie } from '../types/Movie';
 import { getPopularMoviesToPagenumber } from '../services/ExternService';
-import { Button, Card, CardContent, Stack, Typography } from '@mui/material';
+import {
+  Button,
+  Card,
+  CardContent,
+  Paper,
+  Stack,
+  Typography,
+} from '@mui/material';
 import { useCookies } from 'react-cookie';
 import MoviesList from '../components/ListComponents/MoviesList';
 
@@ -54,13 +61,13 @@ export default function PopularPage() {
         </CardContent>
       </Card>
       {movies != null ? (
-        <>
+        <Paper>
           <MoviesList movies={movies} />
-        </>
+        </Paper>
       ) : (
-        <>
+        <Paper>
           <Typography>Loading...</Typography>
-        </>
+        </Paper>
       )}
       <Card>
         <CardContent>

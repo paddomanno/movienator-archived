@@ -3,7 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Movie } from '../types/Movie';
 import { useCookies } from 'react-cookie';
-import { Button, Card, CardContent, Stack, Typography } from '@mui/material';
+import {
+  Button,
+  Card,
+  CardContent,
+  Paper,
+  Stack,
+  Typography,
+} from '@mui/material';
 import MoviesList from '../components/ListComponents/MoviesList';
 import { getUserRecommendationsToUserId } from '../services/ExternService';
 
@@ -57,13 +64,13 @@ export default function RecommendationsPage() {
         </CardContent>
       </Card>
       {movies != null ? (
-        <>
+        <Paper>
           <MoviesList movies={movies} />
-        </>
+        </Paper>
       ) : (
-        <>
+        <Paper>
           <Typography>Loading...</Typography>
-        </>
+        </Paper>
       )}
       <Card>
         <CardContent>

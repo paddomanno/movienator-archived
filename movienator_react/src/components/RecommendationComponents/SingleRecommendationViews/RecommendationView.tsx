@@ -1,6 +1,7 @@
 import SentRecommendationCard from './SentRecommendationCard';
 import { Recommendation } from '../../../types/Recommendation';
 import ReceivedRecommendationCard from './ReceivedRecommendationCard';
+import { Paper } from '@mui/material';
 
 type Props = {
   variant: 'showFrom' | 'showFromShort' | 'showFor';
@@ -21,5 +22,5 @@ export default function RecommendationView({
   if (variant == 'showFor') {
     return <SentRecommendationCard rec={rec} reloadRecs={reloadRecs} />;
   }
-  return <></>;
+  return <Paper></Paper>;
 }

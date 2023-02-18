@@ -3,6 +3,7 @@ import {
   Button,
   Card,
   CardContent,
+  Paper,
   Stack,
   Typography,
 } from '@mui/material';
@@ -48,15 +49,12 @@ export default function OtherProfileDetails({
   };
 
   return (
-    <Card sx={{ backgroundColor: grey.A200 }}>
+    <Card variant="outlined">
       <CardContent>
         {viewedUser ? (
           <Stack direction={'row'} spacing={1} justifyContent={'space-evenly'}>
-            <Card
-              sx={{ backgroundColor: grey.A200 }}
-              style={{ border: 'none', boxShadow: 'none' }}
-            >
-              <>
+            <Card sx={{}} style={{ border: 'none', boxShadow: 'none' }}>
+              <Paper>
                 {viewedUser.profileImage != null ? (
                   <Avatar
                     alt={viewedUser.firstName + ' ' + viewedUser.lastName}
@@ -71,12 +69,9 @@ export default function OtherProfileDetails({
                     {viewedUser.lastName.at(0)}
                   </Avatar>
                 )}
-              </>
+              </Paper>
             </Card>
-            <Card
-              sx={{ backgroundColor: grey.A200 }}
-              style={{ border: 'none', boxShadow: 'none' }}
-            >
+            <Card sx={{}} style={{ border: 'none', boxShadow: 'none' }}>
               <CardContent>
                 <Typography variant="h5">{viewedUser.userName}</Typography>
                 <Typography variant={'body1'}>
@@ -90,10 +85,7 @@ export default function OtherProfileDetails({
                 <Typography variant={'body1'}>{viewedUser.comment}</Typography>
               </CardContent>
             </Card>
-            <Card
-              sx={{ backgroundColor: grey.A200 }}
-              style={{ border: 'none', boxShadow: 'none' }}
-            >
+            <Card sx={{}} style={{ border: 'none', boxShadow: 'none' }}>
               <Stack direction={'column'} spacing={1}>
                 {isFollowing ? (
                   <Button variant={'outlined'} onClick={handleUnfollow}>

@@ -4,7 +4,7 @@ import { Review } from '../types/Review';
 import { getAllReviewsOfFollowingToUserId } from '../services/ReviewService';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
-import { Typography } from '@mui/material';
+import { Paper, Typography } from '@mui/material';
 import ReviewListWithText from '../components/ListComponents/ReviewListWithText';
 
 export default function FollowingReviewsPage() {
@@ -27,7 +27,7 @@ export default function FollowingReviewsPage() {
   }, [cookies.userId]);
 
   return (
-    <>
+    <Paper>
       {reviews != null ? (
         <ReviewListWithText
           reviews={reviews}
@@ -38,6 +38,6 @@ export default function FollowingReviewsPage() {
       ) : (
         <Typography> loading... </Typography>
       )}
-    </>
+    </Paper>
   );
 }

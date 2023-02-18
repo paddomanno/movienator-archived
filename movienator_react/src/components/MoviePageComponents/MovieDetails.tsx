@@ -117,8 +117,8 @@ export default function MovieDetails({ movie }: SingleMovieProps) {
   }
 
   const watchProviderComp = (
-    <>
-      <Card sx={{ backgroundColor: grey.A100 }}>
+    <Paper>
+      <Card variant="outlined">
         <CardContent>
           <Stack direction={'row'} spacing={1}>
             <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>
@@ -142,11 +142,11 @@ export default function MovieDetails({ movie }: SingleMovieProps) {
               {providers.length != 0 ? (
                 <Typography>Available for streaming on:</Typography>
               ) : (
-                <>
+                <Paper>
                   <Typography>
                     Currently not available for streaming in this country.
                   </Typography>
-                </>
+                </Paper>
               )}
               <Stack direction={'row'} spacing={1}>
                 {providers.map((provider) => (
@@ -159,13 +159,13 @@ export default function MovieDetails({ movie }: SingleMovieProps) {
           </Stack>
         </CardContent>
       </Card>
-    </>
+    </Paper>
   );
 
   const videoComp = (
-    <>
+    <Paper>
       {movie.videoPath !== 'null' ? (
-        <Card sx={{ backgroundColor: grey.A100 }}>
+        <Card variant="outlined">
           <CardContent>
             <iframe
               title={movie.title + ' Trailer'}
@@ -177,12 +177,12 @@ export default function MovieDetails({ movie }: SingleMovieProps) {
           </CardContent>
         </Card>
       ) : (
-        <></>
+        <Paper></Paper>
       )}
-    </>
+    </Paper>
   );
   const genreComp = (
-    <Card sx={{ backgroundColor: grey.A100 }}>
+    <Card variant="outlined">
       <CardContent>
         <Stack direction={'row'} spacing={0}>
           {movie.genres.map((genre, key) => (
@@ -202,7 +202,7 @@ export default function MovieDetails({ movie }: SingleMovieProps) {
     </Card>
   );
   const detailsComp = (
-    <Card sx={{ backgroundColor: grey.A100 }}>
+    <Card variant="outlined">
       <CardContent>
         <Stack direction={'row'} spacing={1}>
           <Paper>
@@ -224,7 +224,7 @@ export default function MovieDetails({ movie }: SingleMovieProps) {
   );
 
   const actorComp = (
-    <Card sx={{ backgroundColor: grey.A100 }}>
+    <Card variant="outlined">
       <CardContent>
         <Grid2 container spacing={0}>
           {movie.actors.map((actor) => (
@@ -267,7 +267,7 @@ export default function MovieDetails({ movie }: SingleMovieProps) {
       spacing={2}
       justifyContent={'space-between'}
     >
-      <Card sx={{ backgroundColor: grey.A100 }}>
+      <Card variant="outlined">
         <CardContent>
           <Typography>{movie.overview}</Typography>
         </CardContent>
@@ -279,10 +279,10 @@ export default function MovieDetails({ movie }: SingleMovieProps) {
   );
 
   return (
-    <>
+    <Paper>
       <Typography variant={'h4'}>{movie.title}</Typography>
       <Divider></Divider>
-      <Card sx={{ backgroundColor: grey.A200 }}>
+      <Card variant="outlined">
         <CardContent>
           <Stack direction={'row'} spacing={1}>
             {leftColumn}
@@ -295,6 +295,6 @@ export default function MovieDetails({ movie }: SingleMovieProps) {
         movie={movie}
         setOpen={changeShowDialog}
       />
-    </>
+    </Paper>
   );
 }

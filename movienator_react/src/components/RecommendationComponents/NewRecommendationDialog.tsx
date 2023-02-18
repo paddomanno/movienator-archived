@@ -5,6 +5,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Paper,
   Stack,
   TextField,
 } from '@mui/material';
@@ -145,7 +146,7 @@ export default function NewRecommendationDialog({
   }
 
   return (
-    <>
+    <Paper>
       <Dialog
         open={open}
         maxWidth={'lg'}
@@ -205,6 +206,6 @@ export default function NewRecommendationDialog({
         message={feedbackMessage}
         severity={feedbackColor}
       />
-    </>
+    </Paper>
   );
 }

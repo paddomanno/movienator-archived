@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   AlertColor,
   Button,
+  Paper,
   Stack,
   TextField,
   Typography,
@@ -132,7 +133,7 @@ export default function SignupForm() {
   }
 
   return (
-    <>
+    <Paper>
       <Stack direction={'column'} spacing={1} alignItems={'center'}>
         <Typography variant={'h5'}>Register a new Account</Typography>
         <TextField
@@ -201,6 +202,6 @@ export default function SignupForm() {
         message={feedbackMessage}
         severity={feedbackColor}
       />
-    </>
+    </Paper>
   );
 }

@@ -11,7 +11,7 @@ type Props = {
 export default function UserCard({ user, clickable }: Props) {
   const [cookies] = useCookies(['userName', 'userId']);
   return (
-    <Card sx={{ backgroundColor: grey.A100 }}>
+    <Card color="secondary" raised={true}>
       <CardContent>
         <Stack direction={'column'} spacing={0} alignItems={'center'}>
           <OtherUserAvatar user={user} clickable={clickable} />

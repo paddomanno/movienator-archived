@@ -1,6 +1,7 @@
 import {
   AlertColor,
   Button,
+  Paper,
   Stack,
   TextField,
   Typography,
@@ -124,7 +125,7 @@ export default function LoginForm() {
   }
 
   return (
-    <>
+    <Paper>
       <Stack direction={'column'} spacing={1} alignItems={'center'}>
         <Typography variant={'h5'}>Sign into your Account</Typography>
         <TextField
@@ -158,6 +159,6 @@ export default function LoginForm() {
         message={feedbackMessage}
         severity={feedbackColor}
       />
-    </>
+    </Paper>
   );
 }

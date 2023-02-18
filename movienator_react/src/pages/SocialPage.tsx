@@ -5,7 +5,7 @@ import { useCookies } from 'react-cookie';
 import { getAllReviewsOfFollowingToUserId } from '../services/ReviewService';
 import { getAllRecommendationsForUserId } from '../services/RecommendationService';
 import { useNavigate } from 'react-router-dom';
-import { Stack, Typography } from '@mui/material';
+import { Paper, Stack, Typography } from '@mui/material';
 import RecommendationListOneLine from '../components/RecommendationComponents/RecommendationListOneLine';
 import ReviewsListHomePage from '../components/ListComponents/ReviewsListHomePage';
 import UserSearch from '../components/GeneralComponents/UserSearch';
@@ -49,21 +49,19 @@ export default function SocialPage() {
   return (
     <>
       {reviews == null || friendRecs == null ? (
-        <>
+        <Paper>
           <Typography>Loading...</Typography>
-        </>
+        </Paper>
       ) : (
-        <>
-          <Stack direction={'column'} spacing={1}>
-            <UserSearch />
-            <RecommendationListOneLine
-              recs={friendRecs}
-              reloadRecs={reloadRecs}
-              handleClick={() => navigate('/friendRecommendations')}
-            />
-            <ReviewsListHomePage reviews={reviews} />
-          </Stack>
-        </>
+        <Stack direction={'column'} spacing={1}>
+          <UserSearch />
+          <RecommendationListOneLine
+            recs={friendRecs}
+            reloadRecs={reloadRecs}
+            handleClick={() => navigate('/friendRecommendations')}
+          />
+          <ReviewsListHomePage reviews={reviews} />
+        </Stack>
       )}
     </>
   );
