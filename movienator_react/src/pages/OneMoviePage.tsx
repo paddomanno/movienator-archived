@@ -17,6 +17,7 @@ import MovieOthersReviewsList from '../components/MoviePageComponents/MovieOther
 import { Paper, Stack } from '@mui/material';
 import MovieOnFollowerWatchlistList from '../components/MoviePageComponents/MovieOnFollowerWatchlistList';
 import MovieOwnReview from '../components/MoviePageComponents/MovieOwnReview';
+import Typography from '@mui/material/Typography';
 
 export default function OneMoviePage() {
   const navigate = useNavigate();
@@ -96,7 +97,9 @@ export default function OneMoviePage() {
           <MovieOthersReviewsList reviews={otherReviews} />
         </Stack>
       ) : (
-        <Paper></Paper>
+        <>
+          <Typography>Error fetching movie details :/</Typography>
+        </>
       )}
     </Paper>
   );

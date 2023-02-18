@@ -108,7 +108,7 @@ export async function getFollowingToUserIdWithMovieIdOnWatchlist(
     }
   } catch (err) {
     if (err instanceof AxiosError && err.response?.status === 404) {
-      return null;
+      return [];
     } else {
       console.error('Error fetching User: ', err);
       throw new Error('Something went wrong. Please try again later.');
