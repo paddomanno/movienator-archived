@@ -10,7 +10,6 @@ import { getMoviesToName, searchActorsByName } from '../services/ExternService';
 import { useNavigate, useParams } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 import { Actor } from '../types/Actor';
-import Grid2 from '@mui/material/Unstable_Grid2';
 import { useCookies } from 'react-cookie';
 import { Movie } from '../types/Movie';
 import ActorMovieSearchBar from '../components/GeneralComponents/ActorMovieSearchBar';
@@ -71,19 +70,17 @@ export default function ActorMovieSearchPage() {
         </Card>
         <Card>
           <CardContent>
-            <Grid2 container spacing={0}>
-              {actors != null ? (
-                <Paper>
-                  <ActorsListOneLine
-                    actors={actors}
-                    title="Actors:"
-                    handleClick={() => navigate('/search/actor/' + searchWord)}
-                  />
-                </Paper>
-              ) : (
-                <Typography>No actors here</Typography>
-              )}
-            </Grid2>
+            {actors != null ? (
+              <Paper>
+                <ActorsListOneLine
+                  actors={actors}
+                  title="Actors:"
+                  handleClick={() => navigate('/search/actor/' + searchWord)}
+                />
+              </Paper>
+            ) : (
+              <Typography>No actors here</Typography>
+            )}
           </CardContent>
         </Card>
         <Card>

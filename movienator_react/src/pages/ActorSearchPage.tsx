@@ -1,4 +1,4 @@
-import { Card, CardContent, IconButton, Stack, Paper } from '@mui/material';
+import { Card, CardContent, IconButton, Stack } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { searchActorsByName } from '../services/ExternService';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -36,7 +36,7 @@ export default function ActorSearchPage() {
   }
 
   return (
-    <Paper>
+    <>
       <Stack spacing={1} direction={'column'}>
         <Card>
           <CardContent>
@@ -52,20 +52,20 @@ export default function ActorSearchPage() {
           <CardContent>
             <Grid2 container spacing={0}>
               {actors != null ? (
-                <Paper>
+                <>
                   {actors.map((actor) => (
-                    <Grid2 key={actor.actorId}>
+                    <div key={actor.actorId}>
                       <ActorCardLarge actor={actor} />
-                    </Grid2>
+                    </div>
                   ))}
-                </Paper>
+                </>
               ) : (
-                <Paper></Paper>
+                <></>
               )}
             </Grid2>
           </CardContent>
         </Card>
       </Stack>
-    </Paper>
+    </>
   );
 }

@@ -262,7 +262,6 @@ externRouter.get('/search/actor/:name', async (req, res) => {
           resActors.push(newActor);
         }
       }
-      resActors.sort((a, b) => a.name.localeCompare(b.name));
     }
     return res.status(200).json({
       data: resActors,
