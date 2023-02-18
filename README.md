@@ -39,6 +39,14 @@ herstellen kann und abstürzt. In dem Fall müssen die Container einfach einmal 
 
 Nach dem Starten ist die Homepage der Anwendung unter [http:/localhost:3000/home](http:/localhost:3000/home) erreichbar.
 
+### Zugangsdaten für Testnutzer
+
+In der `DEV`-Umgebung werden mit den Beispieldaten auch Nutzer angelegt, sodass man direkt die Seite nutzen kann ohne weitere Nutzer alegen zu müssen. Folgende Nutzer sind verfügbar:
+
+- Name: `keha`, Passwort: `admin`
+- Name: `niwi`, Passwort: `admin`
+- Name: `pafe`, Passwort: `admin`
+
 ## Tech Stack
 
 ### Datenbank
