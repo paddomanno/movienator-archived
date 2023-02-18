@@ -1,6 +1,6 @@
 //Route: movienator3000.com/
 import { Outlet, useNavigate } from 'react-router-dom';
-import { Avatar, IconButton, Stack, Typography } from '@mui/material';
+import { Avatar, IconButton, Stack, Typography, useTheme } from '@mui/material';
 import { useCookies } from 'react-cookie';
 import LiveTvIcon from '@mui/icons-material/LiveTv';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -9,6 +9,9 @@ import { User } from '../types/User';
 import { getOneUserToUserId } from '../services/UserService';
 import GroupsIcon from '@mui/icons-material/Groups';
 import CakeOutlinedIcon from '@mui/icons-material/CakeOutlined';
+import { ColorModeContext } from '../ColorModeContext';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
 
 export default function RootPage() {
   const SIZE_PROFILEIMAGE = 50;
@@ -16,6 +19,9 @@ export default function RootPage() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [cookies, setCookie, removeCookie] = useCookies(['userName', 'userId']);
   const [user, setUser] = useState<User | null>(null);
+
+  const theme = useTheme();
+  const colorMode = React.useContext(ColorModeContext);
 
   useEffect(() => {
     if (cookies.userId) {
@@ -72,6 +78,17 @@ export default function RootPage() {
           </IconButton>
         </Stack>
         <Stack direction={'row'} spacing={1}>
+          <IconButton
+            sx={{ ml: 1 }}
+            onClick={colorMode.toggleColorMode}
+            color="inherit"
+          >
+            {theme.palette.mode === 'dark' ? (
+              <DarkModeIcon />
+            ) : (
+              <LightModeIcon />
+            )}
+          </IconButton>
           {user != null ? (
             <>
               {user.profileImage != null ? (
