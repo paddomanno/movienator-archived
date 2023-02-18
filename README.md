@@ -22,6 +22,21 @@ soll es einen Weg geben einen anstehenden Filmabend mit seinen Freunden zu plane
     git clone https://code.fbi.h-da.de/stkehass/fwe-movienator3000.git
     cd FWE-Movienator3000
 
+### .env
+
+Zum Starten der Anwendung werden einige Umgebungsvariablen benötigt. Dafür kann die `.env.template` in `.env` umbenannt und mit den Daten gefüllt werden.
+
+Benötigt werden:
+
+- HATESPEECH_API_KEY: Der Key für [PurgoMalum](https://rapidapi.com/de/community/api/purgomalum-1)
+- MOVIE_API_KEY: Der Key für die [The Movie Database API](https://developers.themoviedb.org/3/getting-started/introduction)
+
+Nicht unbedingt benötigt wird:
+
+- DB_PASSWORD: Das Passwort zur MySQL-Datenbank die wir online hosten (wird nur in der `PROD`-Umgebung genutzt, weiter unten mehr dazu)
+
+### Docker-Compose
+
 Die Anwendung lässt sich jeweils in verschiedenen Modi über eine einzelne Docker-Compose Datei starten.
 
 - `DEV` zur lokalen Entwicklung. Es wird eine lokale Datenbank erstellt und beim ersten Starten mit Beispieldaten befüllt.
@@ -30,9 +45,9 @@ Die Anwendung lässt sich jeweils in verschiedenen Modi über eine einzelne Dock
 
 Die Befehle um die entsprechenden Compose Files zu starten sind:
 
-    docker-compose -f .\docker-compose-dev.yml up
-    docker-compose -f .\docker-compose-prod.yml up
-    docker-compose -f .\docker-compose-test.yml up
+    docker-compose -f ./docker-compose-dev.yml up
+    docker-compose -f ./docker-compose-prod.yml up
+    docker-compose -f ./docker-compose-test.yml up
 
 **Achtung:** Beim erstmaligen Starten der `dev` Umgebung braucht die Datenbank meist etwas länger um initialisiert zu werden, wodurch das Backend keine Verbindung zu der Datenbank
 herstellen kann und abstürzt. In dem Fall müssen die Container einfach einmal neu gestartet werden.
@@ -103,7 +118,7 @@ Sowohl im Backend als auch im Frontend nutzen wir ESlint zur statischen Quellcod
 Der einfachste Weg die Tests manuell zu starten ist über die oben beschrieben Docker-Compose Datei:
 
     cd FWE-Movienator3000
-    docker-compose -f .\docker-compose-test.yml up
+    docker-compose -f ./docker-compose-test.yml up
 
 ### Tests starten (manuell)
 
@@ -112,7 +127,7 @@ Alternativ oder bei Problemen mit Docker können die Tests selbstverständlich a
 Backend-Tests:
 
     cd FWE-Movienator3000
-    docker-compose -f .\docker-compose-test.yml up -d mysql
+    docker-compose -f ./docker-compose-test.yml up -d mysql
     cd movienator_express
     npm run install-test-local
 
