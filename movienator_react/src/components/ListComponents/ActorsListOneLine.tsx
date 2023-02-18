@@ -12,7 +12,7 @@ import ActorCardLarge from '../SingleItemComponents/ActorCardLarge';
 type Props = {
   actors: Actor[];
   title: string;
-  handleClick: () => void;
+  handleClick: (e: React.MouseEvent) => void;
 };
 
 export default function ActorsListOneLine({
@@ -21,7 +21,7 @@ export default function ActorsListOneLine({
   handleClick,
 }: Props) {
   return (
-    <Card variant="outlined">
+    <Card>
       <CardContent>
         <Typography>{title}</Typography>
         {actors.length > 0 ? (
