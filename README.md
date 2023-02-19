@@ -28,8 +28,8 @@ Zum Starten der Anwendung werden einige Umgebungsvariablen benötigt. Dafür kan
 
 Benötigt werden:
 
-- HATESPEECH_API_KEY: Der Key für [PurgoMalum](https://rapidapi.com/de/community/api/purgomalum-1)
-- MOVIE_API_KEY: Der Key für die [The Movie Database API](https://developers.themoviedb.org/3/getting-started/introduction)
+- HATESPEECH_API_KEY: Der Key für [PurgoMalum](https://rapidapi.com/de/community/api/purgomalum-1) (Anmeldung erforderlich)
+- MOVIE_API_KEY: Der Key für die [The Movie Database API](https://developers.themoviedb.org/3/getting-started/introduction) (Anmeldung erforderlich)
 
 Nicht unbedingt benötigt wird:
 
@@ -78,8 +78,8 @@ In der `DEV`-Umgebung werden mit den Beispieldaten auch Nutzer angelegt, sodass 
 ### Frontend
 
 - Für unser Frontend benutzen wir [React](https://reactjs.org/)
-- Für das Design des Frontends wird [MUI](https://mui.com/) eingesetzt
-- Auch hier benutzen wird durchgehend [Typescript](https://www.typescriptlang.org/) für saubereren und sichereren Code
+- Für das Design des Frontends wird [MUI v5](https://mui.com/) eingesetzt
+- Auch hier benutzen wird durchgehend [TypeScript](https://www.typescriptlang.org/) für saubereren und sichereren Code
 
 ### Testing
 
@@ -92,19 +92,19 @@ In der `DEV`-Umgebung werden mit den Beispieldaten auch Nutzer angelegt, sodass 
 Die finale, von unserer Datenbank verwaltete Datenstruktur ist in diesem UML-Diagramm dargestellt.
 ![UML-Diagramm](db-schema-11-2-23.PNG)
 
-## Angebundene Externe APIs
+## Angebundene externe APIs
 
 In unserer Anwendung werden zwei externe APIs benutzt.
 
 1. [The Movie Database API](https://developers.themoviedb.org/3/getting-started/introduction)
 
-Von dieser API beziehen wir alle Film und Schauspielerdaten, die wir in unserer Anwendung verwenden. Sie bietet eine Menge an Routen um verschiedene Daten zu Filmen abzufragen,
+Von dieser API beziehen wir alle Film- und Schauspielerdaten, die wir in unserer Anwendung verwenden. Sie bietet eine Menge an Routen um verschiedene Daten zu Filmen abzufragen,
 die wir dann so aufbereiten und zusammenstellen, dass wir sie in Form unserer Entitäten speichern können. Mit einem kostenlosen Account ist diese API vollständig kostenlos und
 ohne Request-Limit nutzbar.
 
 2. [PurgoMalum](https://rapidapi.com/de/community/api/purgomalum-1)
 
-Diese Api empfängt einen Text und analysiert ob diese Schimpfwörter oder andere Obszönitäten enthält. Wir benutzen diese um Hatespeech und Beleidigungen in Reviews oder Empfehlungen auf unserer Website zu vermeiden.
+Diese API empfängt einen Text und analysiert ob diese Schimpfwörter oder andere Obszönitäten enthält. Wir benutzen diese um Hatespeech und Beleidigungen in Reviews oder Empfehlungen auf unserer Website zu vermeiden.
 Mit einem kostenlosen Konto ist auch diese API ohne Einschränkungen nutzbar.
 
 ## Testing
